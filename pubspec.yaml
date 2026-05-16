@@ -1,0 +1,61 @@
+name: raven_player
+description: "Raven Player - a sleek, feature-rich offline audiobook player built with Flutter."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  build_runner: ^2.15.0
+  file_picker: ^11.0.2
+  flutter:
+    sdk: flutter
+  flutter_native_splash: ^2.4.7
+
+  #? State Management
+  flutter_riverpod: ^3.3.1
+
+  hive_ce: ^2.19.3
+  hive_ce_flutter: ^2.3.4
+  hive_ce_generator: ^1.11.1
+  just_audio: ^0.10.5
+  logger: ^2.7.0
+  lottie: ^3.3.3
+  path_provider: ^2.1.5
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+  assets:
+    - assets/animations/
+    - assets/app/
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+        - asset: assets/fonts/Inter-Bold.ttf
+          style: normal
+
+#? Splash
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+
+  color: "#000000"
+  image: "assets/app/splash.png"
+
+  android_12:
+    color: "#000000"
+    image: "assets/app/logo_android.png"
+    branding: "assets/app/branding_android.png"
