@@ -3,7 +3,7 @@ import 'package:hive_ce/hive.dart';
 
 part 'user_settings.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 0)
 class UserSettings {
   @HiveField(0)
   final String? homeFolderUri;
