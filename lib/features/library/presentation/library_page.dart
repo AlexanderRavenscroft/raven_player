@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/features/library/application/library_filter.dart';
+import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/library/presentation/library_app_bar.dart';
 import 'package:raven_player/features/library/presentation/library_filter_toggle.dart';
 import 'package:raven_player/features/library/presentation/library_tile.dart';
@@ -10,18 +11,19 @@ class LibraryPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final booksAsync = ref.watch(filteredLibraryProvider);
+    final booksAsync = ref.watch(libraryProvider);
 
     return Scaffold(
-      appBar: LibraryAppBar(),
+      appBar: const LibraryAppBar(),
       body: Column(
         children: [
-          LibraryFilterToggle(),
+          const LibraryFilterToggle(),
           Expanded(
             child: booksAsync.when(
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (err, st) => Center(child: Text('Error: $err')),
-              data: (books) {
+              data: (_) {
+                final books = ref.watch(filteredLibraryProvider);
                 if (books.isEmpty) {
                   return const Center(child: Text('No audiobooks found'));
                 }

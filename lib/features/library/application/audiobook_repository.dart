@@ -1,21 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/hive/hive_boxes.dart';
-import 'package:raven_player/features/settings/application/settings_repository.dart';
 import 'package:raven_player/models/audiobook.dart';
 
 class AudiobookRepository {
-  final UserSettingsRepository _settingsRepo;
-
-  AudiobookRepository(this._settingsRepo);
+  AudiobookRepository();
 
   Future<List<Audiobook>> getAll() async {
     final box = await HiveBoxes.audiobooks();
     return box.values.toList();
-  }
-
-  Future<String?> getHomeFolderUri() async {
-    final settings = await _settingsRepo.load();
-    return settings.homeFolderUri;
   }
 
   Future<void> save(Audiobook book) async {
@@ -53,5 +45,5 @@ class AudiobookRepository {
 }
 
 final audiobookRepositoryProvider = Provider<AudiobookRepository>((ref) {
-  return AudiobookRepository(ref.read(userSettingsRepositoryProvider));
+  return AudiobookRepository();
 });

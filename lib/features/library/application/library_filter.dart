@@ -16,13 +16,11 @@ class LibraryFilterNotifier extends Notifier<LibraryFilter> {
   void setFilter(LibraryFilter filter) => state = filter;
 }
 
-final filteredLibraryProvider = Provider<AsyncValue<List<Audiobook>>>((ref) {
-  final booksAsync = ref.watch(libraryProvider);
+final filteredLibraryProvider = Provider<List<Audiobook>>((ref) {
+  final books = ref.watch(libraryProvider).requireValue;
   final filter = ref.watch(libraryFilterProvider);
 
-  return booksAsync.whenData(
-    (books) => books
-        .where((b) => filter == LibraryFilter.read ? b.isRead : !b.isRead)
-        .toList(),
-  );
+  return books
+      .where((b) => filter == LibraryFilter.read ? b.isRead : !b.isRead)
+      .toList();
 });

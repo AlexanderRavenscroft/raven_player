@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
+import 'package:raven_player/shared/audiobook_cover.dart';
 import 'package:raven_player/shared/pop_ups/app_input_dialog.dart';
 import 'package:slideable/slideable.dart';
 
@@ -17,7 +18,6 @@ class LibraryTile extends ConsumerWidget {
         GestureDetector(
           child: Slideable(
             resetSlide: true,
-            duration: Duration(milliseconds: 1),
             items: [
               //* RENAME
               ActionItems(
@@ -64,35 +64,38 @@ class LibraryTile extends ConsumerWidget {
               padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.02,
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // AudiobookCover(book: book, isOnTile: true),
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.024),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          book.title,
-                          style: context.appText.labelLarge!.withStyle(
-                            fontWeight: FontWeight.bold,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    AudiobookCover(book: book, isOnTile: true),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.024),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            book.title,
+                            style: context.appText.labelLarge!.withStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          book.author ?? 'Unknown author',
-                          style: context.appText.labelMedium,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                          SizedBox(height: 4),
+                          Text(
+                            book.author ?? 'Unknown author',
+                            style: context.appText.labelMedium,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
