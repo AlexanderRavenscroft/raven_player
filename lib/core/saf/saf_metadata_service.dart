@@ -15,7 +15,7 @@ class AudioMetadata {
   });
 }
 
-class MetadataService {
+class SafMetadataService {
   static const _channel = MethodChannel('raven/saf');
 
   Future<AudioMetadata?> getMetadata(String uri) async {

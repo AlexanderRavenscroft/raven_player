@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:raven_player/audiobook_enricher.dart';
+import 'package:raven_player/features/library/application/audiobook_enricher.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/features/library/application/library_scanner.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';

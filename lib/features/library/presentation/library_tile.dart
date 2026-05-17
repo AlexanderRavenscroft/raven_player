@@ -62,7 +62,7 @@ class LibraryTile extends ConsumerWidget {
             child: Container(
               color: Theme.of(context).colorScheme.surface,
               padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.02,
+                horizontal: MediaQuery.of(context).size.height * 0.008,
               ),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.1,
@@ -70,7 +70,7 @@ class LibraryTile extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     AudiobookCover(book: book, isOnTile: true),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.024),
+                    SizedBox(width: MediaQuery.of(context).size.height * 0.012),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -84,7 +84,9 @@ class LibraryTile extends ConsumerWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(height: 4),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.004,
+                          ),
                           Text(
                             book.author ?? 'Unknown author',
                             style: context.appText.labelMedium,

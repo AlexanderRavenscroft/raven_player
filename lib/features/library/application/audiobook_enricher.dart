@@ -3,12 +3,12 @@ import 'dart:typed_data';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
-import 'package:raven_player/metadata_service.dart';
+import 'package:raven_player/core/saf/saf_metadata_service.dart';
 import 'package:raven_player/models/audiobook.dart';
 
 class AudiobookEnricher {
   final AudiobookRepository _repo;
-  final MetadataService _metadata;
+  final SafMetadataService _metadata;
 
   AudiobookEnricher(this._repo, this._metadata);
 
@@ -81,8 +81,8 @@ class AudiobookEnricher {
   }
 }
 
-final metadataServiceProvider = Provider<MetadataService>(
-  (_) => MetadataService(),
+final metadataServiceProvider = Provider<SafMetadataService>(
+  (_) => SafMetadataService(),
 );
 
 final audiobookEnricherProvider = Provider<AudiobookEnricher>((ref) {
