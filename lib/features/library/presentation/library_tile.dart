@@ -5,60 +5,114 @@ import 'package:raven_player/features/library/application/library_notifier.dart'
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/audiobook_cover.dart';
 import 'package:raven_player/shared/pop_ups/app_input_dialog.dart';
-import 'package:slideable/slideable.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class LibraryTile extends ConsumerWidget {
   final Audiobook book;
   const LibraryTile({super.key, required this.book});
 
+  ActionPane _buildToggleStatusPane(BuildContext context, WidgetRef ref) {
+    return ActionPane(
+      motion: const BehindMotion(),
+      extentRatio: 0.2,
+      // openThreshold: 0.99,
+      // closeThreshold: 0.01,
+      dismissible: DismissiblePane(
+        dismissThreshold: 0.4,
+        closeOnCancel: true,
+        onDismissed: () {
+          ref.read(libraryProvider.notifier).toggleReadStatus(book);
+        },
+      ),
+      children: [
+        CustomSlidableAction(
+          onPressed: (_) {
+            ref.read(libraryProvider.notifier).toggleReadStatus(book);
+          },
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          child: Icon(
+            Icons.move_up,
+            size: context.headlineSmall,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
+      ],
+    );
+  }
+
+  ActionPane _buildRenamePane(BuildContext context, WidgetRef ref) {
+    return ActionPane(
+      motion: const BehindMotion(),
+      extentRatio: 0.2,
+      // openThreshold: 0.99,
+      // closeThreshold: 0.01,
+      dismissible: DismissiblePane(
+        dismissThreshold: 0.4,
+        closeOnCancel: true,
+        onDismissed: () {
+          ref.read(libraryProvider.notifier).toggleReadStatus(book);
+        },
+        confirmDismiss: () async {
+          final renameController = TextEditingController(text: book.title);
+          final newName = await showDialog<String>(
+            context: context,
+            builder: (context) => AppInputDialog(
+              title: 'Rename Audiobook',
+              hintText: 'Enter new audiobook title',
+              textEditingController: renameController,
+            ),
+          );
+          if (newName != null && newName.isNotEmpty) {
+            ref.read(libraryProvider.notifier).renameAudiobook(book, newName);
+          }
+          return false;
+        },
+      ),
+      children: [
+        CustomSlidableAction(
+          onPressed: (_) async {
+            final renameController = TextEditingController(text: book.title);
+            final newName = await showDialog<String>(
+              context: context,
+              builder: (context) => AppInputDialog(
+                title: 'Rename Audiobook',
+                hintText: 'Enter new audiobook title',
+                textEditingController: renameController,
+              ),
+            );
+            if (newName != null && newName.isNotEmpty) {
+              ref.read(libraryProvider.notifier).renameAudiobook(book, newName);
+            }
+          },
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+          child: Icon(
+            Icons.draw,
+            size: context.headlineSmall,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // For read books the panes are swapped: rename on the right, toggle on the left
+    final startPane = book.isRead
+        ? _buildRenamePane(context, ref)
+        : _buildToggleStatusPane(context, ref);
+    final endPane = book.isRead
+        ? _buildToggleStatusPane(context, ref)
+        : _buildRenamePane(context, ref);
+
     return Column(
       children: [
-        GestureDetector(
-          child: Slideable(
-            resetSlide: true,
-            items: [
-              //* RENAME
-              ActionItems(
-                backgroudColor: Theme.of(context).colorScheme.surfaceContainer,
-                icon: Icon(
-                  Icons.draw,
-                  size: context.titleMedium,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-                onPress: () async {
-                  final renameController = TextEditingController(
-                    text: book.title,
-                  );
-                  final newName = await showDialog(
-                    context: context,
-                    builder: (context) => AppInputDialog(
-                      title: 'Rename Audiobook',
-                      hintText: 'Enter new audiobook title',
-                      textEditingController: renameController,
-                    ),
-                  );
-                  if (newName != null && newName.isNotEmpty) {
-                    ref
-                        .read(libraryProvider.notifier)
-                        .renameAudiobook(book, newName);
-                  }
-                },
-              ),
-              //* SWAP
-              ActionItems(
-                backgroudColor: Theme.of(context).colorScheme.secondary,
-                icon: Icon(
-                  Icons.move_up,
-                  size: context.titleMedium,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-                onPress: () {
-                  ref.read(libraryProvider.notifier).toggleReadStatus(book);
-                },
-              ),
-            ],
+        Slidable(
+          key: ValueKey(book.title),
+          startActionPane: startPane,
+          endActionPane: endPane,
+          child: GestureDetector(
+            onTap: () {},
             child: Container(
               color: Theme.of(context).colorScheme.surface,
               padding: EdgeInsets.symmetric(
@@ -101,26 +155,7 @@ class LibraryTile extends ConsumerWidget {
               ),
             ),
           ),
-          onTap: () {
-            // final bool hasChapters = ref
-            //     .read(libraryProvider.notifier)
-            //     .checkIfBookHasChapters(book.directory);
-
-            // if (hasChapters) {
-            //   ScaffoldMessenger.of(context).clearSnackBars();
-            //   Navigator.of(context).pushReplacement(
-            //     MaterialPageRoute(builder: (context) => PlayPage(book: book)),
-            //   );
-            // } else {
-            //   AppSnackBar.showSnackBar(
-            //     context,
-            //     'No chapters found in this audiobook.\nCheck if the audiobook has chapters',
-            //     durationSec: 4,
-            //   );
-            // }
-          },
         ),
-
         Divider(
           color: Theme.of(context).colorScheme.surfaceContainer,
           thickness: 1,

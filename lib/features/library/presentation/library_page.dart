@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:raven_player/features/library/application/library_filter.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/library/presentation/library_app_bar.dart';
@@ -60,12 +61,14 @@ class LibraryPage extends ConsumerWidget {
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).size.height * 0.02,
         ),
-        child: ListView.builder(
-          itemCount: books.length,
-          itemBuilder: (_, index) {
-            final book = books[index];
-            return LibraryTile(key: ValueKey(book.id), book: book);
-          },
+        child: SlidableAutoCloseBehavior(
+          child: ListView.builder(
+            itemCount: books.length,
+            itemBuilder: (_, index) {
+              final book = books[index];
+              return LibraryTile(key: ValueKey(book.id), book: book);
+            },
+          ),
         ),
       ),
     );
