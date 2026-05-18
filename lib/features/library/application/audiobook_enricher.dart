@@ -18,7 +18,7 @@ class AudiobookEnricher {
     final coversDir = await _coversDirectory();
 
     for (final book in books) {
-      if (!force && _isEnriched(book)) continue;
+      if (!force && book.isEnriched) continue;
       if (book.chapters.isEmpty) continue;
 
       final firstUri = book.chapters.first.uri;
@@ -48,9 +48,6 @@ class AudiobookEnricher {
   }
 
   // ── Helpers ─────────────────────────────────────────────────────────────────
-
-  bool _isEnriched(Audiobook book) =>
-      book.author != null && book.coverPath != null;
 
   /// Sum chapter durations — we only have the first file's duration from meta,
   /// so store it as a starting point; full sum can be done during playback scan.

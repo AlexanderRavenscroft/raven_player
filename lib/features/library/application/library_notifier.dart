@@ -20,7 +20,7 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
 
     final merged = await _repo.getAll();
 
-    final needsEnrich = merged.where((b) => !_isEnriched(b)).toList();
+    final needsEnrich = merged.where((b) => !b.isEnriched).toList();
     if (needsEnrich.isNotEmpty) await _enricher.enrichAll(needsEnrich);
 
     return _repo.getAll();
@@ -40,8 +40,6 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
       return _repo.getAll();
     });
   }
-
-  bool _isEnriched(Audiobook b) => b.author != null && b.coverPath != null;
 
   Future<void> renameAudiobook(Audiobook book, String newTitle) async {
     final renamed = book.copyWith(title: newTitle);
