@@ -10,6 +10,11 @@ class AudiobookRepository {
     return box.values.toList();
   }
 
+  Future<void> clearAll() async {
+    final box = await HiveBoxes.audiobooks();
+    await box.clear();
+  }
+
   Future<void> save(Audiobook book) async {
     final box = await HiveBoxes.audiobooks();
     await box.put(book.id, book);

@@ -13,12 +13,11 @@ class AudiobookEnricher {
   AudiobookEnricher(this._repo, this._metadata);
 
   /// Enrich a list of books. Each book uses its first chapter's URI as source.
-  /// Pass [force] = true to re-enrich books that already have metadata (rescan).
-  Future<void> enrichAll(List<Audiobook> books, {bool force = false}) async {
+  Future<void> enrichAll(List<Audiobook> books) async {
     final coversDir = await _coversDirectory();
 
     for (final book in books) {
-      if (!force && book.isEnriched) continue;
+      if (book.isEnriched) continue;
       if (book.chapters.isEmpty) continue;
 
       final firstUri = book.chapters.first.uri;
@@ -30,14 +29,9 @@ class AudiobookEnricher {
         bookId: book.id,
         bytes: meta.coverBytes,
         existing: book.coverPath,
-        force: force,
       );
 
       final enriched = book.copyWith(
-        // Prefer metadata title/author only if the user hasn't renamed the book.
-        // Title: only fill from meta if still the raw folder name (heuristic: no
-        // explicit rename means title == folder name from SAF scan).
-        // Simplest safe approach: only set if currently null/empty.
         author: meta.artist,
         totalDurationMs: _sumDurations(book, meta.durationMs),
         coverPath: coverPath,
@@ -47,10 +41,6 @@ class AudiobookEnricher {
     }
   }
 
-  // ── Helpers ─────────────────────────────────────────────────────────────────
-
-  /// Sum chapter durations — we only have the first file's duration from meta,
-  /// so store it as a starting point; full sum can be done during playback scan.
   int? _sumDurations(Audiobook book, int? firstDurationMs) => firstDurationMs;
 
   Future<Directory> _coversDirectory() async {
@@ -65,10 +55,9 @@ class AudiobookEnricher {
     required String bookId,
     required Uint8List? bytes,
     required String? existing,
-    required bool force,
   }) async {
     if (bytes == null) return existing; // keep whatever was there
-    if (existing != null && !force) return existing; // already saved
+    if (existing != null) return existing; // already saved
 
     // Use a stable filename derived from the book id (which is the folder URI).
     final safeId = Uri.encodeComponent(bookId);

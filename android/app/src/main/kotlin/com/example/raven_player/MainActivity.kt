@@ -10,6 +10,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.Result
 import java.io.File
+import android.provider.DocumentsContract
 
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "raven/saf"
@@ -25,7 +26,12 @@ class MainActivity : FlutterActivity() {
                     "listDir" -> {
                         val uri = call.argument<String>("uri")
                         if (uri == null) result.error("ARG", "uri required", null)
-                        else result.success(listDir(Uri.parse(uri)))
+                        else {
+                            val t = System.currentTimeMillis()
+                            val list = listDir(Uri.parse(uri))
+                            android.util.Log.d("RavenPerf", "listDir(${list.size} items) took ${System.currentTimeMillis() - t}ms")
+                            result.success(list)
+                        }
                     }
                     "getMetadata" -> {
                         val uri = call.argument<String>("uri")
@@ -92,15 +98,42 @@ class MainActivity : FlutterActivity() {
         r.success(treeUri.toString())
     }
 
+    
     private fun listDir(uri: Uri): List<Map<String, Any?>> {
-        val doc = DocumentFile.fromTreeUri(this, uri) ?: return emptyList()
-        return doc.listFiles().map {
-            mapOf(
-                "uri"   to it.uri.toString(),
-                "name"  to it.name,
-                "isDir" to it.isDirectory,
-                "mime"  to it.type,
-            )
+        val treeId = DocumentsContract.getTreeDocumentId(uri)
+        // If `uri` is a child (from a previous listing), use its own document id.
+        val docId = try {
+            DocumentsContract.getDocumentId(uri)
+        } catch (_: Exception) {
+            treeId
         }
+        val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(uri, docId)
+
+        val projection = arrayOf(
+            DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+            DocumentsContract.Document.COLUMN_DISPLAY_NAME,
+            DocumentsContract.Document.COLUMN_MIME_TYPE,
+        )
+
+        val out = mutableListOf<Map<String, Any?>>()
+        contentResolver.query(childrenUri, projection, null, null, null)?.use { c ->
+            val idIdx   = c.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DOCUMENT_ID)
+            val nameIdx = c.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DISPLAY_NAME)
+            val mimeIdx = c.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_MIME_TYPE)
+            while (c.moveToNext()) {
+                val childId = c.getString(idIdx)
+                val name    = c.getString(nameIdx)
+                val mime    = c.getString(mimeIdx)
+                val childUri = DocumentsContract.buildDocumentUriUsingTree(uri, childId)
+                val isDir = mime == DocumentsContract.Document.MIME_TYPE_DIR
+                out.add(mapOf(
+                    "uri"   to childUri.toString(),
+                    "name"  to name,
+                    "isDir" to isDir,
+                    "mime"  to if (isDir) null else mime,
+                ))
+            }
+        }
+        return out
     }
 }

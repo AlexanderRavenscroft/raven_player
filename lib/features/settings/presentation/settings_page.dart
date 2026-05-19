@@ -29,7 +29,7 @@ class SettingsPage extends ConsumerWidget {
                     : prettifyTreeUri(path);
                 return SettingsTile(
                   title: 'Change home folder',
-                  description: 'Current folder:\n$pretty',
+                  description: 'Current folder:\n$pretty ',
                   icon: Icons.folder_outlined,
                   trailing: SettingsButton(
                     icon: Icons.add,

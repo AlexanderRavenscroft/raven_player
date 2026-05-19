@@ -21,6 +21,7 @@ class SettingsTile extends StatelessWidget {
       children: [
         ListTile(
           dense: false,
+          minTileHeight: MediaQuery.of(context).size.height * 0.094,
           title: Text(
             title,
             style: context.appText.labelLarge!.withStyle(
@@ -32,7 +33,7 @@ class SettingsTile extends StatelessWidget {
           subtitle: Text(
             description,
             style: context.appText.labelMedium,
-            maxLines: 3,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
           leading: Icon(

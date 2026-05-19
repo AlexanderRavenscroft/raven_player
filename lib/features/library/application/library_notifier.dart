@@ -15,30 +15,28 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
     final home = ref.watch(settingsProvider.select((s) => s.homeFolderUri));
     if (home == null) return [];
 
+    final existing = await _repo.getAll();
+    final folderChanged =
+        existing.isNotEmpty &&
+        !existing.any((b) => b.folderUri.startsWith(home));
+
+    if (folderChanged) {
+      await _repo.clearAll();
+    } else if (existing.isNotEmpty) {
+      return existing;
+    }
+
     final scanned = await _scanner.scan(home);
     await _repo.mergeScanResults(scanned);
-
     final merged = await _repo.getAll();
-
     final needsEnrich = merged.where((b) => !b.isEnriched).toList();
     if (needsEnrich.isNotEmpty) await _enricher.enrichAll(needsEnrich);
-
     return _repo.getAll();
   }
 
   Future<void> rescan() async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      final home = ref.read(settingsProvider.select((s) => s.homeFolderUri));
-      if (home == null) return state.value ?? [];
-
-      final scanned = await _scanner.scan(home);
-      await _repo.mergeScanResults(scanned);
-
-      // force = true re-extracts covers + metadata for everything
-      await _enricher.enrichAll(await _repo.getAll(), force: true);
-      return _repo.getAll();
-    });
+    await _repo.clearAll();
+    ref.invalidateSelf();
   }
 
   Future<void> renameAudiobook(Audiobook book, String newTitle) async {

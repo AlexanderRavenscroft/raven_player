@@ -47,7 +47,7 @@ class LibraryTile extends ConsumerWidget {
       // openThreshold: 0.99,
       // closeThreshold: 0.01,
       dismissible: DismissiblePane(
-        dismissThreshold: 0.4,
+        dismissThreshold: 0.01,
         closeOnCancel: true,
         onDismissed: () {
           ref.read(libraryProvider.notifier).toggleReadStatus(book);
