@@ -23,6 +23,7 @@ dependencies:
   just_audio: ^0.10.5
   logger: ^2.7.0
   lottie: ^3.3.3
+  marquee: ^2.3.0
   path_provider: ^2.1.5
   skeletonizer: ^2.1.3
 

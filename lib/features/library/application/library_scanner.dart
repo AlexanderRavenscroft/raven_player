@@ -43,7 +43,7 @@ class LibraryScanner {
 
       books.add(
         Audiobook(
-          id: folder.uri, // stable id = folder uri
+          id: folder.uri,
           title: folder.name ?? '(unnamed)',
           folderUri: folder.uri,
           chapters: chapters,

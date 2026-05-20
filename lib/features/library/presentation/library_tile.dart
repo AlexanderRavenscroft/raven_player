@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
+import 'package:raven_player/features/player/presentation/play_page.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/audiobook_cover.dart';
 import 'package:raven_player/shared/pop_ups/app_input_dialog.dart';
@@ -112,7 +113,11 @@ class LibraryTile extends ConsumerWidget {
           startActionPane: startPane,
           endActionPane: endPane,
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => PlayPage(book: book)),
+              );
+            },
             child: Container(
               color: Theme.of(context).colorScheme.surface,
               padding: EdgeInsets.symmetric(

@@ -8,6 +8,11 @@ class AudiobookRepository {
     return box.values.toList();
   }
 
+  Future<Audiobook?> getById(String id) async {
+    final box = await HiveBoxes.audiobooks();
+    return box.get(id);
+  }
+
   Future<void> clearAll() async {
     final box = await HiveBoxes.audiobooks();
     await box.clear();
@@ -37,9 +42,19 @@ class AudiobookRepository {
       if (existing == null) {
         await box.put(book.id, book);
       } else {
+        final mergedChapters = book.chapters.map((scannedChapter) {
+          final existingChapter = existing.chapters.firstWhere(
+            (c) => c.uri == scannedChapter.uri,
+            orElse: () => scannedChapter,
+          );
+          return scannedChapter.copyWith(
+            durationMs: existingChapter.durationMs,
+          );
+        }).toList();
+
         final merged = existing.copyWith(
           folderUri: book.folderUri,
-          chapters: book.chapters,
+          chapters: mergedChapters,
         );
         await box.put(book.id, merged);
       }

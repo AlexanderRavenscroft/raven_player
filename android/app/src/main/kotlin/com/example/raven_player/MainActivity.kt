@@ -27,9 +27,7 @@ class MainActivity : FlutterActivity() {
                         val uri = call.argument<String>("uri")
                         if (uri == null) result.error("ARG", "uri required", null)
                         else {
-                            val t = System.currentTimeMillis()
                             val list = listDir(Uri.parse(uri))
-                            android.util.Log.d("RavenPerf", "listDir(${list.size} items) took ${System.currentTimeMillis() - t}ms")
                             result.success(list)
                         }
                     }
@@ -54,7 +52,6 @@ class MainActivity : FlutterActivity() {
             val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
                                ?.toLongOrNull()
             val picture  = retriever.embeddedPicture // ByteArray? → Uint8List on Dart side
-
             result.success(mapOf(
                 "title"    to title,
                 "artist"   to artist,
