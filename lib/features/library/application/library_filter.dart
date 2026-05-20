@@ -4,11 +4,6 @@ import 'package:raven_player/models/audiobook.dart';
 
 enum LibraryFilter { reading, read }
 
-final libraryFilterProvider =
-    NotifierProvider<LibraryFilterNotifier, LibraryFilter>(
-      LibraryFilterNotifier.new,
-    );
-
 class LibraryFilterNotifier extends Notifier<LibraryFilter> {
   @override
   LibraryFilter build() => LibraryFilter.reading;
@@ -24,3 +19,8 @@ final filteredLibraryProvider = Provider<List<Audiobook>>((ref) {
       .where((b) => filter == LibraryFilter.read ? b.isRead : !b.isRead)
       .toList();
 });
+
+final libraryFilterProvider =
+    NotifierProvider<LibraryFilterNotifier, LibraryFilter>(
+      LibraryFilterNotifier.new,
+    );

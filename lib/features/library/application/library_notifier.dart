@@ -22,8 +22,6 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
 
     if (folderChanged) {
       await _repo.clearAll();
-    } else if (existing.isNotEmpty) {
-      return existing;
     }
 
     final scanned = await _scanner.scan(home);
@@ -35,7 +33,6 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
   }
 
   Future<void> rescan() async {
-    await _repo.clearAll();
     ref.invalidateSelf();
   }
 

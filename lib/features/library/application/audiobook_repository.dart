@@ -3,8 +3,6 @@ import 'package:raven_player/core/hive/hive_boxes.dart';
 import 'package:raven_player/models/audiobook.dart';
 
 class AudiobookRepository {
-  AudiobookRepository();
-
   Future<List<Audiobook>> getAll() async {
     final box = await HiveBoxes.audiobooks();
     return box.values.toList();
