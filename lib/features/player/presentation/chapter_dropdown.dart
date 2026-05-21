@@ -4,9 +4,9 @@ import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_provider.dart';
 import 'package:raven_player/models/audiobook.dart';
 
-class PlayChapterDropdown extends ConsumerWidget {
+class ChapterDropdown extends ConsumerWidget {
   final Audiobook book;
-  const PlayChapterDropdown({super.key, required this.book});
+  const ChapterDropdown({super.key, required this.book});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -14,9 +14,7 @@ class PlayChapterDropdown extends ConsumerWidget {
     if (currentBook == null) return const SizedBox.shrink();
 
     final chapterList = currentBook.chapters.map((c) => c.name).toList();
-
-    final currentChapterIndex =
-        ref.watch(currentChapterIndexProvider).value ?? 0;
+    final currentChapterIndex = currentBook.currentChapterIndex;
 
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.5,

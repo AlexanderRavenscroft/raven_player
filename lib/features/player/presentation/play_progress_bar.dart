@@ -9,32 +9,38 @@ class PlayProgressBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final player = ref.read(playerProvider.notifier).player;
+    final book = ref.watch(playerProvider);
     final positionAsync = ref.watch(positionDataStreamProvider);
 
+    if (book == null) return const LinearProgressIndicator();
     return positionAsync.when(
       loading: () => const LinearProgressIndicator(),
       error: (_, _) => const LinearProgressIndicator(),
-      data: (positionData) => SizedBox(
-        width: MediaQuery.of(context).size.width * 0.94,
-        child: ProgressBar(
-          thumbCanPaintOutsideBar: false,
-          barHeight: MediaQuery.of(context).size.height * 0.01,
-          thumbGlowColor: Colors.transparent,
-          thumbRadius: MediaQuery.of(context).size.height * 0.012,
-          timeLabelLocation: TimeLabelLocation.below,
-          timeLabelTextStyle: context.appText.labelLarge,
-          timeLabelType: TimeLabelType.totalTime,
-          thumbColor: Theme.of(context).colorScheme.primary,
-          baseBarColor: Theme.of(context).colorScheme.surfaceContainer,
-          bufferedBarColor: Colors.transparent,
-          progressBarColor: Theme.of(context).colorScheme.primary,
-          progress: positionData.position,
-          buffered: positionData.bufferedPosition,
-          total: positionData.duration,
-          onSeek: (d) => player.seek(d),
-        ),
-      ),
+      data: (positionData) {
+        if (positionData.duration == Duration.zero) {
+          return const LinearProgressIndicator();
+        }
+        return SizedBox(
+          width: MediaQuery.of(context).size.width * 0.94,
+          child: ProgressBar(
+            thumbCanPaintOutsideBar: false,
+            barHeight: MediaQuery.of(context).size.height * 0.01,
+            thumbGlowColor: Colors.transparent,
+            thumbRadius: MediaQuery.of(context).size.height * 0.012,
+            timeLabelLocation: TimeLabelLocation.below,
+            timeLabelTextStyle: context.appText.labelLarge,
+            timeLabelType: TimeLabelType.totalTime,
+            thumbColor: Theme.of(context).colorScheme.primary,
+            baseBarColor: Theme.of(context).colorScheme.surfaceContainer,
+            bufferedBarColor: Colors.transparent,
+            progressBarColor: Theme.of(context).colorScheme.primary,
+            progress: positionData.position,
+            buffered: positionData.bufferedPosition,
+            total: positionData.duration,
+            onSeek: (d) => ref.read(playerProvider.notifier).seek(d),
+          ),
+        );
+      },
     );
   }
 }

@@ -10,8 +10,8 @@ import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/audiobook_cover.dart';
 
 class PlayPage extends ConsumerStatefulWidget {
-  final Audiobook book;
-  const PlayPage({super.key, required this.book});
+  final Audiobook enrichedBook;
+  const PlayPage({super.key, required this.enrichedBook});
 
   @override
   ConsumerState<PlayPage> createState() => _PlayPageState();
@@ -28,21 +28,17 @@ class _PlayPageState extends ConsumerState<PlayPage> {
   }
 
   Future<void> _initializePlayer() async {
-    final currentBook = ref.read(playerProvider);
-    if (currentBook != null && currentBook.id != widget.book.id) {
-      await ref.read(playerProvider.notifier).clear(); // stops + nulls state
-    }
-    await ref.read(playerProvider.notifier).load(widget.book);
+    await ref.read(playerProvider.notifier).load(widget.enrichedBook);
   }
 
   @override
   Widget build(BuildContext context) {
     final chapterInitialization = ref.watch(
-      chapterInitializationProvider(widget.book),
+      chapterInitializationProvider(widget.enrichedBook),
     );
 
     return Scaffold(
-      appBar: PlayAppBar(book: widget.book),
+      appBar: PlayAppBar(book: widget.enrichedBook),
       body: chapterInitialization.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) =>
@@ -64,7 +60,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
       children: [
         //* BAR && DISPLAY
         // PlayActionToolbar(),
-        // AudiobookLengthDisplay(book: book),
+        // AudiobookLengthDisplay(book: initializedBook),
         SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
         //* COVER
@@ -83,7 +79,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
             //   onPressed: () =>
             //       ref.read(playerProvider.notifier).player.seekToPrevious(),
             // ),
-            PlayChapterDropdown(book: widget.book),
+            ChapterDropdown(book: initializedBook),
             // SeekChapterButton(
             //   icon: Icons.skip_next_outlined,
             //   onPressed: () =>

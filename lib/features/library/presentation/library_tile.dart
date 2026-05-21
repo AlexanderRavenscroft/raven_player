@@ -115,7 +115,9 @@ class LibraryTile extends ConsumerWidget {
           child: GestureDetector(
             onTap: () {
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => PlayPage(book: book)),
+                MaterialPageRoute(
+                  builder: (context) => PlayPage(enrichedBook: book),
+                ),
               );
             },
             child: Container(

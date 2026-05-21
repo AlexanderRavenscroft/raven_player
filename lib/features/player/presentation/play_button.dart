@@ -16,7 +16,6 @@ class PlayButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final player = ref.read(playerProvider.notifier).player;
     final playerStateAsync = ref.watch(playerStateStreamProvider);
 
     final playerState = playerStateAsync.value;
@@ -32,13 +31,13 @@ class PlayButton extends ConsumerWidget {
       onPressed = null;
     } else if (processing == ProcessingState.completed) {
       iconData = Icons.replay_rounded;
-      onPressed = () => player.seek(Duration.zero);
+      onPressed = () => ref.read(playerProvider.notifier).seekToStart();
     } else if (playing) {
       iconData = Icons.pause_rounded;
-      onPressed = player.pause;
+      onPressed = () => ref.read(playerProvider.notifier).pause();
     } else {
       iconData = Icons.play_arrow_rounded;
-      onPressed = player.play;
+      onPressed = () => ref.read(playerProvider.notifier).play();
     }
 
     if (asStandaloneButton) {

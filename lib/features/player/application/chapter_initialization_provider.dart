@@ -3,8 +3,8 @@ import 'package:raven_player/features/library/application/audiobook_enricher.dar
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/models/audiobook.dart';
 
-final chapterInitializationProvider = FutureProvider.autoDispose
-    .family<Audiobook, Audiobook>((ref, book) async {
+final chapterInitializationProvider =
+    FutureProvider.family<Audiobook, Audiobook>((ref, book) async {
       // Already have all durations — nothing to do
       final saved = await ref
           .read(audiobookRepositoryProvider)

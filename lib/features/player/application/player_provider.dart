@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
@@ -10,23 +9,40 @@ import 'package:rxdart/rxdart.dart';
 
 class PlayerNotifier extends Notifier<Audiobook?> {
   late final AudioPlayer _player;
-
   AudioPlayer get player => _player;
+
   StreamSubscription? _progressSub;
+  StreamSubscription? _indexSub;
+
   @override
   Audiobook? build() {
     _player = AudioPlayer();
-    ref.onDispose(_player.dispose);
+
+    ref.onDispose(() async {
+      await _saveProgress();
+      await _progressSub?.cancel();
+      await _indexSub?.cancel();
+      await _player.dispose();
+    });
     return null;
   }
 
   Future<void> load(Audiobook book) async {
+    log.d('Loading player');
+    // Same book already loaded — no-op
     if (state?.id == book.id) return;
+
+    // Different book: persist old, tear down
+    if (state != null) {
+      await _saveProgress();
+      await _cancelSubs();
+      await _player.stop();
+    }
 
     final saved = await ref.read(audiobookRepositoryProvider).getById(book.id);
     final resume = saved ?? book;
-
     state = resume;
+
     final sources = resume.chapters
         .map((c) => AudioSource.uri(Uri.parse(c.uri)))
         .toList();
@@ -37,37 +53,86 @@ class PlayerNotifier extends Notifier<Audiobook?> {
       initialPosition: resume.currentPosition,
     );
 
+    _attachListeners();
+  }
+
+  void _attachListeners() {
+    log.d('Attaching player listeners');
+    // Save every 10s while position changes (i.e., while playing)
     _progressSub = _player.positionStream
-        .debounceTime(const Duration(seconds: 2))
+        .throttleTime(Duration(seconds: 5))
         .listen((position) async {
           await _saveProgress();
+        });
+
+    // Save immediately on chapter change
+    _indexSub = _player.currentIndexStream
+        .whereType<int>() // drop nulls
+        .distinct() // only emit on real index change
+        .listen((index) {
+          if (state != null) {
+            state = state!.copyWith(currentChapterIndex: index);
+          }
+          _saveProgress();
         });
   }
 
   Future<void> clear() async {
-    _progressSub?.cancel();
+    log.d('Clearing player');
     await _saveProgress();
+    await _cancelSubs();
     await _player.stop();
     state = null;
+  }
+
+  Future<void> _cancelSubs() async {
+    await _progressSub?.cancel();
+    _progressSub = null;
+    await _indexSub?.cancel();
+    _indexSub = null;
+  }
+
+  Future<void> _saveProgress() async {
+    final book = state;
+    if (book == null) return;
+    final pos = _player.position.inMilliseconds;
+    final idx = _player.currentIndex ?? 0;
+
+    // Skip if nothing changed (avoids redundant writes & rebuilds)
+    if (book.currentPositionMs == pos && book.currentChapterIndex == idx) {
+      return;
+    }
+
+    final updated = book.copyWith(
+      currentPositionMs: pos,
+      currentChapterIndex: idx,
+    );
+    log.d('Saving progress: chapter $idx at ${Duration(milliseconds: pos)}');
+    await ref.read(audiobookRepositoryProvider).save(updated);
   }
 
   Future<void> seekToChapter(int chapterIndex) async {
     if (state == null) return;
     await _player.seek(Duration.zero, index: chapterIndex);
-    await _saveProgress();
   }
 
-  Future<void> _saveProgress() async {
-    log.d('Saving progress');
-    final book = state;
-    if (book == null) return;
-    final updated = book.copyWith(
-      currentPositionMs: _player.position.inMilliseconds,
-      currentChapterIndex: _player.currentIndex ?? 0,
-    );
-    state = updated;
-    await ref.read(audiobookRepositoryProvider).save(updated);
-  }
+  Future<void> play() => _player.play();
+  Future<void> pause() => _player.pause();
+  Future<void> seekToStart() => _player.seek(Duration.zero);
+  Future<void> seek(Duration position) => _player.seek(position);
+
+  Stream<PlayerState> get playerStateStream => _player.playerStateStream;
+
+  Stream<int> get currentChapterIndexStream =>
+      _player.currentIndexStream.map((index) => index ?? 0);
+
+  Stream<PositionData> get positionDataStream =>
+      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
+        _player.positionStream,
+        _player.bufferedPositionStream,
+        _player.durationStream,
+        (pos, buf, dur) => PositionData(pos, buf, dur ?? Duration.zero),
+      );
 }
 
 final playerProvider = NotifierProvider<PlayerNotifier, Audiobook?>(
@@ -75,22 +140,13 @@ final playerProvider = NotifierProvider<PlayerNotifier, Audiobook?>(
 );
 
 final playerStateStreamProvider = StreamProvider<PlayerState>((ref) {
-  return ref.watch(playerProvider.notifier).player.playerStateStream;
+  return ref.watch(playerProvider.notifier).playerStateStream;
 });
 
 final positionDataStreamProvider = StreamProvider<PositionData>((ref) {
-  final player = ref.watch(playerProvider.notifier).player;
-  return Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
-    player.positionStream.startWith(Duration.zero),
-    player.bufferedPositionStream.startWith(Duration.zero),
-    player.durationStream.startWith(Duration.zero),
-    (pos, buf, dur) => PositionData(pos, buf, dur ?? Duration.zero),
-  );
+  return ref.watch(playerProvider.notifier).positionDataStream;
 });
-final currentChapterIndexProvider = StreamProvider<int>((ref) {
-  return ref
-      .watch(playerProvider.notifier)
-      .player
-      .currentIndexStream
-      .map((index) => index ?? 0);
-});
+
+// final currentChapterIndexProvider = StreamProvider<int>((ref) {
+//   return ref.watch(playerProvider.notifier).currentChapterIndexStream;
+// });
