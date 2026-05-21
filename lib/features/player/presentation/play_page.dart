@@ -1,23 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/features/player/application/chapter_initialization_provider.dart';
-import 'package:raven_player/features/player/presentation/audiobook_length_display.dart';
+import 'package:raven_player/features/player/application/player_provider.dart';
+import 'package:raven_player/features/player/presentation/chapter_dropdown.dart';
 import 'package:raven_player/features/player/presentation/play_app_bar.dart';
+import 'package:raven_player/features/player/presentation/play_button.dart';
+import 'package:raven_player/features/player/presentation/play_progress_bar.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/audiobook_cover.dart';
 
-class PlayPage extends ConsumerWidget {
+class PlayPage extends ConsumerStatefulWidget {
   final Audiobook book;
   const PlayPage({super.key, required this.book});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PlayPage> createState() => _PlayPageState();
+}
+
+class _PlayPageState extends ConsumerState<PlayPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Post-frame to avoid calling during build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializePlayer();
+    });
+  }
+
+  Future<void> _initializePlayer() async {
+    final currentBook = ref.read(playerProvider);
+    if (currentBook != null && currentBook.id != widget.book.id) {
+      await ref.read(playerProvider.notifier).clear(); // stops + nulls state
+    }
+    await ref.read(playerProvider.notifier).load(widget.book);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final chapterInitialization = ref.watch(
-      chapterInitializationProvider(book),
+      chapterInitializationProvider(widget.book),
     );
 
     return Scaffold(
-      appBar: PlayAppBar(book: book),
+      appBar: PlayAppBar(book: widget.book),
       body: chapterInitialization.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) =>
@@ -58,7 +83,7 @@ class PlayPage extends ConsumerWidget {
             //   onPressed: () =>
             //       ref.read(playerProvider.notifier).player.seekToPrevious(),
             // ),
-            // PlayChapterDropdown(book: book),
+            PlayChapterDropdown(book: widget.book),
             // SeekChapterButton(
             //   icon: Icons.skip_next_outlined,
             //   onPressed: () =>
@@ -68,7 +93,7 @@ class PlayPage extends ConsumerWidget {
         ),
 
         //* PLAYBACK CONTROLLS
-        // PlayProgressBar(book: book),
+        PlayProgressBar(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -84,7 +109,7 @@ class PlayPage extends ConsumerWidget {
             //       .read(playerProvider.notifier)
             //       .seekByOffset(-10, book),
             // ),
-            // PlayButton(),
+            PlayButton(),
             // SeekButton(
             //   icon: Icons.forward_30_outlined,
             //   onPressed: () async => await ref
