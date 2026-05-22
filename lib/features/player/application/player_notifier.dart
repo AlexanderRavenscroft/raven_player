@@ -74,7 +74,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
 
   void _attachListeners() {
     log.d('Attaching player listeners');
-    // Save every 10s while position changes (i.e., while playing)
+    // Save every eg. 5s while position changes (i.e., while playing)
     _progressSub = _player.positionStream
         .throttleTime(Duration(seconds: 5))
         .listen((position) async {
