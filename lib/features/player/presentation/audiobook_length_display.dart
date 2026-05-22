@@ -98,8 +98,9 @@ class _TimeInfoText extends ConsumerWidget {
 }
 
 int _sumPastChapters(Audiobook book, int currentChapterIndex) {
+  final safeIndex = currentChapterIndex.clamp(0, book.chapters.length - 1);
   int sum = 0;
-  for (int i = 0; i < currentChapterIndex; i++) {
+  for (int i = 0; i < safeIndex; i++) {
     sum += book.chapters[i].durationMs ?? 0;
   }
   return sum;
