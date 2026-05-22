@@ -34,7 +34,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
   @override
   Widget build(BuildContext context) {
     final chapterInitialization = ref.watch(
-      chapterInitializationProvider(widget.enrichedBook),
+      chapterInitializationProvider(widget.enrichedBook.id),
     );
 
     return Scaffold(

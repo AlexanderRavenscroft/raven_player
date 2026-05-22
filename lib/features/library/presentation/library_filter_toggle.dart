@@ -8,11 +8,15 @@ class LibraryFilterToggle extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final initialIndex =
+        ref.watch(libraryFilterProvider) == LibraryFilter.reading ? 0 : 1;
+
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.05,
       child: DefaultTabController(
         length: 2,
+        initialIndex: initialIndex,
         child: TabBar(
           labelColor: Theme.of(context).colorScheme.onSurface,
           labelStyle: context.appText.labelLarge,

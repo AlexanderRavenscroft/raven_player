@@ -114,17 +114,22 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     final pos = _player.position.inMilliseconds;
     final idx = _player.currentIndex ?? 0;
 
-    // Skip if nothing changed (avoids redundant writes & rebuilds)
     if (book.currentPositionMs == pos && book.currentChapterIndex == idx) {
       return;
     }
 
-    final updated = book.copyWith(
+    final repo = ref.read(audiobookRepositoryProvider);
+    final fresh = await repo.getById(book.id);
+    if (fresh == null) return;
+
+    final updated = fresh.copyWith(
       currentPositionMs: pos,
       currentChapterIndex: idx,
     );
-    log.d('Saving progress: chapter $idx at ${Duration(milliseconds: pos)}');
-    await ref.read(audiobookRepositoryProvider).save(updated);
+
+    state = updated;
+
+    await repo.save(updated);
   }
 
   Future<void> seekToChapter(int chapterIndex) async {
@@ -162,7 +167,3 @@ final playerStateStreamProvider = StreamProvider<PlayerState>((ref) {
 final positionDataStreamProvider = StreamProvider<PositionData>((ref) {
   return ref.watch(playerProvider.notifier).positionDataStream;
 });
-
-// final currentChapterIndexProvider = StreamProvider<int>((ref) {
-//   return ref.watch(playerProvider.notifier).currentChapterIndexStream;
-// });
