@@ -2,7 +2,7 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
-import 'package:raven_player/features/player/application/player_provider.dart';
+import 'package:raven_player/features/player/application/player_notifier.dart';
 
 class PlayProgressBar extends ConsumerWidget {
   const PlayProgressBar({super.key});

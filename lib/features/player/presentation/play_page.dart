@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/features/player/application/chapter_initialization_provider.dart';
-import 'package:raven_player/features/player/application/player_provider.dart';
+import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/presentation/audiobook_length_display.dart';
 import 'package:raven_player/features/player/presentation/chapter_dropdown.dart';
 import 'package:raven_player/features/player/presentation/play_app_bar.dart';

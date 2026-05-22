@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
-import 'package:raven_player/features/player/application/player_provider.dart';
+import 'package:raven_player/features/player/application/player_notifier.dart';
 
 class PlayButton extends ConsumerWidget {
   final bool asStandaloneButton;

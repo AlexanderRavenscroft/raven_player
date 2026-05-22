@@ -6,9 +6,11 @@ import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/models/position_data.dart';
 import 'package:raven_player/utils/app_loger.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:synchronized/synchronized.dart';
 
 class PlayerNotifier extends Notifier<Audiobook?> {
   late final AudioPlayer _player;
+  final _lock = Lock();
   AudioPlayer get player => _player;
 
   StreamSubscription? _progressSub;
@@ -28,32 +30,46 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   }
 
   Future<void> load(Audiobook book) async {
-    log.d('Loading player');
-    // Same book already loaded — no-op
-    if (state?.id == book.id) return;
+    await _lock.synchronized(() async {
+      log.d('Loading player');
+      if (state?.id == book.id) return;
 
-    // Different book: persist old, tear down
-    if (state != null) {
-      await _saveProgress();
-      await _cancelSubs();
-      await _player.stop();
-    }
+      if (state != null) {
+        await _saveProgress();
+        await _cancelSubs();
+        await _player.stop();
+      }
 
-    final saved = await ref.read(audiobookRepositoryProvider).getById(book.id);
-    final resume = saved ?? book;
-    state = resume;
+      final saved = await ref
+          .read(audiobookRepositoryProvider)
+          .getById(book.id);
+      final resume = saved ?? book;
+      state = resume;
 
-    final sources = resume.chapters
-        .map((c) => AudioSource.uri(Uri.parse(c.uri)))
-        .toList();
+      final sources = resume.chapters
+          .map((c) => AudioSource.uri(Uri.parse(c.uri)))
+          .toList();
 
-    await _player.setAudioSources(
-      sources,
-      initialIndex: resume.currentChapterIndex,
-      initialPosition: resume.currentPosition,
-    );
+      try {
+        await _player.setAudioSources(
+          sources,
+          initialIndex: resume.currentChapterIndex,
+          initialPosition: resume.currentPosition,
+        );
+      } catch (e) {
+        log.e('Failed to load from saved position, resetting: $e');
+        // Reset corrupted progress and retry from beginning
+        final reset = resume.copyWith(
+          currentChapterIndex: 0,
+          currentPositionMs: 0,
+        );
+        await ref.read(audiobookRepositoryProvider).save(reset);
+        state = reset;
+        await _player.setAudioSources(sources, initialIndex: 0);
+      }
 
-    _attachListeners();
+      _attachListeners();
+    });
   }
 
   void _attachListeners() {

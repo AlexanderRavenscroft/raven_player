@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
-import 'package:raven_player/features/player/application/player_provider.dart';
+import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
 
 class ChapterDropdown extends ConsumerWidget {
