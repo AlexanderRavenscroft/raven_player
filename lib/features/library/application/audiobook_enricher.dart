@@ -31,17 +31,11 @@ class AudiobookEnricher {
         existing: book.coverPath,
       );
 
-      final enriched = book.copyWith(
-        author: meta.artist,
-        totalDurationMs: _sumDurations(book, meta.durationMs),
-        coverPath: coverPath,
-      );
+      final enriched = book.copyWith(author: meta.artist, coverPath: coverPath);
 
       await _repo.save(enriched);
     }
   }
-
-  int? _sumDurations(Audiobook book, int? firstDurationMs) => firstDurationMs;
 
   Future<Directory> _coversDirectory() async {
     final appDir = await getApplicationDocumentsDirectory();

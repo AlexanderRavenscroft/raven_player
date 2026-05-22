@@ -21,7 +21,7 @@ class PlayProgressBar extends ConsumerWidget {
           return const LinearProgressIndicator();
         }
         return SizedBox(
-          width: MediaQuery.of(context).size.width * 0.94,
+          width: MediaQuery.of(context).size.width * 0.92,
           child: ProgressBar(
             thumbCanPaintOutsideBar: false,
             barHeight: MediaQuery.of(context).size.height * 0.01,

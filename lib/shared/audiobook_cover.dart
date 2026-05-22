@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/features/player/presentation/play_button.dart';
 import 'package:raven_player/models/audiobook.dart';
 
 class AudiobookCover extends ConsumerWidget {
@@ -14,7 +15,7 @@ class AudiobookCover extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mediaWidth = MediaQuery.of(context).size.width;
     final mediaHeight = MediaQuery.of(context).size.height;
-    final coverWidth = mediaWidth * (isOnTile ? 0.24 : 0.46);
+    final coverWidth = mediaWidth * (isOnTile ? 0.24 : 0.92);
     final coverHeight = mediaHeight * (isOnTile ? 0.1 : 0.46);
 
     final iconSize = mediaHeight * (isOnTile ? 0.1 : 0.4);
@@ -33,13 +34,10 @@ class AudiobookCover extends ConsumerWidget {
       height: coverHeight,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        // child: isOnTile
-        //     ? cover
-        //     : PlayButton(
-        //       asStandaloneButton: false,
-        //       coverWidget: cover,
-        //       ),
-        child: cover,
+        child: isOnTile
+            ? cover
+            : PlayButton(asStandaloneButton: false, coverWidget: cover),
+        // child: cover,
       ),
     );
   }
