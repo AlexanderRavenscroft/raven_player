@@ -24,6 +24,18 @@ class SettingsNotifier extends Notifier<UserSettings> {
     state = state.copyWith(homeFolderUri: uri);
     await _repo.save(state);
   }
+
+  Future<void> toggleCoverPlay() async {
+    final newValue = !state.isCoverPlayEnabled;
+    state = state.copyWith(isCoverPlayEnabled: newValue);
+    await _repo.save(state);
+  }
+
+  Future<void> togglePauseLock() async {
+    final newValue = !state.isPauseLockEnabled;
+    state = state.copyWith(isPauseLockEnabled: newValue);
+    await _repo.save(state);
+  }
 }
 
 final settingsProvider = NotifierProvider<SettingsNotifier, UserSettings>(

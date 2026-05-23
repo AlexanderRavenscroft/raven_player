@@ -7,6 +7,7 @@ import 'package:raven_player/features/settings/presentation/settings_app_bar.dar
 import 'package:raven_player/features/settings/presentation/settings_button.dart';
 import 'package:raven_player/features/settings/presentation/settings_tile.dart';
 import 'package:raven_player/features/settings/presentation/settings_toggle_button.dart';
+import 'package:raven_player/features/settings/presentation/settings_toggle_switch.dart';
 import 'package:raven_player/utils/uri_utils.dart';
 
 class SettingsPage extends ConsumerWidget {
@@ -77,6 +78,46 @@ class SettingsPage extends ConsumerWidget {
                     onChanged: (mode) => ref
                         .read(settingsProvider.notifier)
                         .updateThemeMode(mode),
+                  ),
+                );
+              },
+            ),
+
+            Consumer(
+              builder: (_, ref, _) {
+                final isCoverPlayEnabled = ref.watch(
+                  settingsProvider.select((s) => s.isCoverPlayEnabled),
+                );
+                return SettingsTile(
+                  title: 'Cover play',
+                  description:
+                      'Play and pause audio by clicking on cover image',
+                  icon: Icons.touch_app_outlined,
+                  trailing: SettingsToggleSwitch(
+                    value: isCoverPlayEnabled,
+                    onChanged: (enabled) {
+                      ref.read(settingsProvider.notifier).toggleCoverPlay();
+                    },
+                  ),
+                );
+              },
+            ),
+
+            Consumer(
+              builder: (_, ref, _) {
+                final isPauseLockEnabled = ref.watch(
+                  settingsProvider.select((s) => s.isPauseLockEnabled),
+                );
+                return SettingsTile(
+                  title: 'Pause lock',
+                  description:
+                      'When audio is paused, disable buttons and slider',
+                  icon: Icons.lock_outlined,
+                  trailing: SettingsToggleSwitch(
+                    value: isPauseLockEnabled,
+                    onChanged: (enabled) {
+                      ref.read(settingsProvider.notifier).togglePauseLock();
+                    },
                   ),
                 );
               },

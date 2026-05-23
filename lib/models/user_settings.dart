@@ -11,12 +11,30 @@ class UserSettings {
   @HiveField(1)
   final ThemeMode themeMode;
 
-  const UserSettings({this.homeFolderUri, this.themeMode = ThemeMode.system});
+  @HiveField(2)
+  final bool isCoverPlayEnabled;
 
-  UserSettings copyWith({String? homeFolderUri, ThemeMode? themeMode}) {
+  @HiveField(3)
+  final bool isPauseLockEnabled;
+
+  const UserSettings({
+    this.homeFolderUri,
+    this.themeMode = ThemeMode.system,
+    this.isCoverPlayEnabled = true,
+    this.isPauseLockEnabled = false,
+  });
+
+  UserSettings copyWith({
+    String? homeFolderUri,
+    ThemeMode? themeMode,
+    bool? isCoverPlayEnabled,
+    bool? isPauseLockEnabled,
+  }) {
     return UserSettings(
       homeFolderUri: homeFolderUri ?? this.homeFolderUri,
       themeMode: themeMode ?? this.themeMode,
+      isCoverPlayEnabled: isCoverPlayEnabled ?? this.isCoverPlayEnabled,
+      isPauseLockEnabled: isPauseLockEnabled ?? this.isPauseLockEnabled,
     );
   }
 }

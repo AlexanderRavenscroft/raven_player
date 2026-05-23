@@ -4,6 +4,7 @@ import 'package:raven_player/features/player/application/chapter_initialization_
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/presentation/audiobook_length_display.dart';
 import 'package:raven_player/features/player/presentation/chapter_dropdown.dart';
+import 'package:raven_player/features/player/presentation/play_action_toolbar.dart';
 import 'package:raven_player/features/player/presentation/play_app_bar.dart';
 import 'package:raven_player/features/player/presentation/play_button.dart';
 import 'package:raven_player/features/player/presentation/play_progress_bar.dart';
@@ -59,7 +60,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
     return Column(
       children: [
         //* BAR && DISPLAY
-        // PlayActionToolbar(),
+        PlayActionToolbar(),
         AudiobookLengthDisplay(book: initializedBook),
         SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 

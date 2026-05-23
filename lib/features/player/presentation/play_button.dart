@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
+import 'package:raven_player/features/settings/application/settings_notifier.dart';
 
 class PlayButton extends ConsumerWidget {
   final bool asStandaloneButton;
@@ -53,11 +54,11 @@ class PlayButton extends ConsumerWidget {
         onPressed: onPressed,
       );
     }
-
-    // final isCoverPlayEnabled = ref.watch(settingsProvider).isCoverPlay;
+    final isCoverPlayEnabled = ref.watch(
+      settingsProvider.select((s) => s.isCoverPlayEnabled),
+    );
     return GestureDetector(
-      onTap: () {},
-      // isCoverPlayEnabled ? onPressed : null,
+      onTap: isCoverPlayEnabled ? onPressed : null,
       child: Stack(
         alignment: Alignment.center,
         children: [
