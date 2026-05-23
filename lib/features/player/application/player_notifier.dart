@@ -11,7 +11,6 @@ import 'package:synchronized/synchronized.dart';
 class PlayerNotifier extends Notifier<Audiobook?> {
   late final AudioPlayer _player;
   final _lock = Lock();
-  AudioPlayer get player => _player;
 
   StreamSubscription? _progressSub;
   StreamSubscription? _indexSub;
@@ -89,6 +88,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
           if (state != null) {
             state = state!.copyWith(currentChapterIndex: index);
           }
+
           _saveProgress();
         });
   }
@@ -111,36 +111,39 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   Future<void> _saveProgress() async {
     final book = state;
     if (book == null) return;
+
     final pos = _player.position.inMilliseconds;
     final idx = _player.currentIndex ?? 0;
 
-    if (book.currentPositionMs == pos && book.currentChapterIndex == idx) {
-      return;
-    }
-
-    final repo = ref.read(audiobookRepositoryProvider);
-    final fresh = await repo.getById(book.id);
-    if (fresh == null) return;
-
-    final updated = fresh.copyWith(
+    final updated = book.copyWith(
       currentPositionMs: pos,
       currentChapterIndex: idx,
     );
 
     state = updated;
-
-    await repo.save(updated);
-  }
-
-  Future<void> seekToChapter(int chapterIndex) async {
-    if (state == null) return;
-    await _player.seek(Duration.zero, index: chapterIndex);
+    await ref.read(audiobookRepositoryProvider).save(updated);
   }
 
   Future<void> play() => _player.play();
   Future<void> pause() => _player.pause();
   Future<void> seekToStart() => _player.seek(Duration.zero);
   Future<void> seek(Duration position) => _player.seek(position);
+  Future<void> seekToPrevious() => _player.seekToPrevious();
+  Future<void> seekToNext() => _player.seekToNext();
+
+  Future<void> seekByOffset(int seconds) async {
+    final currentPosition = _player.position.inSeconds;
+    final seekAmount = currentPosition + seconds;
+    final newPosition = seekAmount.clamp(0, _player.duration!.inSeconds);
+
+    await _player.seek(Duration(seconds: newPosition));
+    await _saveProgress();
+  }
+
+  Future<void> seekToChapter(int chapterIndex) async {
+    if (state == null) return;
+    await _player.seek(Duration.zero, index: chapterIndex);
+  }
 
   Stream<PlayerState> get playerStateStream => _player.playerStateStream;
 

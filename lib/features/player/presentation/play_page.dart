@@ -7,6 +7,8 @@ import 'package:raven_player/features/player/presentation/chapter_dropdown.dart'
 import 'package:raven_player/features/player/presentation/play_app_bar.dart';
 import 'package:raven_player/features/player/presentation/play_button.dart';
 import 'package:raven_player/features/player/presentation/play_progress_bar.dart';
+import 'package:raven_player/features/player/presentation/seek_button.dart';
+import 'package:raven_player/features/player/presentation/seek_chapter_button.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/audiobook_cover.dart';
 
@@ -68,17 +70,16 @@ class _PlayPageState extends ConsumerState<PlayPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // SeekChapterButton(
-            //   icon: Icons.skip_previous_outlined,
-            //   onPressed: () =>
-            //       ref.read(playerProvider.notifier).player.seekToPrevious(),
-            // ),
+            SeekChapterButton(
+              icon: Icons.skip_previous_outlined,
+              onPressed: () =>
+                  ref.read(playerProvider.notifier).seekToPrevious(),
+            ),
             ChapterDropdown(book: initializedBook),
-            // SeekChapterButton(
-            //   icon: Icons.skip_next_outlined,
-            //   onPressed: () =>
-            //       ref.read(playerProvider.notifier).player.seekToNext(),
-            // ),
+            SeekChapterButton(
+              icon: Icons.skip_next_outlined,
+              onPressed: () => ref.read(playerProvider.notifier).seekToNext(),
+            ),
           ],
         ),
 
@@ -87,31 +88,27 @@ class _PlayPageState extends ConsumerState<PlayPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            // SeekButton(
-            //   icon: Icons.fast_rewind_outlined,
-            //   onPressed: () async => await ref
-            //       .read(playerProvider.notifier)
-            //       .seekByOffset(-60, book),
-            // ),
-            // SeekButton(
-            //   icon: Icons.replay_30_outlined,
-            //   onPressed: () async => await ref
-            //       .read(playerProvider.notifier)
-            //       .seekByOffset(-10, book),
-            // ),
+            SeekButton(
+              icon: Icons.fast_rewind_outlined,
+              onPressed: () async =>
+                  await ref.read(playerProvider.notifier).seekByOffset(-60),
+            ),
+            SeekButton(
+              icon: Icons.replay_30_outlined,
+              onPressed: () async =>
+                  await ref.read(playerProvider.notifier).seekByOffset(-10),
+            ),
             PlayButton(),
-            // SeekButton(
-            //   icon: Icons.forward_30_outlined,
-            //   onPressed: () async => await ref
-            //       .read(playerProvider.notifier)
-            //       .seekByOffset(10, book),
-            // ),
-            // SeekButton(
-            //   icon: Icons.fast_forward_outlined,
-            //   onPressed: () async => await ref
-            //       .read(playerProvider.notifier)
-            //       .seekByOffset(60, book),
-            // ),
+            SeekButton(
+              icon: Icons.forward_30_outlined,
+              onPressed: () async =>
+                  await ref.read(playerProvider.notifier).seekByOffset(10),
+            ),
+            SeekButton(
+              icon: Icons.fast_forward_outlined,
+              onPressed: () async =>
+                  await ref.read(playerProvider.notifier).seekByOffset(60),
+            ),
           ],
         ),
       ],
