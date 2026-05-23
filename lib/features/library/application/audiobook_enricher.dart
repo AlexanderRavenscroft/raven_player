@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:crypto/crypto.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
@@ -50,14 +52,14 @@ class AudiobookEnricher {
     required Uint8List? bytes,
     required String? existing,
   }) async {
-    if (bytes == null) return existing; // keep whatever was there
-    if (existing != null) return existing; // already saved
+    if (bytes == null) return existing;
+    if (existing != null) return existing;
 
-    // Use a stable filename derived from the book id (which is the folder URI).
-    final safeId = Uri.encodeComponent(bookId);
-    final file = File('${dir.path}/$safeId.jpg');
+    // MD5 of the bookId → clean hex string, no special characters
+    final hash = md5.convert(utf8.encode(bookId)).toString();
+    final file = File('${dir.path}/$hash.jpg');
     await file.writeAsBytes(bytes, flush: true);
-    return file.path;
+    return file.path; // e.g. .../covers/a1b2c3d4e5f6....jpg
   }
 }
 

@@ -12,7 +12,10 @@ import io.flutter.plugin.common.MethodChannel.Result
 import java.io.File
 import android.provider.DocumentsContract
 
-class MainActivity : FlutterActivity() {
+//? Just audio background service import:
+import com.ryanheise.audioservice.AudioServiceActivity  
+
+class MainActivity : AudioServiceActivity() {
     private val CHANNEL = "raven/saf"
     private val REQ_PICK_TREE = 4242
     private var pendingResult: Result? = null

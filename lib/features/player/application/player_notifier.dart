@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/models/position_data.dart';
@@ -45,10 +47,25 @@ class PlayerNotifier extends Notifier<Audiobook?> {
       final resume = saved ?? book;
       state = resume;
 
+      log.i(resume.coverPath);
       final sources = resume.chapters
-          .map((c) => AudioSource.uri(Uri.parse(c.uri)))
+          .map(
+            (c) => AudioSource.uri(
+              Uri.parse(c.uri),
+              tag: MediaItem(
+                id: c.uri,
+                album: resume.title,
+                artist: resume.author,
+                title: c.name,
+                artUri: resume.coverPath != null
+                    ? Uri.file(resume.coverPath!)
+                    : null,
+              ),
+            ),
+          )
           .toList();
-
+      log.i('cover exists: ${File(resume.coverPath!).existsSync()}');
+      log.i('artUri: ${Uri.file(resume.coverPath!)}');
       try {
         await _player.setAudioSources(
           sources,
