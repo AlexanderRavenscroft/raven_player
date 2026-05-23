@@ -75,7 +75,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     log.d('Attaching player listeners');
     // Save every eg. 5s while position changes (i.e., while playing)
     _progressSub = _player.positionStream
-        .throttleTime(Duration(seconds: 5))
+        .throttleTime(Duration(seconds: 5), trailing: true)
         .listen((position) async {
           await _saveProgress();
         });
@@ -112,16 +112,19 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     final book = state;
     if (book == null) return;
 
+    final repo = ref.read(audiobookRepositoryProvider);
+    final latest = await repo.getById(book.id) ?? book;
+
     final pos = _player.position.inMilliseconds;
     final idx = _player.currentIndex ?? 0;
 
-    final updated = book.copyWith(
+    final updated = latest.copyWith(
       currentPositionMs: pos,
       currentChapterIndex: idx,
     );
 
     state = updated;
-    await ref.read(audiobookRepositoryProvider).save(updated);
+    await repo.save(updated);
   }
 
   Future<void> play() => _player.play();
@@ -134,7 +137,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   Future<void> seekByOffset(int seconds) async {
     final currentPosition = _player.position.inSeconds;
     final seekAmount = currentPosition + seconds;
-    final newPosition = seekAmount.clamp(0, _player.duration!.inSeconds);
+    final newPosition = seekAmount.clamp(0, _player.duration?.inSeconds ?? 0);
 
     await _player.seek(Duration(seconds: newPosition));
     await _saveProgress();
