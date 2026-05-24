@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
@@ -64,8 +63,6 @@ class PlayerNotifier extends Notifier<Audiobook?> {
             ),
           )
           .toList();
-      log.i('cover exists: ${File(resume.coverPath!).existsSync()}');
-      log.i('artUri: ${Uri.file(resume.coverPath!)}');
       try {
         await _player.setAudioSources(
           sources,
@@ -101,12 +98,12 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     _indexSub = _player.currentIndexStream
         .whereType<int>() // drop nulls
         .distinct() // only emit on real index change
-        .listen((index) {
+        .listen((index) async {
           if (state != null) {
             state = state!.copyWith(currentChapterIndex: index);
           }
 
-          _saveProgress();
+          await _saveProgress();
         });
   }
 

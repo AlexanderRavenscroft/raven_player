@@ -21,9 +21,10 @@ Future<void> main() async {
   ]);
 
   await JustAudioBackground.init(
-    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelId: 'com.example.raven_player.channel.audio',
     androidNotificationChannelName: 'Audio playback',
-    androidNotificationOngoing: true,
+    androidNotificationOngoing: false,
+    androidStopForegroundOnPause: true,
     preloadArtwork: true,
     notificationColor: AppColors.primary,
     androidShowNotificationBadge: true,

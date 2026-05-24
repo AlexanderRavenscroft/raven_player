@@ -2,13 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/features/onboarding/presentation/onboarding_gate.dart';
 import 'package:raven_player/core/theme/app_colors.dart';
+import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 
-class RavenPlayerApp extends ConsumerWidget {
+class RavenPlayerApp extends ConsumerStatefulWidget {
   const RavenPlayerApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RavenPlayerApp> createState() => _RavenPlayerAppState();
+}
+
+class _RavenPlayerAppState extends ConsumerState<RavenPlayerApp> {
+  late final AppLifecycleListener _lifecycleListener;
+
+  @override
+  void initState() {
+    super.initState();
+    _lifecycleListener = AppLifecycleListener(
+      onDetach: () async {
+        await ref.read(playerProvider.notifier).clear();
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _lifecycleListener.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final themeMode = ref.watch(settingsProvider.select((s) => s.themeMode));
 
     return MaterialApp(
