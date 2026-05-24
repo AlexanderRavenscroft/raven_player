@@ -12,6 +12,7 @@ import 'package:raven_player/features/player/presentation/seek_button.dart';
 import 'package:raven_player/features/player/presentation/seek_chapter_button.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/audiobook_cover.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class PlayPage extends ConsumerStatefulWidget {
   final Audiobook enrichedBook;
@@ -43,11 +44,12 @@ class _PlayPageState extends ConsumerState<PlayPage> {
     return Scaffold(
       appBar: PlayAppBar(book: widget.enrichedBook),
       body: chapterInitialization.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () =>
+            _buildPlayPageContent(context, ref, widget.enrichedBook, true),
         error: (error, stackTrace) =>
             Center(child: Text('Error loading audiobook: $error')),
         data: (initializedBook) =>
-            _buildPlayPageContent(context, ref, initializedBook),
+            _buildPlayPageContent(context, ref, initializedBook, false),
       ),
     );
   }
@@ -56,63 +58,67 @@ class _PlayPageState extends ConsumerState<PlayPage> {
     BuildContext context,
     WidgetRef ref,
     Audiobook initializedBook,
+    bool isLoading,
   ) {
-    return Column(
-      children: [
-        //* BAR && DISPLAY
-        PlayActionToolbar(),
-        AudiobookLengthDisplay(book: initializedBook),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+    return Skeletonizer(
+      enabled: isLoading,
+      child: Column(
+        children: [
+          //* BAR && DISPLAY
+          PlayActionToolbar(),
+          AudiobookLengthDisplay(book: initializedBook),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
-        //* COVER
-        AudiobookCover(book: initializedBook, isOnTile: false),
+          //* COVER
+          AudiobookCover(book: initializedBook, isOnTile: false),
 
-        //* CHAPTER CONTROLS
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SeekChapterButton(
-              icon: Icons.skip_previous_outlined,
-              onPressed: () =>
-                  ref.read(playerProvider.notifier).seekToPrevious(),
-            ),
-            ChapterDropdown(book: initializedBook),
-            SeekChapterButton(
-              icon: Icons.skip_next_outlined,
-              onPressed: () => ref.read(playerProvider.notifier).seekToNext(),
-            ),
-          ],
-        ),
+          //* CHAPTER CONTROLS
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SeekChapterButton(
+                icon: Icons.skip_previous_outlined,
+                onPressed: () =>
+                    ref.read(playerProvider.notifier).seekToPrevious(),
+              ),
+              ChapterDropdown(book: initializedBook),
+              SeekChapterButton(
+                icon: Icons.skip_next_outlined,
+                onPressed: () => ref.read(playerProvider.notifier).seekToNext(),
+              ),
+            ],
+          ),
 
-        //* PLAYBACK CONTROLLS
-        PlayProgressBar(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SeekButton(
-              icon: Icons.fast_rewind_outlined,
-              onPressed: () async =>
-                  await ref.read(playerProvider.notifier).seekByOffset(-60),
-            ),
-            SeekButton(
-              icon: Icons.replay_30_outlined,
-              onPressed: () async =>
-                  await ref.read(playerProvider.notifier).seekByOffset(-10),
-            ),
-            PlayButton(),
-            SeekButton(
-              icon: Icons.forward_30_outlined,
-              onPressed: () async =>
-                  await ref.read(playerProvider.notifier).seekByOffset(10),
-            ),
-            SeekButton(
-              icon: Icons.fast_forward_outlined,
-              onPressed: () async =>
-                  await ref.read(playerProvider.notifier).seekByOffset(60),
-            ),
-          ],
-        ),
-      ],
+          //* PLAYBACK CONTROLLS
+          PlayProgressBar(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SeekButton(
+                icon: Icons.fast_rewind_outlined,
+                onPressed: () async =>
+                    await ref.read(playerProvider.notifier).seekByOffset(-60),
+              ),
+              SeekButton(
+                icon: Icons.replay_30_outlined,
+                onPressed: () async =>
+                    await ref.read(playerProvider.notifier).seekByOffset(-10),
+              ),
+              PlayButton(),
+              SeekButton(
+                icon: Icons.forward_30_outlined,
+                onPressed: () async =>
+                    await ref.read(playerProvider.notifier).seekByOffset(10),
+              ),
+              SeekButton(
+                icon: Icons.fast_forward_outlined,
+                onPressed: () async =>
+                    await ref.read(playerProvider.notifier).seekByOffset(60),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

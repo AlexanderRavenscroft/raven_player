@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/library/application/library_filter.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/library/presentation/library_app_bar.dart';
@@ -35,11 +36,12 @@ class LibraryPage extends ConsumerWidget {
             child: booksAsync.when(
               loading: () =>
                   _buildList(context, _skeletonBooks, isLoading: true),
-              error: (err, st) => Center(child: Text('Error: $err')),
+              error: (err, st) =>
+                  _buildMessage(context, 'Error loading library:\n$err'),
               data: (_) {
                 final books = ref.watch(filteredLibraryProvider);
                 if (books.isEmpty) {
-                  return const Center(child: Text('No audiobooks found'));
+                  return _buildMessage(context, 'No audiobooks found');
                 }
                 return _buildList(context, books, isLoading: false);
               },
@@ -69,6 +71,21 @@ class LibraryPage extends ConsumerWidget {
               return LibraryTile(key: ValueKey(book.id), book: book);
             },
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMessage(BuildContext context, String message) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.04,
+        ),
+        child: Text(
+          message,
+          style: context.appText.bodySmall,
+          textAlign: TextAlign.center,
         ),
       ),
     );
