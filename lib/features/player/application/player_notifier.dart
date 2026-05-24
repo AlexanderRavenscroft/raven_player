@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
+import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/models/position_data.dart';
 import 'package:raven_player/utils/app_loger.dart';
@@ -82,6 +83,10 @@ class PlayerNotifier extends Notifier<Audiobook?> {
       }
 
       _attachListeners();
+      final settings = ref.read(settingsProvider);
+      if (settings.isPlaybackSpeedEnabled) {
+        await _player.setSpeed(settings.playbackSpeed);
+      }
     });
   }
 
@@ -147,6 +152,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   Future<void> seek(Duration position) => _player.seek(position);
   Future<void> seekToPrevious() => _player.seekToPrevious();
   Future<void> seekToNext() => _player.seekToNext();
+  Future<void> updatePlaybackSpeed(double speed) => _player.setSpeed(speed);
 
   Future<void> seekByOffset(int seconds) async {
     final currentPosition = _player.position.inSeconds;

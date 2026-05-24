@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 
-class ToolbarToggleButton extends ConsumerWidget {
+class ToolbarButton extends ConsumerWidget {
   final IconData icon;
-  final VoidCallback onPressed;
-  final Widget Function(BuildContext, WidgetRef)? bottomContentBuilder;
   final bool isToggled;
+  final VoidCallback onPressed;
+  final VoidCallback? onLongPress;
+  final Widget Function(BuildContext, WidgetRef)? bottomContentBuilder;
 
-  const ToolbarToggleButton({
+  const ToolbarButton({
     super.key,
     required this.icon,
-    required this.onPressed,
-    this.bottomContentBuilder,
     this.isToggled = false,
+    required this.onPressed,
+    this.onLongPress,
+    this.bottomContentBuilder,
   });
 
   @override
@@ -30,6 +32,7 @@ class ToolbarToggleButton extends ConsumerWidget {
             size: context.bodyMedium,
           ),
           onPressed: onPressed,
+          onLongPress: onLongPress,
         ),
         if (bottomContentBuilder != null && isToggled)
           Positioned(
