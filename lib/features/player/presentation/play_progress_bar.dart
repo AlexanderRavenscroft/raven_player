@@ -14,12 +14,8 @@ class PlayProgressBar extends ConsumerWidget {
     final book = ref.watch(playerProvider);
     final positionAsync = ref.watch(positionDataStreamProvider);
 
-    final playerStateAsync = ref.watch(playerStateStreamProvider);
-    final playerState = playerStateAsync.value;
-    final isPlaying = playerState?.playing ?? false;
-
-    final isPauseLockEnabled = ref.watch(
-      settingsProvider.select((s) => s.isPauseLockEnabled),
+    final isPlayerLockEnabled = ref.watch(
+      settingsProvider.select((s) => s.isPlayerLockEnabled),
     );
 
     final showRemainingTime = ref.watch(
@@ -41,7 +37,7 @@ class PlayProgressBar extends ConsumerWidget {
         return Stack(
           children: [
             AbsorbPointer(
-              absorbing: !isPlaying && isPauseLockEnabled,
+              absorbing: isPlayerLockEnabled,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.92,
                 child: ProgressBar(
@@ -67,19 +63,19 @@ class PlayProgressBar extends ConsumerWidget {
                 ),
               ),
             ),
-            if (!isPlaying && isPauseLockEnabled)
+            if (isPlayerLockEnabled)
               Positioned.fill(
                 child: GestureDetector(
                   onTap: () {
                     AppSnackBar.showSnackBar(
                       context,
-                      'Slider is locked during pause.\nYou can enable it in settings',
+                      'Slider is locked.\nYou can enable it in toolbar.',
                     );
                   },
                   onHorizontalDragEnd: (_) {
                     AppSnackBar.showSnackBar(
                       context,
-                      'Slider is locked during pause.\nYou can enable it in settings',
+                      'Slider is locked.\nYou can enable it in toolbar.',
                     );
                   },
                 ),

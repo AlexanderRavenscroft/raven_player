@@ -18,34 +18,31 @@ class ChapterDropdown extends ConsumerWidget {
     final chapterList = currentBook.chapters.map((c) => c.name).toList();
     final currentChapterIndex = currentBook.currentChapterIndex;
 
-    final playerStateAsync = ref.watch(playerStateStreamProvider);
-    final playerState = playerStateAsync.value;
-    final isPlaying = playerState?.playing ?? false;
-
-    final isPauseLockEnabled = ref.watch(
-      settingsProvider.select((s) => s.isPauseLockEnabled),
+    final isPlayerLockEnabled = ref.watch(
+      settingsProvider.select((s) => s.isPlayerLockEnabled),
     );
-
-    final isLocked = !isPlaying && isPauseLockEnabled;
 
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.5,
       child: Center(
         child: GestureDetector(
           onTap: () {
-            if (isLocked) {
+            if (isPlayerLockEnabled) {
               AppSnackBar.showSnackBar(
                 context,
-                'Dropdown is locked during pause.\nYou can enable it in settings',
+                'Dropdown is locked.\nYou can enable it in toolbar.',
               );
             }
           },
           child: AbsorbPointer(
-            absorbing: isLocked,
+            absorbing: isPlayerLockEnabled,
             child: DropdownButton<int>(
               elevation: 8,
               autofocus: false,
               alignment: Alignment.center,
+              icon: isPlayerLockEnabled
+                  ? const SizedBox.shrink()
+                  : const Icon(Icons.arrow_drop_down),
               menuWidth: MediaQuery.of(context).size.width * 0.5,
               menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
               dropdownColor: Theme.of(context).colorScheme.surfaceContainer,
@@ -72,14 +69,6 @@ class ChapterDropdown extends ConsumerWidget {
                 growable: false,
               ),
               value: currentChapterIndex,
-              onTap: () {
-                if (!isPlaying && isPauseLockEnabled) {
-                  AppSnackBar.showSnackBar(
-                    context,
-                    'Dropdown is locked during pause.\nYou can enable it in settings',
-                  );
-                }
-              },
               onChanged: (value) {
                 if (value != null && value != currentChapterIndex) {
                   ref.read(playerProvider.notifier).seekToChapter(value);

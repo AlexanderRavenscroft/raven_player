@@ -10,6 +10,7 @@ import 'package:raven_player/features/player/presentation/play_progress_bar.dart
 import 'package:raven_player/features/player/presentation/seek_button.dart';
 import 'package:raven_player/features/player/presentation/seek_chapter_button.dart';
 import 'package:raven_player/features/player/presentation/action_toolbar.dart';
+import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/audiobook_cover.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -60,6 +61,9 @@ class _PlayPageState extends ConsumerState<PlayPage> {
     Audiobook initializedBook,
     bool isLoading,
   ) {
+    final isPlayerLockEnabled = ref.watch(
+      settingsProvider.select((s) => s.isPlayerLockEnabled),
+    );
     return Skeletonizer(
       enabled: isLoading,
       child: Column(
@@ -76,47 +80,52 @@ class _PlayPageState extends ConsumerState<PlayPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SeekChapterButton(
-                icon: Icons.skip_previous_outlined,
-                onPressed: () =>
-                    ref.read(playerProvider.notifier).seekToPrevious(),
-              ),
+              if (!isPlayerLockEnabled)
+                SeekChapterButton(
+                  icon: Icons.skip_previous_outlined,
+                  onPressed: () =>
+                      ref.read(playerProvider.notifier).seekToPrevious(),
+                ),
               ChapterDropdown(book: initializedBook),
-              SeekChapterButton(
-                icon: Icons.skip_next_outlined,
-                onPressed: () => ref.read(playerProvider.notifier).seekToNext(),
-              ),
+              if (!isPlayerLockEnabled)
+                SeekChapterButton(
+                  icon: Icons.skip_next_outlined,
+                  onPressed: () =>
+                      ref.read(playerProvider.notifier).seekToNext(),
+                ),
             ],
           ),
 
           //* PLAYBACK CONTROLLS
           PlayProgressBar(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SeekButton(
-                icon: Icons.fast_rewind_outlined,
-                onPressed: () async =>
-                    await ref.read(playerProvider.notifier).seekByOffset(-60),
-              ),
-              SeekButton(
-                icon: Icons.replay_30_outlined,
-                onPressed: () async =>
-                    await ref.read(playerProvider.notifier).seekByOffset(-10),
-              ),
-              PlayButton(),
-              SeekButton(
-                icon: Icons.forward_30_outlined,
-                onPressed: () async =>
-                    await ref.read(playerProvider.notifier).seekByOffset(10),
-              ),
-              SeekButton(
-                icon: Icons.fast_forward_outlined,
-                onPressed: () async =>
-                    await ref.read(playerProvider.notifier).seekByOffset(60),
-              ),
-            ],
-          ),
+
+          if (!isPlayerLockEnabled)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SeekButton(
+                  icon: Icons.fast_rewind_outlined,
+                  onPressed: () async =>
+                      await ref.read(playerProvider.notifier).seekByOffset(-60),
+                ),
+                SeekButton(
+                  icon: Icons.replay_30_outlined,
+                  onPressed: () async =>
+                      await ref.read(playerProvider.notifier).seekByOffset(-10),
+                ),
+                PlayButton(),
+                SeekButton(
+                  icon: Icons.forward_30_outlined,
+                  onPressed: () async =>
+                      await ref.read(playerProvider.notifier).seekByOffset(10),
+                ),
+                SeekButton(
+                  icon: Icons.fast_forward_outlined,
+                  onPressed: () async =>
+                      await ref.read(playerProvider.notifier).seekByOffset(60),
+                ),
+              ],
+            ),
         ],
       ),
     );

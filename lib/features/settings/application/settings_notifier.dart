@@ -32,12 +32,6 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     await _repo.save(state);
   }
 
-  Future<void> togglePauseLock() async {
-    final newValue = !state.isPauseLockEnabled;
-    state = state.copyWith(isPauseLockEnabled: newValue);
-    await _repo.save(state);
-  }
-
   Future<void> toggleShowBufferedProgress() async {
     final newValue = !state.showBufferedProgress;
     state = state.copyWith(showBufferedProgress: newValue);
@@ -50,9 +44,13 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     await _repo.save(state);
   }
 
-  Future<void> togglePlayerLock() async {
-    final newValue = !state.isPlayerLockEnabled;
-    state = state.copyWith(isPlayerLockEnabled: newValue);
+  Future<void> enablePlayerLock() async {
+    state = state.copyWith(isPlayerLockEnabled: true);
+    await _repo.save(state);
+  }
+
+  Future<void> disablePlayerLock() async {
+    state = state.copyWith(isPlayerLockEnabled: false);
     await _repo.save(state);
   }
 

@@ -15,28 +15,24 @@ class UserSettings {
   final bool isCoverPlayEnabled;
 
   @HiveField(3)
-  final bool isPauseLockEnabled;
-
-  @HiveField(4)
   final bool showRemainingTime;
 
-  @HiveField(5)
+  @HiveField(4)
   final bool showBufferedProgress;
 
-  @HiveField(6)
-  final bool isPlayerLockEnabled;
-
-  @HiveField(7)
+  @HiveField(5)
   final bool isPlaybackSpeedEnabled;
 
-  @HiveField(8)
+  @HiveField(6)
   final double playbackSpeed;
+
+  @HiveField(7)
+  final bool isPlayerLockEnabled;
 
   const UserSettings({
     this.homeFolderUri,
     this.themeMode = ThemeMode.system,
     this.isCoverPlayEnabled = true,
-    this.isPauseLockEnabled = false,
     this.showRemainingTime = false,
     this.showBufferedProgress = false,
     this.isPlayerLockEnabled = false,
@@ -59,7 +55,6 @@ class UserSettings {
       homeFolderUri: homeFolderUri ?? this.homeFolderUri,
       themeMode: themeMode ?? this.themeMode,
       isCoverPlayEnabled: isCoverPlayEnabled ?? this.isCoverPlayEnabled,
-      isPauseLockEnabled: isPauseLockEnabled ?? this.isPauseLockEnabled,
       showRemainingTime: showRemainingTime ?? this.showRemainingTime,
       showBufferedProgress: showBufferedProgress ?? this.showBufferedProgress,
       isPlayerLockEnabled: isPlayerLockEnabled ?? this.isPlayerLockEnabled,

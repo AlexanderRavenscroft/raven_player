@@ -105,26 +105,6 @@ class SettingsPage extends ConsumerWidget {
 
             Consumer(
               builder: (_, ref, _) {
-                final isPauseLockEnabled = ref.watch(
-                  settingsProvider.select((s) => s.isPauseLockEnabled),
-                );
-                return SettingsTile(
-                  title: 'Pause lock',
-                  description:
-                      'When audio is paused, disable buttons and slider',
-                  icon: Icons.lock_outlined,
-                  trailing: SettingsToggleSwitch(
-                    value: isPauseLockEnabled,
-                    onChanged: (enabled) {
-                      ref.read(settingsProvider.notifier).togglePauseLock();
-                    },
-                  ),
-                );
-              },
-            ),
-
-            Consumer(
-              builder: (_, ref, _) {
                 final showRemainingTime = ref.watch(
                   settingsProvider.select((s) => s.showRemainingTime),
                 );

@@ -131,8 +131,20 @@ class ActionToolbar extends ConsumerWidget {
               return ToolbarButton(
                 icon: Icons.lock_clock_outlined,
                 isToggled: isPlayerLockEnabled,
-                onPressed: () =>
-                    ref.read(settingsProvider.notifier).togglePlayerLock(),
+                onPressed: () {
+                  if (isPlayerLockEnabled) {
+                    AppSnackBar.showSnackBar(
+                      context,
+                      'Player is locked.\nLong press to unlock.',
+                    );
+                    return;
+                  }
+                  ref.read(settingsProvider.notifier).enablePlayerLock();
+                },
+                onLongPress: () {
+                  if (!isPlayerLockEnabled) return;
+                  ref.read(settingsProvider.notifier).disablePlayerLock();
+                },
               );
             },
           ),
