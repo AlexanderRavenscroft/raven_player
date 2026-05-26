@@ -21,6 +21,15 @@ class PlayProgressBar extends ConsumerWidget {
     final isPauseLockEnabled = ref.watch(
       settingsProvider.select((s) => s.isPauseLockEnabled),
     );
+
+    final showRemainingTime = ref.watch(
+      settingsProvider.select((s) => s.showRemainingTime),
+    );
+
+    final showBufferedProgress = ref.watch(
+      settingsProvider.select((s) => s.showBufferedProgress),
+    );
+
     if (book == null) return const LinearProgressIndicator();
     return positionAsync.when(
       loading: () => const LinearProgressIndicator(),
@@ -37,15 +46,19 @@ class PlayProgressBar extends ConsumerWidget {
                 width: MediaQuery.of(context).size.width * 0.92,
                 child: ProgressBar(
                   thumbCanPaintOutsideBar: false,
+                  timeLabelType: showRemainingTime
+                      ? TimeLabelType.remainingTime
+                      : TimeLabelType.totalTime,
                   barHeight: MediaQuery.of(context).size.height * 0.01,
                   thumbGlowColor: Colors.transparent,
                   thumbRadius: MediaQuery.of(context).size.height * 0.012,
                   timeLabelLocation: TimeLabelLocation.below,
                   timeLabelTextStyle: context.appText.labelLarge,
-                  timeLabelType: TimeLabelType.totalTime,
                   thumbColor: Theme.of(context).colorScheme.primary,
                   baseBarColor: Theme.of(context).colorScheme.surfaceContainer,
-                  bufferedBarColor: Colors.transparent,
+                  bufferedBarColor: showBufferedProgress
+                      ? Theme.of(context).colorScheme.onSurfaceVariant
+                      : Colors.transparent,
                   progressBarColor: Theme.of(context).colorScheme.primary,
                   progress: positionData.position,
                   buffered: positionData.bufferedPosition,

@@ -16,7 +16,7 @@ class AudiobookCover extends ConsumerWidget {
     final mediaWidth = MediaQuery.of(context).size.width;
     final mediaHeight = MediaQuery.of(context).size.height;
     final coverWidth = mediaWidth * (isOnTile ? 0.24 : 0.92);
-    final coverHeight = mediaHeight * (isOnTile ? 0.1 : 0.46);
+    final coverHeight = mediaHeight * (isOnTile ? 0.1 : 0.42);
 
     final iconSize = mediaHeight * (isOnTile ? 0.1 : 0.4);
     final blur = isOnTile ? 0.0 : 4.0;

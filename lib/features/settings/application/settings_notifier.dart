@@ -38,6 +38,18 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     await _repo.save(state);
   }
 
+  Future<void> toggleShowBufferedProgress() async {
+    final newValue = !state.showBufferedProgress;
+    state = state.copyWith(showBufferedProgress: newValue);
+    await _repo.save(state);
+  }
+
+  Future<void> toggleShowRemainingTime() async {
+    final newValue = !state.showRemainingTime;
+    state = state.copyWith(showRemainingTime: newValue);
+    await _repo.save(state);
+  }
+
   Future<void> togglePlayerLock() async {
     final newValue = !state.isPlayerLockEnabled;
     state = state.copyWith(isPlayerLockEnabled: newValue);

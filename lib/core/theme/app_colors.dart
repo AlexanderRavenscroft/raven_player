@@ -11,12 +11,16 @@ class AppColors {
   // Light Theme Colors
   static const Color lightTextPrimary = Color(0xffffffff);
   static const Color lightTextSurface = Color(0xff000000);
+  static const Color lightTextSurfaceVariant = Color(0xff44464F);
+
   static const Color lightBackgroundPrimary = Color(0xffededed);
   static const Color lightBackgroundSecondary = Color(0xffbfc2ca);
 
   // Dark Theme Colors
   static const Color darkTextPrimary = Color(0xffffffff);
   static const Color darkTextSurface = Color(0xffffffff);
+  static const Color darkTextSurfaceVariant = Color(0xffC5C6D0);
+
   static const Color darkBackgroundPrimary = Color(0xff121212);
   static const Color darkBackgroundSecondary = Color(0xff35383f);
 }
@@ -34,7 +38,7 @@ ThemeData lightMode = ThemeData(
     // Texts
     onPrimary: AppColors.lightTextPrimary,
     onSurface: AppColors.lightTextSurface,
-    onSurfaceVariant: AppColors.lightTextSurface,
+    onSurfaceVariant: AppColors.lightTextSurfaceVariant,
 
     // Background & Cards
     surface: AppColors.lightBackgroundPrimary,
@@ -55,7 +59,7 @@ ThemeData darkMode = ThemeData(
     // Texts
     onPrimary: AppColors.darkTextPrimary,
     onSurface: AppColors.darkTextSurface,
-    onSurfaceVariant: AppColors.darkTextSurface,
+    onSurfaceVariant: AppColors.darkTextSurfaceVariant,
 
     // Background & Cards
     surface: AppColors.darkBackgroundPrimary,

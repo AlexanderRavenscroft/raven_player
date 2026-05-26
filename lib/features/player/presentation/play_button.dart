@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
@@ -5,7 +6,7 @@ import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 
-class PlayButton extends ConsumerWidget {
+class PlayButton extends ConsumerStatefulWidget {
   final bool asStandaloneButton;
   final Widget? coverWidget;
 
@@ -16,18 +17,56 @@ class PlayButton extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final playerStateAsync = ref.watch(playerStateStreamProvider);
+  ConsumerState<PlayButton> createState() => _PlayButtonState();
+}
 
+class _PlayButtonState extends ConsumerState<PlayButton> {
+  static const _bufferingGrace = Duration(milliseconds: 250);
+
+  Timer? _bufferingTimer;
+  bool _showBuffering = false;
+
+  @override
+  void dispose() {
+    _bufferingTimer?.cancel();
+    super.dispose();
+  }
+
+  void _handleBuffering(bool isBuffering) {
+    if (isBuffering) {
+      if (_bufferingTimer == null && !_showBuffering) {
+        _bufferingTimer = Timer(_bufferingGrace, () {
+          if (mounted) setState(() => _showBuffering = true);
+        });
+      }
+    } else {
+      _bufferingTimer?.cancel();
+      _bufferingTimer = null;
+      if (_showBuffering) {
+        setState(() => _showBuffering = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final playerStateAsync = ref.watch(playerStateStreamProvider);
     final playerState = playerStateAsync.value;
     final processing = playerState?.processingState;
     final playing = playerState?.playing ?? false;
 
+    final isBuffering =
+        processing == ProcessingState.loading ||
+        processing == ProcessingState.buffering;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _handleBuffering(isBuffering);
+    });
+
     IconData iconData;
     VoidCallback? onPressed;
 
-    if (processing == ProcessingState.loading ||
-        processing == ProcessingState.buffering) {
+    if (isBuffering && _showBuffering) {
       iconData = Icons.hourglass_empty_rounded;
       onPressed = null;
     } else if (processing == ProcessingState.completed) {
@@ -41,7 +80,7 @@ class PlayButton extends ConsumerWidget {
       onPressed = () => ref.read(playerProvider.notifier).play();
     }
 
-    if (asStandaloneButton) {
+    if (widget.asStandaloneButton) {
       return IconButton(
         icon: Icon(iconData, size: context.headlineMedium),
         style: IconButton.styleFrom(
@@ -62,7 +101,8 @@ class PlayButton extends ConsumerWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          if (coverWidget != null) Positioned.fill(child: coverWidget!),
+          if (widget.coverWidget != null)
+            Positioned.fill(child: widget.coverWidget!),
           // if (isCoverPlayEnabled)
           //   Icon(
           //     iconData,

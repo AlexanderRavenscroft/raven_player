@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
 
@@ -31,7 +32,10 @@ class _ChapterInfoText extends ConsumerWidget {
       playerProvider.select((b) => b?.currentChapterIndex ?? 0),
     );
 
-    return Text('Chapter ${currentChapter + 1} of ${book.chapters.length}');
+    return Text(
+      'Chapter ${currentChapter + 1} of ${book.chapters.length}',
+      style: context.appText.labelMedium,
+    );
   }
 }
 
@@ -52,7 +56,7 @@ class _ProgressBar extends ConsumerWidget {
     final progressValue = (pastMs + currentMs) / totalMs;
 
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.9,
+      width: MediaQuery.of(context).size.width * 0.92,
       height: MediaQuery.of(context).size.height * 0.02,
       child: LinearProgressIndicator(
         value: progressValue.clamp(0.0, 1.0),
@@ -90,8 +94,9 @@ class _TimeInfoText extends ConsumerWidget {
       children: [
         Text(
           'Read ${_format(read)} of ${_format(total)} (${(readMs / (totalMs == 0 ? 1 : totalMs) * 100).toStringAsFixed(0)}%)',
+          style: context.appText.labelMedium,
         ),
-        Text('Left: ${_format(left)}'),
+        Text('Left: ${_format(left)}', style: context.appText.labelMedium),
       ],
     );
   }

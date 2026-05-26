@@ -18,12 +18,18 @@ class UserSettings {
   final bool isPauseLockEnabled;
 
   @HiveField(4)
-  final bool isPlayerLockEnabled;
+  final bool showRemainingTime;
 
   @HiveField(5)
-  final bool isPlaybackSpeedEnabled;
+  final bool showBufferedProgress;
 
   @HiveField(6)
+  final bool isPlayerLockEnabled;
+
+  @HiveField(7)
+  final bool isPlaybackSpeedEnabled;
+
+  @HiveField(8)
   final double playbackSpeed;
 
   const UserSettings({
@@ -31,6 +37,8 @@ class UserSettings {
     this.themeMode = ThemeMode.system,
     this.isCoverPlayEnabled = true,
     this.isPauseLockEnabled = false,
+    this.showRemainingTime = false,
+    this.showBufferedProgress = false,
     this.isPlayerLockEnabled = false,
     this.isPlaybackSpeedEnabled = false,
     this.playbackSpeed = 1.0,
@@ -41,6 +49,8 @@ class UserSettings {
     ThemeMode? themeMode,
     bool? isCoverPlayEnabled,
     bool? isPauseLockEnabled,
+    bool? showRemainingTime,
+    bool? showBufferedProgress,
     bool? isPlayerLockEnabled,
     bool? isPlaybackSpeedEnabled,
     double? playbackSpeed,
@@ -50,6 +60,8 @@ class UserSettings {
       themeMode: themeMode ?? this.themeMode,
       isCoverPlayEnabled: isCoverPlayEnabled ?? this.isCoverPlayEnabled,
       isPauseLockEnabled: isPauseLockEnabled ?? this.isPauseLockEnabled,
+      showRemainingTime: showRemainingTime ?? this.showRemainingTime,
+      showBufferedProgress: showBufferedProgress ?? this.showBufferedProgress,
       isPlayerLockEnabled: isPlayerLockEnabled ?? this.isPlayerLockEnabled,
       isPlaybackSpeedEnabled:
           isPlaybackSpeedEnabled ?? this.isPlaybackSpeedEnabled,

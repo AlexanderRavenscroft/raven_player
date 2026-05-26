@@ -123,6 +123,48 @@ class SettingsPage extends ConsumerWidget {
               },
             ),
 
+            Consumer(
+              builder: (_, ref, _) {
+                final showRemainingTime = ref.watch(
+                  settingsProvider.select((s) => s.showRemainingTime),
+                );
+                return SettingsTile(
+                  title: 'Show remaining time',
+                  description:
+                      'Instead of total chapter duration, show remaining duration instead',
+                  icon: Icons.textsms_outlined,
+                  trailing: SettingsToggleSwitch(
+                    value: showRemainingTime,
+                    onChanged: (enabled) {
+                      ref
+                          .read(settingsProvider.notifier)
+                          .toggleShowRemainingTime();
+                    },
+                  ),
+                );
+              },
+            ),
+
+            Consumer(
+              builder: (_, ref, _) {
+                final showBufferedProgress = ref.watch(
+                  settingsProvider.select((s) => s.showBufferedProgress),
+                );
+                return SettingsTile(
+                  title: 'Show buffored progress',
+                  description: 'Show buffored progress on a progress bar',
+                  icon: Icons.hourglass_empty_rounded,
+                  trailing: SettingsToggleSwitch(
+                    value: showBufferedProgress,
+                    onChanged: (enabled) {
+                      ref
+                          .read(settingsProvider.notifier)
+                          .toggleShowBufferedProgress();
+                    },
+                  ),
+                );
+              },
+            ),
             SettingsTile(
               title: 'Reset Settingse',
               description: 'Debug setting',
