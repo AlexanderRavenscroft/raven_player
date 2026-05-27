@@ -24,6 +24,9 @@ class UserSettings {
   final double playbackSpeed;
 
   @HiveField(6)
+  final bool isSkipSilenceEnabled;
+
+  @HiveField(7)
   final bool isPlayerLockEnabled;
 
   const UserSettings({
@@ -33,6 +36,7 @@ class UserSettings {
     this.showBufferedProgress = false,
     this.isPlayerLockEnabled = false,
     this.isPlaybackSpeedEnabled = false,
+    this.isSkipSilenceEnabled = false,
     this.playbackSpeed = 1.0,
   });
 
@@ -45,6 +49,7 @@ class UserSettings {
     bool? showBufferedProgress,
     bool? isPlayerLockEnabled,
     bool? isPlaybackSpeedEnabled,
+    bool? isSkipSilenceEnabled,
     double? playbackSpeed,
   }) {
     return UserSettings(
@@ -53,6 +58,7 @@ class UserSettings {
       showRemainingTime: showRemainingTime ?? this.showRemainingTime,
       showBufferedProgress: showBufferedProgress ?? this.showBufferedProgress,
       isPlayerLockEnabled: isPlayerLockEnabled ?? this.isPlayerLockEnabled,
+      isSkipSilenceEnabled: isSkipSilenceEnabled ?? this.isSkipSilenceEnabled,
       isPlaybackSpeedEnabled:
           isPlaybackSpeedEnabled ?? this.isPlaybackSpeedEnabled,
       playbackSpeed: playbackSpeed ?? this.playbackSpeed,

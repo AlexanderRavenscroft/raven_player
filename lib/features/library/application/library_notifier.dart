@@ -48,6 +48,12 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
     _patchBookInState(toggled);
   }
 
+  Future<void> markAsRead(Audiobook book) async {
+    final read = book.copyWith(isRead: true);
+    await _repo.save(read);
+    _patchBookInState(read);
+  }
+
   void _patchBookInState(Audiobook updated) {
     final current = state.value;
     if (current == null) return;

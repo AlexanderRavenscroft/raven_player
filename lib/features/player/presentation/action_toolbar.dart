@@ -41,10 +41,10 @@ class ActionToolbar extends ConsumerWidget {
       context: context,
       builder: (context) => AppSliderDialog(
         title: 'Adjust Playback Speed',
-        minValue: 0.1,
-        maxValue: 2.0,
+        minValue: 0.5,
+        maxValue: 3.0,
         initialValue: currentSpeed,
-        divisions: 19,
+        divisions: 25,
       ),
     );
 
@@ -122,7 +122,20 @@ class ActionToolbar extends ConsumerWidget {
               );
             },
           ),
-
+          Consumer(
+            builder: (context, ref, _) {
+              final isSkipSilenceEnabled = ref.watch(
+                settingsProvider.select((s) => s.isSkipSilenceEnabled),
+              );
+              return ToolbarButton(
+                icon: Icons.graphic_eq,
+                isToggled: isSkipSilenceEnabled,
+                onPressed: () => ref
+                    .read(settingsProvider.notifier)
+                    .toggleIsSkipSilenceEnabled(),
+              );
+            },
+          ),
           Consumer(
             builder: (context, ref, _) {
               final isPlayerLockEnabled = ref.watch(
@@ -148,16 +161,6 @@ class ActionToolbar extends ConsumerWidget {
                   }
                   ref.read(settingsProvider.notifier).disablePlayerLock();
                 },
-              );
-            },
-          ),
-          //* COMING SOON
-          ToolbarButton(
-            icon: Icons.auto_graph_outlined,
-            onPressed: () {
-              AppSnackBar.showSnackBar(
-                context,
-                'This feature is planned to be added in the next release',
               );
             },
           ),

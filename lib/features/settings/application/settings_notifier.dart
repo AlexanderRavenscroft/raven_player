@@ -38,6 +38,13 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     await _repo.save(state);
   }
 
+  Future<void> toggleIsSkipSilenceEnabled() async {
+    final newValue = !state.isSkipSilenceEnabled;
+    await ref.read(playerProvider.notifier).setSkipSilence(newValue);
+    state = state.copyWith(isSkipSilenceEnabled: newValue);
+    await _repo.save(state);
+  }
+
   Future<void> enablePlayerLock() async {
     state = state.copyWith(isPlayerLockEnabled: true);
     await _repo.save(state);
@@ -54,7 +61,7 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
   }
 
   Future<void> disablePlaybackSpeed() async {
-    ref.read(playerProvider.notifier).updatePlaybackSpeed(1.0);
+    await ref.read(playerProvider.notifier).updatePlaybackSpeed(1.0);
     state = state.copyWith(isPlaybackSpeedEnabled: false);
     await _repo.save(state);
   }
@@ -63,7 +70,7 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     final newValue = !state.isPlaybackSpeedEnabled;
 
     final speedToApply = newValue ? state.playbackSpeed : 1.0;
-    ref.read(playerProvider.notifier).updatePlaybackSpeed(speedToApply);
+    await ref.read(playerProvider.notifier).updatePlaybackSpeed(speedToApply);
 
     state = state.copyWith(isPlaybackSpeedEnabled: newValue);
     await _repo.save(state);

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
+import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/models/position_data.dart';
@@ -16,6 +17,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
 
   StreamSubscription? _progressSub;
   StreamSubscription? _indexSub;
+  StreamSubscription? _processingSub;
 
   @override
   Audiobook? build() {
@@ -23,8 +25,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
 
     ref.onDispose(() async {
       await _saveProgress();
-      await _progressSub?.cancel();
-      await _indexSub?.cancel();
+      await _cancelSubs();
       await _player.dispose();
     });
     return null;
@@ -47,7 +48,6 @@ class PlayerNotifier extends Notifier<Audiobook?> {
       final resume = saved ?? book;
       state = resume;
 
-      log.i(resume.coverPath);
       final sources = resume.chapters
           .map(
             (c) => AudioSource.uri(
@@ -84,9 +84,12 @@ class PlayerNotifier extends Notifier<Audiobook?> {
 
       _attachListeners();
       final settings = ref.read(settingsProvider);
+
       if (settings.isPlaybackSpeedEnabled) {
         await _player.setSpeed(settings.playbackSpeed);
       }
+
+      await _player.setSkipSilenceEnabled(settings.isSkipSilenceEnabled);
     });
   }
 
@@ -110,6 +113,14 @@ class PlayerNotifier extends Notifier<Audiobook?> {
 
           await _saveProgress();
         });
+
+    _processingSub = _player.processingStateStream.listen((s) async {
+      if (s != ProcessingState.completed) return;
+      final book = state;
+      if (book == null) return;
+      log.i('WHOLE ${book.title} finished');
+      await ref.read(libraryProvider.notifier).markAsRead(book);
+    });
   }
 
   Future<void> clear() async {
@@ -125,6 +136,8 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     _progressSub = null;
     await _indexSub?.cancel();
     _indexSub = null;
+    await _processingSub?.cancel();
+    _processingSub = null;
   }
 
   Future<void> _saveProgress() async {
@@ -153,6 +166,8 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   Future<void> seekToPrevious() => _player.seekToPrevious();
   Future<void> seekToNext() => _player.seekToNext();
   Future<void> updatePlaybackSpeed(double speed) => _player.setSpeed(speed);
+  Future<void> setSkipSilence(bool enabled) =>
+      _player.setSkipSilenceEnabled(enabled);
 
   Future<void> seekByOffset(int seconds) async {
     final currentPosition = _player.position.inSeconds;
@@ -169,9 +184,6 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   }
 
   Stream<PlayerState> get playerStateStream => _player.playerStateStream;
-
-  Stream<int> get currentChapterIndexStream =>
-      _player.currentIndexStream.map((index) => index ?? 0);
 
   Stream<PositionData> get positionDataStream =>
       Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
