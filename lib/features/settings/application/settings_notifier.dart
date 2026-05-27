@@ -26,12 +26,6 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     await _repo.save(state);
   }
 
-  Future<void> toggleCoverPlay() async {
-    final newValue = !state.isCoverPlayEnabled;
-    state = state.copyWith(isCoverPlayEnabled: newValue);
-    await _repo.save(state);
-  }
-
   Future<void> toggleShowBufferedProgress() async {
     final newValue = !state.showBufferedProgress;
     state = state.copyWith(showBufferedProgress: newValue);

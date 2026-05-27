@@ -142,7 +142,10 @@ class ActionToolbar extends ConsumerWidget {
                   ref.read(settingsProvider.notifier).enablePlayerLock();
                 },
                 onLongPress: () {
-                  if (!isPlayerLockEnabled) return;
+                  if (!isPlayerLockEnabled) {
+                    ref.read(settingsProvider.notifier).enablePlayerLock();
+                    return;
+                  }
                   ref.read(settingsProvider.notifier).disablePlayerLock();
                 },
               );

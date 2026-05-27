@@ -93,22 +93,24 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
         onPressed: onPressed,
       );
     }
-    final isCoverPlayEnabled = ref.watch(
-      settingsProvider.select((s) => s.isCoverPlayEnabled),
+
+    final isPlayerLockEnabled = ref.watch(
+      settingsProvider.select((s) => s.isPlayerLockEnabled),
     );
+
     return GestureDetector(
-      onTap: isCoverPlayEnabled ? onPressed : null,
+      onTap: onPressed,
       child: Stack(
         alignment: Alignment.center,
         children: [
           if (widget.coverWidget != null)
             Positioned.fill(child: widget.coverWidget!),
-          // if (isCoverPlayEnabled)
-          //   Icon(
-          //     iconData,
-          //     color: Theme.of(context).colorScheme.onPrimary,
-          //     size: context.headlineMedium,
-          //   ),
+          if (isPlayerLockEnabled)
+            Icon(
+              iconData,
+              color: Theme.of(context).colorScheme.onPrimary,
+              size: context.headlineMedium,
+            ),
         ],
       ),
     );

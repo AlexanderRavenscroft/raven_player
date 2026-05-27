@@ -85,26 +85,6 @@ class SettingsPage extends ConsumerWidget {
 
             Consumer(
               builder: (_, ref, _) {
-                final isCoverPlayEnabled = ref.watch(
-                  settingsProvider.select((s) => s.isCoverPlayEnabled),
-                );
-                return SettingsTile(
-                  title: 'Cover play',
-                  description:
-                      'Play and pause audio by clicking on cover image',
-                  icon: Icons.touch_app_outlined,
-                  trailing: SettingsToggleSwitch(
-                    value: isCoverPlayEnabled,
-                    onChanged: (enabled) {
-                      ref.read(settingsProvider.notifier).toggleCoverPlay();
-                    },
-                  ),
-                );
-              },
-            ),
-
-            Consumer(
-              builder: (_, ref, _) {
                 final showRemainingTime = ref.watch(
                   settingsProvider.select((s) => s.showRemainingTime),
                 );

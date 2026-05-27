@@ -77,23 +77,26 @@ class _PlayPageState extends ConsumerState<PlayPage> {
           AudiobookCover(book: initializedBook, isOnTile: false),
 
           //* CHAPTER CONTROLS
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (!isPlayerLockEnabled)
-                SeekChapterButton(
-                  icon: Icons.skip_previous_outlined,
-                  onPressed: () =>
-                      ref.read(playerProvider.notifier).seekToPrevious(),
-                ),
-              ChapterDropdown(book: initializedBook),
-              if (!isPlayerLockEnabled)
-                SeekChapterButton(
-                  icon: Icons.skip_next_outlined,
-                  onPressed: () =>
-                      ref.read(playerProvider.notifier).seekToNext(),
-                ),
-            ],
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.06,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (!isPlayerLockEnabled)
+                  SeekChapterButton(
+                    icon: Icons.skip_previous_outlined,
+                    onPressed: () =>
+                        ref.read(playerProvider.notifier).seekToPrevious(),
+                  ),
+                ChapterDropdown(book: initializedBook),
+                if (!isPlayerLockEnabled)
+                  SeekChapterButton(
+                    icon: Icons.skip_next_outlined,
+                    onPressed: () =>
+                        ref.read(playerProvider.notifier).seekToNext(),
+                  ),
+              ],
+            ),
           ),
 
           //* PLAYBACK CONTROLLS
