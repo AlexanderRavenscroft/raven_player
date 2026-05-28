@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:raven_player/features/library/presentation/library_page.dart';
 import 'package:raven_player/features/player/presentation/audiobook_title_display.dart';
 import 'package:raven_player/features/settings/presentation/settings_page.dart';
 import 'package:raven_player/models/audiobook.dart';
@@ -20,9 +19,7 @@ class PlayAppBar extends StatelessWidget implements PreferredSizeWidget {
         icon: Icons.arrow_back,
         onPressed: () {
           ScaffoldMessenger.of(context).clearSnackBars();
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => LibraryPage()),
-          );
+          Navigator.of(context).pop();
         },
       ),
       actions: [

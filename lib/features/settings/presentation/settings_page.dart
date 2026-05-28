@@ -34,7 +34,7 @@ class SettingsPage extends ConsumerWidget {
                   icon: Icons.folder_outlined,
                   trailing: SettingsButton(
                     icon: Icons.add,
-                    onPressed: () => ref
+                    onPressed: () async => await ref
                         .read(settingsProvider.notifier)
                         .updateHomeFolderUri(),
                   ),
@@ -75,7 +75,7 @@ class SettingsPage extends ConsumerWidget {
                       ),
                     ],
                     selected: themeMode,
-                    onChanged: (mode) => ref
+                    onChanged: (mode) async => await ref
                         .read(settingsProvider.notifier)
                         .updateThemeMode(mode),
                   ),
@@ -95,11 +95,9 @@ class SettingsPage extends ConsumerWidget {
                   icon: Icons.textsms_outlined,
                   trailing: SettingsToggleSwitch(
                     value: showRemainingTime,
-                    onChanged: (enabled) {
-                      ref
-                          .read(settingsProvider.notifier)
-                          .toggleShowRemainingTime();
-                    },
+                    onChanged: (enabled) async => await ref
+                        .read(settingsProvider.notifier)
+                        .toggleShowRemainingTime(),
                   ),
                 );
               },
@@ -116,15 +114,33 @@ class SettingsPage extends ConsumerWidget {
                   icon: Icons.hourglass_empty_rounded,
                   trailing: SettingsToggleSwitch(
                     value: showBufferedProgress,
-                    onChanged: (enabled) {
-                      ref
-                          .read(settingsProvider.notifier)
-                          .toggleShowBufferedProgress();
-                    },
+                    onChanged: (enabled) async => await ref
+                        .read(settingsProvider.notifier)
+                        .toggleShowBufferedProgress(),
                   ),
                 );
               },
             ),
+            Consumer(
+              builder: (_, ref, _) {
+                final backArrowBacksToLibrary = ref.watch(
+                  settingsProvider.select((s) => s.backArrowBacksToLibrary),
+                );
+                return SettingsTile(
+                  title: 'Back Arrow Opens Library',
+                  description:
+                      'When enabled, tapping the back arrow returns to the Library instead of minimizing the app.',
+                  icon: Icons.arrow_back,
+                  trailing: SettingsToggleSwitch(
+                    value: backArrowBacksToLibrary,
+                    onChanged: (enabled) async => await ref
+                        .read(settingsProvider.notifier)
+                        .toggleArrowBacksToLibrary(),
+                  ),
+                );
+              },
+            ),
+
             SettingsTile(
               title: 'Reset Settingse',
               description: 'Debug setting',

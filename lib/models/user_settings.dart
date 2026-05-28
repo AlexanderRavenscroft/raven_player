@@ -29,6 +29,9 @@ class UserSettings {
   @HiveField(7)
   final bool isPlayerLockEnabled;
 
+  @HiveField(8)
+  final bool backArrowBacksToLibrary;
+
   const UserSettings({
     this.homeFolderUri,
     this.themeMode = ThemeMode.system,
@@ -37,6 +40,7 @@ class UserSettings {
     this.isPlayerLockEnabled = false,
     this.isPlaybackSpeedEnabled = false,
     this.isSkipSilenceEnabled = false,
+    this.backArrowBacksToLibrary = false,
     this.playbackSpeed = 1.0,
   });
 
@@ -50,6 +54,7 @@ class UserSettings {
     bool? isPlayerLockEnabled,
     bool? isPlaybackSpeedEnabled,
     bool? isSkipSilenceEnabled,
+    bool? backArrowBacksToLibrary,
     double? playbackSpeed,
   }) {
     return UserSettings(
@@ -62,6 +67,8 @@ class UserSettings {
       isPlaybackSpeedEnabled:
           isPlaybackSpeedEnabled ?? this.isPlaybackSpeedEnabled,
       playbackSpeed: playbackSpeed ?? this.playbackSpeed,
+      backArrowBacksToLibrary:
+          backArrowBacksToLibrary ?? this.backArrowBacksToLibrary,
     );
   }
 }

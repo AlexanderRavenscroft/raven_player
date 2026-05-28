@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_minimizer_plus/flutter_app_minimizer_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/features/player/application/chapter_initialization_provider.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
@@ -42,15 +43,26 @@ class _PlayPageState extends ConsumerState<PlayPage> {
       chapterInitializationProvider(widget.enrichedBook.id),
     );
 
-    return Scaffold(
-      appBar: PlayAppBar(book: widget.enrichedBook),
-      body: chapterInitialization.when(
-        loading: () =>
-            _buildPlayPageContent(context, ref, widget.enrichedBook, true),
-        error: (error, stackTrace) =>
-            Center(child: Text('Error loading audiobook: $error')),
-        data: (initializedBook) =>
-            _buildPlayPageContent(context, ref, initializedBook, false),
+    final backArrowBacksToLibrary = ref.watch(
+      settingsProvider.select((s) => s.backArrowBacksToLibrary),
+    );
+
+    return PopScope(
+      canPop: backArrowBacksToLibrary,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        FlutterAppMinimizerPlus.minimizeApp();
+      },
+      child: Scaffold(
+        appBar: PlayAppBar(book: widget.enrichedBook),
+        body: chapterInitialization.when(
+          loading: () =>
+              _buildPlayPageContent(context, ref, widget.enrichedBook, true),
+          error: (error, stackTrace) =>
+              Center(child: Text('Error loading audiobook: $error')),
+          data: (initializedBook) =>
+              _buildPlayPageContent(context, ref, initializedBook, false),
+        ),
       ),
     );
   }

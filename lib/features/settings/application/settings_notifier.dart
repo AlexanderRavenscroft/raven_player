@@ -81,6 +81,12 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     state = state.copyWith(playbackSpeed: speed);
     await _repo.save(state);
   }
+
+  Future<void> toggleArrowBacksToLibrary() async {
+    final newValue = !state.backArrowBacksToLibrary;
+    state = state.copyWith(backArrowBacksToLibrary: newValue);
+    await _repo.save(state);
+  }
 }
 
 final settingsProvider = NotifierProvider<UserSettingsNotifier, UserSettings>(
