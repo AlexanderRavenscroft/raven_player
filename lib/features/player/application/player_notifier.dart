@@ -7,7 +7,7 @@ import 'package:raven_player/features/library/application/library_notifier.dart'
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/models/position_data.dart';
-import 'package:raven_player/utils/app_loger.dart';
+import 'package:raven_player/utils/app_logger.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -95,7 +95,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
 
   void _attachListeners() {
     log.d('Attaching player listeners');
-    // Save every eg. 5s while position changes (i.e., while playing)
+    // Save every e.g. 5s while position changes (i.e., while playing)
     _progressSub = _player.positionStream
         .throttleTime(Duration(seconds: 5), trailing: true)
         .listen((position) async {

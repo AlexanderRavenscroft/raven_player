@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:raven_player/utils/app_loger.dart';
+import 'package:raven_player/utils/app_logger.dart';
 
 class AudioMetadata {
   final String? title;
