@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:raven_player/core/hive/hive_boxes.dart';
-import 'package:raven_player/core/hive/hive_debug_utils.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/features/settings/presentation/settings_app_bar.dart';
 import 'package:raven_player/features/settings/presentation/settings_button.dart';
+import 'package:raven_player/features/settings/presentation/settings_credits.dart';
 import 'package:raven_player/features/settings/presentation/settings_tile.dart';
 import 'package:raven_player/features/settings/presentation/settings_toggle_button.dart';
 import 'package:raven_player/features/settings/presentation/settings_toggle_switch.dart';
+import 'package:raven_player/shared/pop_ups/app_scrollable_dialog.dart';
+import 'package:raven_player/utils/app_docs.dart';
+import 'package:raven_player/utils/app_version.dart';
 import 'package:raven_player/utils/uri_utils.dart';
 
 class SettingsPage extends ConsumerWidget {
@@ -140,18 +142,53 @@ class SettingsPage extends ConsumerWidget {
                 );
               },
             ),
-
             SettingsTile(
-              title: 'Reset Settingse',
-              description: 'Debug setting',
-              icon: Icons.delete_forever_outlined,
+              title: 'Creator',
+              description: 'About the developer of Raven Player.',
+              icon: Icons.person_outlined,
               trailing: SettingsButton(
+                icon: Icons.person,
                 onPressed: () {
-                  HiveDebugUtils.deleteBox(HiveBox.userSettings);
+                  showDialog(
+                    context: context,
+                    builder: (context) => AppScrollableDialog(
+                      headingIcon: Icons.person,
+                      headingText: 'About Creator',
+                      buttonText: 'Close',
+                      textFile: TextFiles.creator,
+                    ),
+                  );
                 },
-                icon: Icons.delete,
               ),
             ),
+            SettingsTile(
+              title: 'Legal',
+              description: 'Read legal information and app notices.',
+              icon: Icons.gavel_outlined,
+              trailing: SettingsButton(
+                icon: Icons.description_outlined,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AppScrollableDialog(
+                      headingIcon: Icons.gavel_outlined,
+                      headingText: 'Legal',
+                      buttonText: 'Close',
+                      textFile: TextFiles.legal,
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            SettingsTile(
+              title: 'App version',
+              description:
+                  'Version: ${AppVersion.version}\nBuild: ${AppVersion.buildNumber}',
+              icon: Icons.android,
+              trailing: null,
+            ),
+            SettingsCredits(),
           ],
         ),
       ),
