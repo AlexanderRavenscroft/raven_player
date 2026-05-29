@@ -7,6 +7,7 @@ class AppColors {
   static const Color success = Color(0xff34C759);
   static const Color error = Color(0xffF14141);
   static const Color secondary = Color(0xffffbf00);
+  static const Color onSecondary = Color(0xff1A1400);
 
   // Light Theme Colors
   static const Color lightTextPrimary = Color(0xffffffff);
@@ -37,6 +38,7 @@ ThemeData lightMode = ThemeData(
 
     // Texts
     onPrimary: AppColors.lightTextPrimary,
+    onSecondary: AppColors.onSecondary,
     onSurface: AppColors.lightTextSurface,
     onSurfaceVariant: AppColors.lightTextSurfaceVariant,
 
@@ -58,6 +60,7 @@ ThemeData darkMode = ThemeData(
 
     // Texts
     onPrimary: AppColors.darkTextPrimary,
+    onSecondary: AppColors.onSecondary,
     onSurface: AppColors.darkTextSurface,
     onSurfaceVariant: AppColors.darkTextSurfaceVariant,
 

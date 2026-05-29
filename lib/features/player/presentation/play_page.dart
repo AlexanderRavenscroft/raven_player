@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_minimizer_plus/flutter_app_minimizer_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/features/player/application/chapter_initialization_provider.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/application/sleep_timer_shake_notifier.dart';
@@ -63,10 +64,9 @@ class _PlayPageState extends ConsumerState<PlayPage> {
         body: chapterInitialization.when(
           loading: () =>
               _buildPlayPageContent(context, ref, widget.enrichedBook, true),
-          error: (error, stackTrace) =>
-              Center(
-                child: Text(context.l10n.playerLoadingError(error.toString())),
-              ),
+          error: (error, stackTrace) => Center(
+            child: Text(context.l10n.playerLoadingError(error.toString())),
+          ),
           data: (initializedBook) =>
               _buildPlayPageContent(context, ref, initializedBook, false),
         ),
@@ -103,7 +103,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
               children: [
                 if (!isPlayerLockEnabled)
                   SeekChapterButton(
-                    icon: Icons.skip_previous_outlined,
+                    icon: AppIcons.skipPrevious,
                     onPressed: () {
                       ref.read(playerProvider.notifier).seekToPrevious();
                       ref
@@ -114,7 +114,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                 ChapterDropdown(book: initializedBook),
                 if (!isPlayerLockEnabled)
                   SeekChapterButton(
-                    icon: Icons.skip_next_outlined,
+                    icon: AppIcons.skipNext,
                     onPressed: () {
                       ref.read(playerProvider.notifier).seekToNext();
                       ref
@@ -134,7 +134,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SeekButton(
-                  icon: Icons.fast_rewind_outlined,
+                  icon: AppIcons.fastRewind,
                   onPressed: () async {
                     await ref.read(playerProvider.notifier).seekByOffset(-60);
                     ref
@@ -143,7 +143,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                   },
                 ),
                 SeekButton(
-                  icon: Icons.replay_30_outlined,
+                  icon: AppIcons.replay10,
                   onPressed: () async {
                     await ref.read(playerProvider.notifier).seekByOffset(-10);
                     ref
@@ -153,7 +153,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                 ),
                 PlayButton(),
                 SeekButton(
-                  icon: Icons.forward_30_outlined,
+                  icon: AppIcons.forward10,
                   onPressed: () async {
                     await ref.read(playerProvider.notifier).seekByOffset(10);
                     ref
@@ -162,7 +162,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                   },
                 ),
                 SeekButton(
-                  icon: Icons.fast_forward_outlined,
+                  icon: AppIcons.fastForward,
                   onPressed: () async {
                     await ref.read(playerProvider.notifier).seekByOffset(60);
                     ref

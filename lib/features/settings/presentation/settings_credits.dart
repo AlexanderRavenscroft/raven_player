@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/pop_ups/app_confirm_dialog.dart';
@@ -69,7 +70,7 @@ class SettingsCredits extends StatelessWidget {
               ),
               IconButton(
                 tooltip: 'GitHub',
-                icon: Icon(Icons.code, size: context.bodyLarge),
+                icon: FaIcon(FontAwesomeIcons.github, size: context.bodyLarge),
                 onPressed: () => _confirmAndOpen(context, _githubUrl),
               ),
             ],

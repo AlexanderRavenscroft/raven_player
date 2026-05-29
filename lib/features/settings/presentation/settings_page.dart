@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/features/settings/presentation/settings_app_bar.dart';
 import 'package:raven_player/features/settings/presentation/settings_button.dart';
@@ -37,9 +38,9 @@ class SettingsPage extends ConsumerWidget {
                 return SettingsTile(
                   title: l10n.settingsHomeFolderTitle,
                   description: l10n.settingsCurrentFolder(pretty),
-                  icon: Icons.folder_outlined,
+                  icon: AppIcons.folder,
                   trailing: SettingsButton(
-                    icon: Icons.add,
+                    icon: AppIcons.add,
                     onPressed: () async => await ref
                         .read(settingsProvider.notifier)
                         .updateHomeFolderUri(),
@@ -61,23 +62,23 @@ class SettingsPage extends ConsumerWidget {
                     ThemeMode.system => l10n.settingsThemeSystem,
                   },
                   icon: switch (themeMode) {
-                    ThemeMode.light => Icons.light_mode_outlined,
-                    ThemeMode.dark => Icons.dark_mode_outlined,
-                    ThemeMode.system => Icons.brightness_auto_outlined,
+                    ThemeMode.light => AppIcons.themeLight,
+                    ThemeMode.dark => AppIcons.themeDark,
+                    ThemeMode.system => AppIcons.themeSystem,
                   },
                   trailing: SettingsToggleButton<ThemeMode>(
                     segments: const [
                       ButtonSegment(
                         value: ThemeMode.system,
-                        icon: Icon(Icons.brightness_auto),
+                        icon: Icon(AppIcons.themeSystem),
                       ),
                       ButtonSegment(
                         value: ThemeMode.light,
-                        icon: Icon(Icons.light_mode),
+                        icon: Icon(AppIcons.themeLight),
                       ),
                       ButtonSegment(
                         value: ThemeMode.dark,
-                        icon: Icon(Icons.dark_mode),
+                        icon: Icon(AppIcons.themeDark),
                       ),
                     ],
                     selected: themeMode,
@@ -100,7 +101,7 @@ class SettingsPage extends ConsumerWidget {
                     AppLanguages.polish => l10n.languagePolish,
                     _ => l10n.languageEnglish,
                   },
-                  icon: Icons.language,
+                  icon: AppIcons.language,
                   trailing: SettingsToggleButton<String>(
                     segments: const [
                       ButtonSegment(
@@ -129,7 +130,7 @@ class SettingsPage extends ConsumerWidget {
                 return SettingsTile(
                   title: l10n.settingsShowRemainingTimeTitle,
                   description: l10n.settingsShowRemainingTimeDescription,
-                  icon: Icons.textsms_outlined,
+                  icon: AppIcons.showRemainingTime,
                   trailing: SettingsToggleSwitch(
                     value: showRemainingTime,
                     onChanged: (enabled) async => await ref
@@ -148,7 +149,7 @@ class SettingsPage extends ConsumerWidget {
                 return SettingsTile(
                   title: l10n.settingsShowBufferedProgressTitle,
                   description: l10n.settingsShowBufferedProgressDescription,
-                  icon: Icons.hourglass_empty_rounded,
+                  icon: AppIcons.showBufferedProgress,
                   trailing: SettingsToggleSwitch(
                     value: showBufferedProgress,
                     onChanged: (enabled) async => await ref
@@ -166,7 +167,7 @@ class SettingsPage extends ConsumerWidget {
                 return SettingsTile(
                   title: l10n.settingsBackArrowTitle,
                   description: l10n.settingsBackArrowDescription,
-                  icon: Icons.arrow_back,
+                  icon: AppIcons.systemBackBehavior,
                   trailing: SettingsToggleSwitch(
                     value: backArrowBacksToLibrary,
                     onChanged: (enabled) async => await ref
@@ -179,14 +180,14 @@ class SettingsPage extends ConsumerWidget {
             SettingsTile(
               title: l10n.settingsCreatorTitle,
               description: l10n.settingsCreatorDescription,
-              icon: Icons.person_outlined,
+              icon: AppIcons.creator,
               trailing: SettingsButton(
-                icon: Icons.person,
+                icon: AppIcons.creator,
                 onPressed: () {
                   showDialog(
                     context: context,
                     builder: (context) => AppScrollableDialog(
-                      headingIcon: Icons.person,
+                      headingIcon: AppIcons.creator,
                       headingText: l10n.settingsCreatorDialogTitle,
                       textFile: TextFiles.creator,
                     ),
@@ -197,14 +198,14 @@ class SettingsPage extends ConsumerWidget {
             SettingsTile(
               title: l10n.settingsLegalTitle,
               description: l10n.settingsLegalDescription,
-              icon: Icons.gavel_outlined,
+              icon: AppIcons.legal,
               trailing: SettingsButton(
-                icon: Icons.description_outlined,
+                icon: AppIcons.legalDocument,
                 onPressed: () {
                   showDialog(
                     context: context,
                     builder: (context) => AppScrollableDialog(
-                      headingIcon: Icons.gavel_outlined,
+                      headingIcon: AppIcons.legal,
                       headingText: l10n.settingsLegalTitle,
                       textFile: TextFiles.legal,
                     ),
@@ -219,7 +220,7 @@ class SettingsPage extends ConsumerWidget {
                 AppVersion.version,
                 AppVersion.buildNumber,
               ),
-              icon: Icons.android,
+              icon: AppIcons.appVersion,
               trailing: null,
             ),
             SettingsCredits(),

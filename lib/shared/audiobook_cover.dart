@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/features/player/presentation/play_button.dart';
 import 'package:raven_player/models/audiobook.dart';
 
@@ -71,7 +72,7 @@ class AudiobookCover extends ConsumerWidget {
           ),
         Center(
           child: Icon(
-            Icons.menu_book_rounded,
+            AppIcons.fallbackBook,
             size: iconSize,
             color: colors.surface.withAlpha(255),
           ),

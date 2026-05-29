@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 
 enum SnackBarType { error, info, success }
@@ -76,17 +77,17 @@ class AppSnackBar {
     switch (type) {
       case SnackBarType.info:
         return {
-          'icon': Icons.info_outline,
+          'icon': AppIcons.info,
           'backgroundColor': Theme.of(context).colorScheme.primary,
         };
       case SnackBarType.error:
         return {
-          'icon': Icons.error_outline,
+          'icon': AppIcons.error,
           'backgroundColor': Theme.of(context).colorScheme.error,
         };
       case SnackBarType.success:
         return {
-          'icon': Icons.check_circle_outline,
+          'icon': AppIcons.success,
           'backgroundColor': Theme.of(context).colorScheme.tertiary,
         };
     }

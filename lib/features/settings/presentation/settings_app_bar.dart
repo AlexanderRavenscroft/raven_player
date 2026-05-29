@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/base_app_bar.dart';
@@ -15,7 +16,7 @@ class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
-            Icons.settings,
+            AppIcons.settings,
             color: Theme.of(context).colorScheme.onSurface,
             size: context.bodySmall,
           ),
@@ -24,7 +25,7 @@ class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
       leading: AppBarButton(
-        icon: Icons.arrow_back,
+        icon: AppIcons.back,
         onPressed: () {
           ScaffoldMessenger.of(context).clearSnackBars();
           Navigator.of(context).pop();

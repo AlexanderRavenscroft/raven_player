@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
@@ -105,7 +106,7 @@ class ActionToolbar extends ConsumerWidget {
               final sleepTimer = ref.watch(sleepTimerProvider);
 
               return ToolbarButton(
-                icon: Icons.timer_outlined,
+                icon: AppIcons.sleepTimer,
                 isToggled: isSleepTimerEnabled,
                 onPressed: () =>
                     ref.read(settingsProvider.notifier).toggleSleepTimer(),
@@ -135,7 +136,7 @@ class ActionToolbar extends ConsumerWidget {
                 settingsProvider.select((s) => s.playbackSpeed),
               );
               return ToolbarButton(
-                icon: Icons.speed_outlined,
+                icon: AppIcons.playbackSpeed,
                 isToggled: isPlaybackSpeedEnabled,
                 onPressed: () async {
                   if (speed == 1.00) {
@@ -170,7 +171,7 @@ class ActionToolbar extends ConsumerWidget {
                 settingsProvider.select((s) => s.isSkipSilenceEnabled),
               );
               return ToolbarButton(
-                icon: Icons.graphic_eq,
+                icon: AppIcons.skipSilence,
                 isToggled: isSkipSilenceEnabled,
                 onPressed: () => ref
                     .read(settingsProvider.notifier)
@@ -184,7 +185,7 @@ class ActionToolbar extends ConsumerWidget {
                 settingsProvider.select((s) => s.isPlayerLockEnabled),
               );
               return ToolbarButton(
-                icon: Icons.lock_clock_outlined,
+                icon: AppIcons.playerLock,
                 isToggled: isPlayerLockEnabled,
                 onPressed: () {
                   if (isPlayerLockEnabled) {

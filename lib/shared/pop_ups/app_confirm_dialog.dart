@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 
@@ -28,8 +29,8 @@ class AppConfirmDialog extends StatelessWidget {
 
   IconData get _icon {
     return switch (level) {
-      AppConfirmDialogLevel.info => Icons.info_outline,
-      AppConfirmDialogLevel.warning => Icons.warning_amber_outlined,
+      AppConfirmDialogLevel.info => AppIcons.info,
+      AppConfirmDialogLevel.warning => AppIcons.warning,
     };
   }
 

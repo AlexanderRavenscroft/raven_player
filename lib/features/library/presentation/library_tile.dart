@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/player/presentation/play_page.dart';
@@ -13,7 +14,11 @@ class LibraryTile extends ConsumerWidget {
   final Audiobook book;
   const LibraryTile({super.key, required this.book});
 
-  ActionPane _buildToggleStatusPane(BuildContext context, WidgetRef ref) {
+  ActionPane _buildToggleStatusPane(
+    BuildContext context,
+    WidgetRef ref,
+    IconData icon,
+  ) {
     return ActionPane(
       motion: const BehindMotion(),
       extentRatio: 0.2,
@@ -33,9 +38,9 @@ class LibraryTile extends ConsumerWidget {
           },
           backgroundColor: Theme.of(context).colorScheme.secondary,
           child: Icon(
-            Icons.move_up,
+            icon,
             size: context.headlineSmall,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: Theme.of(context).colorScheme.onSecondary,
           ),
         ),
       ],
@@ -88,7 +93,7 @@ class LibraryTile extends ConsumerWidget {
           },
           backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
           child: Icon(
-            Icons.draw,
+            AppIcons.rename,
             size: context.headlineSmall,
             color: Theme.of(context).colorScheme.onSurface,
           ),
@@ -102,9 +107,13 @@ class LibraryTile extends ConsumerWidget {
     // For read books the panes are swapped: rename on the right, toggle on the left
     final startPane = book.isRead
         ? _buildRenamePane(context, ref)
-        : _buildToggleStatusPane(context, ref);
+        : _buildToggleStatusPane(
+            context,
+            ref,
+            AppIcons.toggleReadStatusToRight,
+          );
     final endPane = book.isRead
-        ? _buildToggleStatusPane(context, ref)
+        ? _buildToggleStatusPane(context, ref, AppIcons.toggleReadStatusToLeft)
         : _buildRenamePane(context, ref);
 
     return Column(

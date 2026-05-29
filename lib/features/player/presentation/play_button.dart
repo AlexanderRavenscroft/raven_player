@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
@@ -67,16 +68,16 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
     VoidCallback? onPressed;
 
     if (isBuffering && _showBuffering) {
-      iconData = Icons.hourglass_empty_rounded;
+      iconData = AppIcons.loading;
       onPressed = null;
     } else if (processing == ProcessingState.completed) {
-      iconData = Icons.replay_rounded;
+      iconData = AppIcons.replay;
       onPressed = () => ref.read(playerProvider.notifier).seekToStart();
     } else if (playing) {
-      iconData = Icons.pause_rounded;
+      iconData = AppIcons.pause;
       onPressed = () => ref.read(playerProvider.notifier).pause();
     } else {
-      iconData = Icons.play_arrow_rounded;
+      iconData = AppIcons.play;
       onPressed = () => ref.read(playerProvider.notifier).play();
     }
 

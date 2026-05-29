@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
@@ -44,7 +45,7 @@ class ChapterDropdown extends ConsumerWidget {
               alignment: Alignment.center,
               icon: isPlayerLockEnabled
                   ? const SizedBox.shrink()
-                  : const Icon(Icons.arrow_drop_down),
+                  : const Icon(AppIcons.dropdown),
               menuWidth: MediaQuery.of(context).size.width * 0.5,
               menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
               dropdownColor: Theme.of(context).colorScheme.surfaceContainer,

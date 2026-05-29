@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/settings/presentation/settings_page.dart';
@@ -17,7 +18,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
       title: Row(
         children: [
           Icon(
-            Icons.library_books,
+            AppIcons.library,
             color: Theme.of(context).colorScheme.onSurface,
             size: context.bodySmall,
           ),
@@ -27,7 +28,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
       ),
       actions: [
         AppBarButton(
-          icon: Icons.refresh_outlined,
+          icon: AppIcons.refresh,
           onPressed: () async {
             AppSnackBar.showSnackBar(
               context,
@@ -39,7 +40,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
           },
         ),
         AppBarButton(
-          icon: Icons.settings,
+          icon: AppIcons.settings,
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const SettingsPage()),
