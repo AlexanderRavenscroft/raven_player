@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/library/application/library_filter.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 
 class LibraryFilterToggle extends ConsumerWidget {
   const LibraryFilterToggle({super.key});
@@ -26,9 +27,10 @@ class LibraryFilterToggle extends ConsumerWidget {
           indicatorColor: Theme.of(context).colorScheme.primary,
           indicatorWeight: MediaQuery.of(context).size.height * 0.005,
           indicatorSize: TabBarIndicatorSize.label,
+          //TODO: Think about indicator size, label or little larger than label but smaller than tab
           tabs: [
-            Tab(text: '       READING       '),
-            Tab(text: '       READ       '),
+            Tab(text: context.l10n.libraryReading),
+            Tab(text: context.l10n.libraryRead),
           ],
           onTap: (index) {
             ref

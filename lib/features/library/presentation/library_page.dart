@@ -7,6 +7,7 @@ import 'package:raven_player/features/library/application/library_notifier.dart'
 import 'package:raven_player/features/library/presentation/library_app_bar.dart';
 import 'package:raven_player/features/library/presentation/library_filter_toggle.dart';
 import 'package:raven_player/features/library/presentation/library_tile.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
 
 import 'package:skeletonizer/skeletonizer.dart';
@@ -36,12 +37,14 @@ class LibraryPage extends ConsumerWidget {
             child: booksAsync.when(
               loading: () =>
                   _buildList(context, _skeletonBooks, isLoading: true),
-              error: (err, st) =>
-                  _buildMessage(context, 'Error loading library:\n$err'),
+              error: (err, st) => _buildMessage(
+                context,
+                context.l10n.libraryLoadingError(err.toString()),
+              ),
               data: (_) {
                 final books = ref.watch(filteredLibraryProvider);
                 if (books.isEmpty) {
-                  return _buildMessage(context, 'No audiobooks found');
+                  return _buildMessage(context, context.l10n.libraryEmpty);
                 }
                 return _buildList(context, books, isLoading: false);
               },

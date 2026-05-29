@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 
 enum AppConfirmDialogLevel { info, warning }
 
@@ -9,8 +10,8 @@ class AppConfirmDialog extends StatelessWidget {
   final String title;
   final String content;
   final AppConfirmDialogLevel level;
-  final String denialText;
-  final String acceptText;
+  final String? denialText;
+  final String? acceptText;
   final FutureOr<void> Function()? onAccept;
   final FutureOr<void> Function()? onDenial;
 
@@ -19,8 +20,8 @@ class AppConfirmDialog extends StatelessWidget {
     required this.title,
     required this.content,
     this.level = AppConfirmDialogLevel.info,
-    this.denialText = 'Cancel',
-    this.acceptText = 'Ok',
+    this.denialText,
+    this.acceptText,
     this.onAccept,
     this.onDenial,
   });
@@ -89,7 +90,10 @@ class AppConfirmDialog extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
           ),
-          child: Text(denialText, style: context.appText.labelLarge),
+          child: Text(
+            denialText ?? context.l10n.dialogCancel,
+            style: context.appText.labelLarge,
+          ),
           onPressed: () => _handleDenial(context),
         ),
         TextButton(
@@ -99,7 +103,10 @@ class AppConfirmDialog extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
           ),
-          child: Text(acceptText, style: context.appText.labelLarge),
+          child: Text(
+            acceptText ?? context.l10n.dialogOk,
+            style: context.appText.labelLarge,
+          ),
           onPressed: () => _handleAccept(context),
         ),
       ],

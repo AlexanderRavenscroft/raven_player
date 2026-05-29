@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/settings/presentation/settings_page.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/base_app_bar.dart';
 import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
 import 'package:raven_player/shared/buttons/app_bar_button.dart';
@@ -21,7 +22,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
             size: context.bodySmall,
           ),
           SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-          Text('Library', style: context.appText.bodySmall),
+          Text(context.l10n.libraryTitle, style: context.appText.bodySmall),
         ],
       ),
       actions: [
@@ -30,7 +31,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
           onPressed: () async {
             AppSnackBar.showSnackBar(
               context,
-              'Checking for new audiobooks...',
+              context.l10n.libraryCheckingForNew,
               durationSec: 1,
               replacePrevious: true,
             );

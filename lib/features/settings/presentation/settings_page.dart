@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/features/settings/presentation/settings_app_bar.dart';
 import 'package:raven_player/features/settings/presentation/settings_button.dart';
@@ -7,6 +8,7 @@ import 'package:raven_player/features/settings/presentation/settings_credits.dar
 import 'package:raven_player/features/settings/presentation/settings_tile.dart';
 import 'package:raven_player/features/settings/presentation/settings_toggle_button.dart';
 import 'package:raven_player/features/settings/presentation/settings_toggle_switch.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/pop_ups/app_scrollable_dialog.dart';
 import 'package:raven_player/utils/app_docs.dart';
 import 'package:raven_player/utils/app_version.dart';
@@ -17,6 +19,8 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+
     return Scaffold(
       appBar: SettingsAppBar(),
       body: SingleChildScrollView(
@@ -28,11 +32,11 @@ class SettingsPage extends ConsumerWidget {
                   settingsProvider.select((s) => s.homeFolderUri),
                 );
                 final pretty = path == null
-                    ? 'No folder selected'
-                    : prettifyTreeUri(path);
+                    ? l10n.settingsNoFolderSelected
+                    : _localizedFolderPath(context, prettifyTreeUri(path));
                 return SettingsTile(
-                  title: 'Change home folder',
-                  description: 'Current folder:\n$pretty ',
+                  title: l10n.settingsHomeFolderTitle,
+                  description: l10n.settingsCurrentFolder(pretty),
                   icon: Icons.folder_outlined,
                   trailing: SettingsButton(
                     icon: Icons.add,
@@ -50,11 +54,11 @@ class SettingsPage extends ConsumerWidget {
                   settingsProvider.select((s) => s.themeMode),
                 );
                 return SettingsTile(
-                  title: 'Theme',
+                  title: l10n.settingsThemeTitle,
                   description: switch (themeMode) {
-                    ThemeMode.light => 'Light mode',
-                    ThemeMode.dark => 'Dark mode',
-                    ThemeMode.system => 'Follow system',
+                    ThemeMode.light => l10n.settingsThemeLight,
+                    ThemeMode.dark => l10n.settingsThemeDark,
+                    ThemeMode.system => l10n.settingsThemeSystem,
                   },
                   icon: switch (themeMode) {
                     ThemeMode.light => Icons.light_mode_outlined,
@@ -87,13 +91,44 @@ class SettingsPage extends ConsumerWidget {
 
             Consumer(
               builder: (_, ref, _) {
+                final languageCode = ref.watch(
+                  settingsProvider.select((s) => s.languageCode),
+                );
+                return SettingsTile(
+                  title: l10n.settingsLanguageTitle,
+                  description: switch (languageCode) {
+                    AppLanguages.polish => l10n.languagePolish,
+                    _ => l10n.languageEnglish,
+                  },
+                  icon: Icons.language,
+                  trailing: SettingsToggleButton<String>(
+                    segments: const [
+                      ButtonSegment(
+                        value: AppLanguages.english,
+                        label: Text('EN'),
+                      ),
+                      ButtonSegment(
+                        value: AppLanguages.polish,
+                        label: Text('PL'),
+                      ),
+                    ],
+                    selected: languageCode,
+                    onChanged: (code) async => await ref
+                        .read(settingsProvider.notifier)
+                        .updateLanguageCode(code),
+                  ),
+                );
+              },
+            ),
+
+            Consumer(
+              builder: (_, ref, _) {
                 final showRemainingTime = ref.watch(
                   settingsProvider.select((s) => s.showRemainingTime),
                 );
                 return SettingsTile(
-                  title: 'Show remaining time',
-                  description:
-                      'Instead of total chapter duration, show remaining duration instead',
+                  title: l10n.settingsShowRemainingTimeTitle,
+                  description: l10n.settingsShowRemainingTimeDescription,
                   icon: Icons.textsms_outlined,
                   trailing: SettingsToggleSwitch(
                     value: showRemainingTime,
@@ -111,8 +146,8 @@ class SettingsPage extends ConsumerWidget {
                   settingsProvider.select((s) => s.showBufferedProgress),
                 );
                 return SettingsTile(
-                  title: 'Show buffored progress',
-                  description: 'Show buffored progress on a progress bar',
+                  title: l10n.settingsShowBufferedProgressTitle,
+                  description: l10n.settingsShowBufferedProgressDescription,
                   icon: Icons.hourglass_empty_rounded,
                   trailing: SettingsToggleSwitch(
                     value: showBufferedProgress,
@@ -129,9 +164,8 @@ class SettingsPage extends ConsumerWidget {
                   settingsProvider.select((s) => s.backArrowBacksToLibrary),
                 );
                 return SettingsTile(
-                  title: 'Back Arrow Opens Library',
-                  description:
-                      'When enabled, tapping the back arrow returns to the Library instead of minimizing the app.',
+                  title: l10n.settingsBackArrowTitle,
+                  description: l10n.settingsBackArrowDescription,
                   icon: Icons.arrow_back,
                   trailing: SettingsToggleSwitch(
                     value: backArrowBacksToLibrary,
@@ -143,8 +177,8 @@ class SettingsPage extends ConsumerWidget {
               },
             ),
             SettingsTile(
-              title: 'Creator',
-              description: 'About the developer of Raven Player.',
+              title: l10n.settingsCreatorTitle,
+              description: l10n.settingsCreatorDescription,
               icon: Icons.person_outlined,
               trailing: SettingsButton(
                 icon: Icons.person,
@@ -153,8 +187,7 @@ class SettingsPage extends ConsumerWidget {
                     context: context,
                     builder: (context) => AppScrollableDialog(
                       headingIcon: Icons.person,
-                      headingText: 'About Creator',
-                      buttonText: 'Close',
+                      headingText: l10n.settingsCreatorDialogTitle,
                       textFile: TextFiles.creator,
                     ),
                   );
@@ -162,8 +195,8 @@ class SettingsPage extends ConsumerWidget {
               ),
             ),
             SettingsTile(
-              title: 'Legal',
-              description: 'Read legal information and app notices.',
+              title: l10n.settingsLegalTitle,
+              description: l10n.settingsLegalDescription,
               icon: Icons.gavel_outlined,
               trailing: SettingsButton(
                 icon: Icons.description_outlined,
@@ -172,8 +205,7 @@ class SettingsPage extends ConsumerWidget {
                     context: context,
                     builder: (context) => AppScrollableDialog(
                       headingIcon: Icons.gavel_outlined,
-                      headingText: 'Legal',
-                      buttonText: 'Close',
+                      headingText: l10n.settingsLegalTitle,
                       textFile: TextFiles.legal,
                     ),
                   );
@@ -182,9 +214,11 @@ class SettingsPage extends ConsumerWidget {
             ),
 
             SettingsTile(
-              title: 'App version',
-              description:
-                  'Version: ${AppVersion.version}\nBuild: ${AppVersion.buildNumber}',
+              title: l10n.settingsAppVersionTitle,
+              description: l10n.settingsAppVersionDescription(
+                AppVersion.version,
+                AppVersion.buildNumber,
+              ),
               icon: Icons.android,
               trailing: null,
             ),
@@ -193,5 +227,12 @@ class SettingsPage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  String _localizedFolderPath(BuildContext context, String path) {
+    if (path == 'Internal storage') {
+      return context.l10n.settingsInternalStorage;
+    }
+    return path;
   }
 }

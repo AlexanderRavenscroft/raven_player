@@ -1,0 +1,494 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations_en.dart';
+import 'app_localizations_pl.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'l10n/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('pl'),
+  ];
+
+  /// Application title used by MaterialApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Raven Player'**
+  String get appTitle;
+
+  /// Generic dialog button that closes without applying changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get dialogCancel;
+
+  /// Generic dialog button that confirms the current action.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get dialogConfirm;
+
+  /// Generic dialog acknowledgement button.
+  ///
+  /// In en, this message translates to:
+  /// **'Ok'**
+  String get dialogOk;
+
+  /// Dialog button that applies an audiobook rename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get dialogRename;
+
+  /// Dialog button that opens an external link.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get dialogOpen;
+
+  /// Generic dialog button that closes the dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get dialogClose;
+
+  /// Display name for the English app language.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// Display name for the Polish app language.
+  ///
+  /// In en, this message translates to:
+  /// **'Polski'**
+  String get languagePolish;
+
+  /// Main title shown on the first-run onboarding screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s get started'**
+  String get onboardingTitle;
+
+  /// Onboarding text explaining the expected audiobook folder structure.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a folder with subfolders, each holding MP3s of one audiobook.'**
+  String get onboardingDescription;
+
+  /// Button label for selecting the initial audiobook folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose default folder'**
+  String get onboardingChooseFolder;
+
+  /// Onboarding note about changing the folder later and future file support.
+  ///
+  /// In en, this message translates to:
+  /// **'This can be changed later in the settings.\nMore file formats will be supported in the future.'**
+  String get onboardingFooter;
+
+  /// Fallback text shown when the onboarding animation fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Lottie error: {error}'**
+  String onboardingLottieError(String error);
+
+  /// Title shown in the library app bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Library'**
+  String get libraryTitle;
+
+  /// Snackbar shown when the user starts a library rescan.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking for new audiobooks...'**
+  String get libraryCheckingForNew;
+
+  /// Message shown when the audiobook library fails to load.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading library:\n{error}'**
+  String libraryLoadingError(String error);
+
+  /// Message shown when the current library filter has no audiobooks.
+  ///
+  /// In en, this message translates to:
+  /// **'No audiobooks found'**
+  String get libraryEmpty;
+
+  /// Library filter tab for audiobooks currently being read.
+  ///
+  /// In en, this message translates to:
+  /// **'READING'**
+  String get libraryReading;
+
+  /// Library filter tab for audiobooks marked as read.
+  ///
+  /// In en, this message translates to:
+  /// **'READ'**
+  String get libraryRead;
+
+  /// Fallback author text when audiobook metadata has no author.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown author'**
+  String get libraryUnknownAuthor;
+
+  /// Title of the dialog used to rename an audiobook.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename Audiobook'**
+  String get libraryRenameTitle;
+
+  /// Text field hint in the audiobook rename dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter new audiobook title'**
+  String get libraryRenameHint;
+
+  /// Title shown in the settings app bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// Settings row title for changing the audiobook home folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Change home folder'**
+  String get settingsHomeFolderTitle;
+
+  /// Shown when no audiobook home folder has been selected.
+  ///
+  /// In en, this message translates to:
+  /// **'No folder selected'**
+  String get settingsNoFolderSelected;
+
+  /// Readable label for the device internal storage root.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal storage'**
+  String get settingsInternalStorage;
+
+  /// Settings row description showing the current audiobook folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Current folder:\n{folder}'**
+  String settingsCurrentFolder(String folder);
+
+  /// Settings row title for app theme selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsThemeTitle;
+
+  /// Description shown when the light theme is selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Light mode'**
+  String get settingsThemeLight;
+
+  /// Description shown when the dark theme is selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark mode'**
+  String get settingsThemeDark;
+
+  /// Description shown when the app follows the system theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow system'**
+  String get settingsThemeSystem;
+
+  /// Settings row title for app language selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguageTitle;
+
+  /// Settings row title for showing remaining playback time.
+  ///
+  /// In en, this message translates to:
+  /// **'Show remaining time'**
+  String get settingsShowRemainingTimeTitle;
+
+  /// Settings row description for the remaining time option.
+  ///
+  /// In en, this message translates to:
+  /// **'Instead of total chapter duration, show remaining duration instead'**
+  String get settingsShowRemainingTimeDescription;
+
+  /// Settings row title for showing buffered audio progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Show buffered progress'**
+  String get settingsShowBufferedProgressTitle;
+
+  /// Settings row description for the buffered progress option.
+  ///
+  /// In en, this message translates to:
+  /// **'Show buffered progress on a progress bar'**
+  String get settingsShowBufferedProgressDescription;
+
+  /// Settings row title for back arrow behavior on the player screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Back Arrow Opens Library'**
+  String get settingsBackArrowTitle;
+
+  /// Settings row description for back arrow behavior on the player screen.
+  ///
+  /// In en, this message translates to:
+  /// **'When enabled, tapping the back arrow returns to the Library instead of minimizing the app.'**
+  String get settingsBackArrowDescription;
+
+  /// Settings row title for creator information.
+  ///
+  /// In en, this message translates to:
+  /// **'Creator'**
+  String get settingsCreatorTitle;
+
+  /// Settings row description for creator information.
+  ///
+  /// In en, this message translates to:
+  /// **'About the developer of Raven Player.'**
+  String get settingsCreatorDescription;
+
+  /// Dialog title for creator information.
+  ///
+  /// In en, this message translates to:
+  /// **'About Creator'**
+  String get settingsCreatorDialogTitle;
+
+  /// Settings row and dialog title for legal information.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal'**
+  String get settingsLegalTitle;
+
+  /// Settings row description for legal information.
+  ///
+  /// In en, this message translates to:
+  /// **'Read legal information and app notices.'**
+  String get settingsLegalDescription;
+
+  /// Settings row title for app version information.
+  ///
+  /// In en, this message translates to:
+  /// **'App version'**
+  String get settingsAppVersionTitle;
+
+  /// Settings row description showing app version and build number.
+  ///
+  /// In en, this message translates to:
+  /// **'Version: {version}\nBuild: {build}'**
+  String settingsAppVersionDescription(String version, String build);
+
+  /// Credits text shown near the bottom of settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Made with Flutter'**
+  String get settingsMadeWithFlutter;
+
+  /// Credits prompt shown above external project links.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow Raven Player:'**
+  String get settingsFollowRavenPlayer;
+
+  /// Confirmation dialog title before opening an external link.
+  ///
+  /// In en, this message translates to:
+  /// **'Open link?'**
+  String get settingsOpenLinkTitle;
+
+  /// Snackbar shown when an external link cannot be opened.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open link'**
+  String get settingsCouldNotOpenLink;
+
+  /// Message shown when the player fails to load an audiobook.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading audiobook: {error}'**
+  String playerLoadingError(String error);
+
+  /// Title of the dialog used to change playback speed.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust Playback Speed'**
+  String get playerAdjustPlaybackSpeed;
+
+  /// Title of the dialog used to change the sleep timer duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust Sleep Timer'**
+  String get playerAdjustSleepTimer;
+
+  /// Button label that applies a player setting value.
+  ///
+  /// In en, this message translates to:
+  /// **'Set'**
+  String get playerSet;
+
+  /// Snackbar shown when the user taps a locked player control.
+  ///
+  /// In en, this message translates to:
+  /// **'Player is locked.\nLong press to unlock.'**
+  String get playerLockedMessage;
+
+  /// Snackbar shown when the chapter dropdown is locked.
+  ///
+  /// In en, this message translates to:
+  /// **'Dropdown is locked.\nYou can enable it in toolbar.'**
+  String get playerDropdownLocked;
+
+  /// Snackbar shown when the progress slider is locked.
+  ///
+  /// In en, this message translates to:
+  /// **'Slider is locked.\nYou can enable it in toolbar.'**
+  String get playerSliderLocked;
+
+  /// Text showing the current chapter number and total chapter count.
+  ///
+  /// In en, this message translates to:
+  /// **'Chapter {current} of {total}'**
+  String chapterProgress(int current, int total);
+
+  /// Text showing completed audiobook time, total time, and percent progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Read {read} of {total} ({percent}%)'**
+  String readingProgress(String read, String total, String percent);
+
+  /// Text showing remaining audiobook time.
+  ///
+  /// In en, this message translates to:
+  /// **'Left: {duration}'**
+  String leftTime(String duration);
+}
+
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) =>
+      <String>['en', 'pl'].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'en':
+      return AppLocalizationsEn();
+    case 'pl':
+      return AppLocalizationsPl();
+  }
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
+}

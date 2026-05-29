@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 
 class AppInputDialog extends StatelessWidget {
   final String title;
@@ -48,7 +49,7 @@ class AppInputDialog extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
           ),
-          child: Text('Cancel', style: context.appText.labelLarge),
+          child: Text(context.l10n.dialogCancel, style: context.appText.labelLarge),
           onPressed: () => Navigator.pop(context),
         ),
         TextButton(
@@ -58,7 +59,7 @@ class AppInputDialog extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
           ),
-          child: Text('Rename', style: context.appText.labelLarge),
+          child: Text(context.l10n.dialogRename, style: context.appText.labelLarge),
           onPressed: () => Navigator.pop(context, textEditingController.text),
         ),
       ],

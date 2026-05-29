@@ -13,8 +13,11 @@ dependencies:
   crypto: ^3.0.7
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   flutter_app_minimizer_plus: ^1.0.2
   flutter_native_splash: ^2.4.7
+  intl: any
 
   #? State Management
   flutter_riverpod: ^3.3.1

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_repository.dart';
 import 'package:raven_player/models/user_settings.dart';
@@ -16,6 +17,12 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
 
   Future<void> updateThemeMode(ThemeMode mode) async {
     state = state.copyWith(themeMode: mode);
+    await _repo.save(state);
+  }
+
+  Future<void> updateLanguageCode(String languageCode) async {
+    final code = AppLanguages.sanitize(languageCode);
+    state = state.copyWith(languageCode: code);
     await _repo.save(state);
   }
 

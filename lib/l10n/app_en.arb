@@ -1,0 +1,307 @@
+{
+  "@@locale": "en",
+  "appTitle": "Raven Player",
+  "@appTitle": {
+    "description": "Application title used by MaterialApp."
+  },
+  "dialogCancel": "Cancel",
+  "@dialogCancel": {
+    "description": "Generic dialog button that closes without applying changes."
+  },
+  "dialogConfirm": "Confirm",
+  "@dialogConfirm": {
+    "description": "Generic dialog button that confirms the current action."
+  },
+  "dialogOk": "Ok",
+  "@dialogOk": {
+    "description": "Generic dialog acknowledgement button."
+  },
+  "dialogRename": "Rename",
+  "@dialogRename": {
+    "description": "Dialog button that applies an audiobook rename."
+  },
+  "dialogOpen": "Open",
+  "@dialogOpen": {
+    "description": "Dialog button that opens an external link."
+  },
+  "dialogClose": "Close",
+  "@dialogClose": {
+    "description": "Generic dialog button that closes the dialog."
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "Display name for the English app language."
+  },
+  "languagePolish": "Polski",
+  "@languagePolish": {
+    "description": "Display name for the Polish app language."
+  },
+  "onboardingTitle": "Let's get started",
+  "@onboardingTitle": {
+    "description": "Main title shown on the first-run onboarding screen."
+  },
+  "onboardingDescription": "Pick a folder with subfolders, each holding MP3s of one audiobook.",
+  "@onboardingDescription": {
+    "description": "Onboarding text explaining the expected audiobook folder structure."
+  },
+  "onboardingChooseFolder": "Choose default folder",
+  "@onboardingChooseFolder": {
+    "description": "Button label for selecting the initial audiobook folder."
+  },
+  "onboardingFooter": "This can be changed later in the settings.\nMore file formats will be supported in the future.",
+  "@onboardingFooter": {
+    "description": "Onboarding note about changing the folder later and future file support."
+  },
+  "onboardingLottieError": "Lottie error: {error}",
+  "@onboardingLottieError": {
+    "description": "Fallback text shown when the onboarding animation fails to load.",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Unable to load asset"
+      }
+    }
+  },
+  "libraryTitle": "Library",
+  "@libraryTitle": {
+    "description": "Title shown in the library app bar."
+  },
+  "libraryCheckingForNew": "Checking for new audiobooks...",
+  "@libraryCheckingForNew": {
+    "description": "Snackbar shown when the user starts a library rescan."
+  },
+  "libraryLoadingError": "Error loading library:\n{error}",
+  "@libraryLoadingError": {
+    "description": "Message shown when the audiobook library fails to load.",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+  "libraryEmpty": "No audiobooks found",
+  "@libraryEmpty": {
+    "description": "Message shown when the current library filter has no audiobooks."
+  },
+  "libraryReading": "READING",
+  "@libraryReading": {
+    "description": "Library filter tab for audiobooks currently being read."
+  },
+  "libraryRead": "READ",
+  "@libraryRead": {
+    "description": "Library filter tab for audiobooks marked as read."
+  },
+  "libraryUnknownAuthor": "Unknown author",
+  "@libraryUnknownAuthor": {
+    "description": "Fallback author text when audiobook metadata has no author."
+  },
+  "libraryRenameTitle": "Rename Audiobook",
+  "@libraryRenameTitle": {
+    "description": "Title of the dialog used to rename an audiobook."
+  },
+  "libraryRenameHint": "Enter new audiobook title",
+  "@libraryRenameHint": {
+    "description": "Text field hint in the audiobook rename dialog."
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Title shown in the settings app bar."
+  },
+  "settingsHomeFolderTitle": "Change home folder",
+  "@settingsHomeFolderTitle": {
+    "description": "Settings row title for changing the audiobook home folder."
+  },
+  "settingsNoFolderSelected": "No folder selected",
+  "@settingsNoFolderSelected": {
+    "description": "Shown when no audiobook home folder has been selected."
+  },
+  "settingsInternalStorage": "Internal storage",
+  "@settingsInternalStorage": {
+    "description": "Readable label for the device internal storage root."
+  },
+  "settingsCurrentFolder": "Current folder:\n{folder}",
+  "@settingsCurrentFolder": {
+    "description": "Settings row description showing the current audiobook folder.",
+    "placeholders": {
+      "folder": {
+        "type": "String",
+        "example": "Audiobooks/Fantasy"
+      }
+    }
+  },
+  "settingsThemeTitle": "Theme",
+  "@settingsThemeTitle": {
+    "description": "Settings row title for app theme selection."
+  },
+  "settingsThemeLight": "Light mode",
+  "@settingsThemeLight": {
+    "description": "Description shown when the light theme is selected."
+  },
+  "settingsThemeDark": "Dark mode",
+  "@settingsThemeDark": {
+    "description": "Description shown when the dark theme is selected."
+  },
+  "settingsThemeSystem": "Follow system",
+  "@settingsThemeSystem": {
+    "description": "Description shown when the app follows the system theme."
+  },
+  "settingsLanguageTitle": "Language",
+  "@settingsLanguageTitle": {
+    "description": "Settings row title for app language selection."
+  },
+  "settingsShowRemainingTimeTitle": "Show remaining time",
+  "@settingsShowRemainingTimeTitle": {
+    "description": "Settings row title for showing remaining playback time."
+  },
+  "settingsShowRemainingTimeDescription": "Instead of total chapter duration, show remaining duration instead",
+  "@settingsShowRemainingTimeDescription": {
+    "description": "Settings row description for the remaining time option."
+  },
+  "settingsShowBufferedProgressTitle": "Show buffered progress",
+  "@settingsShowBufferedProgressTitle": {
+    "description": "Settings row title for showing buffered audio progress."
+  },
+  "settingsShowBufferedProgressDescription": "Show buffered progress on a progress bar",
+  "@settingsShowBufferedProgressDescription": {
+    "description": "Settings row description for the buffered progress option."
+  },
+  "settingsBackArrowTitle": "Back Arrow Opens Library",
+  "@settingsBackArrowTitle": {
+    "description": "Settings row title for back arrow behavior on the player screen."
+  },
+  "settingsBackArrowDescription": "When enabled, tapping the back arrow returns to the Library instead of minimizing the app.",
+  "@settingsBackArrowDescription": {
+    "description": "Settings row description for back arrow behavior on the player screen."
+  },
+  "settingsCreatorTitle": "Creator",
+  "@settingsCreatorTitle": {
+    "description": "Settings row title for creator information."
+  },
+  "settingsCreatorDescription": "About the developer of Raven Player.",
+  "@settingsCreatorDescription": {
+    "description": "Settings row description for creator information."
+  },
+  "settingsCreatorDialogTitle": "About Creator",
+  "@settingsCreatorDialogTitle": {
+    "description": "Dialog title for creator information."
+  },
+  "settingsLegalTitle": "Legal",
+  "@settingsLegalTitle": {
+    "description": "Settings row and dialog title for legal information."
+  },
+  "settingsLegalDescription": "Read legal information and app notices.",
+  "@settingsLegalDescription": {
+    "description": "Settings row description for legal information."
+  },
+  "settingsAppVersionTitle": "App version",
+  "@settingsAppVersionTitle": {
+    "description": "Settings row title for app version information."
+  },
+  "settingsAppVersionDescription": "Version: {version}\nBuild: {build}",
+  "@settingsAppVersionDescription": {
+    "description": "Settings row description showing app version and build number.",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.0.0"
+      },
+      "build": {
+        "type": "String",
+        "example": "1"
+      }
+    }
+  },
+  "settingsMadeWithFlutter": "Made with Flutter",
+  "@settingsMadeWithFlutter": {
+    "description": "Credits text shown near the bottom of settings."
+  },
+  "settingsFollowRavenPlayer": "Follow Raven Player:",
+  "@settingsFollowRavenPlayer": {
+    "description": "Credits prompt shown above external project links."
+  },
+  "settingsOpenLinkTitle": "Open link?",
+  "@settingsOpenLinkTitle": {
+    "description": "Confirmation dialog title before opening an external link."
+  },
+  "settingsCouldNotOpenLink": "Could not open link",
+  "@settingsCouldNotOpenLink": {
+    "description": "Snackbar shown when an external link cannot be opened."
+  },
+  "playerLoadingError": "Error loading audiobook: {error}",
+  "@playerLoadingError": {
+    "description": "Message shown when the player fails to load an audiobook.",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File not found"
+      }
+    }
+  },
+  "playerAdjustPlaybackSpeed": "Adjust Playback Speed",
+  "@playerAdjustPlaybackSpeed": {
+    "description": "Title of the dialog used to change playback speed."
+  },
+  "playerAdjustSleepTimer": "Adjust Sleep Timer",
+  "@playerAdjustSleepTimer": {
+    "description": "Title of the dialog used to change the sleep timer duration."
+  },
+  "playerSet": "Set",
+  "@playerSet": {
+    "description": "Button label that applies a player setting value."
+  },
+  "playerLockedMessage": "Player is locked.\nLong press to unlock.",
+  "@playerLockedMessage": {
+    "description": "Snackbar shown when the user taps a locked player control."
+  },
+  "playerDropdownLocked": "Dropdown is locked.\nYou can enable it in toolbar.",
+  "@playerDropdownLocked": {
+    "description": "Snackbar shown when the chapter dropdown is locked."
+  },
+  "playerSliderLocked": "Slider is locked.\nYou can enable it in toolbar.",
+  "@playerSliderLocked": {
+    "description": "Snackbar shown when the progress slider is locked."
+  },
+  "chapterProgress": "Chapter {current} of {total}",
+  "@chapterProgress": {
+    "description": "Text showing the current chapter number and total chapter count.",
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "3"
+      },
+      "total": {
+        "type": "int",
+        "example": "12"
+      }
+    }
+  },
+  "readingProgress": "Read {read} of {total} ({percent}%)",
+  "@readingProgress": {
+    "description": "Text showing completed audiobook time, total time, and percent progress.",
+    "placeholders": {
+      "read": {
+        "type": "String",
+        "example": "1:24"
+      },
+      "total": {
+        "type": "String",
+        "example": "8:30"
+      },
+      "percent": {
+        "type": "String",
+        "example": "16"
+      }
+    }
+  },
+  "leftTime": "Left: {duration}",
+  "@leftTime": {
+    "description": "Text showing remaining audiobook time.",
+    "placeholders": {
+      "duration": {
+        "type": "String",
+        "example": "7:06"
+      }
+    }
+  }
+}

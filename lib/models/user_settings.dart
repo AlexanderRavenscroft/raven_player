@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:raven_player/core/localization/app_languages.dart';
 
 part 'user_settings.g.dart';
 
@@ -38,6 +39,9 @@ class UserSettings {
   @HiveField(10)
   final int sleepTimerDurationMinutes;
 
+  @HiveField(11)
+  final String languageCode;
+
   const UserSettings({
     this.homeFolderUri,
     this.themeMode = ThemeMode.system,
@@ -50,6 +54,7 @@ class UserSettings {
     this.playbackSpeed = 1.0,
     this.isSleepTimerEnabled = false,
     this.sleepTimerDurationMinutes = 10,
+    this.languageCode = AppLanguages.english,
   });
 
   UserSettings copyWith({
@@ -66,6 +71,7 @@ class UserSettings {
     double? playbackSpeed,
     bool? isSleepTimerEnabled,
     int? sleepTimerDurationMinutes,
+    String? languageCode,
   }) {
     return UserSettings(
       homeFolderUri: homeFolderUri ?? this.homeFolderUri,
@@ -79,10 +85,10 @@ class UserSettings {
       playbackSpeed: playbackSpeed ?? this.playbackSpeed,
       backArrowBacksToLibrary:
           backArrowBacksToLibrary ?? this.backArrowBacksToLibrary,
-      isSleepTimerEnabled:
-          isSleepTimerEnabled ?? this.isSleepTimerEnabled,
+      isSleepTimerEnabled: isSleepTimerEnabled ?? this.isSleepTimerEnabled,
       sleepTimerDurationMinutes:
           sleepTimerDurationMinutes ?? this.sleepTimerDurationMinutes,
+      languageCode: languageCode ?? this.languageCode,
     );
   }
 }

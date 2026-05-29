@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 
 class OnboardingPage extends ConsumerWidget {
   const OnboardingPage({super.key});
@@ -13,6 +14,7 @@ class OnboardingPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
+    final l10n = context.l10n;
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -21,7 +23,7 @@ class OnboardingPage extends ConsumerWidget {
           children: [
             SizedBox(height: size.height * 0.08),
             Text(
-              'Let\'s get started',
+              l10n.onboardingTitle,
               style: context.appText.bodySmall!.withStyle(
                 fontWeight: FontWeight.w500,
               ),
@@ -43,7 +45,7 @@ class OnboardingPage extends ConsumerWidget {
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Center(
                       child: Text(
-                        'Lottie error: $error',
+                        l10n.onboardingLottieError(error.toString()),
                         style: const TextStyle(color: Colors.red),
                       ),
                     ),
@@ -60,7 +62,7 @@ class OnboardingPage extends ConsumerWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
               child: Text(
-                'Pick a folder with subfolders, each holding MP3s of one audiobook.',
+                l10n.onboardingDescription,
                 style: context.appText.bodyMedium,
                 textAlign: TextAlign.center,
               ),
@@ -78,7 +80,7 @@ class OnboardingPage extends ConsumerWidget {
                 await ref.read(settingsProvider.notifier).updateHomeFolderUri();
               },
               child: Text(
-                'Choose default folder',
+                l10n.onboardingChooseFolder,
                 style: context.appText.bodySmall!.withStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onPrimary,
@@ -89,8 +91,7 @@ class OnboardingPage extends ConsumerWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
               child: Text(
-                'This can be changed later in the settings.\n'
-                'More files formats will be supported in the future.',
+                l10n.onboardingFooter,
                 style: context.appText.labelMedium!.withStyle(
                   color: Theme.of(context).colorScheme.onSurface.withAlpha(180),
                 ),

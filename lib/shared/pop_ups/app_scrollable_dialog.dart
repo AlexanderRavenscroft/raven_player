@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
+import 'package:raven_player/features/settings/application/settings_notifier.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/utils/app_docs.dart';
 
-class AppScrollableDialog extends StatelessWidget {
+class AppScrollableDialog extends ConsumerWidget {
   final IconData headingIcon;
   final String headingText;
   final TextFiles textFile;
-  final String buttonText;
 
   const AppScrollableDialog({
     super.key,
     required this.headingIcon,
     required this.headingText,
     required this.textFile,
-    required this.buttonText,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final languageCode = ref.watch(
+      settingsProvider.select((s) => s.languageCode),
+    );
+
     return AlertDialog(
       backgroundColor: Theme.of(context).colorScheme.surface,
       scrollable: true,
@@ -44,7 +49,7 @@ class AppScrollableDialog extends StatelessWidget {
         vertical: MediaQuery.of(context).size.height * 0.02,
       ),
       content: Text(
-        AppDocs.getText(textFile),
+        AppDocs.getText(textFile, languageCode: languageCode),
         textAlign: TextAlign.justify,
         style: context.appText.labelLarge,
       ),
@@ -65,7 +70,7 @@ class AppScrollableDialog extends StatelessWidget {
             ),
           ),
           child: Text(
-            buttonText,
+            context.l10n.dialogClose,
             style: context.appText.labelLarge!.copyWith(
               color: Theme.of(context).colorScheme.onPrimary,
               fontWeight: FontWeight.bold,

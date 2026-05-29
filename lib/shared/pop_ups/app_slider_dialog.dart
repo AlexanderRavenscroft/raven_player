@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 
 class AppSliderDialog extends StatefulWidget {
   final String title;
@@ -80,7 +81,7 @@ class _AppSliderDialogState extends State<AppSliderDialog> {
               borderRadius: BorderRadius.circular(14),
             ),
           ),
-          child: Text('Cancel', style: context.appText.labelLarge),
+          child: Text(context.l10n.dialogCancel, style: context.appText.labelLarge),
           onPressed: () => Navigator.pop(context),
         ),
         TextButton(
@@ -91,7 +92,7 @@ class _AppSliderDialogState extends State<AppSliderDialog> {
             ),
           ),
           child: Text(
-            widget.confirmLabel ?? 'Confirm',
+            widget.confirmLabel ?? context.l10n.dialogConfirm,
             style: context.appText.labelLarge,
           ),
           onPressed: () => Navigator.pop(context, _currentValue),

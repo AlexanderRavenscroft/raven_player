@@ -5,6 +5,7 @@ import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
 
 class PlayProgressBar extends ConsumerWidget {
@@ -75,13 +76,13 @@ class PlayProgressBar extends ConsumerWidget {
                   onTap: () {
                     AppSnackBar.showSnackBar(
                       context,
-                      'Slider is locked.\nYou can enable it in toolbar.',
+                      context.l10n.playerSliderLocked,
                     );
                   },
                   onHorizontalDragEnd: (_) {
                     AppSnackBar.showSnackBar(
                       context,
-                      'Slider is locked.\nYou can enable it in toolbar.',
+                      context.l10n.playerSliderLocked,
                     );
                   },
                 ),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/player/presentation/play_page.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/audiobook_cover.dart';
 import 'package:raven_player/shared/pop_ups/app_input_dialog.dart';
@@ -58,8 +59,8 @@ class LibraryTile extends ConsumerWidget {
           final newName = await showDialog<String>(
             context: context,
             builder: (context) => AppInputDialog(
-              title: 'Rename Audiobook',
-              hintText: 'Enter new audiobook title',
+              title: context.l10n.libraryRenameTitle,
+              hintText: context.l10n.libraryRenameHint,
               textEditingController: renameController,
             ),
           );
@@ -76,8 +77,8 @@ class LibraryTile extends ConsumerWidget {
             final newName = await showDialog<String>(
               context: context,
               builder: (context) => AppInputDialog(
-                title: 'Rename Audiobook',
-                hintText: 'Enter new audiobook title',
+                title: context.l10n.libraryRenameTitle,
+                hintText: context.l10n.libraryRenameHint,
                 textEditingController: renameController,
               ),
             );
@@ -149,7 +150,7 @@ class LibraryTile extends ConsumerWidget {
                             height: MediaQuery.of(context).size.height * 0.004,
                           ),
                           Text(
-                            book.author ?? 'Unknown author',
+                            book.author ?? context.l10n.libraryUnknownAuthor,
                             style: context.appText.labelMedium,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

@@ -5,6 +5,7 @@ import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/player/presentation/toolbar_button.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/pop_ups/app_slider_dialog.dart';
 import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
 
@@ -41,7 +42,7 @@ class ActionToolbar extends ConsumerWidget {
     final newSpeed = await showDialog<double>(
       context: context,
       builder: (context) => AppSliderDialog(
-        title: 'Adjust Playback Speed',
+        title: context.l10n.playerAdjustPlaybackSpeed,
         minValue: 0.5,
         maxValue: 3.0,
         initialValue: currentSpeed,
@@ -67,12 +68,12 @@ class ActionToolbar extends ConsumerWidget {
     final newMinutes = await showDialog<double>(
       context: context,
       builder: (context) => AppSliderDialog(
-        title: 'Adjust Sleep Timer',
+        title: context.l10n.playerAdjustSleepTimer,
         minValue: 5,
         maxValue: 90,
         initialValue: currentMinutes.toDouble(),
         divisions: 17,
-        confirmLabel: 'Set',
+        confirmLabel: context.l10n.playerSet,
       ),
     );
 
@@ -189,7 +190,7 @@ class ActionToolbar extends ConsumerWidget {
                   if (isPlayerLockEnabled) {
                     AppSnackBar.showSnackBar(
                       context,
-                      'Player is locked.\nLong press to unlock.',
+                      context.l10n.playerLockedMessage,
                     );
                     return;
                   }

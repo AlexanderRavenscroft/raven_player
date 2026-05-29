@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
 
 class AudiobookLengthDisplay extends StatelessWidget {
@@ -33,7 +34,7 @@ class _ChapterInfoText extends ConsumerWidget {
     );
 
     return Text(
-      'Chapter ${currentChapter + 1} of ${book.chapters.length}',
+      context.l10n.chapterProgress(currentChapter + 1, book.chapters.length),
       style: context.appText.labelMedium,
     );
   }
@@ -93,10 +94,17 @@ class _TimeInfoText extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(
-          'Read ${_format(read)} of ${_format(total)} (${(readMs / (totalMs == 0 ? 1 : totalMs) * 100).toStringAsFixed(0)}%)',
+          context.l10n.readingProgress(
+            _format(read),
+            _format(total),
+            (readMs / (totalMs == 0 ? 1 : totalMs) * 100).toStringAsFixed(0),
+          ),
           style: context.appText.labelMedium,
         ),
-        Text('Left: ${_format(left)}', style: context.appText.labelMedium),
+        Text(
+          context.l10n.leftTime(_format(left)),
+          style: context.appText.labelMedium,
+        ),
       ],
     );
   }

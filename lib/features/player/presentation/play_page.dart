@@ -14,6 +14,7 @@ import 'package:raven_player/features/player/presentation/seek_button.dart';
 import 'package:raven_player/features/player/presentation/seek_chapter_button.dart';
 import 'package:raven_player/features/player/presentation/action_toolbar.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/audiobook_cover.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -63,7 +64,9 @@ class _PlayPageState extends ConsumerState<PlayPage> {
           loading: () =>
               _buildPlayPageContent(context, ref, widget.enrichedBook, true),
           error: (error, stackTrace) =>
-              Center(child: Text('Error loading audiobook: $error')),
+              Center(
+                child: Text(context.l10n.playerLoadingError(error.toString())),
+              ),
           data: (initializedBook) =>
               _buildPlayPageContent(context, ref, initializedBook, false),
         ),

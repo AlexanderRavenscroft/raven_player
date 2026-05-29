@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/models/user_settings.dart';
 import 'package:raven_player/core/hive/hive_boxes.dart';
 
@@ -13,6 +14,13 @@ class UserSettingsRepository {
       const defaultSettings = UserSettings();
       await box.put(_settingsKey, defaultSettings);
       return defaultSettings;
+    }
+    if (!AppLanguages.supportedCodes.contains(settings.languageCode)) {
+      final sanitized = settings.copyWith(
+        languageCode: AppLanguages.sanitize(settings.languageCode),
+      );
+      await box.put(_settingsKey, sanitized);
+      return sanitized;
     }
     return settings;
   }

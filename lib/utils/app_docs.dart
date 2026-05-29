@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:raven_player/core/localization/app_languages.dart';
 
 class AppDocs {
   static const String docsFolder = 'assets/docs';
@@ -17,9 +18,15 @@ class AppDocs {
     );
   }
 
-  static String getText(TextFiles file, {String language = 'en'}) {
-    final path = '$language/${file.fileName}';
-    return txtFilesPaths[path] ?? 'No file found!';
+  static String getText(TextFiles file, {required String languageCode}) {
+    final safeLanguageCode = AppLanguages.sanitize(languageCode);
+
+    final path = '$safeLanguageCode/${file.fileName}';
+    final fallbackPath = '${AppLanguages.english}/${file.fileName}';
+
+    return txtFilesPaths[path] ??
+        txtFilesPaths[fallbackPath] ??
+        'No file found!';
   }
 }
 

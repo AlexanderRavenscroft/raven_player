@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/pop_ups/app_confirm_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,9 +21,10 @@ class SettingsCredits extends StatelessWidget {
     final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
 
     if (!opened && context.mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Could not open link')));
+      // TODO Add app snackbar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.settingsCouldNotOpenLink)),
+      );
     }
   }
 
@@ -30,10 +32,10 @@ class SettingsCredits extends StatelessWidget {
     await showDialog<void>(
       context: context,
       builder: (dialogContext) => AppConfirmDialog(
-        title: 'Open link?',
+        title: dialogContext.l10n.settingsOpenLinkTitle,
         content: uri.host,
         onAccept: () => _openExternalLink(context, uri),
-        acceptText: 'Open',
+        acceptText: dialogContext.l10n.dialogOpen,
       ),
     );
   }
@@ -46,13 +48,13 @@ class SettingsCredits extends StatelessWidget {
         spacing: MediaQuery.of(context).size.height * 0.006,
         children: [
           Text(
-            'Made with Flutter',
+            context.l10n.settingsMadeWithFlutter,
             style: context.appText.labelMedium!.withStyle(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ),
           Text(
-            'Follow Raven Player:',
+            context.l10n.settingsFollowRavenPlayer,
             style: context.appText.labelMedium!.withStyle(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
