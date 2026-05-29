@@ -32,6 +32,12 @@ class UserSettings {
   @HiveField(8)
   final bool backArrowBacksToLibrary;
 
+  @HiveField(9)
+  final bool isSleepTimerEnabled;
+
+  @HiveField(10)
+  final int sleepTimerDurationMinutes;
+
   const UserSettings({
     this.homeFolderUri,
     this.themeMode = ThemeMode.system,
@@ -42,6 +48,8 @@ class UserSettings {
     this.isSkipSilenceEnabled = false,
     this.backArrowBacksToLibrary = false,
     this.playbackSpeed = 1.0,
+    this.isSleepTimerEnabled = false,
+    this.sleepTimerDurationMinutes = 10,
   });
 
   UserSettings copyWith({
@@ -56,6 +64,8 @@ class UserSettings {
     bool? isSkipSilenceEnabled,
     bool? backArrowBacksToLibrary,
     double? playbackSpeed,
+    bool? isSleepTimerEnabled,
+    int? sleepTimerDurationMinutes,
   }) {
     return UserSettings(
       homeFolderUri: homeFolderUri ?? this.homeFolderUri,
@@ -69,6 +79,10 @@ class UserSettings {
       playbackSpeed: playbackSpeed ?? this.playbackSpeed,
       backArrowBacksToLibrary:
           backArrowBacksToLibrary ?? this.backArrowBacksToLibrary,
+      isSleepTimerEnabled:
+          isSleepTimerEnabled ?? this.isSleepTimerEnabled,
+      sleepTimerDurationMinutes:
+          sleepTimerDurationMinutes ?? this.sleepTimerDurationMinutes,
     );
   }
 }

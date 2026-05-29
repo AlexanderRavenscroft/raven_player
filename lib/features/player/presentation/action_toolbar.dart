@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 
+import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/player/presentation/toolbar_button.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/shared/pop_ups/app_slider_dialog.dart';
@@ -58,6 +59,30 @@ class ActionToolbar extends ConsumerWidget {
     }
   }
 
+  Future<void> _showSleepTimerDialog(
+    BuildContext context,
+    WidgetRef ref, {
+    required int currentMinutes,
+  }) async {
+    final newMinutes = await showDialog<double>(
+      context: context,
+      builder: (context) => AppSliderDialog(
+        title: 'Adjust Sleep Timer',
+        minValue: 5,
+        maxValue: 90,
+        initialValue: currentMinutes.toDouble(),
+        divisions: 17,
+        confirmLabel: 'Set',
+      ),
+    );
+
+    if (newMinutes != null) {
+      await ref
+          .read(settingsProvider.notifier)
+          .updateSleepTimerDuration(newMinutes.round());
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
@@ -68,18 +93,34 @@ class ActionToolbar extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           //* Idle Stop
-          ToolbarButton(
-            icon: Icons.timer_outlined,
-            onPressed: () {
-              //   ref.read(playerSettingsProvider.notifier).toggleIdleStop();
-              // },
-              // isToggled: ref.watch(playerSettingsProvider).isIdleStopEnabled,
-              // bottomContentBuilder: (context, ref) {
-              //   final timer = ref.watch(playerSettingsProvider).idleStopTimeLeft;
-              //   return Text(
-              //     _formatTime(timer),
-              //     style: context.appText.labelMedium,
-              //   );
+          Consumer(
+            builder: (context, ref, _) {
+              final isSleepTimerEnabled = ref.watch(
+                settingsProvider.select((s) => s.isSleepTimerEnabled),
+              );
+              final sleepTimerDuration = ref.watch(
+                settingsProvider.select((s) => s.sleepTimerDurationMinutes),
+              );
+              final sleepTimer = ref.watch(sleepTimerProvider);
+
+              return ToolbarButton(
+                icon: Icons.timer_outlined,
+                isToggled: isSleepTimerEnabled,
+                onPressed: () =>
+                    ref.read(settingsProvider.notifier).toggleSleepTimer(),
+                onLongPress: () => _showSleepTimerDialog(
+                  context,
+                  ref,
+                  currentMinutes: sleepTimerDuration,
+                ),
+                bottomContentBuilder: (context, ref) {
+                  final text = sleepTimer.isRunning
+                      ? _formatDuration(sleepTimer.remaining)
+                      : '${sleepTimerDuration}m';
+
+                  return Text(text, style: context.appText.labelMedium);
+                },
+              );
             },
           ),
 
@@ -169,10 +210,10 @@ class ActionToolbar extends ConsumerWidget {
     );
   }
 
-  // String _formatTime(int seconds) {
-  //   if (seconds < 60) return '$seconds';
-  //   final minutes = seconds ~/ 60;
-  //   final remainingSeconds = seconds % 60;
-  //   return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
-  // }
+  String _formatDuration(Duration duration) {
+    final totalSeconds = duration.inSeconds;
+    final minutes = totalSeconds ~/ 60;
+    final seconds = totalSeconds % 60;
+    return '$minutes:${seconds.toString().padLeft(2, '0')}';
+  }
 }

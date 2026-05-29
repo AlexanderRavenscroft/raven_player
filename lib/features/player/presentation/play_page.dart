@@ -3,6 +3,8 @@ import 'package:flutter_app_minimizer_plus/flutter_app_minimizer_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/features/player/application/chapter_initialization_provider.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
+import 'package:raven_player/features/player/application/sleep_timer_shake_notifier.dart';
+import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/player/presentation/audiobook_length_display.dart';
 import 'package:raven_player/features/player/presentation/chapter_dropdown.dart';
 import 'package:raven_player/features/player/presentation/play_app_bar.dart';
@@ -39,6 +41,8 @@ class _PlayPageState extends ConsumerState<PlayPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(sleepTimerShakeProvider);
+
     final chapterInitialization = ref.watch(
       chapterInitializationProvider(widget.enrichedBook.id),
     );
@@ -97,15 +101,23 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                 if (!isPlayerLockEnabled)
                   SeekChapterButton(
                     icon: Icons.skip_previous_outlined,
-                    onPressed: () =>
-                        ref.read(playerProvider.notifier).seekToPrevious(),
+                    onPressed: () {
+                      ref.read(playerProvider.notifier).seekToPrevious();
+                      ref
+                          .read(sleepTimerProvider.notifier)
+                          .resetFromListeningActivity();
+                    },
                   ),
                 ChapterDropdown(book: initializedBook),
                 if (!isPlayerLockEnabled)
                   SeekChapterButton(
                     icon: Icons.skip_next_outlined,
-                    onPressed: () =>
-                        ref.read(playerProvider.notifier).seekToNext(),
+                    onPressed: () {
+                      ref.read(playerProvider.notifier).seekToNext();
+                      ref
+                          .read(sleepTimerProvider.notifier)
+                          .resetFromListeningActivity();
+                    },
                   ),
               ],
             ),
@@ -120,24 +132,40 @@ class _PlayPageState extends ConsumerState<PlayPage> {
               children: [
                 SeekButton(
                   icon: Icons.fast_rewind_outlined,
-                  onPressed: () async =>
-                      await ref.read(playerProvider.notifier).seekByOffset(-60),
+                  onPressed: () async {
+                    await ref.read(playerProvider.notifier).seekByOffset(-60);
+                    ref
+                        .read(sleepTimerProvider.notifier)
+                        .resetFromListeningActivity();
+                  },
                 ),
                 SeekButton(
                   icon: Icons.replay_30_outlined,
-                  onPressed: () async =>
-                      await ref.read(playerProvider.notifier).seekByOffset(-10),
+                  onPressed: () async {
+                    await ref.read(playerProvider.notifier).seekByOffset(-10);
+                    ref
+                        .read(sleepTimerProvider.notifier)
+                        .resetFromListeningActivity();
+                  },
                 ),
                 PlayButton(),
                 SeekButton(
                   icon: Icons.forward_30_outlined,
-                  onPressed: () async =>
-                      await ref.read(playerProvider.notifier).seekByOffset(10),
+                  onPressed: () async {
+                    await ref.read(playerProvider.notifier).seekByOffset(10);
+                    ref
+                        .read(sleepTimerProvider.notifier)
+                        .resetFromListeningActivity();
+                  },
                 ),
                 SeekButton(
                   icon: Icons.fast_forward_outlined,
-                  onPressed: () async =>
-                      await ref.read(playerProvider.notifier).seekByOffset(60),
+                  onPressed: () async {
+                    await ref.read(playerProvider.notifier).seekByOffset(60);
+                    ref
+                        .read(sleepTimerProvider.notifier)
+                        .resetFromListeningActivity();
+                  },
                 ),
               ],
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
+import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
@@ -72,6 +73,9 @@ class ChapterDropdown extends ConsumerWidget {
               onChanged: (value) {
                 if (value != null && value != currentChapterIndex) {
                   ref.read(playerProvider.notifier).seekToChapter(value);
+                  ref
+                      .read(sleepTimerProvider.notifier)
+                      .resetFromListeningActivity();
                 }
               },
             ),

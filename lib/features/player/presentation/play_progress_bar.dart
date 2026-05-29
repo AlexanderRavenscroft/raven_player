@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
+import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
 
@@ -59,7 +60,12 @@ class PlayProgressBar extends ConsumerWidget {
                   progress: positionData.position,
                   buffered: positionData.bufferedPosition,
                   total: positionData.duration,
-                  onSeek: (d) => ref.read(playerProvider.notifier).seek(d),
+                  onSeek: (d) {
+                    ref.read(playerProvider.notifier).seek(d);
+                    ref
+                        .read(sleepTimerProvider.notifier)
+                        .resetFromListeningActivity();
+                  },
                 ),
               ),
             ),

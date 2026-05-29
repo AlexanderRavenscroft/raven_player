@@ -82,6 +82,27 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     await _repo.save(state);
   }
 
+  Future<void> enableSleepTimer() async {
+    state = state.copyWith(isSleepTimerEnabled: true);
+    await _repo.save(state);
+  }
+
+  Future<void> disableSleepTimer() async {
+    state = state.copyWith(isSleepTimerEnabled: false);
+    await _repo.save(state);
+  }
+
+  Future<void> toggleSleepTimer() async {
+    final newValue = !state.isSleepTimerEnabled;
+    state = state.copyWith(isSleepTimerEnabled: newValue);
+    await _repo.save(state);
+  }
+
+  Future<void> updateSleepTimerDuration(int minutes) async {
+    state = state.copyWith(sleepTimerDurationMinutes: minutes);
+    await _repo.save(state);
+  }
+
   Future<void> toggleArrowBacksToLibrary() async {
     final newValue = !state.backArrowBacksToLibrary;
     state = state.copyWith(backArrowBacksToLibrary: newValue);

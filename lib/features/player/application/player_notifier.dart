@@ -185,6 +185,8 @@ class PlayerNotifier extends Notifier<Audiobook?> {
 
   Stream<PlayerState> get playerStateStream => _player.playerStateStream;
 
+  bool get isPlaying => _player.playing;
+
   Stream<PositionData> get positionDataStream =>
       Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
         _player.positionStream,
