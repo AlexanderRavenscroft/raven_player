@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
+import 'package:raven_player/core/theme/app_theme.dart';
 import 'package:raven_player/features/onboarding/presentation/onboarding_gate.dart';
-import 'package:raven_player/core/theme/app_colors.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations.dart';
@@ -48,8 +48,8 @@ class _RavenPlayerAppState extends ConsumerState<RavenPlayerApp> {
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       themeMode: themeMode,
-      theme: lightMode,
-      darkTheme: darkMode,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
       home: const OnboardingGate(),
       builder: (context, child) {
         return MediaQuery(

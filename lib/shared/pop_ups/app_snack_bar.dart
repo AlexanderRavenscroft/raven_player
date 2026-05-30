@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raven_player/core/theme/app_colors.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 
@@ -86,10 +87,7 @@ class AppSnackBar {
           'backgroundColor': Theme.of(context).colorScheme.error,
         };
       case SnackBarType.success:
-        return {
-          'icon': AppIcons.success,
-          'backgroundColor': Theme.of(context).colorScheme.tertiary,
-        };
+        return {'icon': AppIcons.success, 'backgroundColor': AppColors.success};
     }
   }
 }
