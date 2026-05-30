@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/library/application/library_filter.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/library/presentation/library_app_bar.dart';
@@ -62,9 +63,7 @@ class LibraryPage extends ConsumerWidget {
     return Skeletonizer(
       enabled: isLoading,
       child: Padding(
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.02,
-        ),
+        padding: const EdgeInsets.only(top: AppSpacing.lg),
         child: SlidableAutoCloseBehavior(
           child: ListView.builder(
             itemCount: books.length,
@@ -81,9 +80,7 @@ class LibraryPage extends ConsumerWidget {
   Widget _buildMessage(BuildContext context, String message) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * 0.04,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
         child: Text(
           message,
           style: Theme.of(context).textTheme.titleMedium,

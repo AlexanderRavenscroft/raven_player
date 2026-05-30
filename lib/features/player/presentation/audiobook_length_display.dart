@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
@@ -13,9 +14,9 @@ class AudiobookLengthDisplay extends StatelessWidget {
     return Column(
       children: [
         _ChapterInfoText(book: book),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+        const SizedBox(height: AppSpacing.sm),
         _ProgressBar(book: book),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+        const SizedBox(height: AppSpacing.sm),
         _TimeInfoText(book: book),
       ],
     );

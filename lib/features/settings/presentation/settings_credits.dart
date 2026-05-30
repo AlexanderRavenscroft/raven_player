@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/pop_ups/app_confirm_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -46,7 +47,7 @@ class SettingsCredits extends StatelessWidget {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.18,
       child: Column(
-        spacing: MediaQuery.of(context).size.height * 0.006,
+        spacing: AppSpacing.xs,
         children: [
           Text(
             context.l10n.settingsMadeWithFlutter,

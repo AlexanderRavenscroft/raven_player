@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/utils/app_docs.dart';
@@ -34,7 +35,7 @@ class AppScrollableDialog extends ConsumerWidget {
             size: AppIconSizes.medium,
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+          const SizedBox(width: AppSpacing.sm),
           Text(
             headingText,
             style: Theme.of(context).textTheme.titleLarge,
@@ -43,8 +44,8 @@ class AppScrollableDialog extends ConsumerWidget {
         ],
       ),
       contentPadding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width * 0.04,
-        vertical: MediaQuery.of(context).size.height * 0.02,
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.lg,
       ),
       content: Text(
         AppDocs.getText(textFile, languageCode: languageCode),
@@ -52,8 +53,8 @@ class AppScrollableDialog extends ConsumerWidget {
         style: Theme.of(context).textTheme.bodyMedium,
       ),
       actionsPadding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width * 0.04,
-        vertical: MediaQuery.of(context).size.height * 0.02,
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.lg,
       ),
       actions: [
         TextButton(

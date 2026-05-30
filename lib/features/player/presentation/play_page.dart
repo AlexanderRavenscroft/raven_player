@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_minimizer_plus/flutter_app_minimizer_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/player/application/chapter_initialization_provider.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/application/sleep_timer_shake_notifier.dart';
@@ -90,7 +91,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
           //* BAR && DISPLAY
           ActionToolbar(),
           AudiobookLengthDisplay(book: initializedBook),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+          const SizedBox(height: AppSpacing.lg),
 
           //* COVER
           AudiobookCover(book: initializedBook, isOnTile: false),

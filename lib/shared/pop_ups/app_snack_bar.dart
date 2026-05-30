@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_colors.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 
 enum SnackBarType { error, info, success }
 
@@ -53,7 +54,7 @@ class AppSnackBar {
             color: Theme.of(context).colorScheme.onPrimary,
             size: AppIconSizes.medium,
           ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.04),
+          const SizedBox(width: AppSpacing.lg),
           Expanded(
             child: Text(
               message,

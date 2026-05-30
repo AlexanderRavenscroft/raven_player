@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/player/presentation/play_page.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
@@ -131,16 +132,14 @@ class LibraryTile extends ConsumerWidget {
             },
             child: Container(
               color: Theme.of(context).colorScheme.surface,
-              padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.height * 0.008,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.1,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     AudiobookCover(book: book, isOnTile: true),
-                    SizedBox(width: MediaQuery.of(context).size.height * 0.012),
+                    const SizedBox(width: AppSpacing.md),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -152,9 +151,7 @@ class LibraryTile extends ConsumerWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.004,
-                          ),
+                          const SizedBox(height: AppSpacing.xs),
                           Text(
                             book.author ?? context.l10n.libraryUnknownAuthor,
                             style: Theme.of(context).textTheme.bodySmall,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/settings/presentation/settings_page.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
@@ -21,7 +22,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
             color: Theme.of(context).colorScheme.onSurface,
             size: AppIconSizes.medium,
           ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+          const SizedBox(width: AppSpacing.sm),
           Text(
             context.l10n.libraryTitle,
             style: Theme.of(context).textTheme.titleMedium,

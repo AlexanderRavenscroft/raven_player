@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:raven_player/core/theme/app_icons.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 
 enum AppConfirmDialogLevel { info, warning }
@@ -60,7 +61,7 @@ class AppConfirmDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(_icon, size: AppIconSizes.medium, color: accentColor),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+          const SizedBox(width: AppSpacing.sm),
           Text(
             title,
             style: Theme.of(

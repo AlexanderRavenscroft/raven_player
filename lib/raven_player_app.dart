@@ -53,6 +53,7 @@ class _RavenPlayerAppState extends ConsumerState<RavenPlayerApp> {
       home: const OnboardingGate(),
       builder: (context, child) {
         return MediaQuery.withNoTextScaling(child: child!);
+        // return MediaQuery.withClampedTextScaling(child: child!);
       },
     );
   }
