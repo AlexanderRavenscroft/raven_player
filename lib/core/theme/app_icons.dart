@@ -56,3 +56,11 @@ abstract final class AppIcons {
   static const IconData error = Symbols.error_rounded;
   static const IconData success = Symbols.check_circle_rounded;
 }
+
+abstract final class AppIconSizes {
+  static const double small = 20;
+  static const double medium = 24;
+  static const double large = 28;
+  static const double xLarge = 36;
+  static const double hero = 48;
+}

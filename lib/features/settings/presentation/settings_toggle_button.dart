@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 
 class SettingsToggleButton<T> extends StatelessWidget {
   final List<ButtonSegment<T>> segments;
@@ -46,7 +46,7 @@ class SettingsToggleButton<T> extends StatelessWidget {
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         ),
         visualDensity: VisualDensity.compact,
-        iconSize: WidgetStatePropertyAll(context.bodySmall),
+        iconSize: WidgetStatePropertyAll(AppIconSizes.small),
       ),
     );
   }

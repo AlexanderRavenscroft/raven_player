@@ -4,8 +4,11 @@ import 'package:raven_player/core/theme/app_typography.dart';
 
 abstract final class AppTheme {
   static final ThemeData light = ThemeData(
-    textTheme: AppTypography.textTheme,
     brightness: Brightness.light,
+
+    fontFamily: AppTypography.primaryFont,
+    textTheme: AppTypography.textTheme,
+
     colorScheme: const ColorScheme.light(
       primary: AppColors.primary,
       secondary: AppColors.secondary,
@@ -20,8 +23,11 @@ abstract final class AppTheme {
   );
 
   static final ThemeData dark = ThemeData(
-    textTheme: AppTypography.textTheme,
     brightness: Brightness.dark,
+
+    fontFamily: AppTypography.primaryFont,
+    textTheme: AppTypography.textTheme,
+
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primary,
       secondary: AppColors.secondary,

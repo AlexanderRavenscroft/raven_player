@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/library/application/library_filter.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/library/presentation/library_app_bar.dart';
@@ -87,7 +86,7 @@ class LibraryPage extends ConsumerWidget {
         ),
         child: Text(
           message,
-          style: context.appText.bodySmall,
+          style: Theme.of(context).textTheme.titleMedium,
           textAlign: TextAlign.center,
         ),
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
+import 'package:raven_player/core/theme/app_icons.dart' show AppIconSizes;
 
 class SettingsButton extends StatelessWidget {
   final IconData icon;
@@ -24,7 +24,7 @@ class SettingsButton extends StatelessWidget {
       icon: Icon(
         icon,
         color: Theme.of(context).colorScheme.onPrimary,
-        size: context.bodyLarge,
+        size: AppIconSizes.large,
       ),
       onPressed: onPressed,
     );

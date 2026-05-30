@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 
@@ -24,9 +24,9 @@ class OnboardingPage extends ConsumerWidget {
             SizedBox(height: size.height * 0.08),
             Text(
               l10n.onboardingTitle,
-              style: context.appText.bodySmall!.withStyle(
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w500),
             ),
             SizedBox(height: size.height * 0.04),
             ClipRRect(
@@ -63,7 +63,7 @@ class OnboardingPage extends ConsumerWidget {
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
               child: Text(
                 l10n.onboardingDescription,
-                style: context.appText.bodyMedium,
+                style: Theme.of(context).textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -72,7 +72,7 @@ class OnboardingPage extends ConsumerWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                padding: EdgeInsets.all(context.bodySmall),
+                padding: const EdgeInsets.all(AppIconSizes.small),
                 elevation: 6,
                 shadowColor: Theme.of(context).colorScheme.primary,
               ),
@@ -81,7 +81,7 @@ class OnboardingPage extends ConsumerWidget {
               },
               child: Text(
                 l10n.onboardingChooseFolder,
-                style: context.appText.bodySmall!.withStyle(
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
@@ -92,7 +92,7 @@ class OnboardingPage extends ConsumerWidget {
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
               child: Text(
                 l10n.onboardingFooter,
-                style: context.appText.labelMedium!.withStyle(
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   color: Theme.of(context).colorScheme.onSurface.withAlpha(180),
                 ),
                 textAlign: TextAlign.center,

@@ -52,12 +52,7 @@ class _RavenPlayerAppState extends ConsumerState<RavenPlayerApp> {
       darkTheme: AppTheme.dark,
       home: const OnboardingGate(),
       builder: (context, child) {
-        return MediaQuery(
-          data: MediaQuery.of(
-            context,
-          ).copyWith(textScaler: TextScaler.noScaling),
-          child: child!,
-        );
+        return MediaQuery.withNoTextScaling(child: child!);
       },
     );
   }

@@ -1,8 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:raven_player/core/theme/app_icons.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 
 enum AppConfirmDialogLevel { info, warning }
@@ -61,26 +59,22 @@ class AppConfirmDialog extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            _icon,
-            size: context.bodySmall,
-            color: accentColor,
-          ),
+          Icon(_icon, size: AppIconSizes.medium, color: accentColor),
           SizedBox(width: MediaQuery.of(context).size.width * 0.02),
           Text(
             title,
-            style: context.appText.bodySmall!.withStyle(
-              color: accentColor,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge!.copyWith(color: accentColor),
             textAlign: TextAlign.center,
           ),
         ],
       ),
       content: Text(
         content,
-        style: context.appText.labelLarge!.withStyle(
-          fontWeight: FontWeight.bold,
-        ),
+        style: Theme.of(
+          context,
+        ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
       ),
       actionsAlignment: MainAxisAlignment.end,
       actions: [
@@ -93,7 +87,7 @@ class AppConfirmDialog extends StatelessWidget {
           ),
           child: Text(
             denialText ?? context.l10n.dialogCancel,
-            style: context.appText.labelLarge,
+            style: Theme.of(context).textTheme.labelLarge,
           ),
           onPressed: () => _handleDenial(context),
         ),
@@ -106,7 +100,7 @@ class AppConfirmDialog extends StatelessWidget {
           ),
           child: Text(
             acceptText ?? context.l10n.dialogOk,
-            style: context.appText.labelLarge,
+            style: Theme.of(context).textTheme.labelLarge,
           ),
           onPressed: () => _handleAccept(context),
         ),

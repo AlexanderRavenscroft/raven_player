@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 
 class AppInputDialog extends StatelessWidget {
@@ -20,7 +19,7 @@ class AppInputDialog extends StatelessWidget {
       scrollable: false,
       title: Text(
         title,
-        style: context.appText.bodySmall,
+        style: Theme.of(context).textTheme.titleLarge,
         textAlign: TextAlign.center,
       ),
       content: SizedBox(
@@ -30,10 +29,10 @@ class AppInputDialog extends StatelessWidget {
           autofocus: true,
           maxLines: 1,
           cursorColor: Theme.of(context).colorScheme.primary,
-          style: context.appText.labelLarge,
+          style: Theme.of(context).textTheme.bodyMedium,
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: context.appText.labelLarge,
+            hintStyle: Theme.of(context).textTheme.bodyMedium,
             hintMaxLines: 1,
             focusColor: Theme.of(context).colorScheme.primary,
             hoverColor: Theme.of(context).colorScheme.primary,
@@ -49,7 +48,10 @@ class AppInputDialog extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
           ),
-          child: Text(context.l10n.dialogCancel, style: context.appText.labelLarge),
+          child: Text(
+            context.l10n.dialogCancel,
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
         TextButton(
@@ -59,7 +61,10 @@ class AppInputDialog extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
           ),
-          child: Text(context.l10n.dialogRename, style: context.appText.labelLarge),
+          child: Text(
+            context.l10n.dialogRename,
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
           onPressed: () => Navigator.pop(context, textEditingController.text),
         ),
       ],

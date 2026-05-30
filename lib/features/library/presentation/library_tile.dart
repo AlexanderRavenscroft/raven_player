@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/player/presentation/play_page.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
@@ -39,7 +38,7 @@ class LibraryTile extends ConsumerWidget {
           backgroundColor: Theme.of(context).colorScheme.secondary,
           child: Icon(
             icon,
-            size: context.headlineSmall,
+            size: AppIconSizes.xLarge,
             color: Theme.of(context).colorScheme.onSecondary,
           ),
         ),
@@ -94,7 +93,7 @@ class LibraryTile extends ConsumerWidget {
           backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
           child: Icon(
             AppIcons.rename,
-            size: context.headlineSmall,
+            size: AppIconSizes.xLarge,
             color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
@@ -149,9 +148,7 @@ class LibraryTile extends ConsumerWidget {
                         children: [
                           Text(
                             book.title,
-                            style: context.appText.labelLarge!.withStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.titleSmall,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -160,7 +157,7 @@ class LibraryTile extends ConsumerWidget {
                           ),
                           Text(
                             book.author ?? context.l10n.libraryUnknownAuthor,
-                            style: context.appText.labelMedium,
+                            style: Theme.of(context).textTheme.bodySmall,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),

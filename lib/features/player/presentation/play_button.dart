@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 
@@ -83,11 +82,11 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
 
     if (widget.asStandaloneButton) {
       return IconButton(
-        icon: Icon(iconData, size: context.headlineMedium),
+        icon: Icon(iconData, size: AppIconSizes.hero),
         style: IconButton.styleFrom(
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          padding: EdgeInsets.all(context.labelSmall),
+          padding: const EdgeInsets.all(AppIconSizes.small),
           elevation: 8,
           shadowColor: Theme.of(context).colorScheme.primary,
         ),
@@ -110,7 +109,7 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
             Icon(
               iconData,
               color: Theme.of(context).colorScheme.onPrimary,
-              size: context.headlineMedium,
+              size: AppIconSizes.hero,
             ),
         ],
       ),

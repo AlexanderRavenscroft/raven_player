@@ -1,7 +1,6 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
@@ -51,7 +50,7 @@ class PlayProgressBar extends ConsumerWidget {
                   thumbGlowColor: Colors.transparent,
                   thumbRadius: MediaQuery.of(context).size.height * 0.012,
                   timeLabelLocation: TimeLabelLocation.below,
-                  timeLabelTextStyle: context.appText.labelLarge,
+                  timeLabelTextStyle: Theme.of(context).textTheme.labelLarge,
                   thumbColor: Theme.of(context).colorScheme.primary,
                   baseBarColor: Theme.of(context).colorScheme.surfaceContainer,
                   bufferedBarColor: showBufferedProgress

@@ -1,6 +1,5 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
 
 class AudiobookTitleDisplay extends StatelessWidget {
   final String text;
@@ -11,7 +10,7 @@ class AudiobookTitleDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final style = context.appText.bodySmall!;
+        final style = Theme.of(context).textTheme.titleMedium!;
         final textSpan = TextSpan(text: text, style: style);
         final tp = TextPainter(
           text: textSpan,

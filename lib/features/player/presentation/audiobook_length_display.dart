@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
@@ -35,7 +34,7 @@ class _ChapterInfoText extends ConsumerWidget {
 
     return Text(
       context.l10n.chapterProgress(currentChapter + 1, book.chapters.length),
-      style: context.appText.labelMedium,
+      style: Theme.of(context).textTheme.labelMedium,
     );
   }
 }
@@ -99,11 +98,11 @@ class _TimeInfoText extends ConsumerWidget {
             _format(total),
             (readMs / (totalMs == 0 ? 1 : totalMs) * 100).toStringAsFixed(0),
           ),
-          style: context.appText.labelMedium,
+          style: Theme.of(context).textTheme.labelMedium,
         ),
         Text(
           context.l10n.leftTime(_format(left)),
-          style: context.appText.labelMedium,
+          style: Theme.of(context).textTheme.labelMedium,
         ),
       ],
     );

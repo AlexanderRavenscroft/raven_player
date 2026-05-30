@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 
 class SeekButton extends ConsumerWidget {
   final IconData icon;
@@ -12,7 +12,7 @@ class SeekButton extends ConsumerWidget {
     return IconButton(
       icon: Icon(
         icon,
-        size: context.headlineSmall,
+        size: AppIconSizes.xLarge,
         color: Theme.of(context).colorScheme.onSurface,
       ),
       onPressed: onPressed,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
@@ -51,9 +50,9 @@ class ChapterDropdown extends ConsumerWidget {
               dropdownColor: Theme.of(context).colorScheme.surfaceContainer,
               focusColor: Theme.of(context).colorScheme.primary,
               borderRadius: const BorderRadius.all(Radius.circular(12)),
-              style: context.appText.labelLarge!.withStyle(
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w600),
               items: List.generate(
                 chapterList.length,
                 (index) => DropdownMenuItem<int>(

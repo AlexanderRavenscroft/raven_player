@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
 import 'package:raven_player/features/library/application/library_filter.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 
@@ -20,9 +19,9 @@ class LibraryFilterToggle extends ConsumerWidget {
         initialIndex: initialIndex,
         child: TabBar(
           labelColor: Theme.of(context).colorScheme.onSurface,
-          labelStyle: context.appText.labelLarge,
+          labelStyle: Theme.of(context).textTheme.labelLarge,
           unselectedLabelColor: Theme.of(context).colorScheme.onSurfaceVariant,
-          unselectedLabelStyle: context.appText.labelLarge,
+          unselectedLabelStyle: Theme.of(context).textTheme.labelLarge,
           dividerHeight: 0,
           indicatorColor: Theme.of(context).colorScheme.primary,
           indicatorWeight: MediaQuery.of(context).size.height * 0.005,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
 
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/player/presentation/toolbar_button.dart';
@@ -120,7 +119,10 @@ class ActionToolbar extends ConsumerWidget {
                       ? _formatDuration(sleepTimer.remaining)
                       : '${sleepTimerDuration}m';
 
-                  return Text(text, style: context.appText.labelMedium);
+                  return Text(
+                    text,
+                    style: Theme.of(context).textTheme.labelMedium,
+                  );
                 },
               );
             },
@@ -159,7 +161,7 @@ class ActionToolbar extends ConsumerWidget {
                 bottomContentBuilder: (context, ref) {
                   return Text(
                     speed.toStringAsFixed(1),
-                    style: context.appText.labelMedium,
+                    style: Theme.of(context).textTheme.labelMedium,
                   );
                 },
               );

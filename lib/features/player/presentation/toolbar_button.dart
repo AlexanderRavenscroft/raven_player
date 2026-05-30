@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 
 class ToolbarButton extends ConsumerWidget {
   final IconData icon;
@@ -31,7 +31,7 @@ class ToolbarButton extends ConsumerWidget {
             color: isToggled
                 ? Theme.of(context).colorScheme.secondary
                 : Theme.of(context).colorScheme.onSurface,
-            size: context.bodyMedium,
+            size: AppIconSizes.medium,
           ),
           onPressed: onPressed,
           onLongPress: onLongPress,

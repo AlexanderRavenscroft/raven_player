@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:raven_player/core/theme/app_typography.dart';
+import 'package:raven_player/core/theme/app_icons.dart';
 
 class SettingsTile extends StatelessWidget {
   final String title;
@@ -24,21 +24,19 @@ class SettingsTile extends StatelessWidget {
           minTileHeight: MediaQuery.of(context).size.height * 0.094,
           title: Text(
             title,
-            style: context.appText.labelLarge!.withStyle(
-              fontWeight: FontWeight.w600,
-            ),
+            style: Theme.of(context).textTheme.titleSmall,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
             description,
-            style: context.appText.labelMedium,
+            style: Theme.of(context).textTheme.bodySmall,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
           leading: Icon(
             icon,
-            size: context.titleLarge,
+            size: AppIconSizes.large,
             color: Theme.of(context).colorScheme.onSurface,
           ),
           trailing: trailing,
