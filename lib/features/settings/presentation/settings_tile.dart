@@ -19,29 +19,32 @@ class SettingsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ListTile(
-          dense: false,
-          isThreeLine: true,
-          titleAlignment: ListTileTitleAlignment.center,
-          minTileHeight: MediaQuery.of(context).size.height * 0.094,
-          title: Text(
-            title,
-            style: Theme.of(context).textTheme.titleSmall,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+        SizedBox(
+          height: 86,
+          child: ListTile(
+            dense: false,
+            isThreeLine: true,
+            titleAlignment: ListTileTitleAlignment.center,
+            // minTileHeight: MediaQuery.of(context).size.height * 0.094,
+            title: Text(
+              title,
+              style: Theme.of(context).textTheme.titleSmall,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Text(
+              description,
+              style: Theme.of(context).textTheme.bodySmall,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            leading: Icon(
+              icon,
+              size: AppIconSizes.large,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+            trailing: trailing,
           ),
-          subtitle: Text(
-            description,
-            style: Theme.of(context).textTheme.bodySmall,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          leading: Icon(
-            icon,
-            size: AppIconSizes.large,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-          trailing: trailing,
         ),
         Divider(
           color: Theme.of(context).colorScheme.surfaceContainer,

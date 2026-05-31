@@ -84,9 +84,12 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
       return IconButton(
         icon: Icon(iconData, size: AppIconSizes.hero),
         style: IconButton.styleFrom(
+          fixedSize: Size(
+            MediaQuery.of(context).size.width * 0.20,
+            MediaQuery.of(context).size.width * 0.20,
+          ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          padding: const EdgeInsets.all(AppIconSizes.small),
           elevation: 8,
           shadowColor: Theme.of(context).colorScheme.primary,
         ),

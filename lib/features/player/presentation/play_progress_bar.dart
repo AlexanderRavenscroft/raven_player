@@ -26,7 +26,7 @@ class PlayProgressBar extends ConsumerWidget {
     final showBufferedProgress = ref.watch(
       settingsProvider.select((s) => s.showBufferedProgress),
     );
-
+    //TODO: Design a linear progress indicator
     if (book == null) return const LinearProgressIndicator();
     return positionAsync.when(
       loading: () => const LinearProgressIndicator(),

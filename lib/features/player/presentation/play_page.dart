@@ -90,8 +90,9 @@ class _PlayPageState extends ConsumerState<PlayPage> {
         children: [
           //* BAR && DISPLAY
           ActionToolbar(),
+          const SizedBox(height: AppSpacing.md),
           AudiobookLengthDisplay(book: initializedBook),
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.md),
 
           //* COVER
           AudiobookCover(book: initializedBook, isOnTile: false),
@@ -126,7 +127,6 @@ class _PlayPageState extends ConsumerState<PlayPage> {
               ],
             ),
           ),
-
           //* PLAYBACK CONTROLLS
           PlayProgressBar(),
 

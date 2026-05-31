@@ -24,18 +24,24 @@ class AppInputDialog extends StatelessWidget {
       ),
       content: SizedBox(
         width: MediaQuery.of(context).size.width * 0.5,
-        child: TextField(
-          controller: textEditingController,
-          autofocus: true,
-          maxLines: 1,
-          cursorColor: Theme.of(context).colorScheme.primary,
-          style: Theme.of(context).textTheme.bodyMedium,
-          decoration: InputDecoration(
-            hintText: hintText,
-            hintStyle: Theme.of(context).textTheme.bodyMedium,
-            hintMaxLines: 1,
-            focusColor: Theme.of(context).colorScheme.primary,
-            hoverColor: Theme.of(context).colorScheme.primary,
+        child: TextSelectionTheme(
+          data: TextSelectionTheme.of(context).copyWith(
+            selectionHandleColor: Colors.transparent,
+            selectionColor: Theme.of(
+              context,
+            ).colorScheme.secondary.withValues(alpha: 0.20),
+            cursorColor: Theme.of(context).colorScheme.onSurface,
+          ),
+          child: TextField(
+            controller: textEditingController,
+            autofocus: true,
+            maxLines: 1,
+            style: Theme.of(context).textTheme.bodyMedium,
+            decoration: InputDecoration(
+              hintText: hintText,
+              hintStyle: Theme.of(context).textTheme.bodyMedium,
+              hintMaxLines: 1,
+            ),
           ),
         ),
       ),

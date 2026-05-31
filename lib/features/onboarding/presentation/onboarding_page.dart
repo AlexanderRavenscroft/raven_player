@@ -67,7 +67,7 @@ class OnboardingPage extends ConsumerWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: size.height * 0.04),
+            SizedBox(height: size.height * 0.06),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
@@ -92,7 +92,7 @@ class OnboardingPage extends ConsumerWidget {
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.04),
               child: Text(
                 l10n.onboardingFooter,
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onSurface.withAlpha(180),
                 ),
                 textAlign: TextAlign.center,

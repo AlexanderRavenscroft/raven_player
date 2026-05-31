@@ -13,8 +13,7 @@ abstract final class AppIcons {
 
   // Settings
   static const IconData folder = Symbols.folder_rounded;
-  static const IconData add = Symbols
-      .folder_managed_rounded; //TODO: Foldr managed vs create new folder vs folder_open
+  static const IconData add = Symbols.folder_managed_rounded;
   static const IconData themeSystem = Symbols.contrast_rounded;
   static const IconData themeLight = Symbols.light_mode_rounded;
   static const IconData themeDark = Symbols.dark_mode_rounded;

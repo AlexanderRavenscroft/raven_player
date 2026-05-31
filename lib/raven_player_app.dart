@@ -55,9 +55,9 @@ class _RavenPlayerAppState extends ConsumerState<RavenPlayerApp> {
         // return MediaQuery.withNoTextScaling(child: child!);
         final scaler = MediaQuery.textScalerOf(context);
         debugPrint('System textScaler: $scaler');
-        debugPrint('Scale at 16sp: ${scaler.scale(16)}');
         return MediaQuery.withClampedTextScaling(
-          // maxScaleFactor: 1.25,
+          minScaleFactor: 0.75,
+          maxScaleFactor: 1.25,
           child: child!,
         );
       },

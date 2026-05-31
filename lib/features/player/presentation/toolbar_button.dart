@@ -26,8 +26,6 @@ class ToolbarButton extends ConsumerWidget {
         IconButton(
           icon: Icon(
             icon,
-            //TODO Decide on this part
-            // fill: isToggled ? 1 : 0,
             color: isToggled
                 ? Theme.of(context).colorScheme.secondary
                 : Theme.of(context).colorScheme.onSurface,
