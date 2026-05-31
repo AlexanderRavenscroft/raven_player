@@ -21,6 +21,8 @@ class SettingsTile extends StatelessWidget {
       children: [
         ListTile(
           dense: false,
+          isThreeLine: true,
+          titleAlignment: ListTileTitleAlignment.center,
           minTileHeight: MediaQuery.of(context).size.height * 0.094,
           title: Text(
             title,
