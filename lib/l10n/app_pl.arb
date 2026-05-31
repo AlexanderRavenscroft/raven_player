@@ -108,7 +108,7 @@
   "@settingsTitle": {
     "description": "Title shown in the settings app bar."
   },
-  "settingsHomeFolderTitle": "Zmień folder domowy",
+  "settingsHomeFolderTitle": "Folder z audiobookami",
   "@settingsHomeFolderTitle": {
     "description": "Settings row title for changing the audiobook home folder."
   },
@@ -120,7 +120,7 @@
   "@settingsInternalStorage": {
     "description": "Readable label for the device internal storage root."
   },
-  "settingsCurrentFolder": "Obecny folder:\n{folder}",
+  "settingsCurrentFolder": "Obecnie:\n{folder}",
   "@settingsCurrentFolder": {
     "description": "Settings row description showing the current audiobook folder.",
     "placeholders": {
@@ -134,15 +134,15 @@
   "@settingsThemeTitle": {
     "description": "Settings row title for app theme selection."
   },
-  "settingsThemeLight": "Tryb jasny",
+  "settingsThemeLight": "Jasny",
   "@settingsThemeLight": {
     "description": "Description shown when the light theme is selected."
   },
-  "settingsThemeDark": "Tryb ciemny",
+  "settingsThemeDark": "Ciemny",
   "@settingsThemeDark": {
     "description": "Description shown when the dark theme is selected."
   },
-  "settingsThemeSystem": "Zgodnie z systemem",
+  "settingsThemeSystem": "Systemowy",
   "@settingsThemeSystem": {
     "description": "Description shown when the app follows the system theme."
   },
@@ -150,27 +150,27 @@
   "@settingsLanguageTitle": {
     "description": "Settings row title for app language selection."
   },
-  "settingsShowRemainingTimeTitle": "Pokaż pozostały czas",
+  "settingsShowRemainingTimeTitle": "Pozostały czas",
   "@settingsShowRemainingTimeTitle": {
     "description": "Settings row title for showing remaining playback time."
   },
-  "settingsShowRemainingTimeDescription": "Zamiast całkowitego czasu rozdziału pokaż pozostały czas",
+  "settingsShowRemainingTimeDescription": "Pokazuj czas do końca rozdziału.",
   "@settingsShowRemainingTimeDescription": {
     "description": "Settings row description for the remaining time option."
   },
-  "settingsShowBufferedProgressTitle": "Pokaż buforowanie",
+  "settingsShowBufferedProgressTitle": "Buforowanie",
   "@settingsShowBufferedProgressTitle": {
     "description": "Settings row title for showing buffered audio progress."
   },
-  "settingsShowBufferedProgressDescription": "Pokaż zbuforowany postęp na pasku postępu",
+  "settingsShowBufferedProgressDescription": "Pokaż wczytaną część na pasku postępu.",
   "@settingsShowBufferedProgressDescription": {
     "description": "Settings row description for the buffered progress option."
   },
-  "settingsBackArrowTitle": "Strzałka wstecz otwiera bibliotekę",
+  "settingsBackArrowTitle": "Przycisk wstecz",
   "@settingsBackArrowTitle": {
     "description": "Settings row title for back arrow behavior on the player screen."
   },
-  "settingsBackArrowDescription": "Po włączeniu dotknięcie strzałki wstecz wraca do Biblioteki zamiast minimalizować aplikację.",
+  "settingsBackArrowDescription": "Wracaj do biblioteki zamiast minimalizować.",
   "@settingsBackArrowDescription": {
     "description": "Settings row description for back arrow behavior on the player screen."
   },
@@ -178,7 +178,7 @@
   "@settingsCreatorTitle": {
     "description": "Settings row title for creator information."
   },
-  "settingsCreatorDescription": "Informacje o twórcy Raven Player.",
+  "settingsCreatorDescription": "O twórcy aplikacji.",
   "@settingsCreatorDescription": {
     "description": "Settings row description for creator information."
   },
@@ -190,7 +190,7 @@
   "@settingsLegalTitle": {
     "description": "Settings row and dialog title for legal information."
   },
-  "settingsLegalDescription": "Przeczytaj informacje prawne i noty aplikacji.",
+  "settingsLegalDescription": "Licencje i noty prawne.",
   "@settingsLegalDescription": {
     "description": "Settings row description for legal information."
   },
@@ -198,7 +198,7 @@
   "@settingsAppVersionTitle": {
     "description": "Settings row title for app version information."
   },
-  "settingsAppVersionDescription": "Wersja: {version}\nBuild: {build}",
+  "settingsAppVersionDescription": "v{version} (kompilacja {build})",
   "@settingsAppVersionDescription": {
     "description": "Settings row description showing app version and build number.",
     "placeholders": {
@@ -212,7 +212,7 @@
       }
     }
   },
-  "settingsMadeWithFlutter": "Stworzone z Flutterem",
+  "settingsMadeWithFlutter": "Stworzone za pomocą Flutter",
   "@settingsMadeWithFlutter": {
     "description": "Credits text shown near the bottom of settings."
   },

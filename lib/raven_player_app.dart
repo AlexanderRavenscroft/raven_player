@@ -52,8 +52,14 @@ class _RavenPlayerAppState extends ConsumerState<RavenPlayerApp> {
       darkTheme: AppTheme.dark,
       home: const OnboardingGate(),
       builder: (context, child) {
-        return MediaQuery.withNoTextScaling(child: child!);
-        // return MediaQuery.withClampedTextScaling(child: child!);
+        // return MediaQuery.withNoTextScaling(child: child!);
+        final scaler = MediaQuery.textScalerOf(context);
+        debugPrint('System textScaler: $scaler');
+        debugPrint('Scale at 16sp: ${scaler.scale(16)}');
+        return MediaQuery.withClampedTextScaling(
+          // maxScaleFactor: 1.25,
+          child: child!,
+        );
       },
     );
   }

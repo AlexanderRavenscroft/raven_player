@@ -242,10 +242,10 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settingsTitle;
 
-  /// Settings row title for changing the audiobook home folder.
+  /// Settings row title for the selected audiobook home folder.
   ///
   /// In en, this message translates to:
-  /// **'Change home folder'**
+  /// **'Audiobook folder'**
   String get settingsHomeFolderTitle;
 
   /// Shown when no audiobook home folder has been selected.
@@ -263,7 +263,7 @@ abstract class AppLocalizations {
   /// Settings row description showing the current audiobook folder.
   ///
   /// In en, this message translates to:
-  /// **'Current folder:\n{folder}'**
+  /// **'Current:\n{folder}'**
   String settingsCurrentFolder(String folder);
 
   /// Settings row title for app theme selection.
@@ -275,19 +275,19 @@ abstract class AppLocalizations {
   /// Description shown when the light theme is selected.
   ///
   /// In en, this message translates to:
-  /// **'Light mode'**
+  /// **'Light'**
   String get settingsThemeLight;
 
   /// Description shown when the dark theme is selected.
   ///
   /// In en, this message translates to:
-  /// **'Dark mode'**
+  /// **'Dark'**
   String get settingsThemeDark;
 
   /// Description shown when the app follows the system theme.
   ///
   /// In en, this message translates to:
-  /// **'Follow system'**
+  /// **'System default'**
   String get settingsThemeSystem;
 
   /// Settings row title for app language selection.
@@ -299,55 +299,55 @@ abstract class AppLocalizations {
   /// Settings row title for showing remaining playback time.
   ///
   /// In en, this message translates to:
-  /// **'Show remaining time'**
+  /// **'Remaining time'**
   String get settingsShowRemainingTimeTitle;
 
   /// Settings row description for the remaining time option.
   ///
   /// In en, this message translates to:
-  /// **'Instead of total chapter duration, show remaining duration instead'**
+  /// **'Show time left instead of total.'**
   String get settingsShowRemainingTimeDescription;
 
   /// Settings row title for showing buffered audio progress.
   ///
   /// In en, this message translates to:
-  /// **'Show buffered progress'**
+  /// **'Buffered progress'**
   String get settingsShowBufferedProgressTitle;
 
   /// Settings row description for the buffered progress option.
   ///
   /// In en, this message translates to:
-  /// **'Show buffered progress on a progress bar'**
+  /// **'Show loaded audio on the progress bar.'**
   String get settingsShowBufferedProgressDescription;
 
   /// Settings row title for back arrow behavior on the player screen.
   ///
   /// In en, this message translates to:
-  /// **'Back Arrow Opens Library'**
+  /// **'Back behavior'**
   String get settingsBackArrowTitle;
 
   /// Settings row description for back arrow behavior on the player screen.
   ///
   /// In en, this message translates to:
-  /// **'When enabled, tapping the back arrow returns to the Library instead of minimizing the app.'**
+  /// **'Return to Library instead of minimizing.'**
   String get settingsBackArrowDescription;
 
   /// Settings row title for creator information.
   ///
   /// In en, this message translates to:
-  /// **'Creator'**
+  /// **'Developer'**
   String get settingsCreatorTitle;
 
   /// Settings row description for creator information.
   ///
   /// In en, this message translates to:
-  /// **'About the developer of Raven Player.'**
+  /// **'About the app creator.'**
   String get settingsCreatorDescription;
 
   /// Dialog title for creator information.
   ///
   /// In en, this message translates to:
-  /// **'About Creator'**
+  /// **'About the developer'**
   String get settingsCreatorDialogTitle;
 
   /// Settings row and dialog title for legal information.
@@ -359,7 +359,7 @@ abstract class AppLocalizations {
   /// Settings row description for legal information.
   ///
   /// In en, this message translates to:
-  /// **'Read legal information and app notices.'**
+  /// **'Licenses and notices.'**
   String get settingsLegalDescription;
 
   /// Settings row title for app version information.
@@ -371,7 +371,7 @@ abstract class AppLocalizations {
   /// Settings row description showing app version and build number.
   ///
   /// In en, this message translates to:
-  /// **'Version: {version}\nBuild: {build}'**
+  /// **'v{version} (build {build})'**
   String settingsAppVersionDescription(String version, String build);
 
   /// Credits text shown near the bottom of settings.

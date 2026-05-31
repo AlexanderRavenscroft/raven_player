@@ -87,7 +87,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get settingsTitle => 'Ustawienia';
 
   @override
-  String get settingsHomeFolderTitle => 'Zmień folder domowy';
+  String get settingsHomeFolderTitle => 'Folder z audiobookami';
 
   @override
   String get settingsNoFolderSelected => 'Nie wybrano folderu';
@@ -97,50 +97,50 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String settingsCurrentFolder(String folder) {
-    return 'Obecny folder:\n$folder';
+    return 'Obecnie:\n$folder';
   }
 
   @override
   String get settingsThemeTitle => 'Motyw';
 
   @override
-  String get settingsThemeLight => 'Tryb jasny';
+  String get settingsThemeLight => 'Jasny';
 
   @override
-  String get settingsThemeDark => 'Tryb ciemny';
+  String get settingsThemeDark => 'Ciemny';
 
   @override
-  String get settingsThemeSystem => 'Zgodnie z systemem';
+  String get settingsThemeSystem => 'Systemowy';
 
   @override
   String get settingsLanguageTitle => 'Język';
 
   @override
-  String get settingsShowRemainingTimeTitle => 'Pokaż pozostały czas';
+  String get settingsShowRemainingTimeTitle => 'Pozostały czas';
 
   @override
   String get settingsShowRemainingTimeDescription =>
-      'Zamiast całkowitego czasu rozdziału pokaż pozostały czas';
+      'Pokazuj czas do końca rozdziału.';
 
   @override
-  String get settingsShowBufferedProgressTitle => 'Pokaż buforowanie';
+  String get settingsShowBufferedProgressTitle => 'Buforowanie';
 
   @override
   String get settingsShowBufferedProgressDescription =>
-      'Pokaż zbuforowany postęp na pasku postępu';
+      'Pokaż wczytaną część na pasku postępu.';
 
   @override
-  String get settingsBackArrowTitle => 'Strzałka wstecz otwiera bibliotekę';
+  String get settingsBackArrowTitle => 'Przycisk wstecz';
 
   @override
   String get settingsBackArrowDescription =>
-      'Po włączeniu dotknięcie strzałki wstecz wraca do Biblioteki zamiast minimalizować aplikację.';
+      'Wracaj do biblioteki zamiast minimalizować.';
 
   @override
   String get settingsCreatorTitle => 'Twórca';
 
   @override
-  String get settingsCreatorDescription => 'Informacje o twórcy Raven Player.';
+  String get settingsCreatorDescription => 'O twórcy aplikacji.';
 
   @override
   String get settingsCreatorDialogTitle => 'O twórcy';
@@ -149,19 +149,18 @@ class AppLocalizationsPl extends AppLocalizations {
   String get settingsLegalTitle => 'Informacje prawne';
 
   @override
-  String get settingsLegalDescription =>
-      'Przeczytaj informacje prawne i noty aplikacji.';
+  String get settingsLegalDescription => 'Licencje i noty prawne.';
 
   @override
   String get settingsAppVersionTitle => 'Wersja aplikacji';
 
   @override
   String settingsAppVersionDescription(String version, String build) {
-    return 'Wersja: $version\nBuild: $build';
+    return 'v$version (kompilacja $build)';
   }
 
   @override
-  String get settingsMadeWithFlutter => 'Stworzone z Flutterem';
+  String get settingsMadeWithFlutter => 'Stworzone za pomocą Flutter';
 
   @override
   String get settingsFollowRavenPlayer => 'Obserwuj Raven Player:';

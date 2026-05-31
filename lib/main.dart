@@ -11,7 +11,6 @@ import 'package:raven_player/raven_player_app.dart';
 import 'package:raven_player/utils/app_docs.dart';
 import 'package:raven_player/utils/app_version.dart';
 
-//TODO 1. Check translation / english wording
 Future<void> main() async {
   final binding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: binding);

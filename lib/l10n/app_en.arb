@@ -108,9 +108,9 @@
   "@settingsTitle": {
     "description": "Title shown in the settings app bar."
   },
-  "settingsHomeFolderTitle": "Change home folder",
+  "settingsHomeFolderTitle": "Audiobook folder",
   "@settingsHomeFolderTitle": {
-    "description": "Settings row title for changing the audiobook home folder."
+    "description": "Settings row title for the selected audiobook home folder."
   },
   "settingsNoFolderSelected": "No folder selected",
   "@settingsNoFolderSelected": {
@@ -120,7 +120,7 @@
   "@settingsInternalStorage": {
     "description": "Readable label for the device internal storage root."
   },
-  "settingsCurrentFolder": "Current folder:\n{folder}",
+  "settingsCurrentFolder": "Current:\n{folder}",
   "@settingsCurrentFolder": {
     "description": "Settings row description showing the current audiobook folder.",
     "placeholders": {
@@ -134,15 +134,15 @@
   "@settingsThemeTitle": {
     "description": "Settings row title for app theme selection."
   },
-  "settingsThemeLight": "Light mode",
+  "settingsThemeLight": "Light",
   "@settingsThemeLight": {
     "description": "Description shown when the light theme is selected."
   },
-  "settingsThemeDark": "Dark mode",
+  "settingsThemeDark": "Dark",
   "@settingsThemeDark": {
     "description": "Description shown when the dark theme is selected."
   },
-  "settingsThemeSystem": "Follow system",
+  "settingsThemeSystem": "System default",
   "@settingsThemeSystem": {
     "description": "Description shown when the app follows the system theme."
   },
@@ -150,39 +150,39 @@
   "@settingsLanguageTitle": {
     "description": "Settings row title for app language selection."
   },
-  "settingsShowRemainingTimeTitle": "Show remaining time",
+  "settingsShowRemainingTimeTitle": "Remaining time",
   "@settingsShowRemainingTimeTitle": {
     "description": "Settings row title for showing remaining playback time."
   },
-  "settingsShowRemainingTimeDescription": "Instead of total chapter duration, show remaining duration instead",
+  "settingsShowRemainingTimeDescription": "Show time left instead of total.",
   "@settingsShowRemainingTimeDescription": {
     "description": "Settings row description for the remaining time option."
   },
-  "settingsShowBufferedProgressTitle": "Show buffered progress",
+  "settingsShowBufferedProgressTitle": "Buffered progress",
   "@settingsShowBufferedProgressTitle": {
     "description": "Settings row title for showing buffered audio progress."
   },
-  "settingsShowBufferedProgressDescription": "Show buffered progress on a progress bar",
+  "settingsShowBufferedProgressDescription": "Show loaded audio on the progress bar.",
   "@settingsShowBufferedProgressDescription": {
     "description": "Settings row description for the buffered progress option."
   },
-  "settingsBackArrowTitle": "Back Arrow Opens Library",
+  "settingsBackArrowTitle": "Back behavior",
   "@settingsBackArrowTitle": {
     "description": "Settings row title for back arrow behavior on the player screen."
   },
-  "settingsBackArrowDescription": "When enabled, tapping the back arrow returns to the Library instead of minimizing the app.",
+  "settingsBackArrowDescription": "Return to Library instead of minimizing.",
   "@settingsBackArrowDescription": {
     "description": "Settings row description for back arrow behavior on the player screen."
   },
-  "settingsCreatorTitle": "Creator",
+  "settingsCreatorTitle": "Developer",
   "@settingsCreatorTitle": {
     "description": "Settings row title for creator information."
   },
-  "settingsCreatorDescription": "About the developer of Raven Player.",
+  "settingsCreatorDescription": "About the app creator.",
   "@settingsCreatorDescription": {
     "description": "Settings row description for creator information."
   },
-  "settingsCreatorDialogTitle": "About Creator",
+  "settingsCreatorDialogTitle": "About the developer",
   "@settingsCreatorDialogTitle": {
     "description": "Dialog title for creator information."
   },
@@ -190,7 +190,7 @@
   "@settingsLegalTitle": {
     "description": "Settings row and dialog title for legal information."
   },
-  "settingsLegalDescription": "Read legal information and app notices.",
+  "settingsLegalDescription": "Licenses and notices.",
   "@settingsLegalDescription": {
     "description": "Settings row description for legal information."
   },
@@ -198,7 +198,7 @@
   "@settingsAppVersionTitle": {
     "description": "Settings row title for app version information."
   },
-  "settingsAppVersionDescription": "Version: {version}\nBuild: {build}",
+  "settingsAppVersionDescription": "v{version} (build {build})",
   "@settingsAppVersionDescription": {
     "description": "Settings row description showing app version and build number.",
     "placeholders": {

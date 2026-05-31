@@ -13,14 +13,15 @@ abstract final class AppIcons {
 
   // Settings
   static const IconData folder = Symbols.folder_rounded;
-  static const IconData add = Symbols.add_rounded;
+  static const IconData add = Symbols
+      .folder_managed_rounded; //TODO: Foldr managed vs create new folder vs folder_open
   static const IconData themeSystem = Symbols.contrast_rounded;
   static const IconData themeLight = Symbols.light_mode_rounded;
   static const IconData themeDark = Symbols.dark_mode_rounded;
-  static const IconData language = Symbols.language_rounded;
   static const IconData showRemainingTime = Symbols.sms_rounded;
   static const IconData showBufferedProgress = Symbols.hourglass_empty_rounded;
   static const IconData systemBackBehavior = Symbols.chevron_left_rounded;
+  static const IconData language = Symbols.language_rounded;
   static const IconData creator = Symbols.person_rounded;
   static const IconData legal = Symbols.gavel_rounded;
   static const IconData legalDocument = Symbols.description_rounded;

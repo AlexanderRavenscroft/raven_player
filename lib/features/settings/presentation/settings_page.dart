@@ -92,38 +92,6 @@ class SettingsPage extends ConsumerWidget {
 
             Consumer(
               builder: (_, ref, _) {
-                final languageCode = ref.watch(
-                  settingsProvider.select((s) => s.languageCode),
-                );
-                return SettingsTile(
-                  title: l10n.settingsLanguageTitle,
-                  description: switch (languageCode) {
-                    AppLanguages.polish => l10n.languagePolish,
-                    _ => l10n.languageEnglish,
-                  },
-                  icon: AppIcons.language,
-                  trailing: SettingsToggleButton<String>(
-                    segments: const [
-                      ButtonSegment(
-                        value: AppLanguages.english,
-                        label: Text('EN'),
-                      ),
-                      ButtonSegment(
-                        value: AppLanguages.polish,
-                        label: Text('PL'),
-                      ),
-                    ],
-                    selected: languageCode,
-                    onChanged: (code) async => await ref
-                        .read(settingsProvider.notifier)
-                        .updateLanguageCode(code),
-                  ),
-                );
-              },
-            ),
-
-            Consumer(
-              builder: (_, ref, _) {
                 final showRemainingTime = ref.watch(
                   settingsProvider.select((s) => s.showRemainingTime),
                 );
@@ -173,6 +141,37 @@ class SettingsPage extends ConsumerWidget {
                     onChanged: (enabled) async => await ref
                         .read(settingsProvider.notifier)
                         .toggleArrowBacksToLibrary(),
+                  ),
+                );
+              },
+            ),
+            Consumer(
+              builder: (_, ref, _) {
+                final languageCode = ref.watch(
+                  settingsProvider.select((s) => s.languageCode),
+                );
+                return SettingsTile(
+                  title: l10n.settingsLanguageTitle,
+                  description: switch (languageCode) {
+                    AppLanguages.polish => l10n.languagePolish,
+                    _ => l10n.languageEnglish,
+                  },
+                  icon: AppIcons.language,
+                  trailing: SettingsToggleButton<String>(
+                    segments: const [
+                      ButtonSegment(
+                        value: AppLanguages.english,
+                        label: Text('EN'),
+                      ),
+                      ButtonSegment(
+                        value: AppLanguages.polish,
+                        label: Text('PL'),
+                      ),
+                    ],
+                    selected: languageCode,
+                    onChanged: (code) async => await ref
+                        .read(settingsProvider.notifier)
+                        .updateLanguageCode(code),
                   ),
                 );
               },

@@ -87,7 +87,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsTitle => 'Settings';
 
   @override
-  String get settingsHomeFolderTitle => 'Change home folder';
+  String get settingsHomeFolderTitle => 'Audiobook folder';
 
   @override
   String get settingsNoFolderSelected => 'No folder selected';
@@ -97,68 +97,66 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String settingsCurrentFolder(String folder) {
-    return 'Current folder:\n$folder';
+    return 'Current:\n$folder';
   }
 
   @override
   String get settingsThemeTitle => 'Theme';
 
   @override
-  String get settingsThemeLight => 'Light mode';
+  String get settingsThemeLight => 'Light';
 
   @override
-  String get settingsThemeDark => 'Dark mode';
+  String get settingsThemeDark => 'Dark';
 
   @override
-  String get settingsThemeSystem => 'Follow system';
+  String get settingsThemeSystem => 'System default';
 
   @override
   String get settingsLanguageTitle => 'Language';
 
   @override
-  String get settingsShowRemainingTimeTitle => 'Show remaining time';
+  String get settingsShowRemainingTimeTitle => 'Remaining time';
 
   @override
   String get settingsShowRemainingTimeDescription =>
-      'Instead of total chapter duration, show remaining duration instead';
+      'Show time left instead of total.';
 
   @override
-  String get settingsShowBufferedProgressTitle => 'Show buffered progress';
+  String get settingsShowBufferedProgressTitle => 'Buffered progress';
 
   @override
   String get settingsShowBufferedProgressDescription =>
-      'Show buffered progress on a progress bar';
+      'Show loaded audio on the progress bar.';
 
   @override
-  String get settingsBackArrowTitle => 'Back Arrow Opens Library';
+  String get settingsBackArrowTitle => 'Back behavior';
 
   @override
   String get settingsBackArrowDescription =>
-      'When enabled, tapping the back arrow returns to the Library instead of minimizing the app.';
+      'Return to Library instead of minimizing.';
 
   @override
-  String get settingsCreatorTitle => 'Creator';
+  String get settingsCreatorTitle => 'Developer';
 
   @override
-  String get settingsCreatorDescription =>
-      'About the developer of Raven Player.';
+  String get settingsCreatorDescription => 'About the app creator.';
 
   @override
-  String get settingsCreatorDialogTitle => 'About Creator';
+  String get settingsCreatorDialogTitle => 'About the developer';
 
   @override
   String get settingsLegalTitle => 'Legal';
 
   @override
-  String get settingsLegalDescription =>
-      'Read legal information and app notices.';
+  String get settingsLegalDescription => 'Licenses and notices.';
 
   @override
   String get settingsAppVersionTitle => 'App version';
 
   @override
   String settingsAppVersionDescription(String version, String build) {
-    return 'Version: $version\nBuild: $build';
+    return 'v$version (build $build)';
   }
 
   @override
