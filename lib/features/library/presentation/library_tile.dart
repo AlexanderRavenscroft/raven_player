@@ -133,10 +133,12 @@ class LibraryTile extends ConsumerWidget {
             child: Container(
               color: Theme.of(context).colorScheme.surface,
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height * 0.1,
+                ),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AudiobookCover(book: book, isOnTile: true),
                     const SizedBox(width: AppSpacing.md),
