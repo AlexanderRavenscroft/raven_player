@@ -5,6 +5,7 @@ import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
+import 'package:raven_player/shared/loading/app_linear_progress_indicator.dart';
 import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
 
 class PlayProgressBar extends ConsumerWidget {
@@ -26,20 +27,21 @@ class PlayProgressBar extends ConsumerWidget {
     final showBufferedProgress = ref.watch(
       settingsProvider.select((s) => s.showBufferedProgress),
     );
-    //TODO: Design a linear progress indicator
-    if (book == null) return const LinearProgressIndicator();
+    if (book == null) return const _LoadingProgressBar();
     return positionAsync.when(
-      loading: () => const LinearProgressIndicator(),
-      error: (_, _) => const LinearProgressIndicator(),
+      loading: () => const _LoadingProgressBar(),
+      error: (_, _) => const _LoadingProgressBar(),
       data: (positionData) {
         if (positionData.duration == Duration.zero) {
-          return const LinearProgressIndicator();
+          return const _LoadingProgressBar();
         }
         return Stack(
           children: [
             AbsorbPointer(
               absorbing: isPlayerLockEnabled,
-              child: SizedBox(
+              child: Container(
+                color: Colors.transparent,
+                height: MediaQuery.of(context).size.height * 0.05,
                 width: MediaQuery.of(context).size.width * 0.92,
                 child: ProgressBar(
                   thumbCanPaintOutsideBar: false,
@@ -89,6 +91,27 @@ class PlayProgressBar extends ConsumerWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class _LoadingProgressBar extends StatelessWidget {
+  const _LoadingProgressBar();
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+
+    return SizedBox(
+      height: mediaQuery.size.height * 0.05,
+      width: mediaQuery.size.width * 0.92,
+      child: Align(
+        alignment: Alignment.center,
+        child: AppLinearProgressIndicator(
+          width: mediaQuery.size.width * 0.92,
+          height: mediaQuery.size.height * 0.01,
+        ),
+      ),
     );
   }
 }
