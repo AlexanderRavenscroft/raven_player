@@ -18,7 +18,7 @@ import 'package:raven_player/features/player/presentation/action_toolbar.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
-import 'package:raven_player/shared/audiobook_cover.dart';
+import 'package:raven_player/shared/others/audiobook_cover.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class PlayPage extends ConsumerStatefulWidget {

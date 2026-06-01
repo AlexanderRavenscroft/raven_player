@@ -40,7 +40,7 @@
   "@onboardingTitle": {
     "description": "Main title shown on the first-run onboarding screen."
   },
-  "onboardingDescription": "Pick a folder with subfolders, each holding MP3s of one audiobook.",
+  "onboardingDescription": "Pick a folder with subfolders, each containing audio files for one audiobook.",
   "@onboardingDescription": {
     "description": "Onboarding text explaining the expected audiobook folder structure."
   },
@@ -48,13 +48,13 @@
   "@onboardingChooseFolder": {
     "description": "Button label for selecting the initial audiobook folder."
   },
-  "onboardingFooter": "This can be changed later in the settings.\nMore file formats will be supported in the future.",
+  "onboardingFooter": "Supported audio formats: MP3, M4A, M4B, FLAC, and OGG. You can change the folder later in settings.",
   "@onboardingFooter": {
     "description": "Onboarding note about changing the folder later and future file support."
   },
-  "onboardingLottieError": "Lottie error: {error}",
-  "@onboardingLottieError": {
-    "description": "Fallback text shown when the onboarding animation fails to load.",
+  "lottieError": "Lottie error: {error}",
+  "@lottieError": {
+    "description": "Fallback text shown when a Lottie animation fails to load.",
     "placeholders": {
       "error": {
         "type": "String",

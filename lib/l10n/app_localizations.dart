@@ -161,7 +161,7 @@ abstract class AppLocalizations {
   /// Onboarding text explaining the expected audiobook folder structure.
   ///
   /// In en, this message translates to:
-  /// **'Pick a folder with subfolders, each holding MP3s of one audiobook.'**
+  /// **'Pick a folder with subfolders, each containing audio files for one audiobook.'**
   String get onboardingDescription;
 
   /// Button label for selecting the initial audiobook folder.
@@ -173,14 +173,14 @@ abstract class AppLocalizations {
   /// Onboarding note about changing the folder later and future file support.
   ///
   /// In en, this message translates to:
-  /// **'This can be changed later in the settings.\nMore file formats will be supported in the future.'**
+  /// **'Supported audio formats: MP3, M4A, M4B, FLAC, and OGG. You can change the folder later in settings.'**
   String get onboardingFooter;
 
-  /// Fallback text shown when the onboarding animation fails to load.
+  /// Fallback text shown when a Lottie animation fails to load.
   ///
   /// In en, this message translates to:
   /// **'Lottie error: {error}'**
-  String onboardingLottieError(String error);
+  String lottieError(String error);
 
   /// Title shown in the library app bar.
   ///

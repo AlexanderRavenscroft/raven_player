@@ -40,17 +40,17 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get onboardingDescription =>
-      'Wybierz folder z podfolderami, z których każdy zawiera pliki MP3 jednego audiobooka.';
+      'Wybierz folder z podfolderami, z których każdy zawiera pliki audio jednego audiobooka.';
 
   @override
   String get onboardingChooseFolder => 'Wybierz folder domyślny';
 
   @override
   String get onboardingFooter =>
-      'Możesz to później zmienić w ustawieniach.\nWięcej formatów plików będzie obsługiwanych w przyszłości.';
+      'Obsługiwane formaty: MP3, M4A, M4B, FLAC i OGG. Możesz później zmienić folder w ustawieniach.';
 
   @override
-  String onboardingLottieError(String error) {
+  String lottieError(String error) {
     return 'Błąd Lottie: $error';
   }
 
