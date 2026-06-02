@@ -4,6 +4,7 @@ import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/pop_ups/app_confirm_dialog.dart';
+import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsCredits extends StatelessWidget {
@@ -23,9 +24,10 @@ class SettingsCredits extends StatelessWidget {
     final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
 
     if (!opened && context.mounted) {
-      // TODO Add app snackbar
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(context.l10n.settingsCouldNotOpenLink)),
+      AppSnackBar.showSnackBar(
+        context,
+        context.l10n.settingsCouldNotOpenLink,
+        type: SnackBarType.error,
       );
     }
   }

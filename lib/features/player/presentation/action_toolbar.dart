@@ -204,6 +204,7 @@ class ActionToolbar extends ConsumerWidget {
                     ref.read(settingsProvider.notifier).enablePlayerLock();
                     return;
                   }
+                  ScaffoldMessenger.of(context).clearSnackBars();
                   ref.read(settingsProvider.notifier).disablePlayerLock();
                 },
               );

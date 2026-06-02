@@ -58,7 +58,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get libraryTitle => 'Biblioteka';
 
   @override
-  String get libraryCheckingForNew => 'Sprawdzanie nowych audiobooków...';
+  String get libraryCheckingForNew => 'Aktualizowanie biblioteki...';
 
   @override
   String libraryLoadingError(String error) {
@@ -187,15 +187,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get playerLockedMessage =>
-      'Odtwarzacz jest zablokowany.\nPrzytrzymaj, aby odblokować.';
-
-  @override
-  String get playerDropdownLocked =>
-      'Lista rozdziałów jest zablokowana.\nMożesz ją włączyć na pasku narzędzi.';
-
-  @override
-  String get playerSliderLocked =>
-      'Suwak jest zablokowany.\nMożesz go włączyć na pasku narzędzi.';
+      'Sterowanie jest zablokowane.\nPrzytrzymaj przycisk blokady.';
 
   @override
   String chapterProgress(int current, int total) {

@@ -25,9 +25,7 @@ class OnboardingPage extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: Text(
               l10n.onboardingTitle,
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w500),
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
           Align(

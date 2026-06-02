@@ -191,7 +191,7 @@ abstract class AppLocalizations {
   /// Snackbar shown when the user starts a library rescan.
   ///
   /// In en, this message translates to:
-  /// **'Checking for new audiobooks...'**
+  /// **'Updating library...'**
   String get libraryCheckingForNew;
 
   /// Message shown when the audiobook library fails to load.
@@ -425,20 +425,8 @@ abstract class AppLocalizations {
   /// Snackbar shown when the user taps a locked player control.
   ///
   /// In en, this message translates to:
-  /// **'Player is locked.\nLong press to unlock.'**
+  /// **'Controls are locked.\nHold lock button to unlock.'**
   String get playerLockedMessage;
-
-  /// Snackbar shown when the chapter dropdown is locked.
-  ///
-  /// In en, this message translates to:
-  /// **'Dropdown is locked.\nYou can enable it in toolbar.'**
-  String get playerDropdownLocked;
-
-  /// Snackbar shown when the progress slider is locked.
-  ///
-  /// In en, this message translates to:
-  /// **'Slider is locked.\nYou can enable it in toolbar.'**
-  String get playerSliderLocked;
 
   /// Text showing the current chapter number and total chapter count.
   ///

@@ -58,7 +58,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get libraryTitle => 'Library';
 
   @override
-  String get libraryCheckingForNew => 'Checking for new audiobooks...';
+  String get libraryCheckingForNew => 'Updating library...';
 
   @override
   String libraryLoadingError(String error) {
@@ -186,15 +186,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get playerSet => 'Set';
 
   @override
-  String get playerLockedMessage => 'Player is locked.\nLong press to unlock.';
-
-  @override
-  String get playerDropdownLocked =>
-      'Dropdown is locked.\nYou can enable it in toolbar.';
-
-  @override
-  String get playerSliderLocked =>
-      'Slider is locked.\nYou can enable it in toolbar.';
+  String get playerLockedMessage =>
+      'Controls are locked.\nHold lock button to unlock.';
 
   @override
   String chapterProgress(int current, int total) {

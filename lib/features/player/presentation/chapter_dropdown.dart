@@ -32,7 +32,7 @@ class ChapterDropdown extends ConsumerWidget {
             if (isPlayerLockEnabled) {
               AppSnackBar.showSnackBar(
                 context,
-                context.l10n.playerDropdownLocked,
+                context.l10n.playerLockedMessage,
               );
             }
           },

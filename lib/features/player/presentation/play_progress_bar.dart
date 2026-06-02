@@ -77,13 +77,13 @@ class PlayProgressBar extends ConsumerWidget {
                   onTap: () {
                     AppSnackBar.showSnackBar(
                       context,
-                      context.l10n.playerSliderLocked,
+                      context.l10n.playerLockedMessage,
                     );
                   },
                   onHorizontalDragEnd: (_) {
                     AppSnackBar.showSnackBar(
                       context,
-                      context.l10n.playerSliderLocked,
+                      context.l10n.playerLockedMessage,
                     );
                   },
                 ),
