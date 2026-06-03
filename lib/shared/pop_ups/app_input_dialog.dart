@@ -19,8 +19,10 @@ class AppInputDialog extends StatelessWidget {
       scrollable: false,
       title: Text(
         title,
-        style: Theme.of(context).textTheme.titleLarge,
+        style: Theme.of(context).textTheme.titleMedium,
         textAlign: TextAlign.center,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
       ),
       content: SizedBox(
         width: MediaQuery.of(context).size.width * 0.5,

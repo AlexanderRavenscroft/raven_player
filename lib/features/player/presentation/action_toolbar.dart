@@ -73,7 +73,6 @@ class ActionToolbar extends ConsumerWidget {
         maxValue: 90,
         initialValue: currentMinutes.toDouble(),
         divisions: 17,
-        confirmLabel: context.l10n.playerSet,
       ),
     );
 

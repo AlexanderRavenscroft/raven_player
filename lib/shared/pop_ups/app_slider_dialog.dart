@@ -39,8 +39,10 @@ class _AppSliderDialogState extends State<AppSliderDialog> {
       scrollable: false,
       title: Text(
         widget.title,
-        style: Theme.of(context).textTheme.titleLarge,
+        style: Theme.of(context).textTheme.titleMedium,
         textAlign: TextAlign.center,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
       ),
       content: SizedBox(
         width: MediaQuery.of(context).size.width * 0.5,
@@ -58,7 +60,6 @@ class _AppSliderDialogState extends State<AppSliderDialog> {
                 divisions: widget.divisions,
                 activeColor: Theme.of(context).colorScheme.primary,
                 inactiveColor: Theme.of(context).colorScheme.surfaceContainer,
-
                 onChanged: (value) => setState(() => _currentValue = value),
               ),
             ),
@@ -66,7 +67,7 @@ class _AppSliderDialogState extends State<AppSliderDialog> {
               _currentValue % 1 == 0
                   ? _currentValue.toInt().toString()
                   : _currentValue.toStringAsFixed(2),
-              style: Theme.of(context).textTheme.labelLarge,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
         ),

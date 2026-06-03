@@ -27,19 +27,25 @@ class AppScrollableDialog extends ConsumerWidget {
     return AlertDialog(
       backgroundColor: Theme.of(context).colorScheme.surface,
       scrollable: true,
+      insetPadding: EdgeInsets.symmetric(
+        horizontal: AppSpacing.xl,
+        vertical: AppSpacing.xl,
+      ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             headingIcon,
             size: AppIconSizes.medium,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
           const SizedBox(width: AppSpacing.sm),
           Text(
             headingText,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleMedium,
             textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -49,8 +55,8 @@ class AppScrollableDialog extends ConsumerWidget {
       ),
       content: Text(
         AppDocs.getText(textFile, languageCode: languageCode),
-        textAlign: TextAlign.justify,
-        style: Theme.of(context).textTheme.bodyMedium,
+        textAlign: TextAlign.start,
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1.5),
       ),
       actionsPadding: EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,

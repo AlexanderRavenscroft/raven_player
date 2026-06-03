@@ -35,7 +35,7 @@ class AppConfirmDialog extends StatelessWidget {
 
   Color _accentColor(BuildContext context) {
     return switch (level) {
-      AppConfirmDialogLevel.info => Theme.of(context).colorScheme.primary,
+      AppConfirmDialogLevel.info => Theme.of(context).colorScheme.onSurface,
       AppConfirmDialogLevel.warning => Theme.of(context).colorScheme.error,
     };
   }
@@ -66,8 +66,10 @@ class AppConfirmDialog extends StatelessWidget {
             title,
             style: Theme.of(
               context,
-            ).textTheme.titleLarge!.copyWith(color: accentColor),
+            ).textTheme.titleMedium!.copyWith(color: accentColor),
             textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
