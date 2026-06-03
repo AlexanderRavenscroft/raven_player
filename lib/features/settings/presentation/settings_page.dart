@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/features/settings/presentation/settings_app_bar.dart';
 import 'package:raven_player/features/settings/presentation/settings_button.dart';
@@ -10,6 +11,7 @@ import 'package:raven_player/features/settings/presentation/settings_tile.dart';
 import 'package:raven_player/features/settings/presentation/settings_toggle_button.dart';
 import 'package:raven_player/features/settings/presentation/settings_toggle_switch.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
+import 'package:raven_player/shared/pop_ups/app_confirm_dialog.dart';
 import 'package:raven_player/shared/pop_ups/app_scrollable_dialog.dart';
 import 'package:raven_player/utils/app_docs.dart';
 import 'package:raven_player/utils/app_version.dart';
@@ -41,9 +43,8 @@ class SettingsPage extends ConsumerWidget {
                   icon: AppIcons.folder,
                   trailing: SettingsButton(
                     icon: AppIcons.add,
-                    onPressed: () async => await ref
-                        .read(settingsProvider.notifier)
-                        .updateHomeFolderUri(),
+                    onPressed: () async =>
+                        await _changeHomeFolderUri(context, ref, path),
                   ),
                 );
               },
@@ -222,6 +223,8 @@ class SettingsPage extends ConsumerWidget {
               icon: AppIcons.appVersion,
               trailing: null,
             ),
+
+            SizedBox(height: AppSpacing.xs),
             SettingsCredits(),
           ],
         ),
@@ -234,5 +237,29 @@ class SettingsPage extends ConsumerWidget {
       return context.l10n.settingsInternalStorage;
     }
     return path;
+  }
+
+  Future<void> _changeHomeFolderUri(
+    BuildContext context,
+    WidgetRef ref,
+    String? currentFolderUri,
+  ) async {
+    if (currentFolderUri != null) {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AppConfirmDialog(
+          title: dialogContext.l10n.settingsChangeFolderTitle,
+          content: dialogContext.l10n.settingsChangeFolderWarning,
+          level: AppConfirmDialogLevel.danger,
+          acceptText: dialogContext.l10n.settingsChangeFolderConfirm,
+        ),
+      );
+
+      if (confirmed != true || !context.mounted) {
+        return;
+      }
+    }
+
+    await ref.read(settingsProvider.notifier).updateHomeFolderUri();
   }
 }

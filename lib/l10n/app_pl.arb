@@ -130,6 +130,18 @@
       }
     }
   },
+  "settingsChangeFolderTitle": "Zmienić folder z audiobookami?",
+  "@settingsChangeFolderTitle": {
+    "description": "Confirmation dialog title shown before changing the audiobook folder from settings."
+  },
+  "settingsChangeFolderWarning": "Zmiana folderu z audiobookami zresetuje postęp każdego audiobooka w bibliotece.",
+  "@settingsChangeFolderWarning": {
+    "description": "Danger confirmation message shown before changing the audiobook folder from settings."
+  },
+  "settingsChangeFolderConfirm": "Wybierz folder",
+  "@settingsChangeFolderConfirm": {
+    "description": "Confirmation dialog button that proceeds to the system folder picker."
+  },
   "settingsThemeTitle": "Motyw",
   "@settingsThemeTitle": {
     "description": "Settings row title for app theme selection."
@@ -212,11 +224,7 @@
       }
     }
   },
-  "settingsMadeWithFlutter": "Stworzone za pomocą Flutter",
-  "@settingsMadeWithFlutter": {
-    "description": "Credits text shown near the bottom of settings."
-  },
-  "settingsFollowRavenPlayer": "Obserwuj Raven Player:",
+  "settingsFollowRavenPlayer": "Projekt i wsparcie",
   "@settingsFollowRavenPlayer": {
     "description": "Credits prompt shown above external project links."
   },
@@ -245,10 +253,6 @@
   "playerAdjustSleepTimer": "Dostosuj timer snu",
   "@playerAdjustSleepTimer": {
     "description": "Title of the dialog used to change the sleep timer duration."
-  },
-  "playerSet": "Ustaw",
-  "@playerSet": {
-    "description": "Button label that applies a player setting value."
   },
   "playerLockedMessage": "Sterowanie jest zablokowane.\nPrzytrzymaj przycisk blokady.",
   "@playerLockedMessage": {

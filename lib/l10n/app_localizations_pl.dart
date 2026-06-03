@@ -101,6 +101,16 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
+  String get settingsChangeFolderTitle => 'Zmienić folder z audiobookami?';
+
+  @override
+  String get settingsChangeFolderWarning =>
+      'Zmiana folderu z audiobookami zresetuje postęp każdego audiobooka w bibliotece.';
+
+  @override
+  String get settingsChangeFolderConfirm => 'Wybierz folder';
+
+  @override
   String get settingsThemeTitle => 'Motyw';
 
   @override
@@ -160,10 +170,7 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
-  String get settingsMadeWithFlutter => 'Stworzone za pomocą Flutter';
-
-  @override
-  String get settingsFollowRavenPlayer => 'Obserwuj Raven Player:';
+  String get settingsFollowRavenPlayer => 'Projekt i wsparcie';
 
   @override
   String get settingsOpenLinkTitle => 'Otworzyć link?';
@@ -181,9 +188,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get playerAdjustSleepTimer => 'Dostosuj timer snu';
-
-  @override
-  String get playerSet => 'Ustaw';
 
   @override
   String get playerLockedMessage =>

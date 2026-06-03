@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 
-enum AppConfirmDialogLevel { info, warning }
+enum AppConfirmDialogLevel { info, warning, danger }
 
 class AppConfirmDialog extends StatelessWidget {
   final String title;
@@ -30,13 +31,15 @@ class AppConfirmDialog extends StatelessWidget {
     return switch (level) {
       AppConfirmDialogLevel.info => AppIcons.info,
       AppConfirmDialogLevel.warning => AppIcons.warning,
+      AppConfirmDialogLevel.danger => AppIcons.error,
     };
   }
 
   Color _accentColor(BuildContext context) {
     return switch (level) {
       AppConfirmDialogLevel.info => Theme.of(context).colorScheme.onSurface,
-      AppConfirmDialogLevel.warning => Theme.of(context).colorScheme.error,
+      AppConfirmDialogLevel.warning => Theme.of(context).colorScheme.secondary,
+      AppConfirmDialogLevel.danger => Theme.of(context).colorScheme.error,
     };
   }
 
@@ -62,23 +65,20 @@ class AppConfirmDialog extends StatelessWidget {
         children: [
           Icon(_icon, size: AppIconSizes.medium, color: accentColor),
           const SizedBox(width: AppSpacing.sm),
-          Text(
-            title,
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium!.copyWith(color: accentColor),
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          Flexible(
+            child: Text(
+              title,
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium!.copyWith(color: accentColor),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
-      content: Text(
-        content,
-        style: Theme.of(
-          context,
-        ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
-      ),
+      content: Text(content, style: Theme.of(context).textTheme.bodyMedium),
       actionsAlignment: MainAxisAlignment.end,
       actions: [
         TextButton(

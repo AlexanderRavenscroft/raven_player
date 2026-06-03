@@ -130,6 +130,18 @@
       }
     }
   },
+  "settingsChangeFolderTitle": "Change audiobook folder?",
+  "@settingsChangeFolderTitle": {
+    "description": "Confirmation dialog title shown before changing the audiobook folder from settings."
+  },
+  "settingsChangeFolderWarning": "Changing the audiobook folder will reset progress for every book in your library.",
+  "@settingsChangeFolderWarning": {
+    "description": "Danger confirmation message shown before changing the audiobook folder from settings."
+  },
+  "settingsChangeFolderConfirm": "Choose folder",
+  "@settingsChangeFolderConfirm": {
+    "description": "Confirmation dialog button that proceeds to the system folder picker."
+  },
   "settingsThemeTitle": "Theme",
   "@settingsThemeTitle": {
     "description": "Settings row title for app theme selection."
@@ -212,11 +224,7 @@
       }
     }
   },
-  "settingsMadeWithFlutter": "Made with Flutter",
-  "@settingsMadeWithFlutter": {
-    "description": "Credits text shown near the bottom of settings."
-  },
-  "settingsFollowRavenPlayer": "Follow Raven Player:",
+  "settingsFollowRavenPlayer": "Project and support",
   "@settingsFollowRavenPlayer": {
     "description": "Credits prompt shown above external project links."
   },
@@ -245,10 +253,6 @@
   "playerAdjustSleepTimer": "Adjust Sleep Timer",
   "@playerAdjustSleepTimer": {
     "description": "Title of the dialog used to change the sleep timer duration."
-  },
-  "playerSet": "Set",
-  "@playerSet": {
-    "description": "Button label that applies a player setting value."
   },
   "playerLockedMessage": "Controls are locked.\nHold lock button to unlock.",
   "@playerLockedMessage": {

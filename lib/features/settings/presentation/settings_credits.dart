@@ -10,11 +10,13 @@ import 'package:url_launcher/url_launcher.dart';
 class SettingsCredits extends StatelessWidget {
   const SettingsCredits({super.key});
 
-  static final Uri _flutterUrl = Uri.https('flutter.dev');
+  //TODO: ADD ACUTAL LINKS & DATA
   static final Uri _githubUrl = Uri.https(
     'github.com',
     '/your-profile-or-repo',
   );
+  static final Uri _emailUrl = Uri.https('mail.google.com', '/mail/u/0/#inbox');
+  static final Uri _koFiUrl = Uri.https('ko-fi.com', '/your-profile');
 
   Future<void> _openExternalLink(BuildContext context, Uri uri) async {
     if (uri.scheme != 'https') {
@@ -47,16 +49,10 @@ class SettingsCredits extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.18,
+      height: MediaQuery.of(context).size.height * 0.16,
       child: Column(
         spacing: AppSpacing.xs,
         children: [
-          Text(
-            context.l10n.settingsMadeWithFlutter,
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
-          ),
           Text(
             context.l10n.settingsFollowRavenPlayer,
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -66,15 +62,24 @@ class SettingsCredits extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                tooltip: 'Flutter',
-                icon: FlutterLogo(size: AppIconSizes.large),
-                onPressed: () => _confirmAndOpen(context, _flutterUrl),
-              ),
+              //TODO: Fix tooltrips & set translations
               IconButton(
                 tooltip: 'GitHub',
                 icon: FaIcon(FontAwesomeIcons.github, size: AppIconSizes.large),
                 onPressed: () => _confirmAndOpen(context, _githubUrl),
+              ),
+              IconButton(
+                tooltip: 'Email',
+                icon: FaIcon(
+                  FontAwesomeIcons.envelope,
+                  size: AppIconSizes.large,
+                ),
+                onPressed: () => _confirmAndOpen(context, _emailUrl),
+              ),
+              IconButton(
+                tooltip: 'Ko-fi',
+                icon: FaIcon(FontAwesomeIcons.koFi, size: AppIconSizes.large),
+                onPressed: () => _confirmAndOpen(context, _koFiUrl),
               ),
             ],
           ),

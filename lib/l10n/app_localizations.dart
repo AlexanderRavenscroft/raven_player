@@ -266,6 +266,24 @@ abstract class AppLocalizations {
   /// **'Current:\n{folder}'**
   String settingsCurrentFolder(String folder);
 
+  /// Confirmation dialog title shown before changing the audiobook folder from settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Change audiobook folder?'**
+  String get settingsChangeFolderTitle;
+
+  /// Danger confirmation message shown before changing the audiobook folder from settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Changing the audiobook folder will reset progress for every book in your library.'**
+  String get settingsChangeFolderWarning;
+
+  /// Confirmation dialog button that proceeds to the system folder picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose folder'**
+  String get settingsChangeFolderConfirm;
+
   /// Settings row title for app theme selection.
   ///
   /// In en, this message translates to:
@@ -374,16 +392,10 @@ abstract class AppLocalizations {
   /// **'v{version} (build {build})'**
   String settingsAppVersionDescription(String version, String build);
 
-  /// Credits text shown near the bottom of settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Made with Flutter'**
-  String get settingsMadeWithFlutter;
-
   /// Credits prompt shown above external project links.
   ///
   /// In en, this message translates to:
-  /// **'Follow Raven Player:'**
+  /// **'Project and support'**
   String get settingsFollowRavenPlayer;
 
   /// Confirmation dialog title before opening an external link.
@@ -415,12 +427,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Adjust Sleep Timer'**
   String get playerAdjustSleepTimer;
-
-  /// Button label that applies a player setting value.
-  ///
-  /// In en, this message translates to:
-  /// **'Set'**
-  String get playerSet;
 
   /// Snackbar shown when the user taps a locked player control.
   ///
