@@ -81,6 +81,7 @@ class ActionToolbar extends ConsumerWidget {
       await ref
           .read(settingsProvider.notifier)
           .updateSleepTimerDuration(newMinutes.round());
+      await ref.read(settingsProvider.notifier).enableSleepTimer();
     }
   }
 

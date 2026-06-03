@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 
-//TODO: Fix a bug where chaning the duration of the sleep timer, when its off does not enable it by deafult.
 class SleepTimerState {
   final Duration remaining;
   final bool isRunning;
