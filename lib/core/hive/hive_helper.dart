@@ -18,17 +18,10 @@ class HiveHelper {
   }
 
   //* GET BOX
-
   static Future<Box<T>> getBox<T>(HiveBox box) async {
     if (Hive.isBoxOpen(box.name)) {
       return Hive.box<T>(box.name);
     }
     return Hive.openBox<T>(box.name);
-  }
-
-  //* REMOVE ITEM
-  static Future<void> remove<T>(HiveBox box, dynamic key) async {
-    final b = await getBox<T>(box);
-    await b.delete(key);
   }
 }

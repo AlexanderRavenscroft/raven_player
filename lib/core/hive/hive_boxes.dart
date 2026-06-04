@@ -13,7 +13,7 @@ class HiveBoxes {
 }
 
 extension HiveBoxExtension on HiveBox {
-  String get name => switch (this) {
+  String get boxName => switch (this) {
     HiveBox.audiobooks => 'audiobooks',
     HiveBox.userSettings => 'userSettings',
   };

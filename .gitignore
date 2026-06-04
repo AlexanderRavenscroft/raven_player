@@ -37,6 +37,7 @@ AGENTS.md
 .pub-cache/
 .pub/
 /build/
+lib/build/
 /coverage/
 
 #? Local config / secrets
