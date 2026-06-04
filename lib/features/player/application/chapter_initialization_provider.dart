@@ -22,9 +22,9 @@ final chapterInitializationProvider = FutureProvider.family<Audiobook, String>((
   final updatedChapters = await Future.wait(
     current.chapters.map((chapter) async {
       if (chapter.durationMs != null) return chapter;
-      final meta = await metadataService.getMetadata(chapter.uri);
+      final durationMs = await metadataService.getDurationMs(chapter.uri);
       // Store 0 (or -1) as a sentinel so we don't retry forever
-      return chapter.copyWith(durationMs: meta?.durationMs ?? 0);
+      return chapter.copyWith(durationMs: durationMs ?? 0);
     }),
   );
 

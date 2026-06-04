@@ -18,6 +18,19 @@ class AudioMetadata {
 class SafMetadataService {
   static const _channel = MethodChannel('raven/saf');
 
+  Future<int?> getDurationMs(String uri) async {
+    try {
+      final result = await _channel.invokeMethod<int>(
+        'getDuration',
+        {'uri': uri},
+      );
+      return result;
+    } on PlatformException catch (e) {
+      log.e('MetadataService duration error: ${e.message}');
+      return null;
+    }
+  }
+
   Future<AudioMetadata?> getMetadata(String uri) async {
     try {
       final result = await _channel.invokeMapMethod<String, dynamic>(

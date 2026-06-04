@@ -1,139 +1,193 @@
+//TODO: Think about actual pacakge name
 package com.example.raven_player
 
 import android.app.Activity
 import android.content.Intent
 import android.media.MediaMetadataRetriever
 import android.net.Uri
-import androidx.documentfile.provider.DocumentFile
-import io.flutter.embedding.android.FlutterActivity
+import android.provider.DocumentsContract
+import com.ryanheise.audioservice.AudioServiceActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.Result
-import java.io.File
-import android.provider.DocumentsContract
-
-//? Just audio background service import:
-import com.ryanheise.audioservice.AudioServiceActivity  
 
 class MainActivity : AudioServiceActivity() {
-    private val CHANNEL = "raven/saf"
-    private val REQ_PICK_TREE = 4242
-    private var pendingResult: Result? = null
+	companion object {
+		private const val CHANNEL = "raven/saf"
+		private const val REQUEST_PICK_TREE = 4242
+	}
 
-    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
-        super.configureFlutterEngine(flutterEngine)
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
-            .setMethodCallHandler { call, result ->
-                when (call.method) {
-                    "pickTree" -> pickTree(result)
-                    "listDir" -> {
-                        val uri = call.argument<String>("uri")
-                        if (uri == null) result.error("ARG", "uri required", null)
-                        else {
-                            val list = listDir(Uri.parse(uri))
-                            result.success(list)
-                        }
-                    }
-                    "getMetadata" -> {
-                        val uri = call.argument<String>("uri")
-                        if (uri == null) result.error("ARG", "uri required", null)
-                        else getMetadata(Uri.parse(uri), result)
-                    }
-                    else -> result.notImplemented()
-                }
-            }
-    }
+	private var pendingResult: Result? = null
 
-    private fun getMetadata(uri: Uri, result: Result) {
-        val retriever = MediaMetadataRetriever()
-        try {
-            retriever.setDataSource(applicationContext, uri)
+	override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+		super.configureFlutterEngine(flutterEngine)
+		MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
+			.setMethodCallHandler { call, result ->
+				when (call.method) {
+					"pickTree" -> pickTree(result)
+					"listDir" -> {
+						val uri = uriArgument(call.argument<String>("uri"), result)
+							?: return@setMethodCallHandler
+						try {
+							result.success(listDir(uri))
+						} catch (e: Exception) {
+							result.error("LIST_DIR_ERROR", e.message, null)
+						}
+					}
+					"getMetadata" -> {
+						val uri = uriArgument(call.argument<String>("uri"), result)
+							?: return@setMethodCallHandler
+						getMetadata(uri, result)
+					}
+					"getDuration" -> {
+						val uri = uriArgument(call.argument<String>("uri"), result)
+							?: return@setMethodCallHandler
+						getDuration(uri, result)
+					}
+					else -> result.notImplemented()
+				}
+			}
+	}
 
-            val title    = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
-            val artist   = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
-            val album    = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)
-            val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-                               ?.toLongOrNull()
-            val picture  = retriever.embeddedPicture // ByteArray? → Uint8List on Dart side
-            result.success(mapOf(
-                "title"    to title,
-                "artist"   to artist,
-                "duration" to duration,
-                "cover"    to picture,
-            ))
-        } catch (e: Exception) {
-            result.error("METADATA_ERROR", e.message, null)
-        } finally {
-            retriever.release()
-        }
-    }
+	private fun uriArgument(uri: String?, result: Result): Uri? {
+		if (uri == null) {
+			result.error("ARG", "uri required", null)
+			return null
+		}
 
-    // ── SAF ───────────────────────────────────────────────────────────────────
+		return try {
+			Uri.parse(uri)
+		} catch (e: Exception) {
+			result.error("ARG", "invalid uri", e.message)
+			null
+		}
+	}
 
-    private fun pickTree(result: Result) {
-        pendingResult = result
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
-            addFlags(
-                Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-            )
-        }
-        startActivityForResult(intent, REQ_PICK_TREE)
-    }
+	private fun getMetadata(uri: Uri, result: Result) {
+		val retriever = MediaMetadataRetriever()
+		try {
+			retriever.setDataSource(applicationContext, uri)
+			val title = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
+			val artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
+			val duration = retriever
+				.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+				?.toLongOrNull()
+			val picture = retriever.embeddedPicture
 
-    override fun onActivityResult(req: Int, res: Int, data: Intent?) {
-        super.onActivityResult(req, res, data)
-        if (req != REQ_PICK_TREE) return
-        val r = pendingResult ?: return
-        pendingResult = null
+			result.success(
+				mapOf(
+					"title" to title,
+					"artist" to artist,
+					"duration" to duration,
+					"cover" to picture,
+				)
+			)
+		} catch (e: Exception) {
+			result.error("METADATA_ERROR", e.message, null)
+		} finally {
+			retriever.release()
+		}
+	}
 
-        if (res != Activity.RESULT_OK || data?.data == null) {
-            r.success(null); return
-        }
-        val treeUri = data.data!!
-        contentResolver.takePersistableUriPermission(
-            treeUri,
-            Intent.FLAG_GRANT_READ_URI_PERMISSION
-        )
-        r.success(treeUri.toString())
-    }
+	private fun getDuration(uri: Uri, result: Result) {
+		val retriever = MediaMetadataRetriever()
+		try {
+			retriever.setDataSource(applicationContext, uri)
+			val duration = retriever
+				.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+				?.toLongOrNull()
 
-    
-    private fun listDir(uri: Uri): List<Map<String, Any?>> {
-        val treeId = DocumentsContract.getTreeDocumentId(uri)
-        // If `uri` is a child (from a previous listing), use its own document id.
-        val docId = try {
-            DocumentsContract.getDocumentId(uri)
-        } catch (_: Exception) {
-            treeId
-        }
-        val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(uri, docId)
+			result.success(duration)
+		} catch (e: Exception) {
+			result.error("DURATION_ERROR", e.message, null)
+		} finally {
+			retriever.release()
+		}
+	}
 
-        val projection = arrayOf(
-            DocumentsContract.Document.COLUMN_DOCUMENT_ID,
-            DocumentsContract.Document.COLUMN_DISPLAY_NAME,
-            DocumentsContract.Document.COLUMN_MIME_TYPE,
-        )
+	private fun pickTree(result: Result) {
+		if (pendingResult != null) {
+			result.error("PICKER_ACTIVE", "folder picker already active", null)
+			return
+		}
 
-        val out = mutableListOf<Map<String, Any?>>()
-        contentResolver.query(childrenUri, projection, null, null, null)?.use { c ->
-            val idIdx   = c.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DOCUMENT_ID)
-            val nameIdx = c.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DISPLAY_NAME)
-            val mimeIdx = c.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_MIME_TYPE)
-            while (c.moveToNext()) {
-                val childId = c.getString(idIdx)
-                val name    = c.getString(nameIdx)
-                val mime    = c.getString(mimeIdx)
-                val childUri = DocumentsContract.buildDocumentUriUsingTree(uri, childId)
-                val isDir = mime == DocumentsContract.Document.MIME_TYPE_DIR
-                out.add(mapOf(
-                    "uri"   to childUri.toString(),
-                    "name"  to name,
-                    "isDir" to isDir,
-                    "mime"  to if (isDir) null else mime,
-                ))
-            }
-        }
-        return out
-    }
+		pendingResult = result
+		val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+			addFlags(
+				Intent.FLAG_GRANT_READ_URI_PERMISSION or
+					Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+			)
+		}
+
+		try {
+			startActivityForResult(intent, REQUEST_PICK_TREE)
+		} catch (e: Exception) {
+			pendingResult = null
+			result.error("PICK_TREE_ERROR", e.message, null)
+		}
+	}
+
+	override fun onActivityResult(req: Int, res: Int, data: Intent?) {
+		super.onActivityResult(req, res, data)
+		if (req != REQUEST_PICK_TREE) return
+		val result = pendingResult ?: return
+		pendingResult = null
+
+		val treeUri = data?.data
+		if (res != Activity.RESULT_OK || treeUri == null) {
+			result.success(null)
+			return
+		}
+
+		try {
+			contentResolver.takePersistableUriPermission(
+				treeUri,
+				Intent.FLAG_GRANT_READ_URI_PERMISSION
+			)
+			result.success(treeUri.toString())
+		} catch (e: SecurityException) {
+			result.error("PERMISSION_ERROR", e.message, null)
+		}
+	}
+
+	private fun listDir(uri: Uri): List<Map<String, Any?>> {
+		val treeId = DocumentsContract.getTreeDocumentId(uri)
+		val docId = try {
+			DocumentsContract.getDocumentId(uri)
+		} catch (_: Exception) {
+			treeId
+		}
+		val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(uri, docId)
+
+		val projection = arrayOf(
+			DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+			DocumentsContract.Document.COLUMN_DISPLAY_NAME,
+			DocumentsContract.Document.COLUMN_MIME_TYPE,
+		)
+
+		val out = mutableListOf<Map<String, Any?>>()
+		contentResolver.query(childrenUri, projection, null, null, null)?.use { cursor ->
+			val idIndex = cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DOCUMENT_ID)
+			val nameIndex = cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DISPLAY_NAME)
+			val mimeIndex = cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_MIME_TYPE)
+
+			while (cursor.moveToNext()) {
+				val childId = cursor.getString(idIndex)
+				val name = cursor.getString(nameIndex)
+				val mime = cursor.getString(mimeIndex)
+				val childUri = DocumentsContract.buildDocumentUriUsingTree(uri, childId)
+				val isDir = mime == DocumentsContract.Document.MIME_TYPE_DIR
+
+				out.add(
+					mapOf(
+						"uri" to childUri.toString(),
+						"name" to name,
+						"isDir" to isDir,
+						"mime" to if (isDir) null else mime,
+					)
+				)
+			}
+		}
+		return out
+	}
 }

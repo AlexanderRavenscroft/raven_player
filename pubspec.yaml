@@ -8,43 +8,53 @@ environment:
   sdk: ^3.11.5
 
 dependencies:
-  audio_video_progress_bar: ^2.0.3
-  build_runner: ^2.15.0
-  crypto: ^3.0.7
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_app_minimizer_plus: ^1.0.2
-  flutter_native_splash: ^2.4.7
   intl: any
 
   #? State Management
   flutter_riverpod: ^3.3.1
 
-  flutter_slidable: ^4.0.3
+  #? Storage / Persistence
   hive_ce: ^2.19.3
   hive_ce_flutter: ^2.3.4
-  hive_ce_generator: ^1.11.1
+
+  #? Audio
   just_audio: ^0.10.5
   just_audio_background: ^0.0.1-beta.17
-  logger: ^2.7.0
+  rxdart: ^0.28.0
+
+  #? UI
+  audio_video_progress_bar: ^2.0.3
+  flutter_slidable: ^4.0.3
+  font_awesome_flutter: ^11.0.0
   lottie: ^3.3.3
   marquee: ^2.3.0
+  material_symbols_icons: ^4.2928.1
+  skeletonizer: ^2.1.3
+
+  #? Platform / Device
+  flutter_app_minimizer_plus: ^1.0.2
+  flutter_native_splash: ^2.4.7
   package_info_plus: ^10.1.0
   path_provider: ^2.1.5
-  rxdart: ^0.28.0
   shake: ^3.0.0
-  skeletonizer: ^2.1.3
-  synchronized: ^3.4.0+1
   url_launcher: ^6.3.2
-  material_symbols_icons: ^4.2928.1
-  font_awesome_flutter: ^11.0.0
+
+  #? Utilities
+  crypto: ^3.0.7
+  logger: ^2.7.0
+  synchronized: ^3.4.0+1
 
 dev_dependencies:
+  #? Code Generation
+  build_runner: ^2.15.0
+  hive_ce_generator: ^1.11.1
+
+  #? Lints
   flutter_lints: ^6.0.0
-  flutter_test:
-    sdk: flutter
 
 flutter:
   generate: true
