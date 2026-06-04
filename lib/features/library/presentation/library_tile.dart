@@ -116,6 +116,7 @@ class LibraryTile extends ConsumerWidget {
         ? _buildToggleStatusPane(context, ref, AppIcons.toggleReadStatusToLeft)
         : _buildRenamePane(context, ref);
 
+    final tileHeight = MediaQuery.of(context).size.height * 0.1;
     return Column(
       children: [
         Slidable(
@@ -134,33 +135,33 @@ class LibraryTile extends ConsumerWidget {
               color: Theme.of(context).colorScheme.surface,
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
               child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height * 0.1,
-                ),
+                constraints: BoxConstraints(minHeight: tileHeight),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     AudiobookCover(book: book, isOnTile: true),
                     const SizedBox(width: AppSpacing.md),
                     Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            book.title,
-                            style: Theme.of(context).textTheme.titleSmall,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: AppSpacing.xs),
-                          Text(
-                            book.author ?? context.l10n.libraryUnknownAuthor,
-                            style: Theme.of(context).textTheme.bodySmall,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: tileHeight),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              book.title,
+                              style: Theme.of(context).textTheme.titleSmall,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: AppSpacing.xs),
+                            Text(
+                              book.author ?? context.l10n.libraryUnknownAuthor,
+                              style: Theme.of(context).textTheme.bodySmall,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

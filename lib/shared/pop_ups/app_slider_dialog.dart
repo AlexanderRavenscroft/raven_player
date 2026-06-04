@@ -52,6 +52,7 @@ class _AppSliderDialogState extends State<AppSliderDialog> {
             SliderTheme(
               data: SliderTheme.of(context).copyWith(
                 trackHeight: MediaQuery.of(context).size.height * 0.01,
+                tickMarkShape: SliderTickMarkShape.noTickMark,
               ),
               child: Slider(
                 value: _currentValue,

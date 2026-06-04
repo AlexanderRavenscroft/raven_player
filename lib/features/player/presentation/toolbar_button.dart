@@ -20,26 +20,31 @@ class ToolbarButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        IconButton(
-          icon: Icon(
-            icon,
-            color: isToggled
-                ? Theme.of(context).colorScheme.secondary
-                : Theme.of(context).colorScheme.onSurface,
-            size: AppIconSizes.medium,
-          ),
-          onPressed: onPressed,
-          onLongPress: onLongPress,
-        ),
-        if (bottomContentBuilder != null && isToggled)
+    return Expanded(
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.04,
-            child: bottomContentBuilder!(context, ref),
+            child: IconButton(
+              icon: Icon(
+                icon,
+                color: isToggled
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).colorScheme.onSurface,
+                size: AppIconSizes.medium,
+              ),
+              onPressed: onPressed,
+              onLongPress: onLongPress,
+            ),
           ),
-      ],
+          if (bottomContentBuilder != null && isToggled)
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.04,
+              child: bottomContentBuilder!(context, ref),
+            ),
+        ],
+      ),
     );
   }
 }

@@ -14,18 +14,18 @@ class AudiobookCover extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mediaWidth = MediaQuery.of(context).size.width;
-    final mediaHeight = MediaQuery.of(context).size.height;
+    final mediaWidth = MediaQuery.sizeOf(context).width;
     final coverWidth = mediaWidth * (isOnTile ? 0.24 : 0.92);
-    final coverHeight = mediaHeight * (isOnTile ? 0.1 : 0.42);
+    final coverHeight = coverWidth;
 
-    final iconSize = mediaHeight * (isOnTile ? 0.1 : 0.4);
+    final iconSize = coverWidth * 0.8;
+
     final blur = isOnTile ? 0.0 : 4.0;
     Widget cover = (book.coverPath == null)
         ? _buildDefaultCover(context, iconSize, blur)
         : Image.file(
             File(book.coverPath!),
-            fit: BoxFit.cover,
+            fit: isOnTile ? BoxFit.contain : BoxFit.cover,
             errorBuilder: (_, _, _) =>
                 _buildDefaultCover(context, iconSize, blur),
           );

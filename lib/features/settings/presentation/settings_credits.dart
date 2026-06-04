@@ -15,7 +15,11 @@ class SettingsCredits extends StatelessWidget {
     'github.com',
     '/your-profile-or-repo',
   );
-  static final Uri _emailUrl = Uri.https('mail.google.com', '/mail/u/0/#inbox');
+  static final Uri _emailUrl = Uri(
+    scheme: 'mailto',
+    path: 'ravenplayer.dev@gmail.com',
+    queryParameters: {'subject': 'Raven Player'},
+  );
   static final Uri _koFiUrl = Uri.https('ko-fi.com', '/your-profile');
 
   Future<void> _openExternalLink(BuildContext context, Uri uri) async {
