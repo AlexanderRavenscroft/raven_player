@@ -10,7 +10,7 @@ final log = Logger(
     colors: true,
     printEmojis: true,
     dateTimeFormat: DateTimeFormat.none,
-    levelColors: {
+    levelColors: const {
       Level.trace: AnsiColor.fg(0),
       Level.debug: AnsiColor.fg(2),
       Level.info: AnsiColor.fg(6),
@@ -18,7 +18,7 @@ final log = Logger(
       Level.error: AnsiColor.fg(202),
       Level.fatal: AnsiColor.fg(199),
     },
-    levelEmojis: {
+    levelEmojis: const {
       Level.trace: '🔍',
       Level.debug: '🐞',
       Level.info: '💡',
@@ -26,6 +26,6 @@ final log = Logger(
       Level.error: '❌',
       Level.fatal: '👾',
     },
-    excludeBox: {Level.debug: true},
+    excludeBox: const {Level.debug: true},
   ),
 );

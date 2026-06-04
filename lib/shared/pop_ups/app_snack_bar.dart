@@ -46,11 +46,11 @@ class AppSnackBar {
     final style = _getStyle(context, type);
 
     return SnackBar(
-      backgroundColor: style['backgroundColor'],
+      backgroundColor: style.backgroundColor,
       content: Row(
         children: [
           Icon(
-            style['icon'],
+            style.icon,
             color: Theme.of(context).colorScheme.onPrimary,
             size: AppIconSizes.medium,
           ),
@@ -73,23 +73,18 @@ class AppSnackBar {
     );
   }
 
-  static Map<String, dynamic> _getStyle(
+  static ({IconData icon, Color backgroundColor}) _getStyle(
     BuildContext context,
     SnackBarType type,
   ) {
+    final scheme = Theme.of(context).colorScheme;
     switch (type) {
       case SnackBarType.info:
-        return {
-          'icon': AppIcons.info,
-          'backgroundColor': Theme.of(context).colorScheme.primary,
-        };
+        return (icon: AppIcons.info, backgroundColor: scheme.primary);
       case SnackBarType.error:
-        return {
-          'icon': AppIcons.error,
-          'backgroundColor': Theme.of(context).colorScheme.error,
-        };
+        return (icon: AppIcons.error, backgroundColor: scheme.error);
       case SnackBarType.success:
-        return {'icon': AppIcons.success, 'backgroundColor': AppColors.success};
+        return (icon: AppIcons.success, backgroundColor: AppColors.success);
     }
   }
 }

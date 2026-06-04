@@ -1,9 +1,10 @@
 import 'package:flutter/services.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
 
-class AppDocs {
-  static const String docsFolder = 'assets/docs';
-  static final Map<String, String> txtFilesPaths = {
+abstract final class AppDocs {
+  static const String _docsFolder = 'assets/docs';
+
+  static final Map<String, String> _textFileContents = {
     'en/legal.txt': '',
     'en/creator.txt': '',
     'pl/legal.txt': '',
@@ -12,8 +13,10 @@ class AppDocs {
 
   static Future<void> loadTextFiles() async {
     await Future.wait(
-      txtFilesPaths.keys.map((path) async {
-        txtFilesPaths[path] = await rootBundle.loadString('$docsFolder/$path');
+      _textFileContents.keys.map((path) async {
+        _textFileContents[path] = await rootBundle.loadString(
+          '$_docsFolder/$path',
+        );
       }),
     );
   }
@@ -24,15 +27,15 @@ class AppDocs {
     final path = '$safeLanguageCode/${file.fileName}';
     final fallbackPath = '${AppLanguages.english}/${file.fileName}';
 
-    return txtFilesPaths[path] ??
-        txtFilesPaths[fallbackPath] ??
+    return _textFileContents[path] ??
+        _textFileContents[fallbackPath] ??
         'No file found!';
   }
 }
 
 enum TextFiles { legal, creator }
 
-extension TxtFilesExtension on TextFiles {
+extension TextFilesExtension on TextFiles {
   String get fileName => switch (this) {
     TextFiles.creator => 'creator.txt',
     TextFiles.legal => 'legal.txt',

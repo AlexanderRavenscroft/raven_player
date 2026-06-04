@@ -35,7 +35,7 @@ Future<void> main() async {
   final repo = UserSettingsRepository();
   final settings = await repo.load();
 
-  await AppVersion.getAppVersion();
+  await AppVersion.setAppVersion();
   await AppDocs.loadTextFiles();
 
   runApp(

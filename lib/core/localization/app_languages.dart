@@ -1,4 +1,4 @@
-class AppLanguages {
+abstract final class AppLanguages {
   static const english = 'en';
   static const polish = 'pl';
 

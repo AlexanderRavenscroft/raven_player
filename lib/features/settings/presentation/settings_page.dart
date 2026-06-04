@@ -15,7 +15,7 @@ import 'package:raven_player/shared/pop_ups/app_confirm_dialog.dart';
 import 'package:raven_player/shared/pop_ups/app_scrollable_dialog.dart';
 import 'package:raven_player/utils/app_docs.dart';
 import 'package:raven_player/utils/app_version.dart';
-import 'package:raven_player/utils/uri_utils.dart';
+import 'package:raven_player/core/saf/saf_uri_formatter.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -25,7 +25,7 @@ class SettingsPage extends ConsumerWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: SettingsAppBar(),
+      appBar: const SettingsAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -224,8 +224,8 @@ class SettingsPage extends ConsumerWidget {
               trailing: null,
             ),
 
-            SizedBox(height: AppSpacing.xs),
-            SettingsCredits(),
+            const SizedBox(height: AppSpacing.xs),
+            const SettingsCredits(),
           ],
         ),
       ),
