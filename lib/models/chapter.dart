@@ -23,8 +23,10 @@ class Chapter {
     this.durationMs,
   });
 
-  Duration? get duration =>
-      durationMs != null ? Duration(milliseconds: durationMs!) : null;
+  Duration? get duration {
+    final milliseconds = durationMs;
+    return milliseconds == null ? null : Duration(milliseconds: milliseconds);
+  }
 
   Chapter copyWith({String? name, String? uri, String? mime, int? durationMs}) {
     return Chapter(

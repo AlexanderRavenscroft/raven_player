@@ -4,7 +4,7 @@ import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
-import 'package:raven_player/utils/app_docs.dart';
+import 'package:raven_player/core/docs/app_docs.dart';
 
 class AppScrollableDialog extends ConsumerWidget {
   final IconData headingIcon;
@@ -27,7 +27,7 @@ class AppScrollableDialog extends ConsumerWidget {
     return AlertDialog(
       backgroundColor: Theme.of(context).colorScheme.surface,
       scrollable: true,
-      insetPadding: EdgeInsets.symmetric(
+      insetPadding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.xl,
         vertical: AppSpacing.xl,
       ),
@@ -49,7 +49,7 @@ class AppScrollableDialog extends ConsumerWidget {
           ),
         ],
       ),
-      contentPadding: EdgeInsets.symmetric(
+      contentPadding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.lg,
       ),
@@ -58,7 +58,7 @@ class AppScrollableDialog extends ConsumerWidget {
         textAlign: TextAlign.start,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1.5),
       ),
-      actionsPadding: EdgeInsets.symmetric(
+      actionsPadding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,
         vertical: AppSpacing.lg,
       ),

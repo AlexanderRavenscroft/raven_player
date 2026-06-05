@@ -8,7 +8,7 @@ import 'package:raven_player/core/theme/app_colors.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_repository.dart';
 import 'package:raven_player/raven_player_app.dart';
-import 'package:raven_player/utils/app_docs.dart';
+import 'package:raven_player/core/docs/app_docs.dart';
 import 'package:raven_player/utils/app_version.dart';
 
 Future<void> main() async {

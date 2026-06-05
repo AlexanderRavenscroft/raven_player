@@ -13,7 +13,7 @@ import 'package:raven_player/features/settings/presentation/settings_toggle_swit
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/pop_ups/app_confirm_dialog.dart';
 import 'package:raven_player/shared/pop_ups/app_scrollable_dialog.dart';
-import 'package:raven_player/utils/app_docs.dart';
+import 'package:raven_player/core/docs/app_docs.dart';
 import 'package:raven_player/utils/app_version.dart';
 import 'package:raven_player/core/saf/saf_uri_formatter.dart';
 

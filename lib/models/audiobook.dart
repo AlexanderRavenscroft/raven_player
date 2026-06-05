@@ -47,10 +47,13 @@ class Audiobook {
     this.currentPositionMs = 0,
     this.isRead = false,
   });
+
   bool get isEnriched => author != null || coverPath != null;
   Duration get currentPosition => Duration(milliseconds: currentPositionMs);
-  Duration? get totalDuration =>
-      totalDurationMs != null ? Duration(milliseconds: totalDurationMs!) : null;
+  Duration? get totalDuration {
+    final milliseconds = totalDurationMs;
+    return milliseconds == null ? null : Duration(milliseconds: milliseconds);
+  }
 
   Audiobook copyWith({
     String? id,
