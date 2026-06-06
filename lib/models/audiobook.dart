@@ -35,6 +35,9 @@ class Audiobook {
   @HiveField(9)
   final bool isRead;
 
+  @HiveField(10)
+  final bool isMetadataScanned;
+
   const Audiobook({
     required this.id,
     required this.title,
@@ -46,9 +49,11 @@ class Audiobook {
     this.currentChapterIndex = 0,
     this.currentPositionMs = 0,
     this.isRead = false,
+    this.isMetadataScanned = false,
   });
 
-  bool get isEnriched => author != null || coverPath != null;
+  bool get hasBookMetadata => author != null || coverPath != null;
+  bool get needsMetadataScan => !isMetadataScanned && !hasBookMetadata;
   Duration get currentPosition => Duration(milliseconds: currentPositionMs);
   Duration? get totalDuration {
     final milliseconds = totalDurationMs;
@@ -66,6 +71,7 @@ class Audiobook {
     int? currentChapterIndex,
     int? currentPositionMs,
     bool? isRead,
+    bool? isMetadataScanned,
   }) {
     return Audiobook(
       id: id ?? this.id,
@@ -78,6 +84,7 @@ class Audiobook {
       currentChapterIndex: currentChapterIndex ?? this.currentChapterIndex,
       currentPositionMs: currentPositionMs ?? this.currentPositionMs,
       isRead: isRead ?? this.isRead,
+      isMetadataScanned: isMetadataScanned ?? this.isMetadataScanned,
     );
   }
 }

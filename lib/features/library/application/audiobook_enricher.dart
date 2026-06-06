@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/core/saf/saf_metadata_service.dart';
 import 'package:raven_player/models/audiobook.dart';
+import 'package:raven_player/utils/app_logger.dart';
 
 class AudiobookEnricher {
   final AudiobookRepository _repo;
@@ -16,27 +17,63 @@ class AudiobookEnricher {
 
   /// Enrich a list of books. Each book uses its first chapter's URI as source.
   Future<void> enrichAll(List<Audiobook> books) async {
+    final watch = Stopwatch()..start();
     final coversDir = await _coversDirectory();
+    var skippedAlreadyEnriched = 0;
+    var skippedEmpty = 0;
+    var missingMetadata = 0;
+    var savedCovers = 0;
+    var updatedBooks = 0;
 
     for (final book in books) {
-      if (book.isEnriched) continue;
-      if (book.chapters.isEmpty) continue;
+      if (!book.needsMetadataScan) {
+        skippedAlreadyEnriched++;
+        continue;
+      }
+      if (book.chapters.isEmpty) {
+        skippedEmpty++;
+        await _repo.save(book.copyWith(isMetadataScanned: true));
+        updatedBooks++;
+        continue;
+      }
 
       final firstUri = book.chapters.first.uri;
       final meta = await _metadata.getMetadata(firstUri);
-      if (meta == null) continue;
+      if (meta == null) {
+        missingMetadata++;
+        await _repo.save(book.copyWith(isMetadataScanned: true));
+        updatedBooks++;
+        continue;
+      }
 
+      final hadCover = book.coverPath != null;
       final coverPath = await _saveCover(
         coversDir,
         bookId: book.id,
         bytes: meta.coverBytes,
         existing: book.coverPath,
       );
+      if (!hadCover && coverPath != null) {
+        savedCovers++;
+      }
 
-      final enriched = book.copyWith(author: meta.artist, coverPath: coverPath);
+      final enriched = book.copyWith(
+        author: meta.artist,
+        coverPath: coverPath,
+        isMetadataScanned: true,
+      );
 
       await _repo.save(enriched);
+      updatedBooks++;
     }
+
+    watch.stop();
+    log.d(
+      '[LibraryEnrich] Checked ${books.length} books, updated $updatedBooks, '
+      'saved $savedCovers covers, $missingMetadata missing metadata, '
+      '$skippedAlreadyEnriched already enriched, $skippedEmpty empty '
+      'in ${watch.elapsedMilliseconds}ms',
+    );
   }
 
   Future<Directory> _coversDirectory() async {

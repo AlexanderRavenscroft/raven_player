@@ -4,6 +4,7 @@ import 'package:raven_player/features/library/application/audiobook_repository.d
 import 'package:raven_player/features/library/application/library_scanner.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
+import 'package:raven_player/utils/app_logger.dart';
 
 class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
   AudiobookRepository get _repo => ref.read(audiobookRepositoryProvider);
@@ -23,23 +24,65 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
   }
 
   Future<List<Audiobook>> _loadLibrary(String? home) async {
-    if (home == null) return [];
+    final totalWatch = Stopwatch()..start();
 
+    if (home == null) {
+      log.d('[Library] No folder selected');
+      return [];
+    }
+
+    final hiveLoadWatch = Stopwatch()..start();
     final existing = await _repo.getAll();
+    hiveLoadWatch.stop();
+    log.d(
+      '[Library] Loaded ${existing.length} cached books '
+      'in ${hiveLoadWatch.elapsedMilliseconds}ms',
+    );
+
     final folderChanged =
         existing.isNotEmpty &&
         !existing.any((b) => b.folderUri.startsWith(home));
 
     if (folderChanged) {
+      log.d('[Library] Folder changed, clearing cached library');
       await _repo.clearAll();
+      state = const AsyncData([]);
+    } else if (existing.isNotEmpty) {
+      state = AsyncData(existing);
     }
 
+    final scanWatch = Stopwatch()..start();
     final scanned = await _scanner.scan(home);
+    scanWatch.stop();
+    log.d(
+      '[Library] Scan returned ${scanned.length} books '
+      'in ${scanWatch.elapsedMilliseconds}ms',
+    );
+
+    final mergeWatch = Stopwatch()..start();
     await _repo.mergeScanResults(scanned);
+    mergeWatch.stop();
+    log.d('[Library] Merge finished in ${mergeWatch.elapsedMilliseconds}ms');
+
     final merged = await _repo.getAll();
-    final needsEnrich = merged.where((b) => !b.isEnriched).toList();
-    if (needsEnrich.isNotEmpty) await _enricher.enrichAll(needsEnrich);
-    return _repo.getAll();
+    final needsEnrich = merged.where((b) => b.needsMetadataScan).toList();
+    if (needsEnrich.isNotEmpty) {
+      final enrichWatch = Stopwatch()..start();
+      await _enricher.enrichAll(needsEnrich);
+      enrichWatch.stop();
+      log.d(
+        '[Library] Enriched ${needsEnrich.length} books '
+        'in ${enrichWatch.elapsedMilliseconds}ms',
+      );
+    }
+
+    final loaded = await _repo.getAll();
+    totalWatch.stop();
+    log.i(
+      '[Library] Ready with ${loaded.length} books '
+      'in ${totalWatch.elapsedMilliseconds}ms',
+    );
+    return loaded;
   }
 
   Future<void> renameAudiobook(Audiobook book, String newTitle) async {

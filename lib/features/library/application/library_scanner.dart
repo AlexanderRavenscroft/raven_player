@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:raven_player/core/saf/saf.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/models/chapter.dart';
+import 'package:raven_player/utils/app_logger.dart';
 
 class LibraryScanner {
   static const _fallbackName = '(unnamed)';
@@ -26,15 +27,20 @@ class LibraryScanner {
   /// Scans the home folder. Each subfolder = one audiobook.
   /// Returns books that contain at least one audio file.
   Future<List<Audiobook>> scan(String homeUri) async {
+    final watch = Stopwatch()..start();
     final top = await Saf.listDir(homeUri);
     final books = <Audiobook>[];
+    final folders = top.where((e) => e.isDir).toList();
+    var skippedFolders = 0;
+    var audioFileCount = 0;
 
-    for (final folder in top.where((e) => e.isDir)) {
+    for (final folder in folders) {
       final List<SafEntry> inner;
 
       try {
         inner = await Saf.listDir(folder.uri);
       } on PlatformException {
+        skippedFolders++;
         continue;
       }
 
@@ -46,6 +52,7 @@ class LibraryScanner {
         );
 
       if (audioFiles.isEmpty) continue;
+      audioFileCount += audioFiles.length;
 
       final chapters = audioFiles
           .map(
@@ -66,6 +73,13 @@ class LibraryScanner {
         ),
       );
     }
+
+    watch.stop();
+    log.d(
+      '[LibraryScan] ${folders.length} folders, ${books.length} books, '
+      '$audioFileCount audio files, $skippedFolders skipped folders '
+      'in ${watch.elapsedMilliseconds}ms',
+    );
 
     return books;
   }

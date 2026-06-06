@@ -59,9 +59,21 @@ class AudiobookRepository {
             );
           }).toList();
 
+          final existingFirstUri = existing.chapters.isEmpty
+              ? null
+              : existing.chapters.first.uri;
+          final scannedFirstUri = book.chapters.isEmpty
+              ? null
+              : book.chapters.first.uri;
+          final shouldRetryMetadata =
+              existingFirstUri != scannedFirstUri && !existing.hasBookMetadata;
+
           final merged = existing.copyWith(
             folderUri: book.folderUri,
             chapters: mergedChapters,
+            isMetadataScanned: shouldRetryMetadata
+                ? false
+                : existing.isMetadataScanned,
           );
           await box.put(book.id, merged);
         }
