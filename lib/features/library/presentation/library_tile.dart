@@ -70,7 +70,9 @@ class LibraryTile extends ConsumerWidget {
             ),
           );
           if (newName != null && newName.isNotEmpty) {
-            ref.read(libraryProvider.notifier).renameAudiobook(book, newName);
+            await ref
+                .read(libraryProvider.notifier)
+                .renameAudiobook(book, newName);
           }
           return false;
         },
@@ -88,7 +90,9 @@ class LibraryTile extends ConsumerWidget {
               ),
             );
             if (newName != null && newName.isNotEmpty) {
-              ref.read(libraryProvider.notifier).renameAudiobook(book, newName);
+              await ref
+                  .read(libraryProvider.notifier)
+                  .renameAudiobook(book, newName);
             }
           },
           backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
@@ -125,8 +129,8 @@ class LibraryTile extends ConsumerWidget {
           endActionPane: endPane,
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
+              Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(
                   builder: (context) => PlayPage(enrichedBook: book),
                 ),
               );

@@ -1,13 +1,13 @@
 import 'package:flutter/services.dart';
 import 'package:raven_player/utils/app_logger.dart';
 
-class AudioMetadata {
+class SafAudioMetadata {
   final String? title;
   final String? artist;
   final int? durationMs;
   final Uint8List? coverBytes;
 
-  const AudioMetadata({
+  const SafAudioMetadata({
     this.title,
     this.artist,
     this.durationMs,
@@ -31,15 +31,15 @@ class SafMetadataService {
     }
   }
 
-  Future<AudioMetadata?> getMetadata(String uri) async {
+  Future<SafAudioMetadata?> getMetadata(String uri) async {
     try {
-      final result = await _channel.invokeMapMethod<String, dynamic>(
+      final result = await _channel.invokeMapMethod<String, Object?>(
         'getMetadata',
         {'uri': uri},
       );
       if (result == null) return null;
 
-      return AudioMetadata(
+      return SafAudioMetadata(
         title: result['title'] as String?,
         artist: result['artist'] as String?,
         durationMs: (result['duration'] as num?)?.toInt(),

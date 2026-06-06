@@ -6,24 +6,36 @@ class SafEntry {
   final bool isDir;
   final String? mime;
 
-  SafEntry({required this.uri, this.name, required this.isDir, this.mime});
+  const SafEntry({
+    required this.uri,
+    this.name,
+    required this.isDir,
+    this.mime,
+  });
 
-  factory SafEntry.fromMap(Map m) => SafEntry(
-    uri: m['uri'] as String,
-    name: m['name'] as String?,
-    isDir: m['isDir'] as bool,
-    mime: m['mime'] as String?,
-  );
+  factory SafEntry.fromMap(Map<Object?, Object?> map) {
+    return SafEntry(
+      uri: map['uri'] as String,
+      name: map['name'] as String?,
+      isDir: map['isDir'] as bool,
+      mime: map['mime'] as String?,
+    );
+  }
 }
 
-class Saf {
-  static const _ch = MethodChannel('raven/saf');
+abstract final class Saf {
+  static const _channel = MethodChannel('raven/saf');
 
-  static Future<String?> pickTree() async =>
-      await _ch.invokeMethod<String>('pickTree');
+  static Future<String?> pickTree() => _channel.invokeMethod<String>('pickTree');
 
   static Future<List<SafEntry>> listDir(String uri) async {
-    final res = await _ch.invokeMethod<List<dynamic>>('listDir', {'uri': uri});
-    return (res ?? []).map((e) => SafEntry.fromMap(e as Map)).toList();
+    final result = await _channel.invokeMethod<List<Object?>>(
+      'listDir',
+      {'uri': uri},
+    );
+
+    return (result ?? [])
+        .map((entry) => SafEntry.fromMap(entry as Map<Object?, Object?>))
+        .toList();
   }
 }

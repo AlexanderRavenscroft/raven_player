@@ -13,6 +13,16 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
   @override
   Future<List<Audiobook>> build() async {
     final home = ref.watch(settingsProvider.select((s) => s.homeFolderUri));
+    return _loadLibrary(home);
+  }
+
+  Future<void> rescan() async {
+    final home = ref.read(settingsProvider).homeFolderUri;
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => _loadLibrary(home));
+  }
+
+  Future<List<Audiobook>> _loadLibrary(String? home) async {
     if (home == null) return [];
 
     final existing = await _repo.getAll();
@@ -30,10 +40,6 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
     final needsEnrich = merged.where((b) => !b.isEnriched).toList();
     if (needsEnrich.isNotEmpty) await _enricher.enrichAll(needsEnrich);
     return _repo.getAll();
-  }
-
-  Future<void> rescan() async {
-    ref.invalidateSelf();
   }
 
   Future<void> renameAudiobook(Audiobook book, String newTitle) async {

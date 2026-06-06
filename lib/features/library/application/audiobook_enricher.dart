@@ -55,11 +55,11 @@ class AudiobookEnricher {
     if (bytes == null) return existing;
     if (existing != null) return existing;
 
-    // MD5 of the bookId → clean hex string, no special characters
+    // Use the stable book id to avoid leaking folder names into cover filenames.
     final hash = md5.convert(utf8.encode(bookId)).toString();
     final file = File('${dir.path}/$hash.jpg');
     await file.writeAsBytes(bytes, flush: true);
-    return file.path; // e.g. .../covers/a1b2c3d4e5f6....jpg
+    return file.path;
   }
 }
 

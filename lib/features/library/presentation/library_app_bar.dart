@@ -45,8 +45,10 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
         AppBarButton(
           icon: AppIcons.settings,
           onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const SettingsPage()),
+            Navigator.of(context).push<void>(
+              MaterialPageRoute<void>(
+                builder: (context) => const SettingsPage(),
+              ),
             );
           },
         ),

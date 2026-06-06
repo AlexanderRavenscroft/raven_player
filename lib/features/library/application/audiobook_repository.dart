@@ -7,18 +7,24 @@ class AudiobookRepository {
   final _lock = Lock();
 
   Future<List<Audiobook>> getAll() async {
-    final box = await HiveBoxes.audiobooks();
-    return box.values.toList();
+    return _lock.synchronized(() async {
+      final box = await HiveBoxes.audiobooks();
+      return box.values.toList();
+    });
   }
 
   Future<Audiobook?> getById(String id) async {
-    final box = await HiveBoxes.audiobooks();
-    return box.get(id);
+    return _lock.synchronized(() async {
+      final box = await HiveBoxes.audiobooks();
+      return box.get(id);
+    });
   }
 
   Future<void> clearAll() async {
-    final box = await HiveBoxes.audiobooks();
-    await box.clear();
+    await _lock.synchronized(() async {
+      final box = await HiveBoxes.audiobooks();
+      await box.clear();
+    });
   }
 
   Future<void> save(Audiobook book) async {
@@ -28,10 +34,8 @@ class AudiobookRepository {
     });
   }
 
-  /// Merge:
-  /// - keep existing books by id (preserves progress)
-  /// - refresh title/chapters from scan
-  /// - add new, remove missing
+  /// Merges scan results into the persisted library.
+  /// Preserves user-owned state on existing books and refreshes chapter data.
   Future<void> mergeScanResults(List<Audiobook> scanned) async {
     await _lock.synchronized(() async {
       final box = await HiveBoxes.audiobooks();
