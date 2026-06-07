@@ -28,7 +28,8 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
 
   Future<void> updateHomeFolderUri() async {
     final uri = await Saf.pickTree();
-    if (uri == null) return;
+    if (uri == null || uri == state.homeFolderUri) return;
+    await ref.read(playerProvider.notifier).clear();
     state = state.copyWith(homeFolderUri: uri);
     await _repo.save(state);
   }
@@ -84,7 +85,7 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
   }
 
   Future<void> updatePlaybackSpeed(double speed) async {
-    ref.read(playerProvider.notifier).updatePlaybackSpeed(speed);
+    await ref.read(playerProvider.notifier).updatePlaybackSpeed(speed);
     state = state.copyWith(playbackSpeed: speed);
     await _repo.save(state);
   }
