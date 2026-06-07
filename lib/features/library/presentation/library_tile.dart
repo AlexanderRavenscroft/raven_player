@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/library/application/audiobook_availability_checker.dart';
@@ -11,103 +12,16 @@ import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/others/audiobook_cover.dart';
 import 'package:raven_player/shared/pop_ups/app_input_dialog.dart';
 import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class LibraryTile extends ConsumerWidget {
+  static const double _actionPaneExtentRatio = 0.2;
+  static const double _toggleDismissThreshold = 0.4;
+  static const double _renameDismissThreshold = 0.01;
+  static const double _tileHeightFactor = 0.1;
+
   final Audiobook book;
+
   const LibraryTile({super.key, required this.book});
-
-  ActionPane _buildToggleStatusPane(
-    BuildContext context,
-    WidgetRef ref,
-    IconData icon,
-  ) {
-    return ActionPane(
-      motion: const BehindMotion(),
-      extentRatio: 0.2,
-      // openThreshold: 0.99,
-      // closeThreshold: 0.01,
-      dismissible: DismissiblePane(
-        dismissThreshold: 0.4,
-        closeOnCancel: true,
-        onDismissed: () {
-          ref.read(libraryProvider.notifier).toggleReadStatus(book);
-        },
-      ),
-      children: [
-        CustomSlidableAction(
-          onPressed: (_) {
-            ref.read(libraryProvider.notifier).toggleReadStatus(book);
-          },
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-          child: Icon(
-            icon,
-            size: AppIconSizes.xLarge,
-            color: Theme.of(context).colorScheme.onSecondary,
-          ),
-        ),
-      ],
-    );
-  }
-
-  ActionPane _buildRenamePane(BuildContext context, WidgetRef ref) {
-    return ActionPane(
-      motion: const BehindMotion(),
-      extentRatio: 0.2,
-      // openThreshold: 0.99,
-      // closeThreshold: 0.01,
-      dismissible: DismissiblePane(
-        dismissThreshold: 0.01,
-        closeOnCancel: true,
-        onDismissed: () {
-          ref.read(libraryProvider.notifier).toggleReadStatus(book);
-        },
-        confirmDismiss: () async {
-          final renameController = TextEditingController(text: book.title);
-          final newName = await showDialog<String>(
-            context: context,
-            builder: (context) => AppInputDialog(
-              title: context.l10n.libraryRenameTitle,
-              hintText: context.l10n.libraryRenameHint,
-              textEditingController: renameController,
-            ),
-          );
-          if (newName != null && newName.isNotEmpty) {
-            await ref
-                .read(libraryProvider.notifier)
-                .renameAudiobook(book, newName);
-          }
-          return false;
-        },
-      ),
-      children: [
-        CustomSlidableAction(
-          onPressed: (_) async {
-            final renameController = TextEditingController(text: book.title);
-            final newName = await showDialog<String>(
-              context: context,
-              builder: (context) => AppInputDialog(
-                title: context.l10n.libraryRenameTitle,
-                hintText: context.l10n.libraryRenameHint,
-                textEditingController: renameController,
-              ),
-            );
-            if (newName != null && newName.isNotEmpty) {
-              await ref
-                  .read(libraryProvider.notifier)
-                  .renameAudiobook(book, newName);
-            }
-          },
-          backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-          child: Icon(
-            AppIcons.rename,
-            size: AppIconSizes.xLarge,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -123,39 +37,16 @@ class LibraryTile extends ConsumerWidget {
         ? _buildToggleStatusPane(context, ref, AppIcons.toggleReadStatusToLeft)
         : _buildRenamePane(context, ref);
 
-    final tileHeight = MediaQuery.of(context).size.height * 0.1;
+    final tileHeight = MediaQuery.sizeOf(context).height * _tileHeightFactor;
+
     return Column(
       children: [
         Slidable(
-          key: ValueKey(book.title),
+          key: ValueKey('library_tile_${book.id}'),
           startActionPane: startPane,
           endActionPane: endPane,
           child: GestureDetector(
-            onTap: () async {
-              try {
-                await ref
-                    .read(audiobookAvailabilityCheckerProvider)
-                    .ensureAvailable(book);
-              } on AudiobookUnavailableException {
-                if (!context.mounted) return;
-                AppSnackBar.showSnackBar(
-                  context,
-                  context.l10n.libraryAudiobookUnavailable,
-                  type: SnackBarType.error,
-                  replacePrevious: true,
-                );
-                await ref.read(libraryProvider.notifier).rescan();
-                await ref.read(playerProvider.notifier).clear();
-                return;
-              }
-
-              if (!context.mounted) return;
-              await Navigator.of(context).push<void>(
-                MaterialPageRoute<void>(
-                  builder: (context) => PlayPage(enrichedBook: book),
-                ),
-              );
-            },
+            onTap: () => _openAudiobook(context, ref),
             child: Container(
               color: Theme.of(context).colorScheme.surface,
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
@@ -200,6 +91,115 @@ class LibraryTile extends ConsumerWidget {
           thickness: 1,
         ),
       ],
+    );
+  }
+
+  ActionPane _buildToggleStatusPane(
+    BuildContext context,
+    WidgetRef ref,
+    IconData icon,
+  ) {
+    return ActionPane(
+      motion: const BehindMotion(),
+      extentRatio: _actionPaneExtentRatio,
+      dismissible: DismissiblePane(
+        dismissThreshold: _toggleDismissThreshold,
+        closeOnCancel: true,
+        onDismissed: () {
+          _toggleReadStatus(ref);
+        },
+      ),
+      children: [
+        CustomSlidableAction(
+          onPressed: (_) {
+            _toggleReadStatus(ref);
+          },
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          child: Icon(
+            icon,
+            size: AppIconSizes.xLarge,
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
+        ),
+      ],
+    );
+  }
+
+  ActionPane _buildRenamePane(BuildContext context, WidgetRef ref) {
+    return ActionPane(
+      motion: const BehindMotion(),
+      extentRatio: _actionPaneExtentRatio,
+      dismissible: DismissiblePane(
+        dismissThreshold: _renameDismissThreshold,
+        closeOnCancel: true,
+        onDismissed: () {},
+        confirmDismiss: () => _renameAudiobook(context, ref),
+      ),
+      children: [
+        CustomSlidableAction(
+          onPressed: (_) async {
+            await _renameAudiobook(context, ref);
+          },
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+          child: Icon(
+            AppIcons.rename,
+            size: AppIconSizes.xLarge,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _toggleReadStatus(WidgetRef ref) {
+    ref.read(libraryProvider.notifier).toggleReadStatus(book);
+  }
+
+  Future<bool> _renameAudiobook(BuildContext context, WidgetRef ref) async {
+    final renameController = TextEditingController(text: book.title);
+
+    final newTitle = await showDialog<String>(
+      context: context,
+      builder: (context) => AppInputDialog(
+        title: context.l10n.libraryRenameTitle,
+        hintText: context.l10n.libraryRenameHint,
+        textEditingController: renameController,
+      ),
+    );
+    final trimmedTitle = newTitle?.trim();
+    if (trimmedTitle != null && trimmedTitle.isNotEmpty) {
+      await ref
+          .read(libraryProvider.notifier)
+          .renameAudiobook(book, trimmedTitle);
+    }
+
+    return false;
+  }
+
+  Future<void> _openAudiobook(BuildContext context, WidgetRef ref) async {
+    try {
+      await ref
+          .read(audiobookAvailabilityCheckerProvider)
+          .ensureAvailable(book);
+    } on AudiobookUnavailableException {
+      if (!context.mounted) return;
+
+      AppSnackBar.showSnackBar(
+        context,
+        context.l10n.libraryAudiobookUnavailable,
+        type: SnackBarType.error,
+        replacePrevious: true,
+      );
+      await ref.read(libraryProvider.notifier).rescan();
+      await ref.read(playerProvider.notifier).clear();
+      return;
+    }
+
+    if (!context.mounted) return;
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
+        builder: (context) => PlayPage(enrichedBook: book),
+      ),
     );
   }
 }

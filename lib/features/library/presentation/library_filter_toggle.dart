@@ -5,6 +5,9 @@ import 'package:raven_player/features/library/application/library_filter.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 
 class LibraryFilterToggle extends ConsumerWidget {
+  static const double _height = 48; //TODO: Think about MQ
+  static const double _indicatorWeight = 4;
+
   const LibraryFilterToggle({super.key});
 
   @override
@@ -13,8 +16,8 @@ class LibraryFilterToggle extends ConsumerWidget {
         ref.watch(libraryFilterProvider) == LibraryFilter.reading ? 0 : 1;
 
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.05,
+      width: double.infinity,
+      height: _height,
       child: DefaultTabController(
         length: 2,
         initialIndex: initialIndex,
@@ -25,10 +28,10 @@ class LibraryFilterToggle extends ConsumerWidget {
           unselectedLabelStyle: Theme.of(context).textTheme.labelLarge,
           dividerHeight: 0,
           indicatorColor: Theme.of(context).colorScheme.primary,
-          indicatorWeight: MediaQuery.of(context).size.height * 0.005,
+          indicatorWeight: _indicatorWeight,
           indicatorSize: TabBarIndicatorSize.label,
           indicatorPadding: const EdgeInsets.symmetric(
-            horizontal: -AppSpacing.xxl,
+            horizontal: -AppSpacing.xl,
           ),
           tabs: [
             Tab(text: context.l10n.libraryReading),
