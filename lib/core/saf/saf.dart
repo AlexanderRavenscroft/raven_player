@@ -18,10 +18,7 @@ class SafAvailabilityResult {
       _ => SafAvailabilityStatus.inaccessible,
     };
 
-    return SafAvailabilityResult(
-      status: status,
-      uri: map['uri'] as String?,
-    );
+    return SafAvailabilityResult(status: status, uri: map['uri'] as String?);
   }
 }
 
@@ -51,13 +48,13 @@ class SafEntry {
 abstract final class Saf {
   static const _channel = MethodChannel('raven/saf');
 
-  static Future<String?> pickTree() => _channel.invokeMethod<String>('pickTree');
+  static Future<String?> pickTree() =>
+      _channel.invokeMethod<String>('pickTree');
 
   static Future<List<SafEntry>> listDir(String uri) async {
-    final result = await _channel.invokeMethod<List<Object?>>(
-      'listDir',
-      {'uri': uri},
-    );
+    final result = await _channel.invokeMethod<List<Object?>>('listDir', {
+      'uri': uri,
+    });
 
     return (result ?? [])
         .map((entry) => SafEntry.fromMap(entry as Map<Object?, Object?>))

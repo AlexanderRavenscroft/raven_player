@@ -53,7 +53,6 @@ class _RavenPlayerAppState extends ConsumerState<RavenPlayerApp> {
       home: const OnboardingGate(),
       builder: (context, child) {
         final appChild = child ?? const SizedBox.shrink();
-
         return MediaQuery.withClampedTextScaling(
           minScaleFactor: 0.75,
           maxScaleFactor: 1.25,

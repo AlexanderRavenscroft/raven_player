@@ -20,10 +20,9 @@ class SafMetadataService {
 
   Future<int?> getDurationMs(String uri) async {
     try {
-      final result = await _channel.invokeMethod<int>(
-        'getDuration',
-        {'uri': uri},
-      );
+      final result = await _channel.invokeMethod<int>('getDuration', {
+        'uri': uri,
+      });
       return result;
     } on PlatformException catch (e) {
       log.e('MetadataService duration error: ${e.message}');

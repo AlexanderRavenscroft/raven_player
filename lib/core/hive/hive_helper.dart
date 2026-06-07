@@ -7,7 +7,6 @@ import 'package:raven_player/models/user_settings.dart';
 import 'package:raven_player/core/hive/adapters/theme_mode_adapter.dart';
 
 class HiveHelper {
-  //* INIT HIVE
   static Future<void> initHive() async {
     final dir = await getApplicationDocumentsDirectory();
     await Hive.initFlutter(dir.path);
@@ -17,7 +16,6 @@ class HiveHelper {
     Hive.registerAdapter(ChapterAdapter());
   }
 
-  //* GET BOX
   static Future<Box<T>> getBox<T>(HiveBox box) async {
     if (Hive.isBoxOpen(box.name)) {
       return Hive.box<T>(box.name);
