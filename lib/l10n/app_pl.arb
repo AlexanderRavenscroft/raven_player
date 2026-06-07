@@ -80,6 +80,10 @@
       }
     }
   },
+  "libraryAudiobookUnavailable": "Pliki audiobooka nie są już dostępne. Aktualizowanie biblioteki...",
+  "@libraryAudiobookUnavailable": {
+    "description": "Snackbar shown when a stale audiobook can no longer be opened from the library."
+  },
   "libraryEmpty": "Nie znaleziono audiobooków",
   "@libraryEmpty": {
     "description": "Message shown when the current library filter has no audiobooks."

@@ -66,6 +66,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get libraryAudiobookUnavailable =>
+      'Audiobook files are no longer available. Updating the library...';
+
+  @override
   String get libraryEmpty => 'No audiobooks found';
 
   @override

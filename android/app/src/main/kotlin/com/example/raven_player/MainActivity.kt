@@ -15,6 +15,9 @@ class MainActivity : AudioServiceActivity() {
 	companion object {
 		private const val CHANNEL = "raven/saf"
 		private const val REQUEST_PICK_TREE = 4242
+		private const val STATUS_AVAILABLE = "available"
+		private const val STATUS_MISSING = "missing"
+		private const val STATUS_INACCESSIBLE = "inaccessible"
 	}
 
 	private var pendingResult: Result? = null
@@ -43,6 +46,15 @@ class MainActivity : AudioServiceActivity() {
 						val uri = uriArgument(call.argument<String>("uri"), result)
 							?: return@setMethodCallHandler
 						getDuration(uri, result)
+					}
+					"checkAvailability" -> {
+						val uris = call.argument<List<String>>("uris")
+						if (uris == null) {
+							result.error("ARG", "uris required", null)
+							return@setMethodCallHandler
+						}
+
+						result.success(checkAvailability(uris))
 					}
 					else -> result.notImplemented()
 				}
@@ -102,6 +114,58 @@ class MainActivity : AudioServiceActivity() {
 			result.error("DURATION_ERROR", e.message, null)
 		} finally {
 			retriever.release()
+		}
+	}
+
+	private fun checkAvailability(uris: List<String>): Map<String, Any?> {
+		for (uriString in uris) {
+			val uri = try {
+				Uri.parse(uriString)
+			} catch (_: Exception) {
+				return mapOf(
+					"status" to STATUS_INACCESSIBLE,
+					"uri" to uriString,
+				)
+			}
+
+			val status = availabilityStatus(uri)
+			if (status != STATUS_AVAILABLE) {
+				return mapOf(
+					"status" to status,
+					"uri" to uriString,
+				)
+			}
+		}
+
+		return mapOf(
+			"status" to STATUS_AVAILABLE,
+			"uri" to null,
+		)
+	}
+
+	private fun availabilityStatus(uri: Uri): String {
+		val documentUri = try {
+			val docId = try {
+				DocumentsContract.getDocumentId(uri)
+			} catch (_: Exception) {
+				DocumentsContract.getTreeDocumentId(uri)
+			}
+			DocumentsContract.buildDocumentUriUsingTree(uri, docId)
+		} catch (_: Exception) {
+			return STATUS_INACCESSIBLE
+		}
+
+		val projection = arrayOf(DocumentsContract.Document.COLUMN_DOCUMENT_ID)
+		return try {
+			contentResolver.query(documentUri, projection, null, null, null)
+				?.use { cursor ->
+					if (cursor.moveToFirst()) STATUS_AVAILABLE else STATUS_MISSING
+				}
+				?: STATUS_MISSING
+		} catch (_: SecurityException) {
+			STATUS_INACCESSIBLE
+		} catch (_: Exception) {
+			STATUS_MISSING
 		}
 	}
 

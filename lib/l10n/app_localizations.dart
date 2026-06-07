@@ -200,6 +200,12 @@ abstract class AppLocalizations {
   /// **'Error loading library:\n{error}'**
   String libraryLoadingError(String error);
 
+  /// Snackbar shown when a stale audiobook can no longer be opened from the library.
+  ///
+  /// In en, this message translates to:
+  /// **'Audiobook files are no longer available. Updating the library...'**
+  String get libraryAudiobookUnavailable;
+
   /// Message shown when the current library filter has no audiobooks.
   ///
   /// In en, this message translates to:

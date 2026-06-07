@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
+import 'package:raven_player/features/library/application/audiobook_availability_checker.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
+import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/presentation/play_page.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/others/audiobook_cover.dart';
 import 'package:raven_player/shared/pop_ups/app_input_dialog.dart';
+import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class LibraryTile extends ConsumerWidget {
@@ -128,8 +131,26 @@ class LibraryTile extends ConsumerWidget {
           startActionPane: startPane,
           endActionPane: endPane,
           child: GestureDetector(
-            onTap: () {
-              Navigator.of(context).push<void>(
+            onTap: () async {
+              try {
+                await ref
+                    .read(audiobookAvailabilityCheckerProvider)
+                    .ensureAvailable(book);
+              } on AudiobookUnavailableException {
+                if (!context.mounted) return;
+                AppSnackBar.showSnackBar(
+                  context,
+                  context.l10n.libraryAudiobookUnavailable,
+                  type: SnackBarType.error,
+                  replacePrevious: true,
+                );
+                await ref.read(libraryProvider.notifier).rescan();
+                await ref.read(playerProvider.notifier).clear();
+                return;
+              }
+
+              if (!context.mounted) return;
+              await Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(
                   builder: (context) => PlayPage(enrichedBook: book),
                 ),

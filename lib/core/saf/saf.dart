@@ -1,5 +1,30 @@
 import 'package:flutter/services.dart';
 
+enum SafAvailabilityStatus { available, missing, inaccessible }
+
+class SafAvailabilityResult {
+  final SafAvailabilityStatus status;
+  final String? uri;
+
+  const SafAvailabilityResult({required this.status, this.uri});
+
+  bool get isAvailable => status == SafAvailabilityStatus.available;
+
+  factory SafAvailabilityResult.fromMap(Map<Object?, Object?> map) {
+    final status = switch (map['status'] as String?) {
+      'available' => SafAvailabilityStatus.available,
+      'missing' => SafAvailabilityStatus.missing,
+      'inaccessible' => SafAvailabilityStatus.inaccessible,
+      _ => SafAvailabilityStatus.inaccessible,
+    };
+
+    return SafAvailabilityResult(
+      status: status,
+      uri: map['uri'] as String?,
+    );
+  }
+}
+
 class SafEntry {
   final String uri;
   final String? name;
@@ -37,5 +62,22 @@ abstract final class Saf {
     return (result ?? [])
         .map((entry) => SafEntry.fromMap(entry as Map<Object?, Object?>))
         .toList();
+  }
+
+  static Future<SafAvailabilityResult> checkAvailability(
+    List<String> uris,
+  ) async {
+    final result = await _channel.invokeMapMethod<Object?, Object?>(
+      'checkAvailability',
+      {'uris': uris},
+    );
+
+    if (result == null) {
+      return const SafAvailabilityResult(
+        status: SafAvailabilityStatus.inaccessible,
+      );
+    }
+
+    return SafAvailabilityResult.fromMap(result);
   }
 }

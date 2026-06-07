@@ -89,7 +89,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
       child: Column(
         children: [
           //* BAR && DISPLAY
-          ActionToolbar(),
+          const ActionToolbar(),
           const SizedBox(height: AppSpacing.md),
           AudiobookLengthDisplay(book: initializedBook),
           const SizedBox(height: AppSpacing.md),
@@ -128,7 +128,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
             ),
           ),
           //* PLAYBACK CONTROLLS
-          PlayProgressBar(),
+          const PlayProgressBar(),
 
           if (!isPlayerLockEnabled)
             Row(
@@ -152,7 +152,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                         .resetFromListeningActivity();
                   },
                 ),
-                PlayButton(),
+                const PlayButton(),
                 SeekButton(
                   icon: AppIcons.forward10,
                   onPressed: () async {
