@@ -7,9 +7,10 @@ import 'package:raven_player/features/onboarding/presentation/onboarding_elevate
 import 'package:raven_player/features/onboarding/presentation/onboarding_lottie_animation.dart';
 
 class OnboardingPage extends ConsumerWidget {
-  const OnboardingPage({super.key});
-
   static const _lottieFile = 'assets/animations/search_files.json';
+  static const _heightFactor = 0.9;
+
+  const OnboardingPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,7 +21,7 @@ class OnboardingPage extends ConsumerWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Column(
         children: [
-          SizedBox(height: AppSpacing.xxxl),
+          const SizedBox(height: AppSpacing.xxxl),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: Text(
@@ -29,7 +30,7 @@ class OnboardingPage extends ConsumerWidget {
             ),
           ),
           Align(
-            heightFactor: 0.9,
+            heightFactor: _heightFactor,
             child: OnboardingLottieAnimation(
               height: size.height * 0.5,
               assetPath: _lottieFile,
@@ -43,14 +44,14 @@ class OnboardingPage extends ConsumerWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(height: AppSpacing.xl),
+          const SizedBox(height: AppSpacing.xl),
           OnboardingElevatedButton(
             onPressed: () async {
               await ref.read(settingsProvider.notifier).updateHomeFolderUri();
             },
             text: l10n.onboardingChooseFolder,
           ),
-          SizedBox(height: AppSpacing.xl),
+          const SizedBox(height: AppSpacing.xl),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: Text(

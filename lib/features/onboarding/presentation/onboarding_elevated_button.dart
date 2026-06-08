@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 
 class OnboardingElevatedButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final String text;
+
   const OnboardingElevatedButton({
     super.key,
     required this.onPressed,
     required this.text,
   });
-
-  final VoidCallback onPressed;
-  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +26,7 @@ class OnboardingElevatedButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         text,
+        textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
           fontWeight: FontWeight.bold,
           color: colorScheme.onPrimary,

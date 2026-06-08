@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_minimizer_plus/flutter_app_minimizer_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,9 +17,10 @@ class OnboardingGate extends ConsumerWidget {
 
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
-        FlutterAppMinimizerPlus.minimizeApp();
+
+        unawaited(FlutterAppMinimizerPlus.minimizeApp());
       },
       child: hasPath ? const LibraryPage() : const OnboardingPage(),
     );
