@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SettingsToggleSwitch extends ConsumerWidget {
+class SettingsToggleSwitch extends StatelessWidget {
   final bool value;
   final void Function(bool) onChanged;
+
   const SettingsToggleSwitch({
     super.key,
     required this.value,
@@ -11,7 +11,7 @@ class SettingsToggleSwitch extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Transform.scale(
       scale: 0.9,
       child: Switch(

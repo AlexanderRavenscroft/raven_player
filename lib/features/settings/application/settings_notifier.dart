@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
+import 'package:raven_player/core/saf/saf.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_repository.dart';
 import 'package:raven_player/models/user_settings.dart';
-import 'package:raven_player/core/saf/saf.dart';
 
 class UserSettingsNotifier extends Notifier<UserSettings> {
+  static const double _defaultPlaybackSpeed = 1.0;
+
   late final UserSettingsRepository _repo;
 
   @override
   UserSettings build() {
     _repo = ref.read(userSettingsRepositoryProvider);
     return ref.read(initialSettingsProvider);
+  }
+
+  Future<void> updateHomeFolderUri() async {
+    final uri = await Saf.pickTree();
+    if (uri == null || uri == state.homeFolderUri) return;
+
+    await ref.read(playerProvider.notifier).clear();
+    state = state.copyWith(homeFolderUri: uri);
+    await _repo.save(state);
   }
 
   Future<void> updateThemeMode(ThemeMode mode) async {
@@ -26,11 +37,9 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     await _repo.save(state);
   }
 
-  Future<void> updateHomeFolderUri() async {
-    final uri = await Saf.pickTree();
-    if (uri == null || uri == state.homeFolderUri) return;
-    await ref.read(playerProvider.notifier).clear();
-    state = state.copyWith(homeFolderUri: uri);
+  Future<void> toggleShowRemainingTime() async {
+    final newValue = !state.showRemainingTime;
+    state = state.copyWith(showRemainingTime: newValue);
     await _repo.save(state);
   }
 
@@ -40,13 +49,42 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     await _repo.save(state);
   }
 
-  Future<void> toggleShowRemainingTime() async {
-    final newValue = !state.showRemainingTime;
-    state = state.copyWith(showRemainingTime: newValue);
+  Future<void> toggleArrowBacksToLibrary() async {
+    final newValue = !state.backArrowBacksToLibrary;
+    state = state.copyWith(backArrowBacksToLibrary: newValue);
     await _repo.save(state);
   }
 
-  Future<void> toggleIsSkipSilenceEnabled() async {
+  Future<void> enablePlaybackSpeed() async {
+    state = state.copyWith(isPlaybackSpeedEnabled: true);
+    await _repo.save(state);
+  }
+
+  Future<void> disablePlaybackSpeed() async {
+    await ref
+        .read(playerProvider.notifier)
+        .updatePlaybackSpeed(_defaultPlaybackSpeed);
+    state = state.copyWith(isPlaybackSpeedEnabled: false);
+    await _repo.save(state);
+  }
+
+  Future<void> togglePlaybackSpeed() async {
+    final newValue = !state.isPlaybackSpeedEnabled;
+
+    final speedToApply = newValue ? state.playbackSpeed : _defaultPlaybackSpeed;
+    await ref.read(playerProvider.notifier).updatePlaybackSpeed(speedToApply);
+
+    state = state.copyWith(isPlaybackSpeedEnabled: newValue);
+    await _repo.save(state);
+  }
+
+  Future<void> updatePlaybackSpeed(double speed) async {
+    await ref.read(playerProvider.notifier).updatePlaybackSpeed(speed);
+    state = state.copyWith(playbackSpeed: speed);
+    await _repo.save(state);
+  }
+
+  Future<void> toggleSkipSilence() async {
     final newValue = !state.isSkipSilenceEnabled;
     await ref.read(playerProvider.notifier).setSkipSilence(newValue);
     state = state.copyWith(isSkipSilenceEnabled: newValue);
@@ -60,33 +98,6 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
 
   Future<void> disablePlayerLock() async {
     state = state.copyWith(isPlayerLockEnabled: false);
-    await _repo.save(state);
-  }
-
-  Future<void> enablePlaybackSpeed() async {
-    state = state.copyWith(isPlaybackSpeedEnabled: true);
-    await _repo.save(state);
-  }
-
-  Future<void> disablePlaybackSpeed() async {
-    await ref.read(playerProvider.notifier).updatePlaybackSpeed(1.0);
-    state = state.copyWith(isPlaybackSpeedEnabled: false);
-    await _repo.save(state);
-  }
-
-  Future<void> togglePlaybackSpeed() async {
-    final newValue = !state.isPlaybackSpeedEnabled;
-
-    final speedToApply = newValue ? state.playbackSpeed : 1.0;
-    await ref.read(playerProvider.notifier).updatePlaybackSpeed(speedToApply);
-
-    state = state.copyWith(isPlaybackSpeedEnabled: newValue);
-    await _repo.save(state);
-  }
-
-  Future<void> updatePlaybackSpeed(double speed) async {
-    await ref.read(playerProvider.notifier).updatePlaybackSpeed(speed);
-    state = state.copyWith(playbackSpeed: speed);
     await _repo.save(state);
   }
 
@@ -108,12 +119,6 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
 
   Future<void> updateSleepTimerDuration(int minutes) async {
     state = state.copyWith(sleepTimerDurationMinutes: minutes);
-    await _repo.save(state);
-  }
-
-  Future<void> toggleArrowBacksToLibrary() async {
-    final newValue = !state.backArrowBacksToLibrary;
-    state = state.copyWith(backArrowBacksToLibrary: newValue);
     await _repo.save(state);
   }
 }

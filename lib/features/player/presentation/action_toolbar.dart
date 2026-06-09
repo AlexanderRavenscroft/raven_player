@@ -177,7 +177,7 @@ class ActionToolbar extends ConsumerWidget {
                 isToggled: isSkipSilenceEnabled,
                 onPressed: () => ref
                     .read(settingsProvider.notifier)
-                    .toggleIsSkipSilenceEnabled(),
+                    .toggleSkipSilence(),
               );
             },
           ),

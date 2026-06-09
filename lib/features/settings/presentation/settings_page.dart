@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/docs/app_docs.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
+import 'package:raven_player/core/saf/saf_uri_formatter.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
@@ -13,9 +15,7 @@ import 'package:raven_player/features/settings/presentation/settings_toggle_swit
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/dialogs/app_confirm_dialog.dart';
 import 'package:raven_player/shared/dialogs/app_scrollable_dialog.dart';
-import 'package:raven_player/core/docs/app_docs.dart';
 import 'package:raven_player/utils/app_version.dart';
-import 'package:raven_player/core/saf/saf_uri_formatter.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -31,30 +31,34 @@ class SettingsPage extends ConsumerWidget {
           children: [
             Consumer(
               builder: (_, ref, _) {
-                final path = ref.watch(
+                final homeFolderUri = ref.watch(
                   settingsProvider.select((s) => s.homeFolderUri),
                 );
-                final pretty = path == null
+                final folderLabel = homeFolderUri == null
                     ? l10n.settingsNoFolderSelected
-                    : _localizedFolderPath(context, prettifyTreeUri(path));
+                    : _localizedFolderPath(
+                        context,
+                        prettifyTreeUri(homeFolderUri),
+                      );
+
                 return SettingsTile(
                   title: l10n.settingsHomeFolderTitle,
-                  description: l10n.settingsCurrentFolder(pretty),
+                  description: l10n.settingsCurrentFolder(folderLabel),
                   icon: AppIcons.folder,
                   trailing: SettingsButton(
                     icon: AppIcons.add,
                     onPressed: () async =>
-                        await _changeHomeFolderUri(context, ref, path),
+                        await _changeHomeFolderUri(context, ref, homeFolderUri),
                   ),
                 );
               },
             ),
-
             Consumer(
               builder: (_, ref, _) {
                 final themeMode = ref.watch(
                   settingsProvider.select((s) => s.themeMode),
                 );
+
                 return SettingsTile(
                   title: l10n.settingsThemeTitle,
                   description: switch (themeMode) {
@@ -90,38 +94,38 @@ class SettingsPage extends ConsumerWidget {
                 );
               },
             ),
-
             Consumer(
               builder: (_, ref, _) {
                 final showRemainingTime = ref.watch(
                   settingsProvider.select((s) => s.showRemainingTime),
                 );
+
                 return SettingsTile(
                   title: l10n.settingsShowRemainingTimeTitle,
                   description: l10n.settingsShowRemainingTimeDescription,
                   icon: AppIcons.showRemainingTime,
                   trailing: SettingsToggleSwitch(
                     value: showRemainingTime,
-                    onChanged: (enabled) async => await ref
+                    onChanged: (_) async => await ref
                         .read(settingsProvider.notifier)
                         .toggleShowRemainingTime(),
                   ),
                 );
               },
             ),
-
             Consumer(
               builder: (_, ref, _) {
                 final showBufferedProgress = ref.watch(
                   settingsProvider.select((s) => s.showBufferedProgress),
                 );
+
                 return SettingsTile(
                   title: l10n.settingsShowBufferedProgressTitle,
                   description: l10n.settingsShowBufferedProgressDescription,
                   icon: AppIcons.showBufferedProgress,
                   trailing: SettingsToggleSwitch(
                     value: showBufferedProgress,
-                    onChanged: (enabled) async => await ref
+                    onChanged: (_) async => await ref
                         .read(settingsProvider.notifier)
                         .toggleShowBufferedProgress(),
                   ),
@@ -133,13 +137,14 @@ class SettingsPage extends ConsumerWidget {
                 final backArrowBacksToLibrary = ref.watch(
                   settingsProvider.select((s) => s.backArrowBacksToLibrary),
                 );
+
                 return SettingsTile(
                   title: l10n.settingsBackArrowTitle,
                   description: l10n.settingsBackArrowDescription,
                   icon: AppIcons.systemBackBehavior,
                   trailing: SettingsToggleSwitch(
                     value: backArrowBacksToLibrary,
-                    onChanged: (enabled) async => await ref
+                    onChanged: (_) async => await ref
                         .read(settingsProvider.notifier)
                         .toggleArrowBacksToLibrary(),
                   ),
@@ -151,6 +156,7 @@ class SettingsPage extends ConsumerWidget {
                 final languageCode = ref.watch(
                   settingsProvider.select((s) => s.languageCode),
                 );
+
                 return SettingsTile(
                   title: l10n.settingsLanguageTitle,
                   description: switch (languageCode) {
@@ -183,25 +189,13 @@ class SettingsPage extends ConsumerWidget {
               icon: AppIcons.creator,
               trailing: SettingsButton(
                 icon: AppIcons.creator,
-                onPressed: () {
-                  showDialog<void>(
-                    context: context,
-                    builder: (context) {
-                      final languageCode = ref
-                          .read(settingsProvider)
-                          .languageCode;
-
-                      return AppScrollableDialog(
-                        headingIcon: AppIcons.creator,
-                        headingText: l10n.settingsCreatorDialogTitle,
-                        content: AppDocs.getText(
-                          TextFiles.creator,
-                          languageCode: languageCode,
-                        ),
-                      );
-                    },
-                  );
-                },
+                onPressed: () => _showDocsDialog(
+                  context,
+                  ref,
+                  icon: AppIcons.creator,
+                  title: l10n.settingsCreatorDialogTitle,
+                  file: TextFiles.creator,
+                ),
               ),
             ),
             SettingsTile(
@@ -210,28 +204,15 @@ class SettingsPage extends ConsumerWidget {
               icon: AppIcons.legal,
               trailing: SettingsButton(
                 icon: AppIcons.legalDocument,
-                onPressed: () {
-                  showDialog<void>(
-                    context: context,
-                    builder: (context) {
-                      final languageCode = ref
-                          .read(settingsProvider)
-                          .languageCode;
-
-                      return AppScrollableDialog(
-                        headingIcon: AppIcons.legal,
-                        headingText: l10n.settingsLegalTitle,
-                        content: AppDocs.getText(
-                          TextFiles.legal,
-                          languageCode: languageCode,
-                        ),
-                      );
-                    },
-                  );
-                },
+                onPressed: () => _showDocsDialog(
+                  context,
+                  ref,
+                  icon: AppIcons.legal,
+                  title: l10n.settingsLegalTitle,
+                  file: TextFiles.legal,
+                ),
               ),
             ),
-
             SettingsTile(
               title: l10n.settingsAppVersionTitle,
               description: l10n.settingsAppVersionDescription(
@@ -239,9 +220,7 @@ class SettingsPage extends ConsumerWidget {
                 AppVersion.buildNumber,
               ),
               icon: AppIcons.appVersion,
-              trailing: null,
             ),
-
             const SizedBox(height: AppSpacing.xs),
             const SettingsCredits(),
           ],
@@ -255,6 +234,27 @@ class SettingsPage extends ConsumerWidget {
       return context.l10n.settingsInternalStorage;
     }
     return path;
+  }
+
+  void _showDocsDialog(
+    BuildContext context,
+    WidgetRef ref, {
+    required IconData icon,
+    required String title,
+    required TextFiles file,
+  }) {
+    showDialog<void>(
+      context: context,
+      builder: (_) {
+        final languageCode = ref.read(settingsProvider).languageCode;
+
+        return AppScrollableDialog(
+          headingIcon: icon,
+          headingText: title,
+          content: AppDocs.getText(file, languageCode: languageCode),
+        );
+      },
+    );
   }
 
   Future<void> _changeHomeFolderUri(

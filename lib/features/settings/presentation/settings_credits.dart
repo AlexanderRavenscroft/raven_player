@@ -8,8 +8,6 @@ import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsCredits extends StatelessWidget {
-  const SettingsCredits({super.key});
-
   //TODO: ADD ACUTAL LINKS & DATA
   static final Uri _githubUrl = Uri.https(
     'github.com',
@@ -22,33 +20,7 @@ class SettingsCredits extends StatelessWidget {
   );
   static final Uri _koFiUrl = Uri.https('ko-fi.com', '/your-profile');
 
-  Future<void> _openExternalLink(BuildContext context, Uri uri) async {
-    if (uri.scheme != 'https') {
-      return;
-    }
-
-    final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
-
-    if (!opened && context.mounted) {
-      AppSnackBar.showSnackBar(
-        context,
-        context.l10n.settingsCouldNotOpenLink,
-        type: SnackBarType.error,
-      );
-    }
-  }
-
-  Future<void> _confirmAndOpen(BuildContext context, Uri uri) async {
-    await showDialog<void>(
-      context: context,
-      builder: (dialogContext) => AppConfirmDialog(
-        title: dialogContext.l10n.settingsOpenLinkTitle,
-        content: uri.host,
-        onAccept: () => _openExternalLink(context, uri),
-        acceptText: dialogContext.l10n.dialogOpen,
-      ),
-    );
-  }
+  const SettingsCredits({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +65,34 @@ class SettingsCredits extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Future<void> _openExternalLink(BuildContext context, Uri uri) async {
+    if (uri.scheme != 'https' || uri.scheme != 'mailto') {
+      return;
+    }
+
+    final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
+
+    if (!opened && context.mounted) {
+      AppSnackBar.showSnackBar(
+        context,
+        context.l10n.settingsCouldNotOpenLink,
+        type: SnackBarType.error,
+      );
+    }
+  }
+
+  Future<void> _confirmAndOpen(BuildContext context, Uri uri) async {
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AppConfirmDialog(
+        title: dialogContext.l10n.settingsOpenLinkTitle,
+        content: uri.host,
+        onAccept: () => _openExternalLink(context, uri),
+        acceptText: dialogContext.l10n.dialogOpen,
       ),
     );
   }

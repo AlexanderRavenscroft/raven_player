@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 
 class SettingsTile extends StatelessWidget {
   final String title;
@@ -8,22 +9,17 @@ class SettingsTile extends StatelessWidget {
   final Widget? trailing;
 
   static const double _tileHeight = 90;
-  static const double _horizontalPadding = 16;
   static const double _leadingWidth = 40;
-  static const double _leadingGap = 16;
-  static const double _trailingGap = 12;
   static const double _trailingMinWidth = 56;
-  static const double _titleDescriptionGap = 4;
   static const double _titleLineHeight = 1.2;
   static const double _descriptionLineHeight = 1.25;
-  static const double _dividerHeight = 8;
 
   const SettingsTile({
     super.key,
     required this.title,
     required this.description,
     required this.icon,
-    required this.trailing,
+    this.trailing,
   });
 
   @override
@@ -53,7 +49,7 @@ class SettingsTile extends StatelessWidget {
         SizedBox(
           height: _tileHeight,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -67,7 +63,7 @@ class SettingsTile extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: _leadingGap),
+                const SizedBox(width: AppSpacing.lg),
                 Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -85,7 +81,7 @@ class SettingsTile extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: _titleDescriptionGap),
+                      const SizedBox(height: AppSpacing.xs),
                       SizedBox(
                         height: descriptionHeight * 2,
                         child: Align(
@@ -102,7 +98,7 @@ class SettingsTile extends StatelessWidget {
                   ),
                 ),
                 if (trailing != null) ...[
-                  const SizedBox(width: _trailingGap),
+                  const SizedBox(width: AppSpacing.md),
                   ConstrainedBox(
                     constraints: const BoxConstraints(
                       minWidth: _trailingMinWidth,
@@ -121,7 +117,7 @@ class SettingsTile extends StatelessWidget {
         Divider(
           color: colorScheme.surfaceContainer,
           thickness: 1,
-          height: _dividerHeight,
+          height: AppSpacing.sm,
         ),
       ],
     );

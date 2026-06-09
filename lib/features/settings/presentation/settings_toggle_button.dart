@@ -15,7 +15,7 @@ class SettingsToggleButton<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return SegmentedButton<T>(
       showSelectedIcon: false,
@@ -23,30 +23,30 @@ class SettingsToggleButton<T> extends StatelessWidget {
       selected: {selected},
       onSelectionChanged: (set) => onChanged(set.first),
       style: ButtonStyle(
+        visualDensity: VisualDensity.compact,
         backgroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return colors.primary;
+            return colorScheme.primary;
           }
-          return colors.surfaceContainer;
+          return colorScheme.surfaceContainer;
         }),
         foregroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return colors.onPrimary;
+            return colorScheme.onPrimary;
           }
-          return colors.onSurface;
+          return colorScheme.onSurface;
         }),
         iconColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return colors.onPrimary;
+            return colorScheme.onPrimary;
           }
-          return colors.onSurface;
+          return colorScheme.onSurface;
         }),
-        side: WidgetStatePropertyAll(BorderSide.none),
+        side: const WidgetStatePropertyAll(BorderSide.none),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         ),
-        visualDensity: VisualDensity.compact,
-        iconSize: WidgetStatePropertyAll(AppIconSizes.small),
+        iconSize: const WidgetStatePropertyAll(AppIconSizes.small),
       ),
     );
   }
