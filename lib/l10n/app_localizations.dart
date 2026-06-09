@@ -416,6 +416,42 @@ abstract class AppLocalizations {
   /// **'Could not open link'**
   String get settingsCouldNotOpenLink;
 
+  /// Tooltip for the app bar button that rescans the audiobook library.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh library'**
+  String get tooltipRefreshLibrary;
+
+  /// Tooltip for the app bar button that opens settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get tooltipOpenSettings;
+
+  /// Tooltip for the app bar button that returns to the previous screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get tooltipBack;
+
+  /// Tooltip for the credits button that opens GitHub.
+  ///
+  /// In en, this message translates to:
+  /// **'Open GitHub'**
+  String get tooltipOpenGitHub;
+
+  /// Tooltip for the credits button that opens an email app.
+  ///
+  /// In en, this message translates to:
+  /// **'Send email'**
+  String get tooltipSendEmail;
+
+  /// Tooltip for the credits button that opens Ko-fi.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Ko-fi'**
+  String get tooltipOpenKoFi;
+
   /// Message shown when the player fails to load an audiobook.
   ///
   /// In en, this message translates to:

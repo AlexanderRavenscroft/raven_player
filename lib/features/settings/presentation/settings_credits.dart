@@ -66,9 +66,8 @@ class SettingsCredits extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //TODO: Fix tooltrips & set translations
               IconButton(
-                tooltip: 'GitHub',
+                tooltip: context.l10n.tooltipOpenGitHub,
                 icon: const FaIcon(
                   FontAwesomeIcons.github,
                   size: AppIconSizes.large,
@@ -76,7 +75,7 @@ class SettingsCredits extends StatelessWidget {
                 onPressed: () => _confirmAndOpen(context, _githubUrl),
               ),
               IconButton(
-                tooltip: 'Email',
+                tooltip: context.l10n.tooltipSendEmail,
                 icon: const FaIcon(
                   FontAwesomeIcons.envelope,
                   size: AppIconSizes.large,
@@ -84,7 +83,7 @@ class SettingsCredits extends StatelessWidget {
                 onPressed: () => _confirmAndOpen(context, _emailUrl),
               ),
               IconButton(
-                tooltip: 'Ko-fi',
+                tooltip: context.l10n.tooltipOpenKoFi,
                 icon: const FaIcon(
                   FontAwesomeIcons.koFi,
                   size: AppIconSizes.large,

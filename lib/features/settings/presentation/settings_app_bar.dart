@@ -29,6 +29,7 @@ class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       leading: AppBarButton(
         icon: AppIcons.back,
+        tooltip: context.l10n.tooltipBack,
         onPressed: () {
           ScaffoldMessenger.of(context).clearSnackBars();
           Navigator.of(context).pop();

@@ -32,6 +32,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
       actions: [
         AppBarButton(
           icon: AppIcons.refresh,
+          tooltip: context.l10n.tooltipRefreshLibrary,
           onPressed: () async {
             AppSnackBar.showSnackBar(
               context,
@@ -44,6 +45,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
         ),
         AppBarButton(
           icon: AppIcons.settings,
+          tooltip: context.l10n.tooltipOpenSettings,
           onPressed: () {
             Navigator.of(context).push<void>(
               MaterialPageRoute<void>(

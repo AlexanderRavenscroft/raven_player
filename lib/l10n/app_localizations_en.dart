@@ -183,6 +183,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsCouldNotOpenLink => 'Could not open link';
 
   @override
+  String get tooltipRefreshLibrary => 'Refresh library';
+
+  @override
+  String get tooltipOpenSettings => 'Open settings';
+
+  @override
+  String get tooltipBack => 'Back';
+
+  @override
+  String get tooltipOpenGitHub => 'Open GitHub';
+
+  @override
+  String get tooltipSendEmail => 'Send email';
+
+  @override
+  String get tooltipOpenKoFi => 'Open Ko-fi';
+
+  @override
   String playerLoadingError(String error) {
     return 'Error loading audiobook: $error';
   }

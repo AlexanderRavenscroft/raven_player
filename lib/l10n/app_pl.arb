@@ -240,6 +240,30 @@
   "@settingsCouldNotOpenLink": {
     "description": "Snackbar shown when an external link cannot be opened."
   },
+  "tooltipRefreshLibrary": "Odśwież bibliotekę",
+  "@tooltipRefreshLibrary": {
+    "description": "Tooltip for the app bar button that rescans the audiobook library."
+  },
+  "tooltipOpenSettings": "Otwórz ustawienia",
+  "@tooltipOpenSettings": {
+    "description": "Tooltip for the app bar button that opens settings."
+  },
+  "tooltipBack": "Wstecz",
+  "@tooltipBack": {
+    "description": "Tooltip for the app bar button that returns to the previous screen."
+  },
+  "tooltipOpenGitHub": "Otwórz GitHub",
+  "@tooltipOpenGitHub": {
+    "description": "Tooltip for the credits button that opens GitHub."
+  },
+  "tooltipSendEmail": "Wyślij e-mail",
+  "@tooltipSendEmail": {
+    "description": "Tooltip for the credits button that opens an email app."
+  },
+  "tooltipOpenKoFi": "Otwórz Ko-fi",
+  "@tooltipOpenKoFi": {
+    "description": "Tooltip for the credits button that opens Ko-fi."
+  },
   "playerLoadingError": "Błąd wczytywania audiobooka: {error}",
   "@playerLoadingError": {
     "description": "Message shown when the player fails to load an audiobook.",

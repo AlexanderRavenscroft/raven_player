@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_colors.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/core/theme/app_typography.dart';
 
 abstract final class AppTheme {
@@ -8,6 +9,21 @@ abstract final class AppTheme {
 
     fontFamily: AppTypography.primaryFont,
     textTheme: AppTypography.textTheme,
+
+    tooltipTheme: TooltipThemeData(
+      preferBelow: false,
+      decoration: BoxDecoration(
+        color: AppColors.lightSurfaceContainer,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
+      textStyle: AppTypography.textTheme.labelMedium!.copyWith(
+        color: AppColors.lightOnSurface,
+      ),
+    ),
 
     colorScheme: const ColorScheme.light(
       primary: AppColors.primary,
@@ -27,6 +43,21 @@ abstract final class AppTheme {
 
     fontFamily: AppTypography.primaryFont,
     textTheme: AppTypography.textTheme,
+
+    tooltipTheme: TooltipThemeData(
+      preferBelow: false,
+      decoration: BoxDecoration(
+        color: AppColors.darkSurfaceContainer,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.sm,
+      ),
+      textStyle: AppTypography.textTheme.labelMedium!.copyWith(
+        color: AppColors.darkOnSurface,
+      ),
+    ),
 
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primary,

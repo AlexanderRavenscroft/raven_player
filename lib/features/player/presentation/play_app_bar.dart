@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/features/player/presentation/audiobook_title_display.dart';
 import 'package:raven_player/features/settings/presentation/settings_page.dart';
+import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/buttons/app_bar_button.dart';
 
@@ -18,6 +19,7 @@ class PlayAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: AudiobookTitleDisplay(text: book.title),
       leading: AppBarButton(
         icon: AppIcons.back,
+        tooltip: context.l10n.tooltipBack,
         onPressed: () {
           ScaffoldMessenger.of(context).clearSnackBars();
           Navigator.of(context).pop();
@@ -26,6 +28,7 @@ class PlayAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         AppBarButton(
           icon: AppIcons.settings,
+          tooltip: context.l10n.tooltipOpenSettings,
           onPressed: () {
             ScaffoldMessenger.of(context).clearSnackBars();
             Navigator.of(

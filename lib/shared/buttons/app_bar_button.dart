@@ -3,9 +3,15 @@ import 'package:raven_player/core/theme/app_icons.dart';
 
 class AppBarButton extends StatelessWidget {
   final IconData icon;
+  final String tooltip;
   final VoidCallback onPressed;
 
-  const AppBarButton({super.key, required this.icon, required this.onPressed});
+  const AppBarButton({
+    super.key,
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +22,7 @@ class AppBarButton extends StatelessWidget {
         size: AppIconSizes.medium,
       ),
       onPressed: onPressed,
-      tooltip: 'XDDD', //TODO: Add tooltips
+      tooltip: tooltip,
     );
   }
 }
