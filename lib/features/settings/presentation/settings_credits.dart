@@ -3,8 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
-import 'package:raven_player/shared/pop_ups/app_confirm_dialog.dart';
-import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
+import 'package:raven_player/shared/dialogs/app_confirm_dialog.dart';
+import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsCredits extends StatelessWidget {
@@ -69,12 +69,15 @@ class SettingsCredits extends StatelessWidget {
               //TODO: Fix tooltrips & set translations
               IconButton(
                 tooltip: 'GitHub',
-                icon: FaIcon(FontAwesomeIcons.github, size: AppIconSizes.large),
+                icon: const FaIcon(
+                  FontAwesomeIcons.github,
+                  size: AppIconSizes.large,
+                ),
                 onPressed: () => _confirmAndOpen(context, _githubUrl),
               ),
               IconButton(
                 tooltip: 'Email',
-                icon: FaIcon(
+                icon: const FaIcon(
                   FontAwesomeIcons.envelope,
                   size: AppIconSizes.large,
                 ),
@@ -82,7 +85,10 @@ class SettingsCredits extends StatelessWidget {
               ),
               IconButton(
                 tooltip: 'Ko-fi',
-                icon: FaIcon(FontAwesomeIcons.koFi, size: AppIconSizes.large),
+                icon: const FaIcon(
+                  FontAwesomeIcons.koFi,
+                  size: AppIconSizes.large,
+                ),
                 onPressed: () => _confirmAndOpen(context, _koFiUrl),
               ),
             ],

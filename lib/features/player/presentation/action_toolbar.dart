@@ -6,8 +6,8 @@ import 'package:raven_player/features/player/application/sleep_timer_notifier.da
 import 'package:raven_player/features/player/presentation/toolbar_button.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
-import 'package:raven_player/shared/pop_ups/app_slider_dialog.dart';
-import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
+import 'package:raven_player/shared/dialogs/app_slider_dialog.dart';
+import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 
 class ActionToolbar extends ConsumerWidget {
   const ActionToolbar({super.key});

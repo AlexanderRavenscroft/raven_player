@@ -95,7 +95,10 @@ class _PlayPageState extends ConsumerState<PlayPage> {
           const SizedBox(height: AppSpacing.md),
 
           //* COVER
-          AudiobookCover(book: initializedBook, isOnTile: false),
+          PlayButton(
+            asStandaloneButton: false,
+            coverWidget: AudiobookCover(book: initializedBook, isOnTile: false),
+          ),
 
           //* CHAPTER CONTROLS
           SizedBox(

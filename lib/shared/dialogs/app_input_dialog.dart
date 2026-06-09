@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
+import 'package:raven_player/shared/dialogs/dialog_action_button.dart';
 
 class AppInputDialog extends StatelessWidget {
   final String title;
   final String hintText;
+  final String confirmText;
   final TextEditingController textEditingController;
+
   const AppInputDialog({
     super.key,
-    required this.textEditingController,
     required this.title,
     required this.hintText,
+    required this.confirmText,
+    required this.textEditingController,
   });
 
   @override
@@ -49,30 +53,12 @@ class AppInputDialog extends StatelessWidget {
       ),
       actionsAlignment: MainAxisAlignment.end,
       actions: [
-        TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-          ),
-          child: Text(
-            context.l10n.dialogCancel,
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
+        DialogActionButton(
+          text: context.l10n.dialogCancel,
           onPressed: () => Navigator.pop(context),
         ),
-        TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-          ),
-          child: Text(
-            context.l10n.dialogRename,
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
+        DialogActionButton(
+          text: confirmText,
           onPressed: () => Navigator.pop(context, textEditingController.text),
         ),
       ],

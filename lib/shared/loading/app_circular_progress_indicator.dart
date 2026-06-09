@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class AppCircularProgressIndicator extends StatelessWidget {
+  final double size;
+  final double strokeWidth;
+  final Color? color;
+
   const AppCircularProgressIndicator({
     super.key,
     this.size = 50,
     this.strokeWidth = 4,
     this.color,
   });
-
-  final double size;
-  final double strokeWidth;
-  final Color? color;
 
   @override
   Widget build(BuildContext context) {

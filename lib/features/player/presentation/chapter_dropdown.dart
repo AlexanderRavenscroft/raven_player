@@ -6,7 +6,7 @@ import 'package:raven_player/features/player/application/sleep_timer_notifier.da
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
-import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
+import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 
 class ChapterDropdown extends ConsumerWidget {
   final Audiobook book;

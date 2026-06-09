@@ -6,7 +6,7 @@ import 'package:raven_player/features/player/application/sleep_timer_notifier.da
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/loading/app_linear_progress_indicator.dart';
-import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
+import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 
 class PlayProgressBar extends ConsumerWidget {
   const PlayProgressBar({super.key});

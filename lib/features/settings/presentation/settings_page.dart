@@ -11,8 +11,8 @@ import 'package:raven_player/features/settings/presentation/settings_tile.dart';
 import 'package:raven_player/features/settings/presentation/settings_toggle_button.dart';
 import 'package:raven_player/features/settings/presentation/settings_toggle_switch.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
-import 'package:raven_player/shared/pop_ups/app_confirm_dialog.dart';
-import 'package:raven_player/shared/pop_ups/app_scrollable_dialog.dart';
+import 'package:raven_player/shared/dialogs/app_confirm_dialog.dart';
+import 'package:raven_player/shared/dialogs/app_scrollable_dialog.dart';
 import 'package:raven_player/core/docs/app_docs.dart';
 import 'package:raven_player/utils/app_version.dart';
 import 'package:raven_player/core/saf/saf_uri_formatter.dart';
@@ -184,13 +184,22 @@ class SettingsPage extends ConsumerWidget {
               trailing: SettingsButton(
                 icon: AppIcons.creator,
                 onPressed: () {
-                  showDialog(
+                  showDialog<void>(
                     context: context,
-                    builder: (context) => AppScrollableDialog(
-                      headingIcon: AppIcons.creator,
-                      headingText: l10n.settingsCreatorDialogTitle,
-                      textFile: TextFiles.creator,
-                    ),
+                    builder: (context) {
+                      final languageCode = ref
+                          .read(settingsProvider)
+                          .languageCode;
+
+                      return AppScrollableDialog(
+                        headingIcon: AppIcons.creator,
+                        headingText: l10n.settingsCreatorDialogTitle,
+                        content: AppDocs.getText(
+                          TextFiles.creator,
+                          languageCode: languageCode,
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -202,13 +211,22 @@ class SettingsPage extends ConsumerWidget {
               trailing: SettingsButton(
                 icon: AppIcons.legalDocument,
                 onPressed: () {
-                  showDialog(
+                  showDialog<void>(
                     context: context,
-                    builder: (context) => AppScrollableDialog(
-                      headingIcon: AppIcons.legal,
-                      headingText: l10n.settingsLegalTitle,
-                      textFile: TextFiles.legal,
-                    ),
+                    builder: (context) {
+                      final languageCode = ref
+                          .read(settingsProvider)
+                          .languageCode;
+
+                      return AppScrollableDialog(
+                        headingIcon: AppIcons.legal,
+                        headingText: l10n.settingsLegalTitle,
+                        content: AppDocs.getText(
+                          TextFiles.legal,
+                          languageCode: languageCode,
+                        ),
+                      );
+                    },
                   );
                 },
               ),

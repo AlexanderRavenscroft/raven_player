@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
+import 'package:raven_player/shared/dialogs/dialog_action_button.dart';
 
 class AppSliderDialog extends StatefulWidget {
   final String title;
@@ -75,30 +76,12 @@ class _AppSliderDialogState extends State<AppSliderDialog> {
       ),
       actionsAlignment: MainAxisAlignment.end,
       actions: [
-        TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-          ),
-          child: Text(
-            context.l10n.dialogCancel,
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
+        DialogActionButton(
+          text: context.l10n.dialogCancel,
           onPressed: () => Navigator.pop(context),
         ),
-        TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-          ),
-          child: Text(
-            widget.confirmLabel ?? context.l10n.dialogConfirm,
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
+        DialogActionButton(
+          text: widget.confirmLabel ?? context.l10n.dialogConfirm,
           onPressed: () => Navigator.pop(context, _currentValue),
         ),
       ],

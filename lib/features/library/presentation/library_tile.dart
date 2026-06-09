@@ -10,8 +10,8 @@ import 'package:raven_player/features/player/presentation/play_page.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/others/audiobook_cover.dart';
-import 'package:raven_player/shared/pop_ups/app_input_dialog.dart';
-import 'package:raven_player/shared/pop_ups/app_snack_bar.dart';
+import 'package:raven_player/shared/dialogs/app_input_dialog.dart';
+import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 
 class LibraryTile extends ConsumerWidget {
   static const double _actionPaneExtentRatio = 0.2;
@@ -163,6 +163,7 @@ class LibraryTile extends ConsumerWidget {
       builder: (context) => AppInputDialog(
         title: context.l10n.libraryRenameTitle,
         hintText: context.l10n.libraryRenameHint,
+        confirmText: context.l10n.dialogRename,
         textEditingController: renameController,
       ),
     );

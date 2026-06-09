@@ -106,8 +106,7 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          if (widget.coverWidget != null)
-            Positioned.fill(child: widget.coverWidget!),
+          if (widget.coverWidget != null) widget.coverWidget!,
           if (isPlayerLockEnabled)
             Icon(
               iconData,

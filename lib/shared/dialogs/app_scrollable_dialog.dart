@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
-import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
-import 'package:raven_player/core/docs/app_docs.dart';
+import 'package:raven_player/shared/dialogs/dialog_action_button.dart';
 
-class AppScrollableDialog extends ConsumerWidget {
+class AppScrollableDialog extends StatelessWidget {
   final IconData headingIcon;
   final String headingText;
-  final TextFiles textFile;
+  final String content;
 
   const AppScrollableDialog({
     super.key,
     required this.headingIcon,
     required this.headingText,
-    required this.textFile,
+    required this.content,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final languageCode = ref.watch(
-      settingsProvider.select((s) => s.languageCode),
-    );
-
+  Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Theme.of(context).colorScheme.surface,
       scrollable: true,
@@ -54,7 +48,7 @@ class AppScrollableDialog extends ConsumerWidget {
         vertical: AppSpacing.lg,
       ),
       content: Text(
-        AppDocs.getText(textFile, languageCode: languageCode),
+        content,
         textAlign: TextAlign.start,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1.5),
       ),
@@ -63,24 +57,15 @@ class AppScrollableDialog extends ConsumerWidget {
         vertical: AppSpacing.lg,
       ),
       actions: [
-        TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            fixedSize: Size(
-              double.maxFinite,
-              MediaQuery.of(context).size.height * 0.06,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
+        DialogActionButton(
+          text: context.l10n.dialogClose,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          fixedSize: Size(
+            double.maxFinite,
+            MediaQuery.of(context).size.height * 0.06,
           ),
-          child: Text(
-            context.l10n.dialogClose,
-            style: Theme.of(context).textTheme.labelLarge!.copyWith(
-              color: Theme.of(context).colorScheme.onPrimary,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          fontWeight: FontWeight.bold,
           onPressed: () => Navigator.pop(context),
         ),
       ],

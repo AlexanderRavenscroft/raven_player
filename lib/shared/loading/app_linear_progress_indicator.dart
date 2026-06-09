@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AppLinearProgressIndicator extends StatelessWidget {
+  final double? value;
+  final double? width;
+  final double height;
+
   const AppLinearProgressIndicator({
     super.key,
     this.value,
@@ -8,14 +12,8 @@ class AppLinearProgressIndicator extends StatelessWidget {
     this.height = 6,
   });
 
-  final double? value;
-  final double? width;
-  final double height;
-
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return SizedBox(
       width: width,
       height: height,
@@ -24,8 +22,8 @@ class AppLinearProgressIndicator extends StatelessWidget {
         child: LinearProgressIndicator(
           value: value,
           minHeight: height,
-          color: colorScheme.primary,
-          backgroundColor: colorScheme.secondary,
+          color: Theme.of(context).colorScheme.primary,
+          backgroundColor: Theme.of(context).colorScheme.secondary,
         ),
       ),
     );

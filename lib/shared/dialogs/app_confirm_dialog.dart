@@ -1,9 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
+import 'package:raven_player/shared/dialogs/dialog_action_button.dart';
 
 enum AppConfirmDialogLevel { info, warning, danger }
 
@@ -81,30 +81,12 @@ class AppConfirmDialog extends StatelessWidget {
       content: Text(content, style: Theme.of(context).textTheme.bodyMedium),
       actionsAlignment: MainAxisAlignment.end,
       actions: [
-        TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-          ),
-          child: Text(
-            denialText ?? context.l10n.dialogCancel,
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
+        DialogActionButton(
+          text: denialText ?? context.l10n.dialogCancel,
           onPressed: () => _handleDenial(context),
         ),
-        TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-          ),
-          child: Text(
-            acceptText ?? context.l10n.dialogOk,
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
+        DialogActionButton(
+          text: acceptText ?? context.l10n.dialogOk,
           onPressed: () => _handleAccept(context),
         ),
       ],

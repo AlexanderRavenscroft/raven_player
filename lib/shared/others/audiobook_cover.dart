@@ -1,31 +1,41 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
-import 'package:raven_player/features/player/presentation/play_button.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/models/audiobook.dart';
+import 'package:raven_player/shared/loading/app_circular_progress_indicator.dart';
 
-class AudiobookCover extends ConsumerWidget {
+class AudiobookCover extends StatelessWidget {
   final Audiobook book;
   final bool isOnTile;
 
   const AudiobookCover({super.key, required this.book, required this.isOnTile});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final mediaWidth = MediaQuery.sizeOf(context).width;
     final coverWidth = mediaWidth * (isOnTile ? 0.24 : 0.92);
     final coverHeight = coverWidth;
-
     final iconSize = coverWidth * 0.8;
-
     final blur = isOnTile ? 0.0 : 4.0;
-    Widget cover = (book.coverPath == null)
+
+    final Widget cover = (book.coverPath == null)
         ? _buildDefaultCover(context, iconSize, blur)
         : Image.file(
             File(book.coverPath!),
             fit: isOnTile ? BoxFit.contain : BoxFit.cover,
+            frameBuilder: (_, child, frame, _) {
+              if (frame == null) {
+                return const Padding(
+                  padding: EdgeInsets.all(
+                    AppSpacing.xxl,
+                  ), //TODO: Think about frame builder
+                  child: AppCircularProgressIndicator(),
+                );
+              }
+              return child;
+            },
             errorBuilder: (_, _, _) =>
                 _buildDefaultCover(context, iconSize, blur),
           );
@@ -33,13 +43,7 @@ class AudiobookCover extends ConsumerWidget {
     return SizedBox(
       width: coverWidth,
       height: coverHeight,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: isOnTile
-            ? cover
-            : PlayButton(asStandaloneButton: false, coverWidget: cover),
-        // child: cover,
-      ),
+      child: ClipRRect(borderRadius: BorderRadius.circular(12), child: cover),
     );
   }
 
