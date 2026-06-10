@@ -9,11 +9,16 @@ import 'package:raven_player/shared/loading/app_linear_progress_indicator.dart';
 import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 
 class PlayProgressBar extends ConsumerWidget {
+  static const double _progressBarHeightRatio = 0.05;
+  static const double _progressBarWidthRatio = 0.92;
+  static const double _barHeightRatio = 0.01;
+  static const double _thumbRadiusRatio = 0.012;
+
   const PlayProgressBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final book = ref.watch(playerProvider);
+    final hasBook = ref.watch(playerProvider.select((book) => book != null));
     final positionAsync = ref.watch(positionDataStreamProvider);
 
     final isPlayerLockEnabled = ref.watch(
@@ -27,7 +32,10 @@ class PlayProgressBar extends ConsumerWidget {
     final showBufferedProgress = ref.watch(
       settingsProvider.select((s) => s.showBufferedProgress),
     );
-    if (book == null) return const _LoadingProgressBar();
+    final screenSize = MediaQuery.sizeOf(context);
+
+    if (!hasBook) return const _LoadingProgressBar();
+
     return positionAsync.when(
       loading: () => const _LoadingProgressBar(),
       error: (_, _) => const _LoadingProgressBar(),
@@ -39,20 +47,19 @@ class PlayProgressBar extends ConsumerWidget {
           children: [
             AbsorbPointer(
               absorbing: isPlayerLockEnabled,
-              child: Container(
-                color: Colors.transparent,
-                height: MediaQuery.of(context).size.height * 0.05,
-                width: MediaQuery.of(context).size.width * 0.92,
+              child: SizedBox(
+                height: screenSize.height * _progressBarHeightRatio,
+                width: screenSize.width * _progressBarWidthRatio,
                 child: ProgressBar(
                   thumbCanPaintOutsideBar: false,
+                  barHeight: screenSize.height * _barHeightRatio,
                   timeLabelType: showRemainingTime
                       ? TimeLabelType.remainingTime
                       : TimeLabelType.totalTime,
-                  barHeight: MediaQuery.of(context).size.height * 0.01,
-                  thumbGlowColor: Colors.transparent,
-                  thumbRadius: MediaQuery.of(context).size.height * 0.012,
                   timeLabelLocation: TimeLabelLocation.below,
                   timeLabelTextStyle: Theme.of(context).textTheme.labelLarge,
+                  thumbRadius: screenSize.height * _thumbRadiusRatio,
+                  thumbGlowColor: Colors.transparent,
                   thumbColor: Theme.of(context).colorScheme.primary,
                   baseBarColor: Theme.of(context).colorScheme.surfaceContainer,
                   bufferedBarColor: showBufferedProgress
@@ -62,8 +69,8 @@ class PlayProgressBar extends ConsumerWidget {
                   progress: positionData.position,
                   buffered: positionData.bufferedPosition,
                   total: positionData.duration,
-                  onSeek: (d) {
-                    ref.read(playerProvider.notifier).seek(d);
+                  onSeek: (duration) async {
+                    await ref.read(playerProvider.notifier).seek(duration);
                     ref
                         .read(sleepTimerProvider.notifier)
                         .resetFromListeningActivity();
@@ -100,16 +107,16 @@ class _LoadingProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
+    final screenSize = MediaQuery.sizeOf(context);
 
     return SizedBox(
-      height: mediaQuery.size.height * 0.05,
-      width: mediaQuery.size.width * 0.92,
+      height: screenSize.height * PlayProgressBar._progressBarHeightRatio,
+      width: screenSize.width * PlayProgressBar._progressBarWidthRatio,
       child: Align(
         alignment: Alignment.center,
         child: AppLinearProgressIndicator(
-          width: mediaQuery.size.width * 0.92,
-          height: mediaQuery.size.height * 0.01,
+          width: screenSize.width * PlayProgressBar._progressBarWidthRatio,
+          height: screenSize.height * PlayProgressBar._barHeightRatio,
         ),
       ),
     );

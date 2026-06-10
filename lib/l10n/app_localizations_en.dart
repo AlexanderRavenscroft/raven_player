@@ -221,6 +221,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get noChaptersFound => 'No chapters found';
+
+  @override
   String readingProgress(String read, String total, String percent) {
     return 'Read $read of $total ($percent%)';
   }

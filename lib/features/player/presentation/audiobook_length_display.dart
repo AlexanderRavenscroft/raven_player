@@ -34,7 +34,12 @@ class _ChapterInfoText extends ConsumerWidget {
     );
 
     return Text(
-      context.l10n.chapterProgress(currentChapter + 1, book.chapters.length),
+      book.chapters.isEmpty
+          ? context.l10n.noChaptersFound
+          : context.l10n.chapterProgress(
+              currentChapter + 1,
+              book.chapters.length,
+            ),
       style: Theme.of(context).textTheme.labelMedium,
     );
   }
@@ -111,6 +116,8 @@ class _TimeInfoText extends ConsumerWidget {
 }
 
 int _sumPastChapters(Audiobook book, int currentChapterIndex) {
+  if (book.chapters.isEmpty) return 0;
+
   final safeIndex = currentChapterIndex.clamp(0, book.chapters.length - 1);
   int sum = 0;
   for (int i = 0; i < safeIndex; i++) {
@@ -119,8 +126,8 @@ int _sumPastChapters(Audiobook book, int currentChapterIndex) {
   return sum;
 }
 
-String _format(Duration d) {
-  final h = d.inHours;
-  final m = d.inMinutes.remainder(60).toString().padLeft(2, '0');
-  return '$h:$m';
+String _format(Duration duration) {
+  final hours = duration.inHours;
+  final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+  return '$hours:$minutes';
 }

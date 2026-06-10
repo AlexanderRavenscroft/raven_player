@@ -161,7 +161,11 @@ class PlayerNotifier extends Notifier<Audiobook?> {
 
   Future<void> play() => _player.play();
   Future<void> pause() => _player.pause();
-  Future<void> seekToStart() => _player.seek(Duration.zero);
+  Future<void> replay() async {
+    await _player.seek(Duration.zero);
+    await _player.play();
+  }
+
   Future<void> seek(Duration position) => _player.seek(position);
   Future<void> seekToPrevious() => _player.seekToPrevious();
   Future<void> seekToNext() => _player.seekToNext();

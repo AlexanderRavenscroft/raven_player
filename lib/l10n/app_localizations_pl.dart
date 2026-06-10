@@ -221,6 +221,9 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
+  String get noChaptersFound => 'Nie znaleziono rozdziałów';
+
+  @override
   String readingProgress(String read, String total, String percent) {
     return 'Przeczytano $read z $total ($percent%)';
   }

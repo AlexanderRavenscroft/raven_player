@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
-
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/player/presentation/toolbar_button.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
@@ -9,91 +8,24 @@ import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/dialogs/app_slider_dialog.dart';
 import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 
-class ActionToolbar extends ConsumerWidget {
+class ActionToolbar extends StatelessWidget {
+  static const double _minPlaybackSpeed = 0.5;
+  static const double _maxPlaybackSpeed = 3.0;
+  static const int _playbackSpeedDivisions = 25;
+  static const double _minSleepTimerMinutes = 5;
+  static const double _maxSleepTimerMinutes = 90;
+  static const int _sleepTimerDivisions = 17;
+
   const ActionToolbar({super.key});
 
-  void _applyPlaybackSpeed(
-    WidgetRef ref, {
-    required double newSpeed,
-    required double currentSpeed,
-    required bool isEnabled,
-  }) {
-    final rounded = double.parse(newSpeed.toStringAsFixed(1));
-
-    if (!isEnabled && rounded != 1) {
-      ref.read(settingsProvider.notifier).enablePlaybackSpeed();
-    }
-
-    if (rounded == currentSpeed) return;
-
-    if (rounded == 1) {
-      ref.read(settingsProvider.notifier).disablePlaybackSpeed();
-    }
-
-    ref.read(settingsProvider.notifier).updatePlaybackSpeed(rounded);
-  }
-
-  Future<void> _showSpeedDialog(
-    BuildContext context,
-    WidgetRef ref, {
-    required double currentSpeed,
-    required bool isEnabled,
-  }) async {
-    final newSpeed = await showDialog<double>(
-      context: context,
-      builder: (context) => AppSliderDialog(
-        title: context.l10n.playerAdjustPlaybackSpeed,
-        minValue: 0.5,
-        maxValue: 3.0,
-        initialValue: currentSpeed,
-        divisions: 25,
-      ),
-    );
-
-    if (newSpeed != null) {
-      _applyPlaybackSpeed(
-        ref,
-        newSpeed: newSpeed,
-        currentSpeed: currentSpeed,
-        isEnabled: isEnabled,
-      );
-    }
-  }
-
-  Future<void> _showSleepTimerDialog(
-    BuildContext context,
-    WidgetRef ref, {
-    required int currentMinutes,
-  }) async {
-    final newMinutes = await showDialog<double>(
-      context: context,
-      builder: (context) => AppSliderDialog(
-        title: context.l10n.playerAdjustSleepTimer,
-        minValue: 5,
-        maxValue: 90,
-        initialValue: currentMinutes.toDouble(),
-        divisions: 17,
-      ),
-    );
-
-    if (newMinutes != null) {
-      await ref
-          .read(settingsProvider.notifier)
-          .updateSleepTimerDuration(newMinutes.round());
-      await ref.read(settingsProvider.notifier).enableSleepTimer();
-    }
-  }
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.06,
       color: Theme.of(context).colorScheme.surface,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          //* Idle Stop
           Consumer(
             builder: (context, ref, _) {
               final isSleepTimerEnabled = ref.watch(
@@ -114,7 +46,7 @@ class ActionToolbar extends ConsumerWidget {
                   ref,
                   currentMinutes: sleepTimerDuration,
                 ),
-                bottomContentBuilder: (context, ref) {
+                bottomContentBuilder: (context) {
                   final text = sleepTimer.isRunning
                       ? _formatDuration(sleepTimer.remaining)
                       : '${sleepTimerDuration}m';
@@ -127,8 +59,6 @@ class ActionToolbar extends ConsumerWidget {
               );
             },
           ),
-
-          //* Playback Speed
           Consumer(
             builder: (context, ref, _) {
               final isPlaybackSpeedEnabled = ref.watch(
@@ -149,7 +79,9 @@ class ActionToolbar extends ConsumerWidget {
                       isEnabled: isPlaybackSpeedEnabled,
                     );
                   } else {
-                    ref.read(settingsProvider.notifier).togglePlaybackSpeed();
+                    await ref
+                        .read(settingsProvider.notifier)
+                        .togglePlaybackSpeed();
                   }
                 },
                 onLongPress: () => _showSpeedDialog(
@@ -158,7 +90,7 @@ class ActionToolbar extends ConsumerWidget {
                   currentSpeed: speed,
                   isEnabled: isPlaybackSpeedEnabled,
                 ),
-                bottomContentBuilder: (context, ref) {
+                bottomContentBuilder: (context) {
                   return Text(
                     speed.toStringAsFixed(1),
                     style: Theme.of(context).textTheme.labelMedium,
@@ -175,9 +107,8 @@ class ActionToolbar extends ConsumerWidget {
               return ToolbarButton(
                 icon: AppIcons.skipSilence,
                 isToggled: isSkipSilenceEnabled,
-                onPressed: () => ref
-                    .read(settingsProvider.notifier)
-                    .toggleSkipSilence(),
+                onPressed: () =>
+                    ref.read(settingsProvider.notifier).toggleSkipSilence(),
               );
             },
           ),
@@ -189,7 +120,7 @@ class ActionToolbar extends ConsumerWidget {
               return ToolbarButton(
                 icon: AppIcons.playerLock,
                 isToggled: isPlayerLockEnabled,
-                onPressed: () {
+                onPressed: () async {
                   if (isPlayerLockEnabled) {
                     AppSnackBar.showSnackBar(
                       context,
@@ -197,15 +128,17 @@ class ActionToolbar extends ConsumerWidget {
                     );
                     return;
                   }
-                  ref.read(settingsProvider.notifier).enablePlayerLock();
+                  await ref.read(settingsProvider.notifier).enablePlayerLock();
                 },
-                onLongPress: () {
+                onLongPress: () async {
                   if (!isPlayerLockEnabled) {
-                    ref.read(settingsProvider.notifier).enablePlayerLock();
+                    await ref
+                        .read(settingsProvider.notifier)
+                        .enablePlayerLock();
                     return;
                   }
                   ScaffoldMessenger.of(context).clearSnackBars();
-                  ref.read(settingsProvider.notifier).disablePlayerLock();
+                  await ref.read(settingsProvider.notifier).disablePlayerLock();
                 },
               );
             },
@@ -213,6 +146,82 @@ class ActionToolbar extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _applyPlaybackSpeed(
+    WidgetRef ref, {
+    required double newSpeed,
+    required double currentSpeed,
+    required bool isEnabled,
+  }) async {
+    final rounded = double.parse(newSpeed.toStringAsFixed(1));
+
+    if (!isEnabled && rounded != 1) {
+      await ref.read(settingsProvider.notifier).enablePlaybackSpeed();
+    }
+
+    if (rounded == currentSpeed && isEnabled) return;
+
+    if (rounded == 1) {
+      await ref.read(settingsProvider.notifier).disablePlaybackSpeed();
+    }
+
+    await ref.read(settingsProvider.notifier).updatePlaybackSpeed(rounded);
+  }
+
+  Future<void> _showSpeedDialog(
+    BuildContext context,
+    WidgetRef ref, {
+    required double currentSpeed,
+    required bool isEnabled,
+  }) async {
+    final newSpeed = await showDialog<double>(
+      context: context,
+      builder: (context) => AppSliderDialog(
+        title: context.l10n.playerAdjustPlaybackSpeed,
+        minValue: _minPlaybackSpeed,
+        maxValue: _maxPlaybackSpeed,
+        initialValue: currentSpeed,
+        divisions: _playbackSpeedDivisions,
+      ),
+    );
+
+    if (!context.mounted) return;
+
+    if (newSpeed != null) {
+      await _applyPlaybackSpeed(
+        ref,
+        newSpeed: newSpeed,
+        currentSpeed: currentSpeed,
+        isEnabled: isEnabled,
+      );
+    }
+  }
+
+  Future<void> _showSleepTimerDialog(
+    BuildContext context,
+    WidgetRef ref, {
+    required int currentMinutes,
+  }) async {
+    final newMinutes = await showDialog<double>(
+      context: context,
+      builder: (context) => AppSliderDialog(
+        title: context.l10n.playerAdjustSleepTimer,
+        minValue: _minSleepTimerMinutes,
+        maxValue: _maxSleepTimerMinutes,
+        initialValue: currentMinutes.toDouble(),
+        divisions: _sleepTimerDivisions,
+      ),
+    );
+
+    if (!context.mounted) return;
+
+    if (newMinutes != null) {
+      await ref
+          .read(settingsProvider.notifier)
+          .updateSleepTimerDuration(newMinutes.round());
+      await ref.read(settingsProvider.notifier).enableSleepTimer();
+    }
   }
 
   String _formatDuration(Duration duration) {

@@ -7,14 +7,11 @@ import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 
 class PlayButton extends ConsumerStatefulWidget {
-  final bool asStandaloneButton;
   final Widget? coverWidget;
 
-  const PlayButton({
-    super.key,
-    this.asStandaloneButton = true,
-    this.coverWidget,
-  });
+  const PlayButton({super.key}) : coverWidget = null;
+
+  const PlayButton.cover({super.key, required this.coverWidget});
 
   @override
   ConsumerState<PlayButton> createState() => _PlayButtonState();
@@ -22,6 +19,7 @@ class PlayButton extends ConsumerStatefulWidget {
 
 class _PlayButtonState extends ConsumerState<PlayButton> {
   static const _bufferingGrace = Duration(milliseconds: 250);
+  static const _buttonSizeRatio = 0.20;
 
   Timer? _bufferingTimer;
   bool _showBuffering = false;
@@ -32,24 +30,9 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
     super.dispose();
   }
 
-  void _handleBuffering(bool isBuffering) {
-    if (isBuffering) {
-      if (_bufferingTimer == null && !_showBuffering) {
-        _bufferingTimer = Timer(_bufferingGrace, () {
-          if (mounted) setState(() => _showBuffering = true);
-        });
-      }
-    } else {
-      _bufferingTimer?.cancel();
-      _bufferingTimer = null;
-      if (_showBuffering) {
-        setState(() => _showBuffering = false);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final coverWidget = widget.coverWidget;
     final playerStateAsync = ref.watch(playerStateStreamProvider);
     final playerState = playerStateAsync.value;
     final processing = playerState?.processingState;
@@ -59,10 +42,6 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
         processing == ProcessingState.loading ||
         processing == ProcessingState.buffering;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _handleBuffering(isBuffering);
-    });
-
     IconData iconData;
     VoidCallback? onPressed;
 
@@ -71,7 +50,7 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
       onPressed = null;
     } else if (processing == ProcessingState.completed) {
       iconData = AppIcons.replay;
-      onPressed = () => ref.read(playerProvider.notifier).seekToStart();
+      onPressed = () => ref.read(playerProvider.notifier).replay();
     } else if (playing) {
       iconData = AppIcons.pause;
       onPressed = () => ref.read(playerProvider.notifier).pause();
@@ -80,13 +59,17 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
       onPressed = () => ref.read(playerProvider.notifier).play();
     }
 
-    if (widget.asStandaloneButton) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _handleBuffering(isBuffering);
+    });
+
+    if (coverWidget == null) {
       return IconButton(
         icon: Icon(iconData, size: AppIconSizes.hero),
         style: IconButton.styleFrom(
           fixedSize: Size(
-            MediaQuery.of(context).size.width * 0.20,
-            MediaQuery.of(context).size.width * 0.20,
+            MediaQuery.of(context).size.width * _buttonSizeRatio,
+            MediaQuery.of(context).size.width * _buttonSizeRatio,
           ),
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -106,7 +89,7 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          if (widget.coverWidget != null) widget.coverWidget!,
+          coverWidget,
           if (isPlayerLockEnabled)
             Icon(
               iconData,
@@ -116,5 +99,21 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
         ],
       ),
     );
+  }
+
+  void _handleBuffering(bool isBuffering) {
+    if (isBuffering) {
+      if (_bufferingTimer == null && !_showBuffering) {
+        _bufferingTimer = Timer(_bufferingGrace, () {
+          if (mounted) setState(() => _showBuffering = true);
+        });
+      }
+    } else {
+      _bufferingTimer?.cancel();
+      _bufferingTimer = null;
+      if (_showBuffering) {
+        setState(() => _showBuffering = false);
+      }
+    }
   }
 }

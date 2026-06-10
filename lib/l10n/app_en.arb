@@ -300,6 +300,10 @@
       }
     }
   },
+  "noChaptersFound": "No chapters found",
+  "@noChaptersFound": {
+    "description": "Text shown when an audiobook has no chapters."
+  },
   "readingProgress": "Read {read} of {total} ({percent}%)",
   "@readingProgress": {
     "description": "Text showing completed audiobook time, total time, and percent progress.",

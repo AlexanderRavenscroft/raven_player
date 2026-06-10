@@ -198,9 +198,7 @@ class LibraryTile extends ConsumerWidget {
 
     if (!context.mounted) return;
     await Navigator.of(context).push<void>(
-      MaterialPageRoute<void>(
-        builder: (context) => PlayPage(enrichedBook: book),
-      ),
+      MaterialPageRoute<void>(builder: (context) => PlayPage(book: book)),
     );
   }
 }

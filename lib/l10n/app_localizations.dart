@@ -482,6 +482,12 @@ abstract class AppLocalizations {
   /// **'Chapter {current} of {total}'**
   String chapterProgress(int current, int total);
 
+  /// Text shown when an audiobook has no chapters.
+  ///
+  /// In en, this message translates to:
+  /// **'No chapters found'**
+  String get noChaptersFound;
+
   /// Text showing completed audiobook time, total time, and percent progress.
   ///
   /// In en, this message translates to:

@@ -12,8 +12,7 @@ import 'package:raven_player/features/player/presentation/chapter_dropdown.dart'
 import 'package:raven_player/features/player/presentation/play_app_bar.dart';
 import 'package:raven_player/features/player/presentation/play_button.dart';
 import 'package:raven_player/features/player/presentation/play_progress_bar.dart';
-import 'package:raven_player/features/player/presentation/seek_button.dart';
-import 'package:raven_player/features/player/presentation/seek_chapter_button.dart';
+import 'package:raven_player/features/player/presentation/player_icon_button.dart';
 import 'package:raven_player/features/player/presentation/action_toolbar.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
@@ -22,8 +21,8 @@ import 'package:raven_player/shared/others/audiobook_cover.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class PlayPage extends ConsumerStatefulWidget {
-  final Audiobook enrichedBook;
-  const PlayPage({super.key, required this.enrichedBook});
+  final Audiobook book;
+  const PlayPage({super.key, required this.book});
 
   @override
   ConsumerState<PlayPage> createState() => _PlayPageState();
@@ -33,21 +32,20 @@ class _PlayPageState extends ConsumerState<PlayPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initializePlayer();
-    });
+    _initializePlayer();
   }
 
   Future<void> _initializePlayer() async {
-    await ref.read(playerProvider.notifier).load(widget.enrichedBook);
+    await ref.read(playerProvider.notifier).load(widget.book);
   }
 
   @override
   Widget build(BuildContext context) {
+    //* Keep shake detection while playing
     ref.watch(sleepTimerShakeProvider);
 
     final chapterInitialization = ref.watch(
-      chapterInitializationProvider(widget.enrichedBook.id),
+      chapterInitializationProvider(widget.book.id),
     );
 
     final backArrowBacksToLibrary = ref.watch(
@@ -61,10 +59,9 @@ class _PlayPageState extends ConsumerState<PlayPage> {
         FlutterAppMinimizerPlus.minimizeApp();
       },
       child: Scaffold(
-        appBar: PlayAppBar(book: widget.enrichedBook),
+        appBar: PlayAppBar(book: widget.book),
         body: chapterInitialization.when(
-          loading: () =>
-              _buildPlayPageContent(context, ref, widget.enrichedBook, true),
+          loading: () => _buildPlayPageContent(context, ref, widget.book, true),
           error: (error, stackTrace) => Center(
             child: Text(context.l10n.playerLoadingError(error.toString())),
           ),
@@ -88,40 +85,36 @@ class _PlayPageState extends ConsumerState<PlayPage> {
       enabled: isLoading,
       child: Column(
         children: [
-          //* BAR && DISPLAY
           const ActionToolbar(),
           const SizedBox(height: AppSpacing.md),
           AudiobookLengthDisplay(book: initializedBook),
           const SizedBox(height: AppSpacing.md),
 
-          //* COVER
-          PlayButton(
-            asStandaloneButton: false,
+          PlayButton.cover(
             coverWidget: AudiobookCover(book: initializedBook, isOnTile: false),
           ),
 
-          //* CHAPTER CONTROLS
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.06,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (!isPlayerLockEnabled)
-                  SeekChapterButton(
+                  PlayerIconButton.chapter(
                     icon: AppIcons.skipPrevious,
-                    onPressed: () {
-                      ref.read(playerProvider.notifier).seekToPrevious();
+                    onPressed: () async {
+                      await ref.read(playerProvider.notifier).seekToPrevious();
                       ref
                           .read(sleepTimerProvider.notifier)
                           .resetFromListeningActivity();
                     },
                   ),
-                ChapterDropdown(book: initializedBook),
+                const ChapterDropdown(),
                 if (!isPlayerLockEnabled)
-                  SeekChapterButton(
+                  PlayerIconButton.chapter(
                     icon: AppIcons.skipNext,
-                    onPressed: () {
-                      ref.read(playerProvider.notifier).seekToNext();
+                    onPressed: () async {
+                      await ref.read(playerProvider.notifier).seekToNext();
                       ref
                           .read(sleepTimerProvider.notifier)
                           .resetFromListeningActivity();
@@ -130,14 +123,13 @@ class _PlayPageState extends ConsumerState<PlayPage> {
               ],
             ),
           ),
-          //* PLAYBACK CONTROLLS
           const PlayProgressBar(),
 
           if (!isPlayerLockEnabled)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SeekButton(
+                PlayerIconButton.seek(
                   icon: AppIcons.fastRewind,
                   onPressed: () async {
                     await ref.read(playerProvider.notifier).seekByOffset(-60);
@@ -146,7 +138,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                         .resetFromListeningActivity();
                   },
                 ),
-                SeekButton(
+                PlayerIconButton.seek(
                   icon: AppIcons.replay10,
                   onPressed: () async {
                     await ref.read(playerProvider.notifier).seekByOffset(-10);
@@ -156,7 +148,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                   },
                 ),
                 const PlayButton(),
-                SeekButton(
+                PlayerIconButton.seek(
                   icon: AppIcons.forward10,
                   onPressed: () async {
                     await ref.read(playerProvider.notifier).seekByOffset(10);
@@ -165,7 +157,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                         .resetFromListeningActivity();
                   },
                 ),
-                SeekButton(
+                PlayerIconButton.seek(
                   icon: AppIcons.fastForward,
                   onPressed: () async {
                     await ref.read(playerProvider.notifier).seekByOffset(60);

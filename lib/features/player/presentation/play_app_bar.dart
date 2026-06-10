@@ -8,6 +8,7 @@ import 'package:raven_player/shared/buttons/app_bar_button.dart';
 
 class PlayAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Audiobook book;
+
   const PlayAppBar({super.key, required this.book});
 
   @override
@@ -31,9 +32,11 @@ class PlayAppBar extends StatelessWidget implements PreferredSizeWidget {
           tooltip: context.l10n.tooltipOpenSettings,
           onPressed: () {
             ScaffoldMessenger.of(context).clearSnackBars();
-            Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (context) => SettingsPage()));
+            Navigator.of(context).push<void>(
+              MaterialPageRoute<void>(
+                builder: (context) => const SettingsPage(),
+              ),
+            );
           },
         ),
       ],

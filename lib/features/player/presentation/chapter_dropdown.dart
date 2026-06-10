@@ -5,19 +5,17 @@ import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
-import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 
 class ChapterDropdown extends ConsumerWidget {
-  final Audiobook book;
-  const ChapterDropdown({super.key, required this.book});
+  const ChapterDropdown({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentBook = ref.watch(playerProvider);
     if (currentBook == null) return const SizedBox.shrink();
 
-    final chapterList = currentBook.chapters.map((c) => c.name).toList();
+    final chapters = currentBook.chapters;
     final currentChapterIndex = currentBook.currentChapterIndex;
 
     final isPlayerLockEnabled = ref.watch(
@@ -54,14 +52,14 @@ class ChapterDropdown extends ConsumerWidget {
                 context,
               ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w600),
               items: List.generate(
-                chapterList.length,
+                chapters.length,
                 (index) => DropdownMenuItem<int>(
                   value: index,
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: Center(
                       child: Text(
-                        chapterList[index],
+                        chapters[index].name,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
@@ -71,9 +69,9 @@ class ChapterDropdown extends ConsumerWidget {
                 growable: false,
               ),
               value: currentChapterIndex,
-              onChanged: (value) {
+              onChanged: (value) async {
                 if (value != null && value != currentChapterIndex) {
-                  ref.read(playerProvider.notifier).seekToChapter(value);
+                  await ref.read(playerProvider.notifier).seekToChapter(value);
                   ref
                       .read(sleepTimerProvider.notifier)
                       .resetFromListeningActivity();

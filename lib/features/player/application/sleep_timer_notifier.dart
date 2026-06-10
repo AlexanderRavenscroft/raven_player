@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 
+//TODO: ADD a player volume fading when close to stoping the player
 class SleepTimerState {
   final Duration remaining;
   final bool isRunning;
