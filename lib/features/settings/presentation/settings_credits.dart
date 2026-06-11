@@ -8,6 +8,7 @@ import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsCredits extends StatelessWidget {
+  //TODO Lock at the bottom padding on diffrent decvices, and bottom_content builder on action toolbar
   //TODO: ADD ACUTAL LINKS & DATA
   static final Uri _githubUrl = Uri.https(
     'github.com',

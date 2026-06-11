@@ -34,12 +34,14 @@ class AppScrollableDialog extends StatelessWidget {
             color: Theme.of(context).colorScheme.onSurface,
           ),
           const SizedBox(width: AppSpacing.sm),
-          Text(
-            headingText,
-            style: Theme.of(context).textTheme.titleMedium,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          Flexible(
+            child: Text(
+              headingText,
+              style: Theme.of(context).textTheme.titleMedium,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),

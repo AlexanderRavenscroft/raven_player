@@ -81,94 +81,113 @@ class _PlayPageState extends ConsumerState<PlayPage> {
     final isPlayerLockEnabled = ref.watch(
       settingsProvider.select((s) => s.isPlayerLockEnabled),
     );
-    return Skeletonizer(
-      enabled: isLoading,
-      child: Column(
-        children: [
-          const ActionToolbar(),
-          const SizedBox(height: AppSpacing.md),
-          AudiobookLengthDisplay(book: initializedBook),
-          const SizedBox(height: AppSpacing.md),
+    return SafeArea(
+      top: false,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.only(bottom: AppSpacing.lg),
+        child: Skeletonizer(
+          enabled: isLoading,
+          child: Column(
+            children: [
+              const ActionToolbar(),
+              const SizedBox(height: AppSpacing.md),
+              AudiobookLengthDisplay(book: initializedBook),
+              const SizedBox(height: AppSpacing.md),
 
-          PlayButton.cover(
-            coverWidget: AudiobookCover(book: initializedBook, isOnTile: false),
+              PlayButton.cover(
+                coverWidget: AudiobookCover(
+                  book: initializedBook,
+                  isOnTile: false,
+                ),
+              ),
+
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.06,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (!isPlayerLockEnabled)
+                      PlayerIconButton.chapter(
+                        icon: AppIcons.skipPrevious,
+                        onPressed: () async {
+                          await ref
+                              .read(playerProvider.notifier)
+                              .seekToPrevious();
+                          ref
+                              .read(sleepTimerProvider.notifier)
+                              .resetFromListeningActivity();
+                        },
+                      ),
+                    const ChapterDropdown(),
+                    if (!isPlayerLockEnabled)
+                      PlayerIconButton.chapter(
+                        icon: AppIcons.skipNext,
+                        onPressed: () async {
+                          await ref.read(playerProvider.notifier).seekToNext();
+                          ref
+                              .read(sleepTimerProvider.notifier)
+                              .resetFromListeningActivity();
+                        },
+                      ),
+                  ],
+                ),
+              ),
+              const PlayProgressBar(),
+
+              if (!isPlayerLockEnabled)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    PlayerIconButton.seek(
+                      icon: AppIcons.fastRewind,
+                      onPressed: () async {
+                        await ref
+                            .read(playerProvider.notifier)
+                            .seekByOffset(-60);
+                        ref
+                            .read(sleepTimerProvider.notifier)
+                            .resetFromListeningActivity();
+                      },
+                    ),
+                    PlayerIconButton.seek(
+                      icon: AppIcons.replay10,
+                      onPressed: () async {
+                        await ref
+                            .read(playerProvider.notifier)
+                            .seekByOffset(-10);
+                        ref
+                            .read(sleepTimerProvider.notifier)
+                            .resetFromListeningActivity();
+                      },
+                    ),
+                    const PlayButton(),
+                    PlayerIconButton.seek(
+                      icon: AppIcons.forward10,
+                      onPressed: () async {
+                        await ref
+                            .read(playerProvider.notifier)
+                            .seekByOffset(10);
+                        ref
+                            .read(sleepTimerProvider.notifier)
+                            .resetFromListeningActivity();
+                      },
+                    ),
+                    PlayerIconButton.seek(
+                      icon: AppIcons.fastForward,
+                      onPressed: () async {
+                        await ref
+                            .read(playerProvider.notifier)
+                            .seekByOffset(60);
+                        ref
+                            .read(sleepTimerProvider.notifier)
+                            .resetFromListeningActivity();
+                      },
+                    ),
+                  ],
+                ),
+            ],
           ),
-
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.06,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (!isPlayerLockEnabled)
-                  PlayerIconButton.chapter(
-                    icon: AppIcons.skipPrevious,
-                    onPressed: () async {
-                      await ref.read(playerProvider.notifier).seekToPrevious();
-                      ref
-                          .read(sleepTimerProvider.notifier)
-                          .resetFromListeningActivity();
-                    },
-                  ),
-                const ChapterDropdown(),
-                if (!isPlayerLockEnabled)
-                  PlayerIconButton.chapter(
-                    icon: AppIcons.skipNext,
-                    onPressed: () async {
-                      await ref.read(playerProvider.notifier).seekToNext();
-                      ref
-                          .read(sleepTimerProvider.notifier)
-                          .resetFromListeningActivity();
-                    },
-                  ),
-              ],
-            ),
-          ),
-          const PlayProgressBar(),
-
-          if (!isPlayerLockEnabled)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                PlayerIconButton.seek(
-                  icon: AppIcons.fastRewind,
-                  onPressed: () async {
-                    await ref.read(playerProvider.notifier).seekByOffset(-60);
-                    ref
-                        .read(sleepTimerProvider.notifier)
-                        .resetFromListeningActivity();
-                  },
-                ),
-                PlayerIconButton.seek(
-                  icon: AppIcons.replay10,
-                  onPressed: () async {
-                    await ref.read(playerProvider.notifier).seekByOffset(-10);
-                    ref
-                        .read(sleepTimerProvider.notifier)
-                        .resetFromListeningActivity();
-                  },
-                ),
-                const PlayButton(),
-                PlayerIconButton.seek(
-                  icon: AppIcons.forward10,
-                  onPressed: () async {
-                    await ref.read(playerProvider.notifier).seekByOffset(10);
-                    ref
-                        .read(sleepTimerProvider.notifier)
-                        .resetFromListeningActivity();
-                  },
-                ),
-                PlayerIconButton.seek(
-                  icon: AppIcons.fastForward,
-                  onPressed: () async {
-                    await ref.read(playerProvider.notifier).seekByOffset(60);
-                    ref
-                        .read(sleepTimerProvider.notifier)
-                        .resetFromListeningActivity();
-                  },
-                ),
-              ],
-            ),
-        ],
+        ),
       ),
     );
   }

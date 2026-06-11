@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_icons.dart' show AppIconSizes;
 
 class SettingsButton extends StatelessWidget {
+  static const _width = 64.0;
+  static const _height = 48.0;
+
   final IconData icon;
   final VoidCallback onPressed;
 
@@ -15,12 +18,7 @@ class SettingsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       style: IconButton.styleFrom(
-        //TODO Think about MQ
-        // fixedSize: Size(
-        //   MediaQuery.of(context).size.width * 0.16,
-        //   MediaQuery.of(context).size.height * 0.06,
-        // ),
-        fixedSize: const Size(64, 48),
+        fixedSize: const Size(_width, _height),
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       ),

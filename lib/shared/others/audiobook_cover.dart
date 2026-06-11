@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
@@ -14,9 +15,12 @@ class AudiobookCover extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaWidth = MediaQuery.sizeOf(context).width;
-    final coverWidth = mediaWidth * (isOnTile ? 0.24 : 0.92);
+    final mediaSize = MediaQuery.sizeOf(context);
+    final coverWidth = isOnTile
+        ? mediaSize.width * 0.24
+        : math.min(mediaSize.width * 0.92, mediaSize.height * 0.5);
     final coverHeight = coverWidth;
+
     final iconSize = coverWidth * 0.8;
     final blur = isOnTile ? 0.0 : 4.0;
 

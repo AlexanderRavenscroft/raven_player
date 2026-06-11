@@ -45,7 +45,7 @@ class LibraryTile extends ConsumerWidget {
           key: ValueKey('library_tile_${book.id}'),
           startActionPane: startPane,
           endActionPane: endPane,
-          child: GestureDetector(
+          child: InkWell(
             onTap: () => _openAudiobook(context, ref),
             child: Container(
               color: Theme.of(context).colorScheme.surface,

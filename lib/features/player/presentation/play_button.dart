@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 
@@ -19,7 +20,6 @@ class PlayButton extends ConsumerStatefulWidget {
 
 class _PlayButtonState extends ConsumerState<PlayButton> {
   static const _bufferingGrace = Duration(milliseconds: 250);
-  static const _buttonSizeRatio = 0.20;
 
   Timer? _bufferingTimer;
   bool _showBuffering = false;
@@ -67,10 +67,7 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
       return IconButton(
         icon: Icon(iconData, size: AppIconSizes.hero),
         style: IconButton.styleFrom(
-          fixedSize: Size(
-            MediaQuery.of(context).size.width * _buttonSizeRatio,
-            MediaQuery.of(context).size.width * _buttonSizeRatio,
-          ),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           elevation: 8,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
+import 'package:raven_player/shared/dialogs/app_scrollable_dialog.dart';
 
 class SettingsTile extends StatelessWidget {
   final String title;
@@ -53,48 +54,58 @@ class SettingsTile extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: _leadingWidth,
-                  child: Center(
-                    child: Icon(
-                      icon,
-                      size: AppIconSizes.large,
-                      color: colorScheme.onSurface,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.lg),
                 Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: titleHeight,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            title,
-                            style: titleStyle,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onLongPress: () => _showDetailsDialog(context),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: _leadingWidth,
+                          child: Center(
+                            child: Icon(
+                              icon,
+                              size: AppIconSizes.large,
+                              color: colorScheme.onSurface,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: AppSpacing.xs),
-                      SizedBox(
-                        height: descriptionHeight * 2,
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            description,
-                            style: descriptionStyle,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+                        const SizedBox(width: AppSpacing.lg),
+                        Expanded(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: titleHeight,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    title,
+                                    style: titleStyle,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: AppSpacing.xs),
+                              SizedBox(
+                                height: descriptionHeight * 2,
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    description,
+                                    style: descriptionStyle,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 if (trailing != null) ...[
@@ -130,5 +141,16 @@ class SettingsTile extends StatelessWidget {
     required double height,
   }) {
     return textScaler.scale(style.fontSize ?? fallbackFontSize) * height;
+  }
+
+  void _showDetailsDialog(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AppScrollableDialog(
+        headingIcon: icon,
+        headingText: title,
+        content: description,
+      ),
+    );
   }
 }

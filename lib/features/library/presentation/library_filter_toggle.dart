@@ -5,7 +5,7 @@ import 'package:raven_player/features/library/application/library_filter.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 
 class LibraryFilterToggle extends ConsumerWidget {
-  static const double _height = 48; //TODO: Think about MQ
+  static const double _height = 48;
   static const double _indicatorWeight = 4;
 
   const LibraryFilterToggle({super.key});
