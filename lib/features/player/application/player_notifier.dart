@@ -4,9 +4,9 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
+import 'package:raven_player/features/player/application/playback_position.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
-import 'package:raven_player/features/player/application/position_data.dart';
 import 'package:raven_player/utils/app_logger.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:synchronized/synchronized.dart';
@@ -191,12 +191,16 @@ class PlayerNotifier extends Notifier<Audiobook?> {
 
   bool get isPlaying => _player.playing;
 
-  Stream<PositionData> get positionDataStream =>
-      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
+  Stream<PlaybackPosition> get playbackPositionStream =>
+      Rx.combineLatest3<Duration, Duration, Duration?, PlaybackPosition>(
         _player.positionStream,
         _player.bufferedPositionStream,
         _player.durationStream,
-        (pos, buf, dur) => PositionData(pos, buf, dur ?? Duration.zero),
+        (pos, buf, dur) => PlaybackPosition(
+          position: pos,
+          bufferedPosition: buf,
+          duration: dur ?? Duration.zero,
+        ),
       );
 }
 
@@ -208,6 +212,6 @@ final playerStateStreamProvider = StreamProvider<PlayerState>((ref) {
   return ref.watch(playerProvider.notifier).playerStateStream;
 });
 
-final positionDataStreamProvider = StreamProvider<PositionData>((ref) {
-  return ref.watch(playerProvider.notifier).positionDataStream;
+final playbackPositionStreamProvider = StreamProvider<PlaybackPosition>((ref) {
+  return ref.watch(playerProvider.notifier).playbackPositionStream;
 });

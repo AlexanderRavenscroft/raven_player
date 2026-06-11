@@ -19,7 +19,7 @@ class PlayProgressBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasBook = ref.watch(playerProvider.select((book) => book != null));
-    final positionAsync = ref.watch(positionDataStreamProvider);
+    final positionAsync = ref.watch(playbackPositionStreamProvider);
 
     final isPlayerLockEnabled = ref.watch(
       settingsProvider.select((s) => s.isPlayerLockEnabled),

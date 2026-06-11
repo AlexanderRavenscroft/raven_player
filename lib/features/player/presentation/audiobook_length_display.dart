@@ -51,14 +51,14 @@ class _ProgressBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final positionData = ref.watch(positionDataStreamProvider).value;
+    final playbackPosition = ref.watch(playbackPositionStreamProvider).value;
     final currentChapter = ref.watch(
       playerProvider.select((b) => b?.currentChapterIndex ?? 0),
     );
 
     final totalMs = book.totalDurationMs ?? 1;
     final pastMs = _sumPastChapters(book, currentChapter);
-    final currentMs = positionData?.position.inMilliseconds ?? 0;
+    final currentMs = playbackPosition?.position.inMilliseconds ?? 0;
     final progressValue = (pastMs + currentMs) / totalMs;
 
     return SizedBox(
@@ -80,7 +80,7 @@ class _TimeInfoText extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final positionData = ref.watch(positionDataStreamProvider).value;
+    final positionData = ref.watch(playbackPositionStreamProvider).value;
     final currentChapter = ref.watch(
       playerProvider.select((b) => b?.currentChapterIndex ?? 0),
     );
