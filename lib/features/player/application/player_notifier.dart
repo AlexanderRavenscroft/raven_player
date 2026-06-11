@@ -15,17 +15,15 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   static const double _minVolume = 0.0;
   static const double _maxVolume = 1.0;
 
-  late final AudioPlayer _player;
-  final _lock = Lock();
+  final AudioPlayer _player = AudioPlayer();
+  final Lock _lock = Lock();
 
-  StreamSubscription? _progressSub;
-  StreamSubscription? _indexSub;
-  StreamSubscription? _processingSub;
+  StreamSubscription<Duration>? _progressSub;
+  StreamSubscription<int>? _indexSub;
+  StreamSubscription<ProcessingState>? _processingSub;
 
   @override
   Audiobook? build() {
-    _player = AudioPlayer();
-
     ref.onDispose(() async {
       await _saveProgress();
       await _cancelSubs();
@@ -39,11 +37,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
       log.d('Loading player');
       if (state?.id == book.id) return;
 
-      if (state != null) {
-        await _saveProgress();
-        await _cancelSubs();
-        await _player.stop();
-      }
+      await _stopCurrentPlaybackIfNeeded();
 
       final saved = await ref
           .read(audiobookRepositoryProvider)
@@ -51,71 +45,78 @@ class PlayerNotifier extends Notifier<Audiobook?> {
       final resume = saved ?? book;
       state = resume;
 
-      final sources = resume.chapters
-          .map(
-            (c) => AudioSource.uri(
-              Uri.parse(c.uri),
-              tag: MediaItem(
-                id: c.uri,
-                album: resume.title,
-                artist: resume.author,
-                title: c.name,
-                artUri: resume.coverPath != null
-                    ? Uri.file(resume.coverPath!)
-                    : null,
-              ),
-            ),
-          )
-          .toList();
-      try {
-        await _player.setAudioSources(
-          sources,
-          initialIndex: resume.currentChapterIndex,
-          initialPosition: resume.currentPosition,
-        );
-      } catch (e) {
-        log.e('Failed to load from saved position, resetting: $e');
-        // Reset corrupted progress and retry from beginning
-        final reset = resume.copyWith(
-          currentChapterIndex: 0,
-          currentPositionMs: 0,
-        );
-        await ref.read(audiobookRepositoryProvider).save(reset);
-        state = reset;
-        await _player.setAudioSources(sources, initialIndex: 0);
+      if (resume.chapters.isEmpty) {
+        log.e('Cannot load audiobook without chapters.');
+        return;
       }
 
-      _attachListeners();
-      final settings = ref.read(settingsProvider);
+      await _loadAudioSources(resume);
 
-      if (settings.isPlaybackSpeedEnabled) {
-        await _player.setSpeed(settings.playbackSpeed);
-      }
-
-      await _player.setSkipSilenceEnabled(settings.isSkipSilenceEnabled);
+      await _attachListeners();
+      await _applyPlaybackSettings();
     });
   }
 
-  void _attachListeners() {
+  Future<void> _stopCurrentPlaybackIfNeeded() async {
+    if (state == null) return;
+
+    await _saveProgress();
+    await _cancelSubs();
+    await _player.stop();
+  }
+
+  Future<void> _loadAudioSources(Audiobook book) async {
+    final coverPath = book.coverPath;
+    final sources = book.chapters
+        .map(
+          (chapter) => AudioSource.uri(
+            Uri.parse(chapter.uri),
+            tag: MediaItem(
+              id: chapter.uri,
+              album: book.title,
+              artist: book.author,
+              title: chapter.name,
+              artUri: coverPath == null ? null : Uri.file(coverPath),
+            ),
+          ),
+        )
+        .toList();
+
+    try {
+      await _player.setAudioSources(
+        sources,
+        initialIndex: book.currentChapterIndex,
+        initialPosition: book.currentPosition,
+      );
+    } catch (e) {
+      log.e('Failed to load from saved position, resetting: $e');
+
+      final reset = book.copyWith(currentChapterIndex: 0, currentPositionMs: 0);
+
+      await ref.read(audiobookRepositoryProvider).save(reset);
+      state = reset;
+      await _player.setAudioSources(sources, initialIndex: 0);
+    }
+  }
+
+  Future<void> _attachListeners() async {
     log.d('Attaching player listeners');
-    // Save every e.g. 5s while position changes (i.e., while playing)
+    await _cancelSubs();
+
     _progressSub = _player.positionStream
         .throttleTime(const Duration(seconds: 5), trailing: true)
         .listen((position) async {
           await _saveProgress();
         });
 
-    // Save immediately on chapter change
-    _indexSub = _player.currentIndexStream
-        .whereType<int>() // drop nulls
-        .distinct() // only emit on real index change
-        .listen((index) async {
-          if (state != null) {
-            state = state!.copyWith(currentChapterIndex: index);
-          }
-
-          await _saveProgress();
-        });
+    _indexSub = _player.currentIndexStream.whereType<int>().distinct().listen((
+      index,
+    ) async {
+      if (state != null) {
+        state = state!.copyWith(currentChapterIndex: index);
+      }
+      await _saveProgress();
+    });
 
     _processingSub = _player.processingStateStream.listen((s) async {
       if (s != ProcessingState.completed) return;
@@ -124,6 +125,16 @@ class PlayerNotifier extends Notifier<Audiobook?> {
       log.i('WHOLE ${book.title} finished');
       await ref.read(libraryProvider.notifier).markAsRead(book);
     });
+  }
+
+  Future<void> _applyPlaybackSettings() async {
+    final settings = ref.read(settingsProvider);
+
+    if (settings.isPlaybackSpeedEnabled) {
+      await _player.setSpeed(settings.playbackSpeed);
+    }
+
+    await _player.setSkipSilenceEnabled(settings.isSkipSilenceEnabled);
   }
 
   Future<void> clear() async {
@@ -150,12 +161,12 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     final repo = ref.read(audiobookRepositoryProvider);
     final latest = await repo.getById(book.id) ?? book;
 
-    final pos = _player.position.inMilliseconds;
-    final idx = _player.currentIndex ?? 0;
+    final positionMs = _player.position.inMilliseconds;
+    final chapterIndex = _player.currentIndex ?? 0;
 
     final updated = latest.copyWith(
-      currentPositionMs: pos,
-      currentChapterIndex: idx,
+      currentPositionMs: positionMs,
+      currentChapterIndex: chapterIndex,
     );
 
     state = updated;
@@ -163,18 +174,25 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   }
 
   Future<void> play() => _player.play();
+
   Future<void> pause() => _player.pause();
+
   Future<void> replay() async {
     await _player.seek(Duration.zero);
     await _player.play();
   }
 
   Future<void> seek(Duration position) => _player.seek(position);
+
   Future<void> seekToPrevious() => _player.seekToPrevious();
+
   Future<void> seekToNext() => _player.seekToNext();
+
   Future<void> updatePlaybackSpeed(double speed) => _player.setSpeed(speed);
+
   Future<void> setSkipSilence(bool enabled) =>
       _player.setSkipSilenceEnabled(enabled);
+
   Future<void> setVolume(double volume) {
     final clampedVolume = volume.clamp(_minVolume, _maxVolume).toDouble();
     return _player.setVolume(clampedVolume);
