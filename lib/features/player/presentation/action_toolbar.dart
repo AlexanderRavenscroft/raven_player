@@ -225,9 +225,17 @@ class ActionToolbar extends StatelessWidget {
   }
 
   String _formatDuration(Duration duration) {
-    final totalSeconds = duration.inSeconds;
-    final minutes = totalSeconds ~/ 60;
+    final totalSeconds = duration.inSeconds < 0 ? 0 : duration.inSeconds;
+    final hours = totalSeconds ~/ 3600;
+    final minutes = (totalSeconds ~/ 60) % 60;
     final seconds = totalSeconds % 60;
-    return '$minutes:${seconds.toString().padLeft(2, '0')}';
+    final secondsText = seconds.toString().padLeft(2, '0');
+
+    if (hours > 0) {
+      final minutesText = minutes.toString().padLeft(2, '0');
+      return '$hours:$minutesText:$secondsText';
+    }
+
+    return '${totalSeconds ~/ 60}:$secondsText';
   }
 }

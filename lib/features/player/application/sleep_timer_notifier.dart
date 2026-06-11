@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 
-//TODO: ADD a player volume fading when close to stoping the player
 class SleepTimerState {
   final Duration remaining;
   final bool isRunning;
@@ -23,17 +21,24 @@ class SleepTimerState {
 }
 
 class SleepTimerNotifier extends Notifier<SleepTimerState> {
+  static const Duration _tickInterval = Duration(milliseconds: 500);
+  static const Duration _fadeOutWindow = Duration(seconds: 20);
+  static const double _fullVolume = 1.0;
+  static const double _mutedVolume = 0.0;
+
   Timer? _timer;
   DateTime? _deadline;
+  bool _isFadingVolume = false;
 
   @override
   SleepTimerState build() {
-    ref.listen(playerStateStreamProvider, (_, next) {
+    ref.listen(playerStateStreamProvider, (previous, next) {
+      final wasPlaying = previous?.value?.playing ?? false;
       final isPlaying = next.value?.playing ?? false;
 
-      if (isPlaying) {
+      if (isPlaying && !wasPlaying) {
         _startFullCountdownIfEnabled();
-      } else {
+      } else if (!isPlaying && wasPlaying) {
         _cancelRuntimeCountdown();
       }
     });
@@ -61,7 +66,7 @@ class SleepTimerNotifier extends Notifier<SleepTimerState> {
       }
     });
 
-    ref.onDispose(_cancelRuntimeCountdown);
+    ref.onDispose(() => _cancelRuntimeCountdown());
 
     return const SleepTimerState();
   }
@@ -76,38 +81,83 @@ class SleepTimerNotifier extends Notifier<SleepTimerState> {
     if (!settings.isSleepTimerEnabled) return;
 
     final duration = Duration(minutes: settings.sleepTimerDurationMinutes);
+    if (duration <= Duration.zero) {
+      _cancelRuntimeCountdown(clearRemaining: true);
+      return;
+    }
+
     _deadline = DateTime.now().add(duration);
     _timer?.cancel();
+    _restorePlayerVolume();
     state = SleepTimerState(remaining: duration, isRunning: true);
 
-    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      final deadline = _deadline;
-      if (deadline == null) return;
+    _timer = Timer.periodic(_tickInterval, (_) => _updateCountdown());
+  }
 
-      final remaining = deadline.difference(DateTime.now());
-      if (remaining <= Duration.zero) {
-        _expire();
-        return;
-      }
+  void _updateCountdown() {
+    final deadline = _deadline;
+    if (deadline == null) return;
 
-      state = state.copyWith(remaining: remaining);
-    });
+    final remaining = deadline.difference(DateTime.now());
+    if (remaining <= Duration.zero) {
+      _expire();
+      return;
+    }
+
+    _updateFadeVolume(remaining);
+    state = state.copyWith(remaining: remaining);
+  }
+
+  void _updateFadeVolume(Duration remaining) {
+    if (remaining > _fadeOutWindow) {
+      _restorePlayerVolume();
+      return;
+    }
+
+    _isFadingVolume = true;
+    final fadeRatio = remaining.inMilliseconds / _fadeOutWindow.inMilliseconds;
+    final volume = fadeRatio.clamp(_mutedVolume, _fullVolume).toDouble();
+    unawaited(ref.read(playerProvider.notifier).setVolume(volume));
   }
 
   void _expire() {
-    _cancelRuntimeCountdown(clearRemaining: true);
-    ref.read(playerProvider.notifier).pause();
+    final player = ref.read(playerProvider.notifier);
+
+    _cancelRuntimeCountdown(clearRemaining: true, restoreVolume: false);
+    unawaited(_pauseExpiredPlayer(player));
   }
 
-  void _cancelRuntimeCountdown({bool clearRemaining = false}) {
+  Future<void> _pauseExpiredPlayer(PlayerNotifier player) async {
+    await player.setVolume(_mutedVolume);
+    await player.pause();
+    await player.restoreVolume();
+  }
+
+  void _cancelRuntimeCountdown({
+    bool clearRemaining = false,
+    bool restoreVolume = true,
+  }) {
     _timer?.cancel();
     _timer = null;
     _deadline = null;
+
+    if (restoreVolume) {
+      _restorePlayerVolume();
+    } else {
+      _isFadingVolume = false;
+    }
 
     state = SleepTimerState(
       remaining: clearRemaining ? Duration.zero : state.remaining,
       isRunning: false,
     );
+  }
+
+  void _restorePlayerVolume() {
+    if (!_isFadingVolume) return;
+
+    _isFadingVolume = false;
+    unawaited(ref.read(playerProvider.notifier).restoreVolume());
   }
 }
 

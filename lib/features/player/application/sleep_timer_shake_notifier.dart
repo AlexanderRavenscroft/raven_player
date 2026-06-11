@@ -1,44 +1,47 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
-import 'package:raven_player/features/settings/application/settings_notifier.dart';
-import 'package:raven_player/utils/app_logger.dart';
 import 'package:shake/shake.dart';
 
 class SleepTimerShakeNotifier extends Notifier<void> {
+  static const int _shakeSlopTimeMs = 2000;
+  static const int _shakeCountResetTimeMs = 3000;
+  static const int _minimumShakeCount = 1;
+  static const double _shakeThresholdGravity = 1.4;
+
   ShakeDetector? _detector;
 
   @override
   void build() {
-    ref.listen(settingsProvider.select((s) => s.isSleepTimerEnabled), (
+    ref.listen(sleepTimerProvider.select((state) => state.isRunning), (
       _,
-      isEnabled,
+      isRunning,
     ) {
-      if (isEnabled) {
-        _startListening();
-      } else {
-        _stopListening();
-      }
+      _syncDetector(isRunning);
     });
 
-    if (ref.read(settingsProvider).isSleepTimerEnabled) {
-      _startListening();
-    }
+    _syncDetector(ref.read(sleepTimerProvider).isRunning);
 
     ref.onDispose(_stopListening);
+  }
+
+  void _syncDetector(bool isTimerRunning) {
+    if (isTimerRunning) {
+      _startListening();
+    } else {
+      _stopListening();
+    }
   }
 
   void _startListening() {
     if (_detector != null) return;
 
     _detector = ShakeDetector.waitForStart(
-      onPhoneShake: (_) {
-        ref.read(sleepTimerProvider.notifier).resetFromListeningActivity();
-        log.d('SHAKED');
-      },
-      shakeSlopTimeMS: 2000,
-      shakeCountResetTime: 3000,
-      minimumShakeCount: 1,
-      shakeThresholdGravity: 1.4,
+      onPhoneShake: (_) =>
+          ref.read(sleepTimerProvider.notifier).resetFromListeningActivity(),
+      shakeSlopTimeMS: _shakeSlopTimeMs,
+      shakeCountResetTime: _shakeCountResetTimeMs,
+      minimumShakeCount: _minimumShakeCount,
+      shakeThresholdGravity: _shakeThresholdGravity,
       useFilter: true,
     )..startListening();
   }

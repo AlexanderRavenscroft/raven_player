@@ -12,6 +12,9 @@ import 'package:rxdart/rxdart.dart';
 import 'package:synchronized/synchronized.dart';
 
 class PlayerNotifier extends Notifier<Audiobook?> {
+  static const double _minVolume = 0.0;
+  static const double _maxVolume = 1.0;
+
   late final AudioPlayer _player;
   final _lock = Lock();
 
@@ -172,6 +175,12 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   Future<void> updatePlaybackSpeed(double speed) => _player.setSpeed(speed);
   Future<void> setSkipSilence(bool enabled) =>
       _player.setSkipSilenceEnabled(enabled);
+  Future<void> setVolume(double volume) {
+    final clampedVolume = volume.clamp(_minVolume, _maxVolume).toDouble();
+    return _player.setVolume(clampedVolume);
+  }
+
+  Future<void> restoreVolume() => setVolume(_maxVolume);
 
   Future<void> seekByOffset(int seconds) async {
     final currentPosition = _player.position.inSeconds;

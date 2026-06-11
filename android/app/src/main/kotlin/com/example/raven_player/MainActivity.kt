@@ -10,6 +10,8 @@ import com.ryanheise.audioservice.AudioServiceActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.Result
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class MainActivity : AudioServiceActivity() {
 	companion object {
@@ -18,9 +20,13 @@ class MainActivity : AudioServiceActivity() {
 		private const val STATUS_AVAILABLE = "available"
 		private const val STATUS_MISSING = "missing"
 		private const val STATUS_INACCESSIBLE = "inaccessible"
+		private const val METADATA_WORKER_COUNT = 2
 	}
 
 	private var pendingResult: Result? = null
+	private val metadataExecutor: ExecutorService = Executors.newFixedThreadPool(
+		METADATA_WORKER_COUNT
+	)
 
 	override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
 		super.configureFlutterEngine(flutterEngine)
@@ -40,12 +46,12 @@ class MainActivity : AudioServiceActivity() {
 					"getMetadata" -> {
 						val uri = uriArgument(call.argument<String>("uri"), result)
 							?: return@setMethodCallHandler
-						getMetadata(uri, result)
+						runMetadataTask(result) { getMetadata(uri, result) }
 					}
 					"getDuration" -> {
 						val uri = uriArgument(call.argument<String>("uri"), result)
 							?: return@setMethodCallHandler
-						getDuration(uri, result)
+						runMetadataTask(result) { getDuration(uri, result) }
 					}
 					"checkAvailability" -> {
 						val uris = call.argument<List<String>>("uris")
@@ -59,6 +65,19 @@ class MainActivity : AudioServiceActivity() {
 					else -> result.notImplemented()
 				}
 			}
+	}
+
+	override fun onDestroy() {
+		metadataExecutor.shutdown()
+		super.onDestroy()
+	}
+
+	private fun runMetadataTask(result: Result, block: () -> Unit) {
+		try {
+			metadataExecutor.execute { block() }
+		} catch (e: Exception) {
+			result.error("METADATA_EXECUTOR_ERROR", e.message, null)
+		}
 	}
 
 	private fun uriArgument(uri: String?, result: Result): Uri? {
