@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 
 class ToolbarButton extends StatelessWidget {
+  static const double _labelTopOffset = 34;
+
   final IconData icon;
   final bool isToggled;
   final VoidCallback onPressed;
@@ -38,7 +40,7 @@ class ToolbarButton extends StatelessWidget {
         ),
         if (bottomContentBuilder != null && isToggled)
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.04,
+            top: _labelTopOffset,
             child: bottomContentBuilder!(context),
           ),
       ],

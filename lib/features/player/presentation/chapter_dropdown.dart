@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
+import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
@@ -8,6 +9,9 @@ import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 
 class ChapterDropdown extends ConsumerWidget {
+  static const _dropdownWidthRatio = 0.5;
+  static const _menuWidthRatio = 0.5;
+  static const _menuWidthSafeMarginRatio = 0.4;
   const ChapterDropdown({super.key});
 
   @override
@@ -23,7 +27,7 @@ class ChapterDropdown extends ConsumerWidget {
     );
 
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.5,
+      width: MediaQuery.of(context).size.width * _dropdownWidthRatio,
       child: Center(
         child: GestureDetector(
           onTap: () {
@@ -43,26 +47,30 @@ class ChapterDropdown extends ConsumerWidget {
               icon: isPlayerLockEnabled
                   ? const SizedBox.shrink()
                   : const Icon(AppIcons.dropdown),
-              menuWidth: MediaQuery.of(context).size.width * 0.5,
-              menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
+              iconSize: AppSpacing.xl,
+              menuWidth: MediaQuery.of(context).size.width * _menuWidthRatio,
+              menuMaxHeight:
+                  MediaQuery.of(context).size.height * _dropdownWidthRatio,
               dropdownColor: Theme.of(context).colorScheme.surfaceContainer,
               focusColor: Theme.of(context).colorScheme.primary,
               borderRadius: const BorderRadius.all(Radius.circular(12)),
               style: Theme.of(
                 context,
               ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w600),
+
               items: List.generate(
                 chapters.length,
                 (index) => DropdownMenuItem<int>(
+                  alignment: AlignmentGeometry.centerStart,
                   value: index,
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: Center(
-                      child: Text(
-                        chapters[index].name,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
+                    width:
+                        MediaQuery.of(context).size.width *
+                        _menuWidthSafeMarginRatio,
+                    child: Text(
+                      chapters[index].name,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
                 ),

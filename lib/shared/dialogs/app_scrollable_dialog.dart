@@ -5,6 +5,7 @@ import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/dialogs/dialog_action_button.dart';
 
 class AppScrollableDialog extends StatelessWidget {
+  static const _actionButtonHeight = 52.0;
   final IconData headingIcon;
   final String headingText;
   final String content;
@@ -63,10 +64,7 @@ class AppScrollableDialog extends StatelessWidget {
           text: context.l10n.dialogClose,
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          fixedSize: Size(
-            double.maxFinite,
-            MediaQuery.of(context).size.height * 0.06,
-          ),
+          fixedSize: const Size(double.maxFinite, _actionButtonHeight),
           fontWeight: FontWeight.bold,
           onPressed: () => Navigator.pop(context),
         ),

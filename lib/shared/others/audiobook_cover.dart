@@ -8,6 +8,7 @@ import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/loading/app_circular_progress_indicator.dart';
 
 class AudiobookCover extends StatelessWidget {
+  static const _playerCoverLoadingPadding = 140.0;
   final Audiobook book;
   final bool isOnTile;
 
@@ -31,11 +32,11 @@ class AudiobookCover extends StatelessWidget {
             fit: isOnTile ? BoxFit.contain : BoxFit.cover,
             frameBuilder: (_, child, frame, _) {
               if (frame == null) {
-                return const Padding(
+                return Padding(
                   padding: EdgeInsets.all(
-                    AppSpacing.xxl,
+                    isOnTile ? AppSpacing.xxl : _playerCoverLoadingPadding,
                   ), //TODO: Think about frame builder
-                  child: AppCircularProgressIndicator(),
+                  child: const AppCircularProgressIndicator(),
                 );
               }
               return child;

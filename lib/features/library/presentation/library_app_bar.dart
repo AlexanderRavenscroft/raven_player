@@ -47,6 +47,7 @@ class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {
           icon: AppIcons.settings,
           tooltip: context.l10n.tooltipOpenSettings,
           onPressed: () {
+            ScaffoldMessenger.of(context).clearSnackBars();
             Navigator.of(context).push<void>(
               MaterialPageRoute<void>(
                 builder: (context) => const SettingsPage(),

@@ -25,6 +25,7 @@ class AppSliderDialog extends StatefulWidget {
 }
 
 class _AppSliderDialogState extends State<AppSliderDialog> {
+  static const _trackHeight = 8.0;
   late double _currentValue;
 
   @override
@@ -45,34 +46,31 @@ class _AppSliderDialogState extends State<AppSliderDialog> {
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
-      content: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.5,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SliderTheme(
-              data: SliderTheme.of(context).copyWith(
-                trackHeight: MediaQuery.of(context).size.height * 0.01,
-                tickMarkShape: SliderTickMarkShape.noTickMark,
-              ),
-              child: Slider(
-                value: _currentValue,
-                min: widget.minValue,
-                max: widget.maxValue,
-                divisions: widget.divisions,
-                activeColor: Theme.of(context).colorScheme.primary,
-                inactiveColor: Theme.of(context).colorScheme.surfaceContainer,
-                onChanged: (value) => setState(() => _currentValue = value),
-              ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              trackHeight: _trackHeight,
+              tickMarkShape: SliderTickMarkShape.noTickMark,
             ),
-            Text(
-              _currentValue % 1 == 0
-                  ? _currentValue.toInt().toString()
-                  : _currentValue.toStringAsFixed(2),
-              style: Theme.of(context).textTheme.bodyLarge,
+            child: Slider(
+              value: _currentValue,
+              min: widget.minValue,
+              max: widget.maxValue,
+              divisions: widget.divisions,
+              activeColor: Theme.of(context).colorScheme.primary,
+              inactiveColor: Theme.of(context).colorScheme.surfaceContainer,
+              onChanged: (value) => setState(() => _currentValue = value),
             ),
-          ],
-        ),
+          ),
+          Text(
+            _currentValue % 1 == 0
+                ? _currentValue.toInt().toString()
+                : _currentValue.toStringAsFixed(2),
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+        ],
       ),
       actionsAlignment: MainAxisAlignment.end,
       actions: [

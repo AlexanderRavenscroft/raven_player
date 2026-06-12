@@ -97,14 +97,18 @@ class _TimeInfoText extends ConsumerWidget {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          context.l10n.readingProgress(
-            _format(read),
-            _format(total),
-            (readMs / (totalMs == 0 ? 1 : totalMs) * 100).toStringAsFixed(0),
+        Flexible(
+          child: Text(
+            context.l10n.readingProgress(
+              _format(read),
+              _format(total),
+              (readMs / (totalMs == 0 ? 1 : totalMs) * 100).toStringAsFixed(0),
+            ),
+            style: Theme.of(context).textTheme.labelMedium,
+            textAlign: TextAlign.center,
           ),
-          style: Theme.of(context).textTheme.labelMedium,
         ),
         Text(
           context.l10n.leftTime(_format(left)),
