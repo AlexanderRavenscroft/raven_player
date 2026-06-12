@@ -95,26 +95,35 @@ class _TimeInfoText extends ConsumerWidget {
     final total = Duration(milliseconds: totalMs);
     final left = Duration(milliseconds: leftMs);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Flexible(
-          child: Text(
-            context.l10n.readingProgress(
-              _format(read),
-              _format(total),
-              (readMs / (totalMs == 0 ? 1 : totalMs) * 100).toStringAsFixed(0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
+            child: Text(
+              context.l10n.readingProgress(
+                _format(read),
+                _format(total),
+                (readMs / (totalMs == 0 ? 1 : totalMs) * 100).toStringAsFixed(
+                  0,
+                ),
+              ),
+              style: Theme.of(context).textTheme.labelMedium,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              // maxLines: 5,
             ),
+          ),
+          Text(
+            context.l10n.leftTime(_format(left)),
             style: Theme.of(context).textTheme.labelMedium,
             textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
           ),
-        ),
-        Text(
-          context.l10n.leftTime(_format(left)),
-          style: Theme.of(context).textTheme.labelMedium,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -34,8 +34,20 @@ class LibraryFilterToggle extends ConsumerWidget {
             horizontal: -AppSpacing.xl,
           ),
           tabs: [
-            Tab(text: context.l10n.libraryReading),
-            Tab(text: context.l10n.libraryRead),
+            Tab(
+              child: Text(
+                context.l10n.libraryReading,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
+            Tab(
+              child: Text(
+                context.l10n.libraryRead,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
           ],
           onTap: (index) {
             ref

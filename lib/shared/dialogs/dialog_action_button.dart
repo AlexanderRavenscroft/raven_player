@@ -34,6 +34,7 @@ class DialogActionButton extends StatelessWidget {
           color: foregroundColor,
           fontWeight: fontWeight,
         ),
+        textAlign: TextAlign.center,
       ),
     );
   }

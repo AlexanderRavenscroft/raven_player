@@ -9,7 +9,6 @@ class SettingsTile extends StatelessWidget {
   final IconData icon;
   final Widget? trailing;
 
-  static const double _tileHeight = 90;
   static const double _leadingWidth = 40;
   static const double _trailingMinWidth = 56;
   static const double _titleLineHeight = 1.2;
@@ -32,12 +31,6 @@ class SettingsTile extends StatelessWidget {
     final descriptionStyle = textTheme.bodySmall!.copyWith(
       height: _descriptionLineHeight,
     );
-    final titleHeight = _scaledLineHeight(
-      style: titleStyle,
-      textScaler: textScaler,
-      fallbackFontSize: 16,
-      height: _titleLineHeight,
-    );
     final descriptionHeight = _scaledLineHeight(
       style: descriptionStyle,
       textScaler: textScaler,
@@ -47,82 +40,73 @@ class SettingsTile extends StatelessWidget {
 
     return Column(
       children: [
-        SizedBox(
-          height: _tileHeight,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onLongPress: () => _showDetailsDialog(context),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: _leadingWidth,
-                          child: Center(
-                            child: Icon(
-                              icon,
-                              size: AppIconSizes.large,
-                              color: colorScheme.onSurface,
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.md,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onLongPress: () => _showDetailsDialog(context),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: _leadingWidth,
+                        child: Center(
+                          child: Icon(
+                            icon,
+                            size: AppIconSizes.large,
+                            color: colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.lg),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: titleStyle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.lg),
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: titleHeight,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    title,
-                                    style: titleStyle,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
+                            const SizedBox(height: AppSpacing.xs),
+                            SizedBox(
+                              height: descriptionHeight * 2,
+                              child: Text(
+                                description,
+                                style: descriptionStyle,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              const SizedBox(height: AppSpacing.xs),
-                              SizedBox(
-                                height: descriptionHeight * 2,
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    description,
-                                    style: descriptionStyle,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                if (trailing != null) ...[
-                  const SizedBox(width: AppSpacing.md),
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      minWidth: _trailingMinWidth,
-                    ),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      widthFactor: 1,
-                      child: trailing,
-                    ),
+              ),
+              if (trailing != null) ...[
+                const SizedBox(width: AppSpacing.md),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: _trailingMinWidth,
                   ),
-                ],
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    widthFactor: 1,
+                    child: trailing,
+                  ),
+                ),
               ],
-            ),
+            ],
           ),
         ),
         Divider(
