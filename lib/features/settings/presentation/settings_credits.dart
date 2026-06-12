@@ -8,7 +8,6 @@ import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsCredits extends StatelessWidget {
-  //TODO Lock at the bottom padding on diffrent decvices, and bottom_content builder on action toolbar
   //TODO: ADD ACUTAL LINKS & DATA
   static final Uri _githubUrl = Uri.https(
     'github.com',
@@ -25,53 +24,56 @@ class SettingsCredits extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.16,
-      child: Column(
-        spacing: AppSpacing.xs,
-        children: [
-          Text(
-            context.l10n.settingsFollowRavenPlayer,
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.only(top: AppSpacing.xs),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              context.l10n.settingsFollowRavenPlayer,
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                tooltip: context.l10n.tooltipOpenGitHub,
-                icon: const FaIcon(
-                  FontAwesomeIcons.github,
-                  size: AppIconSizes.large,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  tooltip: context.l10n.tooltipOpenGitHub,
+                  icon: const FaIcon(
+                    FontAwesomeIcons.github,
+                    size: AppIconSizes.large,
+                  ),
+                  onPressed: () => _confirmAndOpen(context, _githubUrl),
                 ),
-                onPressed: () => _confirmAndOpen(context, _githubUrl),
-              ),
-              IconButton(
-                tooltip: context.l10n.tooltipSendEmail,
-                icon: const FaIcon(
-                  FontAwesomeIcons.envelope,
-                  size: AppIconSizes.large,
+                IconButton(
+                  tooltip: context.l10n.tooltipSendEmail,
+                  icon: const FaIcon(
+                    FontAwesomeIcons.envelope,
+                    size: AppIconSizes.large,
+                  ),
+                  onPressed: () => _confirmAndOpen(context, _emailUrl),
                 ),
-                onPressed: () => _confirmAndOpen(context, _emailUrl),
-              ),
-              IconButton(
-                tooltip: context.l10n.tooltipOpenKoFi,
-                icon: const FaIcon(
-                  FontAwesomeIcons.koFi,
-                  size: AppIconSizes.large,
+                IconButton(
+                  tooltip: context.l10n.tooltipOpenKoFi,
+                  icon: const FaIcon(
+                    FontAwesomeIcons.koFi,
+                    size: AppIconSizes.large,
+                  ),
+                  onPressed: () => _confirmAndOpen(context, _koFiUrl),
                 ),
-                onPressed: () => _confirmAndOpen(context, _koFiUrl),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Future<void> _openExternalLink(BuildContext context, Uri uri) async {
-    if (uri.scheme != 'https' || uri.scheme != 'mailto') {
+    if (uri.scheme != 'https' && uri.scheme != 'mailto') {
       return;
     }
 

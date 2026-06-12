@@ -4,7 +4,6 @@ import 'package:raven_player/core/docs/app_docs.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/core/saf/saf_uri_formatter.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
-import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/features/settings/presentation/settings_app_bar.dart';
 import 'package:raven_player/features/settings/presentation/settings_button.dart';
@@ -221,7 +220,6 @@ class SettingsPage extends ConsumerWidget {
               ),
               icon: AppIcons.appVersion,
             ),
-            const SizedBox(height: AppSpacing.xs),
             const SettingsCredits(),
           ],
         ),
