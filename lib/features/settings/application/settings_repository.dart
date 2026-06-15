@@ -1,29 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/hive/hive_boxes.dart';
-import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/models/user_settings.dart';
 
 class UserSettingsRepository {
   static const String _settingsKey = 'user_settings';
 
-  Future<UserSettings> load() async {
+  Future<UserSettings?> load() async {
     final box = await HiveBoxes.userSettings();
-    final settings = box.get(_settingsKey);
-
-    if (settings == null) {
-      const defaultSettings = UserSettings();
-      await box.put(_settingsKey, defaultSettings);
-      return defaultSettings;
-    }
-
-    if (!AppLanguages.supportedCodes.contains(settings.languageCode)) {
-      final sanitized = settings.copyWith(
-        languageCode: AppLanguages.sanitize(settings.languageCode),
-      );
-      await box.put(_settingsKey, sanitized);
-      return sanitized;
-    }
-    return settings;
+    return box.get(_settingsKey);
   }
 
   Future<void> save(UserSettings settings) async {

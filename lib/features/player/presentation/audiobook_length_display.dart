@@ -96,71 +96,32 @@ class _TimeInfoText extends ConsumerWidget {
     final read = Duration(milliseconds: readMs);
     final total = Duration(milliseconds: totalMs);
     final left = Duration(milliseconds: leftMs);
-    final percent = (readMs / (totalMs == 0 ? 1 : totalMs) * 100)
-        .toStringAsFixed(0);
 
-    final showColumn = _shouldStack(
-      context,
-      context.l10n.readingProgress(_format(read), _format(total), percent),
-      context.l10n.leftTime(_format(left)),
-    );
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-      child: Builder(
-        builder: (_) {
-          if (showColumn) {
-            return Column(
-              children: [
-                Text(
-                  context.l10n.readingProgress(
-                    _format(read),
-                    _format(total),
-                    (readMs / (totalMs == 0 ? 1 : totalMs) * 100)
-                        .toStringAsFixed(0),
-                  ),
-                  style: Theme.of(context).textTheme.labelMedium,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  // maxLines: 5,
-                ),
-                Text(
-                  context.l10n.leftTime(_format(left)),
-                  style: Theme.of(context).textTheme.labelMedium,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            );
-          }
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                context.l10n.readingProgress(
-                  _format(read),
-                  _format(total),
-                  (readMs / (totalMs == 0 ? 1 : totalMs) * 100).toStringAsFixed(
-                    0,
-                  ),
-                ),
-                style: Theme.of(context).textTheme.labelMedium,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                // maxLines: 5,
-              ),
-              Text(
-                context.l10n.leftTime(_format(left)),
-                style: Theme.of(context).textTheme.labelMedium,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          );
-        },
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.92,
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        spacing: AppSpacing.xl,
+        children: [
+          Text(
+            context.l10n.readingProgress(
+              _format(read),
+              _format(total),
+              (readMs / (totalMs == 0 ? 1 : totalMs) * 100).toStringAsFixed(0),
+            ),
+            style: Theme.of(context).textTheme.labelMedium,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            context.l10n.leftTime(_format(left)),
+            style: Theme.of(context).textTheme.labelMedium,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
   }
@@ -181,23 +142,4 @@ String _format(Duration duration) {
   final hours = duration.inHours;
   final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
   return '$hours:$minutes';
-}
-
-bool _shouldStack(BuildContext context, String text1, String text2) {
-  final scaler = MediaQuery.textScalerOf(context);
-  final style = Theme.of(context).textTheme.labelMedium!;
-  final availableWidth =
-      MediaQuery.of(context).size.width - (AppSpacing.md * 2);
-
-  double measureText(String text) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: style),
-      textDirection: TextDirection.ltr,
-      textScaler: scaler,
-    )..layout(maxWidth: double.infinity);
-    return painter.width;
-  }
-
-  const gap = 16.0;
-  return measureText(text1) + measureText(text2) + gap > availableWidth;
 }

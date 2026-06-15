@@ -84,7 +84,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
     return SafeArea(
       top: false,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: AppSpacing.lg),
+        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
         child: Skeletonizer(
           enabled: isLoading,
           child: Column(
@@ -132,6 +132,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                   ],
                 ),
               ),
+
               const PlayProgressBar(),
 
               if (!isPlayerLockEnabled)
