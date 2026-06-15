@@ -22,35 +22,33 @@ class OnboardingLottieAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Lottie.asset(
+      assetPath,
       height: height,
-      width: width,
-      child: Lottie.asset(
-        assetPath,
-        filterQuality: FilterQuality.high,
-        frameRate: FrameRate.max,
-        repeat: repeat,
-        reverse: reverse,
-        fit: BoxFit.contain,
-        errorBuilder: (context, error, stackTrace) => Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            child: Text(
-              context.l10n.lottieError(error.toString()),
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.error,
-              ),
+      width: double.infinity,
+      filterQuality: FilterQuality.high,
+      frameRate: FrameRate.max,
+      repeat: repeat,
+      reverse: reverse,
+      fit: BoxFit.contain,
+      errorBuilder: (context, error, stackTrace) => Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          child: Text(
+            context.l10n.lottieError(error.toString()),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: Theme.of(context).colorScheme.error,
             ),
           ),
         ),
-        frameBuilder: (context, child, composition) {
-          if (composition == null) {
-            return const Center(child: AppCircularProgressIndicator());
-          }
-
-          return child;
-        },
       ),
+      frameBuilder: (context, child, composition) {
+        if (composition == null) {
+          return const Center(child: AppCircularProgressIndicator());
+        }
+
+        return child;
+      },
     );
   }
 }

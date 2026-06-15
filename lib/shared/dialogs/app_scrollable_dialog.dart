@@ -19,6 +19,8 @@ class AppScrollableDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final showIcon = textScale < 1.4;
     return AlertDialog(
       backgroundColor: Theme.of(context).colorScheme.surface,
       scrollable: true,
@@ -28,20 +30,21 @@ class AppScrollableDialog extends StatelessWidget {
       ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        spacing: AppSpacing.sm,
         children: [
-          Icon(
-            headingIcon,
-            size: AppIconSizes.medium,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-          const SizedBox(width: AppSpacing.sm),
+          if (showIcon)
+            Icon(
+              headingIcon,
+              size: AppIconSizes.medium,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           Flexible(
             child: Text(
               headingText,
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

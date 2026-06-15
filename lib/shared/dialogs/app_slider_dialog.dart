@@ -41,10 +41,10 @@ class _AppSliderDialogState extends State<AppSliderDialog> {
       scrollable: false,
       title: Text(
         widget.title,
-        style: Theme.of(context).textTheme.titleMedium,
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
         textAlign: TextAlign.center,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,

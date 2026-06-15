@@ -25,8 +25,6 @@ class AppInputDialog extends StatelessWidget {
         title,
         style: Theme.of(context).textTheme.titleMedium,
         textAlign: TextAlign.center,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
       ),
       content: TextSelectionTheme(
         data: TextSelectionTheme.of(context).copyWith(
@@ -36,15 +34,18 @@ class AppInputDialog extends StatelessWidget {
           ).colorScheme.secondary.withValues(alpha: 0.20),
           cursorColor: Theme.of(context).colorScheme.onSurface,
         ),
-        child: TextField(
-          controller: textEditingController,
-          autofocus: true,
-          maxLines: 1,
-          style: Theme.of(context).textTheme.bodyMedium,
-          decoration: InputDecoration(
-            hintText: hintText,
-            hintStyle: Theme.of(context).textTheme.bodyMedium,
-            hintMaxLines: 1,
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.6,
+          child: TextField(
+            controller: textEditingController,
+            autofocus: true,
+            maxLines: 1,
+            style: Theme.of(context).textTheme.bodyMedium,
+            decoration: InputDecoration(
+              hintText: hintText,
+              hintStyle: Theme.of(context).textTheme.bodyMedium,
+              hintMaxLines: 1,
+            ),
           ),
         ),
       ),

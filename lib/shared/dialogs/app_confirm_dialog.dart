@@ -56,15 +56,18 @@ class AppConfirmDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final accentColor = _accentColor(context);
+    final textScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final showIcon = textScale < 1.4;
 
     return AlertDialog(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      scrollable: false,
+      scrollable: true,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        spacing: AppSpacing.sm,
         children: [
-          Icon(_icon, size: AppIconSizes.medium, color: accentColor),
-          const SizedBox(width: AppSpacing.sm),
+          if (showIcon)
+            Icon(_icon, size: AppIconSizes.medium, color: accentColor),
           Flexible(
             child: Text(
               title,
@@ -72,8 +75,6 @@ class AppConfirmDialog extends StatelessWidget {
                 context,
               ).textTheme.titleMedium!.copyWith(color: accentColor),
               textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
