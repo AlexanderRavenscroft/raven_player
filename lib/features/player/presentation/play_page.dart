@@ -84,7 +84,6 @@ class _PlayPageState extends ConsumerState<PlayPage> {
     return SafeArea(
       top: false,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
         child: Skeletonizer(
           enabled: isLoading,
           child: Column(
@@ -106,8 +105,12 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (!isPlayerLockEnabled)
-                      PlayerIconButton.chapter(
+                    Visibility(
+                      visible: !isPlayerLockEnabled,
+                      maintainSize: true,
+                      maintainAnimation: true,
+                      maintainState: true,
+                      child: PlayerIconButton.chapter(
                         icon: AppIcons.skipPrevious,
                         onPressed: () async {
                           await ref
@@ -118,9 +121,14 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                               .resetFromListeningActivity();
                         },
                       ),
+                    ),
                     const ChapterDropdown(),
-                    if (!isPlayerLockEnabled)
-                      PlayerIconButton.chapter(
+                    Visibility(
+                      visible: !isPlayerLockEnabled,
+                      maintainSize: true,
+                      maintainAnimation: true,
+                      maintainState: true,
+                      child: PlayerIconButton.chapter(
                         icon: AppIcons.skipNext,
                         onPressed: () async {
                           await ref.read(playerProvider.notifier).seekToNext();
@@ -129,14 +137,19 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                               .resetFromListeningActivity();
                         },
                       ),
+                    ),
                   ],
                 ),
               ),
 
               const PlayProgressBar(),
 
-              if (!isPlayerLockEnabled)
-                Row(
+              Visibility(
+                visible: !isPlayerLockEnabled,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     PlayerIconButton.seek(
@@ -186,6 +199,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                     ),
                   ],
                 ),
+              ),
             ],
           ),
         ),

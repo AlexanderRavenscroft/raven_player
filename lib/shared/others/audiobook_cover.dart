@@ -35,7 +35,7 @@ class AudiobookCover extends StatelessWidget {
                 return Padding(
                   padding: EdgeInsets.all(
                     isOnTile ? AppSpacing.xxl : _playerCoverLoadingPadding,
-                  ), //TODO: Think about frame builder
+                  ),
                   child: const AppCircularProgressIndicator(),
                 );
               }

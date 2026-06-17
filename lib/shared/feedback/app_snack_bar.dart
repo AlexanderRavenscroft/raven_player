@@ -43,25 +43,30 @@ class AppSnackBar {
     int durationSec = 3,
     SnackBarType type = SnackBarType.info,
   }) {
+    final textScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final showIcon = textScale < 1.4;
+
     final style = _getStyle(context, type);
 
     return SnackBar(
       backgroundColor: style.backgroundColor,
       content: Row(
         children: [
-          Icon(
-            style.icon,
-            color: Theme.of(context).colorScheme.onPrimary,
-            size: AppIconSizes.medium,
-          ),
-          const SizedBox(width: AppSpacing.lg),
+          if (showIcon) ...[
+            Icon(
+              style.icon,
+              color: Theme.of(context).colorScheme.onPrimary,
+              size: AppIconSizes.medium,
+            ),
+            const SizedBox(width: AppSpacing.lg),
+          ],
           Expanded(
             child: Text(
               message,
               style: Theme.of(context).textTheme.labelLarge!.copyWith(
                 color: Theme.of(context).colorScheme.onPrimary,
               ),
-              maxLines: 2,
+              maxLines: 4,
               overflow: TextOverflow.ellipsis,
             ),
           ),
