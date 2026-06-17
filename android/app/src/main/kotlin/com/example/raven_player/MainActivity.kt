@@ -1,5 +1,4 @@
-//TODO: Think about actual pacakge name
-package com.example.raven_player
+package com.alexanderavenscroft.raven_player
 
 import android.app.Activity
 import android.content.Intent

@@ -25,7 +25,8 @@ Future<void> main() async {
   ]);
 
   await JustAudioBackground.init(
-    androidNotificationChannelId: 'com.example.raven_player.channel.audio',
+    androidNotificationChannelId:
+        'com.alexanderavenscroft.raven_player.channel.audio',
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: false,
     androidStopForegroundOnPause: true,
@@ -59,3 +60,7 @@ Future<void> main() async {
     FlutterNativeSplash.remove();
   });
 }
+
+//TODO: Snackbar overflow?
+//TODO Chaning auidobook folder when in playPage
+//TODO Quiting player via notification
