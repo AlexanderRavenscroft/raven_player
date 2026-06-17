@@ -32,8 +32,11 @@ dependencies:
   font_awesome_flutter: ^11.0.0
   lottie: ^3.3.3
   marquee: ^2.3.0
-  material_symbols_icons: ^4.2928.1
   skeletonizer: ^2.1.3
+
+  #Pin the version:
+  # https://github.com/timmaffett/material_symbols_icons/issues/46
+  material_symbols_icons: 4.2906.0
 
   #? Platform / Device
   flutter_app_minimizer_plus: ^1.0.2
