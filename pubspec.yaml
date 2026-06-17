@@ -40,7 +40,6 @@ dependencies:
 
   #? Platform / Device
   flutter_app_minimizer_plus: ^1.0.2
-  flutter_native_splash: ^2.4.7
   package_info_plus: ^10.1.0
   path_provider: ^2.1.5
   shake: ^3.0.0
@@ -50,6 +49,10 @@ dependencies:
   crypto: ^3.0.7
   logger: ^2.7.0
   synchronized: ^3.4.0+1
+
+  #? Launcher
+  flutter_native_splash: ^2.4.7
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   #? Code Generation
@@ -67,7 +70,7 @@ flutter:
     - assets/docs/en/
     - assets/docs/pl/
     - assets/animations/
-    - assets/app/
+    - assets/launcher/
 
   fonts:
     - family: Inter
