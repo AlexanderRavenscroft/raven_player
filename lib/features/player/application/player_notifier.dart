@@ -104,7 +104,11 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     await _cancelSubs();
 
     _progressSub = _player.positionStream
-        .throttleTime(const Duration(seconds: 5), trailing: true)
+        .throttleTime(
+          const Duration(seconds: 5),
+          trailing: true,
+          leading: false,
+        )
         .listen((position) async {
           await _saveProgress();
         });
@@ -119,6 +123,9 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     });
 
     _processingSub = _player.processingStateStream.listen((s) async {
+      if (s == ProcessingState.idle) {
+        log.f('Player stopped via notification/native button');
+      }
       if (s != ProcessingState.completed) return;
       final book = state;
       if (book == null) return;
@@ -155,6 +162,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   }
 
   Future<void> _saveProgress() async {
+    log.i('Saving progress');
     final book = state;
     if (book == null) return;
 

@@ -27,12 +27,14 @@ Future<void> main() async {
   await JustAudioBackground.init(
     androidNotificationChannelId:
         'com.alexanderavenscroft.raven_player.channel.audio',
-    androidNotificationChannelName: 'Audio playback',
-    androidNotificationOngoing: false,
-    androidStopForegroundOnPause: true,
-    preloadArtwork: true,
+    androidNotificationChannelName: 'Audiobook playback',
+    androidNotificationChannelDescription:
+        'Shows playback controls and track info while audio is playing',
+    androidNotificationIcon: "drawable/ic_notification",
     notificationColor: AppColors.primary,
-    androidShowNotificationBadge: true,
+
+    //TODO Fix a bug, when disposing the player via notification
+    preloadArtwork: true,
   );
 
   final repo = UserSettingsRepository();
