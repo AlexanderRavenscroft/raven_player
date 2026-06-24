@@ -138,13 +138,33 @@
   "@settingsChangeFolderTitle": {
     "description": "Confirmation dialog title shown before changing the audiobook folder from settings."
   },
-  "settingsChangeFolderWarning": "Zmiana folderu z audiobookami zresetuje postęp każdego audiobooka w bibliotece.",
+  "settingsChangeFolderWarning": "Wybranie innego folderu przebuduje bibliotekę i zresetuje postęp wszystkich audiobooków.",
   "@settingsChangeFolderWarning": {
     "description": "Danger confirmation message shown before changing the audiobook folder from settings."
   },
   "settingsChangeFolderConfirm": "Wybierz folder",
   "@settingsChangeFolderConfirm": {
     "description": "Confirmation dialog button that proceeds to the system folder picker."
+  },
+  "settingsStopPlaybackAndChangeFolderTitle": "Zatrzymać odtwarzanie i zmienić folder?",
+  "@settingsStopPlaybackAndChangeFolderTitle": {
+    "description": "Confirmation dialog title shown before stopping the current audiobook and changing an existing audiobook folder."
+  },
+  "settingsStopPlaybackAndChangeFolderWarning": "Bieżący audiobook zostanie zatrzymany, a jego pozycja zapisana. Wybranie innego folderu przebuduje bibliotekę i zresetuje postęp każdego audiobooka.",
+  "@settingsStopPlaybackAndChangeFolderWarning": {
+    "description": "Confirmation dialog message shown before stopping the current audiobook and changing an existing audiobook folder."
+  },
+  "settingsStopPlaybackToChooseFolderTitle": "Zatrzymać odtwarzanie przed wyborem folderu?",
+  "@settingsStopPlaybackToChooseFolderTitle": {
+    "description": "Confirmation dialog title shown before stopping the current audiobook and choosing the first audiobook folder."
+  },
+  "settingsStopPlaybackToChooseFolderWarning": "Bieżący audiobook zostanie zatrzymany, a jego pozycja zapisana przed otwarciem wyboru folderu.",
+  "@settingsStopPlaybackToChooseFolderWarning": {
+    "description": "Confirmation dialog message shown before stopping the current audiobook and choosing the first audiobook folder."
+  },
+  "settingsStopPlaybackAndChooseFolderConfirm": "Zatrzymaj i wybierz folder",
+  "@settingsStopPlaybackAndChooseFolderConfirm": {
+    "description": "Confirmation dialog button that stops playback and proceeds to the system folder picker."
   },
   "settingsThemeTitle": "Motyw",
   "@settingsThemeTitle": {

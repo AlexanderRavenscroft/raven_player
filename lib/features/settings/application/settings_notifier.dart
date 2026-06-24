@@ -17,12 +17,13 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     return ref.read(initialSettingsProvider);
   }
 
-  Future<void> updateHomeFolderUri() async {
+  Future<bool> updateHomeFolderUri() async {
     final uri = await Saf.pickTree();
-    if (uri == null || uri == state.homeFolderUri) return;
+    if (uri == null || uri == state.homeFolderUri) return false;
 
     state = state.copyWith(homeFolderUri: uri);
     await _repo.save(state);
+    return true;
   }
 
   Future<void> updateThemeMode(ThemeMode mode) async {

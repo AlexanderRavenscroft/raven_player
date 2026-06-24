@@ -34,7 +34,8 @@ class PlayAppBar extends StatelessWidget implements PreferredSizeWidget {
             ScaffoldMessenger.of(context).clearSnackBars();
             Navigator.of(context).push<void>(
               MaterialPageRoute<void>(
-                builder: (context) => const SettingsPage(),
+                builder: (context) =>
+                    const SettingsPage(openedFromPlayer: true),
               ),
             );
           },

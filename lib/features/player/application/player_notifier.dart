@@ -162,6 +162,13 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     state = null;
   }
 
+  Future<void> stopForFolderChange() async {
+    log.d('Stopping for folder change');
+    await _saveProgress();
+    await _cancelSubs();
+    await _handler.clearSession();
+  }
+
   Future<void> _cancelSubs() async {
     await _progressSub?.cancel();
     _progressSub = null;

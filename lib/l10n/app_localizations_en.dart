@@ -109,10 +109,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsChangeFolderWarning =>
-      'Changing the audiobook folder will reset progress for every book in your library.';
+      'Choosing a different folder will rebuild your library and reset progress for every book.';
 
   @override
   String get settingsChangeFolderConfirm => 'Choose folder';
+
+  @override
+  String get settingsStopPlaybackAndChangeFolderTitle =>
+      'Stop playback and change folder?';
+
+  @override
+  String get settingsStopPlaybackAndChangeFolderWarning =>
+      'The current audiobook will be stopped and its position saved. Choosing a different folder will rebuild your library and reset progress for every book.';
+
+  @override
+  String get settingsStopPlaybackToChooseFolderTitle =>
+      'Stop playback to choose folder?';
+
+  @override
+  String get settingsStopPlaybackToChooseFolderWarning =>
+      'The current audiobook will be stopped and its position saved before the folder picker opens.';
+
+  @override
+  String get settingsStopPlaybackAndChooseFolderConfirm =>
+      'Stop and choose folder';
 
   @override
   String get settingsThemeTitle => 'Theme';

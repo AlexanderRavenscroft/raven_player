@@ -66,11 +66,13 @@ class _ProgressBar extends ConsumerWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.92,
       height: MediaQuery.of(context).size.height * 0.02,
-      child: LinearProgressIndicator(
-        value: progressValue.clamp(0.0, 1.0),
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
-        color: Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadius.circular(25),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: LinearProgressIndicator(
+          value: progressValue.clamp(0.0, 1.0),
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }

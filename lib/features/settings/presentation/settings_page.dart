@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:raven_player/core/docs/app_docs.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/core/saf/saf_uri_formatter.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
-import 'package:raven_player/features/player/application/raven_audio_handler.dart';
+import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/features/settings/presentation/settings_app_bar.dart';
 import 'package:raven_player/features/settings/presentation/settings_button.dart';
@@ -19,7 +18,9 @@ import 'package:raven_player/shared/dialogs/app_scrollable_dialog.dart';
 import 'package:raven_player/utils/app_version.dart';
 
 class SettingsPage extends ConsumerWidget {
-  const SettingsPage({super.key});
+  final bool openedFromPlayer;
+
+  const SettingsPage({super.key, this.openedFromPlayer = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -262,38 +263,24 @@ class SettingsPage extends ConsumerWidget {
     WidgetRef ref,
     String? currentFolderUri,
   ) async {
-    final player = ref.read(audioHandlerProvider).player;
-    final processingState = player.processingState;
-    final isPlaying = player.playing;
+    final hasLoadedAudiobook = ref.read(playerProvider) != null;
+    final isPlaying = ref.read(playerProvider.notifier).isPlaying;
 
-    if (processingState == ProcessingState.ready && !isPlaying) {
-      await ref.read(audioHandlerProvider).clearSession();
-    } else if (processingState != ProcessingState.idle) {
-      await showDialog<bool>(
-        context: context,
-        builder: (dialogContext) => const AppConfirmDialog(
-          title:
-              'Cannot change audiobook folder.', //TODO Add translatinos && Look at UX
-          content:
-              'Cannot change audiobook folder when player is playing. Dispose the player or pause it, to change the audiobook folder.',
-          level: AppConfirmDialogLevel.danger,
-          acceptText: 'Okay',
-          showOnlyAccept: true,
-        ),
-      );
-      return;
-    }
-
-    if (currentFolderUri != null && context.mounted) {
+    if (hasLoadedAudiobook && isPlaying) {
       final confirmed = await showDialog<bool>(
         context: context,
         builder: (dialogContext) => AppConfirmDialog(
-          title: dialogContext.l10n.settingsChangeFolderTitle,
-          content: dialogContext.l10n.settingsChangeFolderWarning,
-          level: AppConfirmDialogLevel.warning,
-          acceptText: dialogContext.l10n.settingsChangeFolderConfirm,
-          onAccept: () =>
-              ref.read(settingsProvider.notifier).updateHomeFolderUri(),
+          title: currentFolderUri == null
+              ? dialogContext.l10n.settingsStopPlaybackToChooseFolderTitle
+              : dialogContext.l10n.settingsStopPlaybackAndChangeFolderTitle,
+          content: currentFolderUri == null
+              ? dialogContext.l10n.settingsStopPlaybackToChooseFolderWarning
+              : dialogContext.l10n.settingsStopPlaybackAndChangeFolderWarning,
+          level: currentFolderUri == null
+              ? AppConfirmDialogLevel.info
+              : AppConfirmDialogLevel.warning,
+          acceptText:
+              dialogContext.l10n.settingsStopPlaybackAndChooseFolderConfirm,
         ),
       );
 
@@ -302,6 +289,34 @@ class SettingsPage extends ConsumerWidget {
       }
     }
 
-    await ref.read(settingsProvider.notifier).updateHomeFolderUri();
+    if (!(hasLoadedAudiobook && isPlaying) &&
+        currentFolderUri != null &&
+        context.mounted) {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AppConfirmDialog(
+          title: dialogContext.l10n.settingsChangeFolderTitle,
+          content: dialogContext.l10n.settingsChangeFolderWarning,
+          level: AppConfirmDialogLevel.warning,
+          acceptText: dialogContext.l10n.settingsChangeFolderConfirm,
+        ),
+      );
+
+      if (confirmed != true || !context.mounted) {
+        return;
+      }
+    }
+
+    final changed = await ref
+        .read(settingsProvider.notifier)
+        .updateHomeFolderUri();
+
+    if (!changed) return;
+
+    await ref.read(playerProvider.notifier).stopForFolderChange();
+
+    if (openedFromPlayer && context.mounted) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    }
   }
 }

@@ -281,7 +281,7 @@ abstract class AppLocalizations {
   /// Danger confirmation message shown before changing the audiobook folder from settings.
   ///
   /// In en, this message translates to:
-  /// **'Changing the audiobook folder will reset progress for every book in your library.'**
+  /// **'Choosing a different folder will rebuild your library and reset progress for every book.'**
   String get settingsChangeFolderWarning;
 
   /// Confirmation dialog button that proceeds to the system folder picker.
@@ -289,6 +289,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose folder'**
   String get settingsChangeFolderConfirm;
+
+  /// Confirmation dialog title shown before stopping the current audiobook and changing an existing audiobook folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop playback and change folder?'**
+  String get settingsStopPlaybackAndChangeFolderTitle;
+
+  /// Confirmation dialog message shown before stopping the current audiobook and changing an existing audiobook folder.
+  ///
+  /// In en, this message translates to:
+  /// **'The current audiobook will be stopped and its position saved. Choosing a different folder will rebuild your library and reset progress for every book.'**
+  String get settingsStopPlaybackAndChangeFolderWarning;
+
+  /// Confirmation dialog title shown before stopping the current audiobook and choosing the first audiobook folder.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop playback to choose folder?'**
+  String get settingsStopPlaybackToChooseFolderTitle;
+
+  /// Confirmation dialog message shown before stopping the current audiobook and choosing the first audiobook folder.
+  ///
+  /// In en, this message translates to:
+  /// **'The current audiobook will be stopped and its position saved before the folder picker opens.'**
+  String get settingsStopPlaybackToChooseFolderWarning;
+
+  /// Confirmation dialog button that stops playback and proceeds to the system folder picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop and choose folder'**
+  String get settingsStopPlaybackAndChooseFolderConfirm;
 
   /// Settings row title for app theme selection.
   ///
