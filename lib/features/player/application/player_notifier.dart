@@ -12,13 +12,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:synchronized/synchronized.dart';
 
 class PlayerNotifier extends Notifier<Audiobook?> {
-  static const double _minVolume = 0.0;
-  static const double _maxVolume = 1.0;
-
   RavenAudioHandler get _handler => ref.read(audioHandlerProvider);
-  AudioPlayer get _player => _handler.player;
-
-  // final AudioPlayer _player = AudioPlayer();
   final Lock _lock = Lock();
 
   StreamSubscription<Duration>? _progressSub;
@@ -31,7 +25,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     ref.onDispose(() async {
       await _saveProgress();
       await _cancelSubs();
-      await _player.dispose();
+      await _handler.dispose();
     });
     return null;
   }
@@ -66,7 +60,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
 
     await _saveProgress();
     await _cancelSubs();
-    await _player.stop();
+    await _handler.stop();
   }
 
   Future<void> _loadAudioSources(Audiobook book) async {
@@ -155,10 +149,10 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     final settings = ref.read(settingsProvider);
 
     if (settings.isPlaybackSpeedEnabled) {
-      await _player.setSpeed(settings.playbackSpeed);
+      await _handler.setSpeed(settings.playbackSpeed);
     }
 
-    await _player.setSkipSilenceEnabled(settings.isSkipSilenceEnabled);
+    await _handler.setSkipSilenceEnabled(settings.isSkipSilenceEnabled);
   }
 
   Future<void> clear() async {
@@ -175,6 +169,11 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     await _cancelSubs();
     await _handler.clearSession();
     // Keep state so reopening the same book reuses the retained just_audio session.
+  }
+
+  Future<void> seekToChapter(int chapterIndex) async {
+    if (state == null) return;
+    await _handler.seek(Duration.zero, index: chapterIndex);
   }
 
   Future<void> _cancelSubs() async {
@@ -205,37 +204,6 @@ class PlayerNotifier extends Notifier<Audiobook?> {
 
     state = updated;
     await repo.save(updated);
-  }
-
-  Future<void> play() => _player.play();
-
-  Future<void> pause() => _player.pause();
-
-  Future<void> replay() async {
-    //TODO: Maybe add a dialog reocmending a new book to listen
-    await _player.seek(Duration.zero, index: 0);
-    await _player.play();
-  }
-
-  Future<void> seekToPrevious() => _player.seekToPrevious();
-
-  Future<void> seekToNext() => _player.seekToNext();
-
-  Future<void> updatePlaybackSpeed(double speed) => _player.setSpeed(speed);
-
-  Future<void> setSkipSilence(bool enabled) =>
-      _player.setSkipSilenceEnabled(enabled);
-
-  Future<void> setVolume(double volume) {
-    final clampedVolume = volume.clamp(_minVolume, _maxVolume).toDouble();
-    return _player.setVolume(clampedVolume);
-  }
-
-  Future<void> restoreVolume() => setVolume(_maxVolume);
-
-  Future<void> seekToChapter(int chapterIndex) async {
-    if (state == null) return;
-    await _player.seek(Duration.zero, index: chapterIndex);
   }
 }
 

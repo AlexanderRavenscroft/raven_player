@@ -133,9 +133,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                       child: PlayerIconButton.chapter(
                         icon: AppIcons.skipPrevious,
                         onPressed: () async {
-                          await ref
-                              .read(playerProvider.notifier)
-                              .seekToPrevious();
+                          await ref.read(audioHandlerProvider).skipToPrevious();
                           ref
                               .read(sleepTimerProvider.notifier)
                               .resetFromListeningActivity();
@@ -151,7 +149,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                       child: PlayerIconButton.chapter(
                         icon: AppIcons.skipNext,
                         onPressed: () async {
-                          await ref.read(playerProvider.notifier).seekToNext();
+                          await ref.read(audioHandlerProvider).skipToNext();
                           ref
                               .read(sleepTimerProvider.notifier)
                               .resetFromListeningActivity();

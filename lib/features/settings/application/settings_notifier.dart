@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/core/saf/saf.dart';
-import 'package:raven_player/features/player/application/player_notifier.dart';
+import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/settings/application/settings_repository.dart';
 import 'package:raven_player/models/user_settings.dart';
 
@@ -61,9 +61,7 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
   }
 
   Future<void> disablePlaybackSpeed() async {
-    await ref
-        .read(playerProvider.notifier)
-        .updatePlaybackSpeed(_defaultPlaybackSpeed);
+    await ref.read(audioHandlerProvider).setSpeed(_defaultPlaybackSpeed);
     state = state.copyWith(isPlaybackSpeedEnabled: false);
     await _repo.save(state);
   }
@@ -72,21 +70,21 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     final newValue = !state.isPlaybackSpeedEnabled;
 
     final speedToApply = newValue ? state.playbackSpeed : _defaultPlaybackSpeed;
-    await ref.read(playerProvider.notifier).updatePlaybackSpeed(speedToApply);
+    await ref.read(audioHandlerProvider).setSpeed(speedToApply);
 
     state = state.copyWith(isPlaybackSpeedEnabled: newValue);
     await _repo.save(state);
   }
 
   Future<void> updatePlaybackSpeed(double speed) async {
-    await ref.read(playerProvider.notifier).updatePlaybackSpeed(speed);
+    await ref.read(audioHandlerProvider).setSpeed(speed);
     state = state.copyWith(playbackSpeed: speed);
     await _repo.save(state);
   }
 
   Future<void> toggleSkipSilence() async {
     final newValue = !state.isSkipSilenceEnabled;
-    await ref.read(playerProvider.notifier).setSkipSilence(newValue);
+    await ref.read(audioHandlerProvider).setSkipSilenceEnabled(newValue);
     state = state.copyWith(isSkipSilenceEnabled: newValue);
     await _repo.save(state);
   }

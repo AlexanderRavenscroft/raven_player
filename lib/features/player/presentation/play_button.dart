@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
-import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 
@@ -51,13 +50,13 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
       onPressed = null;
     } else if (processing == ProcessingState.completed) {
       iconData = AppIcons.replay;
-      onPressed = () => ref.read(playerProvider.notifier).replay();
+      onPressed = () => ref.read(audioHandlerProvider).replay();
     } else if (playing) {
       iconData = AppIcons.pause;
-      onPressed = () => ref.read(playerProvider.notifier).pause();
+      onPressed = () => ref.read(audioHandlerProvider).pause();
     } else {
       iconData = AppIcons.play;
-      onPressed = () => ref.read(playerProvider.notifier).play();
+      onPressed = () => ref.read(audioHandlerProvider).play();
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 
@@ -118,20 +117,20 @@ class SleepTimerNotifier extends Notifier<SleepTimerState> {
     _isFadingVolume = true;
     final fadeRatio = remaining.inMilliseconds / _fadeOutWindow.inMilliseconds;
     final volume = fadeRatio.clamp(_mutedVolume, _fullVolume).toDouble();
-    unawaited(ref.read(playerProvider.notifier).setVolume(volume));
+    unawaited(ref.read(audioHandlerProvider).setVolume(volume));
   }
 
   void _expire() {
-    final player = ref.read(playerProvider.notifier);
+    final handler = ref.read(audioHandlerProvider);
 
     _cancelRuntimeCountdown(clearRemaining: true, restoreVolume: false);
-    unawaited(_pauseExpiredPlayer(player));
+    unawaited(_pauseExpiredPlayer(handler));
   }
 
-  Future<void> _pauseExpiredPlayer(PlayerNotifier player) async {
-    await player.setVolume(_mutedVolume);
-    await player.pause();
-    await player.restoreVolume();
+  Future<void> _pauseExpiredPlayer(RavenAudioHandler handler) async {
+    await handler.setVolume(_mutedVolume);
+    await handler.pause();
+    await handler.restoreVolume();
   }
 
   void _cancelRuntimeCountdown({
@@ -158,7 +157,7 @@ class SleepTimerNotifier extends Notifier<SleepTimerState> {
     if (!_isFadingVolume) return;
 
     _isFadingVolume = false;
-    unawaited(ref.read(playerProvider.notifier).restoreVolume());
+    unawaited(ref.read(audioHandlerProvider).restoreVolume());
   }
 }
 
