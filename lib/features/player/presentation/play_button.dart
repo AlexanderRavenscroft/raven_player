@@ -5,6 +5,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
+import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 
 class PlayButton extends ConsumerStatefulWidget {

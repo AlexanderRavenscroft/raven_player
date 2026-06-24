@@ -5,6 +5,7 @@ import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/core/saf/saf_uri_formatter.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
+import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/features/settings/presentation/settings_app_bar.dart';
 import 'package:raven_player/features/settings/presentation/settings_button.dart';
@@ -264,7 +265,7 @@ class SettingsPage extends ConsumerWidget {
     String? currentFolderUri,
   ) async {
     final hasLoadedAudiobook = ref.read(playerProvider) != null;
-    final isPlaying = ref.read(playerProvider.notifier).isPlaying;
+    final isPlaying = ref.read(audioHandlerProvider).isPlaying;
 
     if (hasLoadedAudiobook && isPlaying) {
       final confirmed = await showDialog<bool>(

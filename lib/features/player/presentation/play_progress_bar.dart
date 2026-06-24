@@ -2,6 +2,7 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
+import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
@@ -70,7 +71,7 @@ class PlayProgressBar extends ConsumerWidget {
                   buffered: positionData.bufferedPosition,
                   total: positionData.duration,
                   onSeek: (duration) async {
-                    await ref.read(playerProvider.notifier).seek(duration);
+                    await ref.read(audioHandlerProvider).seek(duration);
                     ref
                         .read(sleepTimerProvider.notifier)
                         .resetFromListeningActivity();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
+import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
 

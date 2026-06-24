@@ -6,6 +6,7 @@ import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/player/application/chapter_initialization_provider.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
+import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/player/application/sleep_timer_shake_notifier.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/player/presentation/audiobook_length_display.dart';
@@ -175,8 +176,8 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                       icon: AppIcons.fastRewind,
                       onPressed: () async {
                         await ref
-                            .read(playerProvider.notifier)
-                            .seekByOffset(-60);
+                            .read(audioHandlerProvider)
+                            .rewind(RavenAudioHandler.longSeekOffset);
                         ref
                             .read(sleepTimerProvider.notifier)
                             .resetFromListeningActivity();
@@ -185,9 +186,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                     PlayerIconButton.seek(
                       icon: AppIcons.replay10,
                       onPressed: () async {
-                        await ref
-                            .read(playerProvider.notifier)
-                            .seekByOffset(-10);
+                        await ref.read(audioHandlerProvider).rewind();
                         ref
                             .read(sleepTimerProvider.notifier)
                             .resetFromListeningActivity();
@@ -197,9 +196,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                     PlayerIconButton.seek(
                       icon: AppIcons.forward10,
                       onPressed: () async {
-                        await ref
-                            .read(playerProvider.notifier)
-                            .seekByOffset(10);
+                        await ref.read(audioHandlerProvider).fastForward();
                         ref
                             .read(sleepTimerProvider.notifier)
                             .resetFromListeningActivity();
@@ -209,8 +206,8 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                       icon: AppIcons.fastForward,
                       onPressed: () async {
                         await ref
-                            .read(playerProvider.notifier)
-                            .seekByOffset(60);
+                            .read(audioHandlerProvider)
+                            .fastForward(RavenAudioHandler.longSeekOffset);
                         ref
                             .read(sleepTimerProvider.notifier)
                             .resetFromListeningActivity();

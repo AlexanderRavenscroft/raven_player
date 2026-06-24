@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
-import 'package:raven_player/features/player/application/playback_position.dart';
 import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
@@ -25,6 +24,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   StreamSubscription<Duration>? _progressSub;
   StreamSubscription<int>? _indexSub;
   StreamSubscription<ProcessingState>? _processingSub;
+  StreamSubscription<void>? _seekSub;
 
   @override
   Audiobook? build() {
@@ -116,31 +116,38 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     log.d('Attaching player listeners');
     await _cancelSubs();
 
-    _progressSub = _player.positionStream
+    _progressSub = _handler.positionStream
         .throttleTime(
           const Duration(seconds: 5),
           trailing: true,
           leading: false,
         )
         .listen((position) async {
+          log.d('Saving progress from periodic secs');
           await _saveProgress();
         });
 
-    _indexSub = _player.currentIndexStream.whereType<int>().distinct().listen((
+    _indexSub = _handler.currentIndexStream.whereType<int>().distinct().listen((
       index,
     ) async {
       if (state != null) {
         state = state!.copyWith(currentChapterIndex: index);
       }
+      log.d('Saving progress from index change');
       await _saveProgress();
     });
 
-    _processingSub = _player.processingStateStream.listen((s) async {
+    _processingSub = _handler.processingStateStream.listen((s) async {
       if (s != ProcessingState.completed) return;
       final book = state;
       if (book == null) return;
       log.i('WHOLE ${book.title} finished');
       await ref.read(libraryProvider.notifier).markAsRead(book);
+    });
+
+    _seekSub = _handler.seekCompletedStream.listen((_) async {
+      log.d('Saving progress from seek');
+      await _saveProgress();
     });
   }
 
@@ -155,7 +162,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   }
 
   Future<void> clear() async {
-    log.d('Clearing player');
+    log.d('Saving progress from clear player');
     await _saveProgress();
     await _cancelSubs();
     await _handler.clearSession();
@@ -163,10 +170,11 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   }
 
   Future<void> stopForFolderChange() async {
-    log.d('Stopping for folder change');
+    log.d('Saving progress from stopForFolderChange');
     await _saveProgress();
     await _cancelSubs();
     await _handler.clearSession();
+    // Keep state so reopening the same book reuses the retained just_audio session.
   }
 
   Future<void> _cancelSubs() async {
@@ -176,18 +184,19 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     _indexSub = null;
     await _processingSub?.cancel();
     _processingSub = null;
+    await _seekSub?.cancel();
+    _seekSub = null;
   }
 
   Future<void> _saveProgress() async {
-    log.i('Saving progress');
     final book = state;
     if (book == null) return;
 
     final repo = ref.read(audiobookRepositoryProvider);
     final latest = await repo.getById(book.id) ?? book;
 
-    final positionMs = _player.position.inMilliseconds;
-    final chapterIndex = _player.currentIndex ?? 0;
+    final positionMs = _handler.position.inMilliseconds;
+    final chapterIndex = _handler.currentIndex ?? 0;
 
     final updated = latest.copyWith(
       currentPositionMs: positionMs,
@@ -203,11 +212,10 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   Future<void> pause() => _player.pause();
 
   Future<void> replay() async {
-    await _player.seek(Duration.zero);
+    //TODO: Maybe add a dialog reocmending a new book to listen
+    await _player.seek(Duration.zero, index: 0);
     await _player.play();
   }
-
-  Future<void> seek(Duration position) => _player.seek(position);
 
   Future<void> seekToPrevious() => _player.seekToPrevious();
 
@@ -225,45 +233,12 @@ class PlayerNotifier extends Notifier<Audiobook?> {
 
   Future<void> restoreVolume() => setVolume(_maxVolume);
 
-  Future<void> seekByOffset(int seconds) async {
-    final currentPosition = _player.position.inSeconds;
-    final seekAmount = currentPosition + seconds;
-    final newPosition = seekAmount.clamp(0, _player.duration?.inSeconds ?? 0);
-
-    await _player.seek(Duration(seconds: newPosition));
-    await _saveProgress();
-  }
-
   Future<void> seekToChapter(int chapterIndex) async {
     if (state == null) return;
     await _player.seek(Duration.zero, index: chapterIndex);
   }
-
-  Stream<PlayerState> get playerStateStream => _player.playerStateStream;
-
-  bool get isPlaying => _player.playing;
-
-  Stream<PlaybackPosition> get playbackPositionStream =>
-      Rx.combineLatest3<Duration, Duration, Duration?, PlaybackPosition>(
-        _player.positionStream,
-        _player.bufferedPositionStream,
-        _player.durationStream,
-        (pos, buf, dur) => PlaybackPosition(
-          position: pos,
-          bufferedPosition: buf,
-          duration: dur ?? Duration.zero,
-        ),
-      );
 }
 
 final playerProvider = NotifierProvider<PlayerNotifier, Audiobook?>(
   PlayerNotifier.new,
 );
-
-final playerStateStreamProvider = StreamProvider<PlayerState>((ref) {
-  return ref.watch(playerProvider.notifier).playerStateStream;
-});
-
-final playbackPositionStreamProvider = StreamProvider<PlaybackPosition>((ref) {
-  return ref.watch(playerProvider.notifier).playbackPositionStream;
-});

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
+import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 
 class SleepTimerState {
@@ -52,7 +53,7 @@ class SleepTimerNotifier extends Notifier<SleepTimerState> {
         return;
       }
 
-      if (ref.read(playerProvider.notifier).isPlaying) {
+      if (ref.read(audioHandlerProvider).isPlaying) {
         _startFullCountdownIfEnabled();
       }
     });
@@ -61,7 +62,7 @@ class SleepTimerNotifier extends Notifier<SleepTimerState> {
       _,
       _,
     ) {
-      if (state.isRunning || ref.read(playerProvider.notifier).isPlaying) {
+      if (state.isRunning || ref.read(audioHandlerProvider).isPlaying) {
         _startFullCountdownIfEnabled();
       }
     });
