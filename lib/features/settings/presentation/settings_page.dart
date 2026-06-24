@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:raven_player/core/docs/app_docs.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/core/saf/saf_uri_formatter.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
+import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/features/settings/presentation/settings_app_bar.dart';
 import 'package:raven_player/features/settings/presentation/settings_button.dart';
@@ -260,14 +262,38 @@ class SettingsPage extends ConsumerWidget {
     WidgetRef ref,
     String? currentFolderUri,
   ) async {
-    if (currentFolderUri != null) {
+    final player = ref.read(audioHandlerProvider).player;
+    final processingState = player.processingState;
+    final isPlaying = player.playing;
+
+    if (processingState == ProcessingState.ready && !isPlaying) {
+      await ref.read(audioHandlerProvider).clearSession();
+    } else if (processingState != ProcessingState.idle) {
+      await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => const AppConfirmDialog(
+          title:
+              'Cannot change audiobook folder.', //TODO Add translatinos && Look at UX
+          content:
+              'Cannot change audiobook folder when player is playing. Dispose the player or pause it, to change the audiobook folder.',
+          level: AppConfirmDialogLevel.danger,
+          acceptText: 'Okay',
+          showOnlyAccept: true,
+        ),
+      );
+      return;
+    }
+
+    if (currentFolderUri != null && context.mounted) {
       final confirmed = await showDialog<bool>(
         context: context,
         builder: (dialogContext) => AppConfirmDialog(
           title: dialogContext.l10n.settingsChangeFolderTitle,
           content: dialogContext.l10n.settingsChangeFolderWarning,
-          level: AppConfirmDialogLevel.danger,
+          level: AppConfirmDialogLevel.warning,
           acceptText: dialogContext.l10n.settingsChangeFolderConfirm,
+          onAccept: () =>
+              ref.read(settingsProvider.notifier).updateHomeFolderUri(),
         ),
       );
 

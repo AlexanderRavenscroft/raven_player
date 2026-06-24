@@ -6,18 +6,21 @@ import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
+import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 
 class ChapterDropdown extends ConsumerWidget {
   static const _dropdownWidthRatio = 0.5;
   static const _menuWidthRatio = 0.5;
   static const _menuWidthSafeMarginRatio = 0.4;
-  const ChapterDropdown({super.key});
+
+  final Audiobook book;
+
+  const ChapterDropdown({super.key, required this.book});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentBook = ref.watch(playerProvider);
-    if (currentBook == null) return const SizedBox.shrink();
+    final currentBook = ref.watch(playerProvider) ?? book;
 
     final chapters = currentBook.chapters;
     final currentChapterIndex = currentBook.currentChapterIndex;

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_minimizer_plus/flutter_app_minimizer_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,14 +30,32 @@ class PlayPage extends ConsumerStatefulWidget {
 }
 
 class _PlayPageState extends ConsumerState<PlayPage> {
+  late final ProviderSubscription<AsyncValue<Audiobook>>
+  _chapterInitializationSub;
+
   @override
   void initState() {
     super.initState();
-    _initializePlayer();
+    _chapterInitializationSub = ref.listenManual<AsyncValue<Audiobook>>(
+      chapterInitializationProvider(widget.book.id),
+      (previous, next) {
+        next.whenData(_loadInitializedBook);
+      },
+      fireImmediately: true,
+    );
   }
 
-  Future<void> _initializePlayer() async {
-    await ref.read(playerProvider.notifier).load(widget.book);
+  void _loadInitializedBook(Audiobook initializedBook) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      unawaited(ref.read(playerProvider.notifier).load(initializedBook));
+    });
+  }
+
+  @override
+  void dispose() {
+    _chapterInitializationSub.close();
+    super.dispose();
   }
 
   @override
@@ -122,7 +141,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                         },
                       ),
                     ),
-                    const ChapterDropdown(),
+                    ChapterDropdown(book: widget.book),
                     Visibility(
                       visible: !isPlayerLockEnabled,
                       maintainSize: true,

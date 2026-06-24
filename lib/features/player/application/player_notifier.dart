@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/player/application/playback_position.dart';
+import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/utils/app_logger.dart';
@@ -15,7 +16,10 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   static const double _minVolume = 0.0;
   static const double _maxVolume = 1.0;
 
-  final AudioPlayer _player = AudioPlayer();
+  RavenAudioHandler get _handler => ref.read(audioHandlerProvider);
+  AudioPlayer get _player => _handler.player;
+
+  // final AudioPlayer _player = AudioPlayer();
   final Lock _lock = Lock();
 
   StreamSubscription<Duration>? _progressSub;
@@ -77,14 +81,18 @@ class PlayerNotifier extends Notifier<Audiobook?> {
               artist: book.author,
               title: chapter.name,
               artUri: coverPath == null ? null : Uri.file(coverPath),
+              duration: chapter.duration,
             ),
           ),
         )
         .toList();
 
+    final mediaItems = sources.map((s) => s.tag as MediaItem).toList();
+
     try {
-      await _player.setAudioSources(
+      await _handler.setAudioSources(
         sources,
+        mediaItems: mediaItems,
         initialIndex: book.currentChapterIndex,
         initialPosition: book.currentPosition,
       );
@@ -95,7 +103,12 @@ class PlayerNotifier extends Notifier<Audiobook?> {
 
       await ref.read(audiobookRepositoryProvider).save(reset);
       state = reset;
-      await _player.setAudioSources(sources, initialIndex: 0);
+      await _handler.setAudioSources(
+        sources,
+        mediaItems: mediaItems,
+        initialIndex: 0,
+        initialPosition: Duration.zero,
+      );
     }
   }
 
@@ -123,9 +136,6 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     });
 
     _processingSub = _player.processingStateStream.listen((s) async {
-      if (s == ProcessingState.idle) {
-        log.f('Player stopped via notification/native button');
-      }
       if (s != ProcessingState.completed) return;
       final book = state;
       if (book == null) return;
@@ -148,7 +158,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     log.d('Clearing player');
     await _saveProgress();
     await _cancelSubs();
-    await _player.stop();
+    await _handler.clearSession();
     state = null;
   }
 

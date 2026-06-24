@@ -21,7 +21,6 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     final uri = await Saf.pickTree();
     if (uri == null || uri == state.homeFolderUri) return;
 
-    await ref.read(playerProvider.notifier).clear();
     state = state.copyWith(homeFolderUri: uri);
     await _repo.save(state);
   }

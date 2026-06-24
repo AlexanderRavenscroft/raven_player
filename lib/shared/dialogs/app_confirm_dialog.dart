@@ -11,11 +11,13 @@ class AppConfirmDialog extends StatelessWidget {
   final String title;
   final String content;
   final AppConfirmDialogLevel level;
+
   final String? denialText;
   final String? acceptText;
   final FutureOr<void> Function()? onAccept;
   final FutureOr<void> Function()? onDenial;
 
+  final bool showOnlyAccept;
   const AppConfirmDialog({
     super.key,
     required this.title,
@@ -25,6 +27,7 @@ class AppConfirmDialog extends StatelessWidget {
     this.acceptText,
     this.onAccept,
     this.onDenial,
+    this.showOnlyAccept = false,
   });
 
   IconData get _icon {
@@ -82,12 +85,16 @@ class AppConfirmDialog extends StatelessWidget {
       content: Text(content, style: Theme.of(context).textTheme.bodyMedium),
       actionsAlignment: MainAxisAlignment.end,
       actions: [
-        DialogActionButton(
-          text: denialText ?? context.l10n.dialogCancel,
-          onPressed: () => _handleDenial(context),
-        ),
+        if (!showOnlyAccept)
+          DialogActionButton(
+            text: denialText ?? context.l10n.dialogCancel,
+            onPressed: () => _handleDenial(context),
+          ),
         DialogActionButton(
           text: acceptText ?? context.l10n.dialogOk,
+          fixedSize: showOnlyAccept
+              ? const Size.fromWidth(double.maxFinite)
+              : null,
           onPressed: () => _handleAccept(context),
         ),
       ],
