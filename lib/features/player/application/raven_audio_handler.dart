@@ -11,7 +11,7 @@ class RavenAudioHandler extends BaseAudioHandler {
   static const double _maxVolume = 1.0;
 
   static const Duration defaultSeekOffset = Duration(seconds: 10);
-  static const Duration longSeekOffset = Duration(seconds: 30);
+  static const Duration longSeekOffset = Duration(seconds: 60);
 
   static const Duration _chapterEndGuard = Duration(milliseconds: 200);
 
@@ -19,6 +19,8 @@ class RavenAudioHandler extends BaseAudioHandler {
   final AudioPlayer _player = AudioPlayer();
 
   late final StreamSubscription<int> _currentIndexSub;
+
+  bool _notificationRefreshToggle = false;
 
   RavenAudioHandler() {
     _player.playbackEventStream.map(_transformEvent).pipe(playbackState);
@@ -82,6 +84,11 @@ class RavenAudioHandler extends BaseAudioHandler {
 
   @override
   Future<void> seek(Duration position, {int? index}) async {
+    //? Refresh notification, when seeking on pause
+    if (!_player.playing) {
+      _notificationRefreshToggle = !_notificationRefreshToggle;
+    }
+
     await _player.seek(position, index: index);
     _seekCompletedController.add(null);
   }
@@ -143,27 +150,32 @@ class RavenAudioHandler extends BaseAudioHandler {
         if (_player.playing) MediaControl.pause else MediaControl.play,
         MediaControl.stop,
       ],
-      // androidCompactActionIndices: const [0, 2, 4],
-      systemActions: const {
-        MediaAction.seek,
-        // MediaAction.seekForward,
-        // MediaAction.seekBackward,
-        // MediaAction.skipToNext,
-        // MediaAction.skipToPrevious,
-      },
-      processingState: const {
-        ProcessingState.idle: AudioProcessingState.idle,
-        ProcessingState.loading: AudioProcessingState.loading,
-        ProcessingState.buffering: AudioProcessingState.buffering,
-        ProcessingState.ready: AudioProcessingState.ready,
-        ProcessingState.completed: AudioProcessingState.completed,
-      }[_player.processingState]!,
+      //? Force a notification refresh, when seeking on pause
+      androidCompactActionIndices:
+          !_player.playing && _notificationRefreshToggle ? const [] : null,
+      systemActions: const {MediaAction.seek},
+      processingState: _mapProcessingState(event),
       playing: _player.playing,
-      updatePosition: _player.position,
-      bufferedPosition: _player.bufferedPosition,
+      updatePosition: event.updatePosition,
+      bufferedPosition: event.bufferedPosition,
       speed: _player.speed,
       queueIndex: event.currentIndex,
     );
+  }
+
+  AudioProcessingState _mapProcessingState(PlaybackEvent event) {
+    if (event.processingState == ProcessingState.buffering &&
+        !_player.playing) {
+      return AudioProcessingState.ready;
+    }
+
+    return switch (event.processingState) {
+      ProcessingState.idle => AudioProcessingState.idle,
+      ProcessingState.loading => AudioProcessingState.loading,
+      ProcessingState.buffering => AudioProcessingState.buffering,
+      ProcessingState.ready => AudioProcessingState.ready,
+      ProcessingState.completed => AudioProcessingState.completed,
+    };
   }
 
   // Emitted after app or system seek commands so session state can persist progress.
@@ -205,5 +217,5 @@ final playbackPositionStreamProvider = StreamProvider<PlaybackPosition>((ref) {
 
 //TODO: Add a setting to change notification eg: disable progress seek
 //TODO: Add a setting to disable clamping within a chapter on seek
-//TODO: Maybe add a dialog recommending a new book to listen
+//TODO: Maybe add a dialog recommending a new book to listen & dont forget abotu notification
 //TODO Think about chapter clamp
