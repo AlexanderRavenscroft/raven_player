@@ -386,6 +386,18 @@ abstract class AppLocalizations {
   /// **'Return to Library instead of minimizing.'**
   String get settingsBackArrowDescription;
 
+  /// Settings row title for allowing seeking from the media notification.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification seek bar'**
+  String get settingsNotificationSeekTitle;
+
+  /// Settings row description for allowing seeking from the media notification.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow seeking from the media notification.'**
+  String get settingsNotificationSeekDescription;
+
   /// Settings row title for creator information.
   ///
   /// In en, this message translates to:

@@ -156,6 +156,26 @@ class SettingsPage extends ConsumerWidget {
             ),
             Consumer(
               builder: (_, ref, _) {
+                final enableNotificationSlider = ref.watch(
+                  settingsProvider.select((s) => s.enableNotificationSlider),
+                );
+
+                return SettingsTile(
+                  title: l10n.settingsNotificationSeekTitle,
+                  description: l10n.settingsNotificationSeekDescription,
+                  icon: AppIcons.enableNotificationSlider,
+                  trailing: SettingsToggleSwitch(
+                    value: enableNotificationSlider,
+                    onChanged: (_) async => await ref
+                        .read(settingsProvider.notifier)
+                        .toggleNotificationSlider(),
+                  ),
+                );
+              },
+            ),
+
+            Consumer(
+              builder: (_, ref, _) {
                 final languageCode = ref.watch(
                   settingsProvider.select((s) => s.languageCode),
                 );

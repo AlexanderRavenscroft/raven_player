@@ -26,23 +26,26 @@ class UserSettings {
   @HiveField(5)
   final bool backArrowBacksToLibrary;
 
-  //* Playback controls
   @HiveField(6)
+  final bool enableNotificationSlider;
+
+  //* Playback controls
+  @HiveField(7)
   final bool isPlaybackSpeedEnabled;
 
-  @HiveField(7)
+  @HiveField(8)
   final double playbackSpeed;
 
-  @HiveField(8)
+  @HiveField(9)
   final bool isSkipSilenceEnabled;
 
-  @HiveField(9)
+  @HiveField(11)
   final bool isPlayerLockEnabled;
 
-  @HiveField(10)
+  @HiveField(12)
   final bool isSleepTimerEnabled;
 
-  @HiveField(11)
+  @HiveField(13)
   final int sleepTimerDurationMinutes;
 
   const UserSettings({
@@ -55,6 +58,7 @@ class UserSettings {
     this.showRemainingTime = false,
     this.showBufferedProgress = false,
     this.backArrowBacksToLibrary = false,
+    this.enableNotificationSlider = true,
 
     //* Playback controls
     this.isPlayerLockEnabled = false,
@@ -72,6 +76,7 @@ class UserSettings {
     bool? showRemainingTime,
     bool? showBufferedProgress,
     bool? backArrowBacksToLibrary,
+    bool? enableNotificationSlider,
     bool? isPlayerLockEnabled,
     bool? isPlaybackSpeedEnabled,
     bool? isSkipSilenceEnabled,
@@ -87,6 +92,8 @@ class UserSettings {
       showBufferedProgress: showBufferedProgress ?? this.showBufferedProgress,
       backArrowBacksToLibrary:
           backArrowBacksToLibrary ?? this.backArrowBacksToLibrary,
+      enableNotificationSlider:
+          enableNotificationSlider ?? this.enableNotificationSlider,
       isPlayerLockEnabled: isPlayerLockEnabled ?? this.isPlayerLockEnabled,
       isSkipSilenceEnabled: isSkipSilenceEnabled ?? this.isSkipSilenceEnabled,
       isPlaybackSpeedEnabled:

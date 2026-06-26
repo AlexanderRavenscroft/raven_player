@@ -210,6 +210,14 @@
   "@settingsBackArrowDescription": {
     "description": "Settings row description for back arrow behavior on the player screen."
   },
+  "settingsNotificationSeekTitle": "Przewijanie w powiadomieniu",
+  "@settingsNotificationSeekTitle": {
+    "description": "Settings row title for allowing seeking from the media notification."
+  },
+  "settingsNotificationSeekDescription": "Pozwalaj przewijać z powiadomienia odtwarzania.",
+  "@settingsNotificationSeekDescription": {
+    "description": "Settings row description for allowing seeking from the media notification."
+  },
   "settingsCreatorTitle": "Twórca",
   "@settingsCreatorTitle": {
     "description": "Settings row title for creator information."

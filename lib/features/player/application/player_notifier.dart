@@ -163,6 +163,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     }
 
     await _handler.setSkipSilenceEnabled(settings.isSkipSilenceEnabled);
+    _handler.setNotificationSeekEnabled(settings.enableNotificationSlider);
   }
 
   Future<void> clear() async {

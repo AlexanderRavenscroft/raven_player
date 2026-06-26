@@ -210,6 +210,14 @@
   "@settingsBackArrowDescription": {
     "description": "Settings row description for back arrow behavior on the player screen."
   },
+  "settingsNotificationSeekTitle": "Notification seek bar",
+  "@settingsNotificationSeekTitle": {
+    "description": "Settings row title for allowing seeking from the media notification."
+  },
+  "settingsNotificationSeekDescription": "Allow seeking from the media notification.",
+  "@settingsNotificationSeekDescription": {
+    "description": "Settings row description for allowing seeking from the media notification."
+  },
   "settingsCreatorTitle": "Developer",
   "@settingsCreatorTitle": {
     "description": "Settings row title for creator information."

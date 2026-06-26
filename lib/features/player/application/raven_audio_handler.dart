@@ -13,14 +13,13 @@ class RavenAudioHandler extends BaseAudioHandler {
   static const Duration defaultSeekOffset = Duration(seconds: 10);
   static const Duration longSeekOffset = Duration(seconds: 60);
 
-  static const Duration _chapterEndGuard = Duration(milliseconds: 200);
-
   final _seekCompletedController = StreamController<void>.broadcast();
   final AudioPlayer _player = AudioPlayer();
 
   late final StreamSubscription<PlaybackEvent> _playbackEventSub;
   late final StreamSubscription<int> _currentIndexSub;
 
+  bool _notificationSeekEnabled = true;
   bool _notificationRefreshToggle = false;
 
   RavenAudioHandler() {
@@ -161,23 +160,88 @@ class RavenAudioHandler extends BaseAudioHandler {
 
   Future<void> restoreVolume() => setVolume(_maxVolume);
 
-  Future<void> _seekByOffset(Duration offset) async {
-    final duration = _player.duration ?? Duration.zero;
-    final target = _player.position + offset;
+  void setNotificationSeekEnabled(bool enabled) {
+    if (_notificationSeekEnabled == enabled) return;
 
-    final upperBound = _safeUpperBound(duration);
-
-    final clamped = target < Duration.zero
-        ? Duration.zero
-        : target > upperBound
-        ? upperBound
-        : target;
-    await seek(clamped);
+    _notificationSeekEnabled = enabled;
+    playbackState.add(_transformEvent(_player.playbackEvent));
   }
 
-  Duration _safeUpperBound(Duration duration) {
-    if (duration <= _chapterEndGuard) return Duration.zero;
-    return duration - _chapterEndGuard;
+  Future<void> _seekByOffset(Duration offset) async {
+    final currentIndex = _player.currentIndex;
+    final chapters = queue.value;
+
+    if (currentIndex == null ||
+        currentIndex < 0 ||
+        currentIndex >= chapters.length) {
+      await _seekWithinCurrentSource(offset);
+      return;
+    }
+    var targetIndex = currentIndex;
+    var targetPosition = _player.position + offset;
+
+    if (offset < Duration.zero) {
+      while (targetPosition < Duration.zero && targetIndex > 0) {
+        targetIndex--;
+
+        final previousDuration = _durationForQueueIndex(targetIndex);
+        if (previousDuration == null || previousDuration <= Duration.zero) {
+          await seek(Duration.zero, index: targetIndex);
+          return;
+        }
+
+        targetPosition += previousDuration;
+      }
+
+      if (targetPosition < Duration.zero) {
+        targetPosition = Duration.zero;
+      }
+
+      await seek(targetPosition, index: targetIndex);
+      return;
+    }
+
+    while (targetIndex < chapters.length - 1) {
+      final currentDuration = _durationForQueueIndex(targetIndex);
+      if (currentDuration == null || currentDuration <= Duration.zero) break;
+      if (targetPosition < currentDuration) break;
+
+      targetPosition -= currentDuration;
+      targetIndex++;
+    }
+
+    final targetDuration = _durationForQueueIndex(targetIndex);
+    if (targetDuration != null &&
+        targetDuration > Duration.zero &&
+        targetPosition > targetDuration) {
+      targetPosition = targetDuration;
+    }
+
+    await seek(targetPosition, index: targetIndex);
+  }
+
+  Future<void> _seekWithinCurrentSource(Duration offset) {
+    final duration = _player.duration;
+    var targetPosition = _player.position + offset;
+
+    if (targetPosition < Duration.zero) {
+      targetPosition = Duration.zero;
+    } else if (duration != null && targetPosition > duration) {
+      targetPosition = duration;
+    }
+
+    return seek(targetPosition);
+  }
+
+  Duration? _durationForQueueIndex(int index) {
+    final chapters = queue.value;
+    if (index < 0 || index >= chapters.length) return null;
+
+    if (index == _player.currentIndex) {
+      return _player.duration ?? chapters[index].duration;
+    }
+
+    return chapters[index].duration;
   }
 
   PlaybackState _transformEvent(PlaybackEvent event) {
@@ -191,7 +255,9 @@ class RavenAudioHandler extends BaseAudioHandler {
       //? Force a notification refresh, when seeking on pause
       androidCompactActionIndices:
           !_player.playing && _notificationRefreshToggle ? const [] : null,
-      systemActions: const {MediaAction.seek},
+      systemActions: _notificationSeekEnabled
+          ? const {MediaAction.seek}
+          : const {},
       processingState: _mapProcessingState(event),
       playing: _player.playing,
       updatePosition: event.updatePosition,
@@ -256,7 +322,4 @@ final playbackPositionStreamProvider = StreamProvider<PlaybackPosition>((ref) {
   return ref.watch(audioHandlerProvider).playbackPositionStream;
 });
 
-//TODO: Add a setting to change notification eg: disable progress seek
-//TODO: Add a setting to disable clamping within a chapter on seek
 //TODO: Maybe add a dialog recommending a new book to listen & dont forget abotu notification
-//TODO Think about chapter clamp

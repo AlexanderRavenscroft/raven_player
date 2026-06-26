@@ -20,6 +20,7 @@ abstract final class AppIcons {
   static const IconData showRemainingTime = Symbols.sms_rounded;
   static const IconData showBufferedProgress = Symbols.hourglass_empty_rounded;
   static const IconData systemBackBehavior = Symbols.chevron_left_rounded;
+  static const IconData enableNotificationSlider = Symbols.sliders_rounded;
   static const IconData language = Symbols.language_rounded;
   static const IconData creator = Symbols.person_rounded;
   static const IconData legal = Symbols.gavel_rounded;

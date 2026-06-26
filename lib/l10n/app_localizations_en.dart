@@ -171,6 +171,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Return to Library instead of minimizing.';
 
   @override
+  String get settingsNotificationSeekTitle => 'Notification seek bar';
+
+  @override
+  String get settingsNotificationSeekDescription =>
+      'Allow seeking from the media notification.';
+
+  @override
   String get settingsCreatorTitle => 'Developer';
 
   @override

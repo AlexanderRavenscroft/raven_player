@@ -171,6 +171,13 @@ class AppLocalizationsPl extends AppLocalizations {
       'Wracaj do biblioteki zamiast minimalizować.';
 
   @override
+  String get settingsNotificationSeekTitle => 'Przewijanie w powiadomieniu';
+
+  @override
+  String get settingsNotificationSeekDescription =>
+      'Pozwalaj przewijać z powiadomienia odtwarzania.';
+
+  @override
   String get settingsCreatorTitle => 'Twórca';
 
   @override

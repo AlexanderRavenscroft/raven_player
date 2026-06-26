@@ -55,6 +55,13 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     await _repo.save(state);
   }
 
+  Future<void> toggleNotificationSlider() async {
+    final newValue = !state.enableNotificationSlider;
+    state = state.copyWith(enableNotificationSlider: newValue);
+    ref.read(audioHandlerProvider).setNotificationSeekEnabled(newValue);
+    await _repo.save(state);
+  }
+
   Future<void> enablePlaybackSpeed() async {
     state = state.copyWith(isPlaybackSpeedEnabled: true);
     await _repo.save(state);
