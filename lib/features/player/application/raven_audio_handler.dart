@@ -18,12 +18,16 @@ class RavenAudioHandler extends BaseAudioHandler {
   final _seekCompletedController = StreamController<void>.broadcast();
   final AudioPlayer _player = AudioPlayer();
 
+  late final StreamSubscription<PlaybackEvent> _playbackEventSub;
   late final StreamSubscription<int> _currentIndexSub;
 
   bool _notificationRefreshToggle = false;
 
   RavenAudioHandler() {
-    _player.playbackEventStream.map(_transformEvent).pipe(playbackState);
+    _playbackEventSub = _player.playbackEventStream.listen((event) {
+      playbackState.add(_transformEvent(event));
+    });
+
     _currentIndexSub = _player.currentIndexStream
         .whereType<int>()
         .distinct()
@@ -34,6 +38,7 @@ class RavenAudioHandler extends BaseAudioHandler {
   }
 
   Future<void> dispose() async {
+    await _playbackEventSub.cancel();
     await _currentIndexSub.cancel();
     await _seekCompletedController.close();
     await _player.dispose();
@@ -59,6 +64,39 @@ class RavenAudioHandler extends BaseAudioHandler {
     log.d('Clearing session');
     await _player.pause();
     await _player.stop();
+  }
+
+  Future<void> forceDismissNotificationAfterError() async {
+    try {
+      await _player.stop();
+    } catch (e) {
+      log.e('Failed to stop player after error: $e');
+    }
+
+    final current = playbackState.value;
+
+    if (current.processingState == AudioProcessingState.idle) {
+      playbackState.add(
+        current.copyWith(
+          processingState: AudioProcessingState.ready,
+          playing: false,
+          controls: const [],
+          systemActions: const {},
+          androidCompactActionIndices: const [],
+        ),
+      );
+    }
+
+    playbackState.add(
+      (playbackState.value).copyWith(
+        processingState: AudioProcessingState.idle,
+        playing: false,
+        controls: const [],
+        systemActions: const {},
+        androidCompactActionIndices: const [],
+        bufferedPosition: Duration.zero,
+      ),
+    );
   }
 
   @override
@@ -198,6 +236,9 @@ class RavenAudioHandler extends BaseAudioHandler {
           duration: dur ?? Duration.zero,
         ),
       );
+
+  Stream<PlayerException> get errorStream => _player.errorStream;
+
   bool get isPlaying => _player.playing;
   Duration get position => _player.position;
   int? get currentIndex => _player.currentIndex;

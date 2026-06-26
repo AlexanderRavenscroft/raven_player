@@ -529,6 +529,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Left: {duration}'**
   String leftTime(String duration);
+
+  /// Snackbar message shown when audio playback fails because the audio source cannot be read or parsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Playback failed here. The file may be damaged. Try skipping ahead.'**
+  String get playbackSourceErrorMessage;
+
+  /// Snackbar message shown when audio playback fails for an unknown reason.
+  ///
+  /// In en, this message translates to:
+  /// **'Playback stopped unexpectedly. Try again.'**
+  String get playbackUnknownErrorMessage;
 }
 
 class _AppLocalizationsDelegate

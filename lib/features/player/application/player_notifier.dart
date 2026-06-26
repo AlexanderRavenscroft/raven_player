@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
+import 'package:raven_player/features/player/application/playback_issue_provider.dart';
 import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
@@ -19,6 +20,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
   StreamSubscription<int>? _indexSub;
   StreamSubscription<ProcessingState>? _processingSub;
   StreamSubscription<void>? _seekSub;
+  StreamSubscription<PlayerException>? _errorSub;
 
   @override
   Audiobook? build() {
@@ -143,6 +145,14 @@ class PlayerNotifier extends Notifier<Audiobook?> {
       log.d('Saving progress from seek');
       await _saveProgress();
     });
+
+    _errorSub = _handler.errorStream.listen((error) async {
+      log.e('Error message:${error.message ?? 'Unknown playback error'}');
+      log.e('Error code: ${error.code.toString()}');
+
+      await _handler.forceDismissNotificationAfterError();
+      ref.read(playbackIssueProvider.notifier).reportPlayerException(error);
+    });
   }
 
   Future<void> _applyPlaybackSettings() async {
@@ -185,6 +195,8 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     _processingSub = null;
     await _seekSub?.cancel();
     _seekSub = null;
+    await _errorSub?.cancel();
+    _errorSub = null;
   }
 
   Future<void> _saveProgress() async {

@@ -351,5 +351,13 @@
         "example": "7:06"
       }
     }
+  },
+  "playbackSourceErrorMessage": "Playback failed here. The file may be damaged. Try skipping ahead.",
+  "@playbackSourceErrorMessage": {
+    "description": "Snackbar message shown when audio playback fails because the audio source cannot be read or parsed."
+  },
+  "playbackUnknownErrorMessage": "Playback stopped unexpectedly. Try again.",
+  "@playbackUnknownErrorMessage": {
+    "description": "Snackbar message shown when audio playback fails for an unknown reason."
   }
 }

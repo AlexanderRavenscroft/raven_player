@@ -70,8 +70,12 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
           padding: const EdgeInsets.all(AppSpacing.lg),
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          disabledBackgroundColor: Theme.of(
+            context,
+          ).colorScheme.surfaceContainer,
+          disabledForegroundColor: Theme.of(context).colorScheme.onSurface,
           elevation: 8,
-          shadowColor: Theme.of(context).colorScheme.primary,
+          shadowColor: Theme.of(context).colorScheme.surfaceContainer,
         ),
         onPressed: onPressed,
       );

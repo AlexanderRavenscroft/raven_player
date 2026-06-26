@@ -252,4 +252,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String leftTime(String duration) {
     return 'Pozostało: $duration';
   }
+
+  @override
+  String get playbackSourceErrorMessage =>
+      'Odtwarzanie przerwane w tym miejscu. Plik może być uszkodzony. Spróbuj przewinąć dalej.';
+
+  @override
+  String get playbackUnknownErrorMessage =>
+      'Błąd odtwarzania. Spróbuj ponownie.';
 }

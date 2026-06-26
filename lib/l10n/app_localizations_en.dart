@@ -252,4 +252,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String leftTime(String duration) {
     return 'Left: $duration';
   }
+
+  @override
+  String get playbackSourceErrorMessage =>
+      'Playback failed here. The file may be damaged. Try skipping ahead.';
+
+  @override
+  String get playbackUnknownErrorMessage =>
+      'Playback stopped unexpectedly. Try again.';
 }

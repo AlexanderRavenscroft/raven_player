@@ -351,5 +351,13 @@
         "example": "7:06"
       }
     }
+  },
+  "playbackSourceErrorMessage": "Odtwarzanie przerwane w tym miejscu. Plik może być uszkodzony. Spróbuj przewinąć dalej.",
+  "@playbackSourceErrorMessage": {
+    "description": "Snackbar message shown when audio playback fails because the audio source cannot be read or parsed."
+  },
+  "playbackUnknownErrorMessage": "Błąd odtwarzania. Spróbuj ponownie.",
+  "@playbackUnknownErrorMessage": {
+    "description": "Snackbar message shown when audio playback fails for an unknown reason."
   }
 }
