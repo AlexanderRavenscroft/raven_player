@@ -218,17 +218,13 @@
   "@settingsNotificationSeekDescription": {
     "description": "Settings row description for allowing seeking from the media notification."
   },
-  "settingsCreatorTitle": "Developer",
-  "@settingsCreatorTitle": {
-    "description": "Settings row title for creator information."
+  "settingsAboutTitle": "About Raven Player",
+  "@settingsAboutTitle": {
+    "description": "Settings row title for about app information."
   },
-  "settingsCreatorDescription": "About the app creator.",
-  "@settingsCreatorDescription": {
-    "description": "Settings row description for creator information."
-  },
-  "settingsCreatorDialogTitle": "About the developer",
-  "@settingsCreatorDialogTitle": {
-    "description": "Dialog title for creator information."
+  "settingsAboutDescription": "App information, support, and developer details.",
+  "@settingsAboutDescription": {
+    "description": "Settings row description for about app information."
   },
   "settingsLegalTitle": "Legal",
   "@settingsLegalTitle": {
@@ -264,9 +260,17 @@
   "@settingsOpenLinkTitle": {
     "description": "Confirmation dialog title before opening an external link."
   },
+  "settingsOpenEmailTitle": "Open email app?",
+  "@settingsOpenEmailTitle": {
+    "description": "Confirmation dialog title before opening an email app from settings."
+  },
   "settingsCouldNotOpenLink": "Could not open link",
   "@settingsCouldNotOpenLink": {
     "description": "Snackbar shown when an external link cannot be opened."
+  },
+  "settingsCouldNotOpenEmail": "Could not open email app",
+  "@settingsCouldNotOpenEmail": {
+    "description": "Snackbar shown when the email app cannot be opened."
   },
   "tooltipRefreshLibrary": "Refresh library",
   "@tooltipRefreshLibrary": {

@@ -6,7 +6,7 @@ import 'package:raven_player/features/player/application/playback_position.dart'
 import 'package:raven_player/utils/app_logger.dart';
 import 'package:rxdart/rxdart.dart';
 
-class RavenAudioHandler extends BaseAudioHandler {
+class AppAudioHandler extends BaseAudioHandler {
   static const double _minVolume = 0.0;
   static const double _maxVolume = 1.0;
 
@@ -22,7 +22,7 @@ class RavenAudioHandler extends BaseAudioHandler {
   bool _notificationSeekEnabled = true;
   bool _notificationRefreshToggle = false;
 
-  RavenAudioHandler() {
+  AppAudioHandler() {
     _playbackEventSub = _player.playbackEventStream.listen((event) {
       playbackState.add(_transformEvent(event));
     });
@@ -310,7 +310,7 @@ class RavenAudioHandler extends BaseAudioHandler {
   int? get currentIndex => _player.currentIndex;
 }
 
-final audioHandlerProvider = Provider<RavenAudioHandler>((ref) {
+final audioHandlerProvider = Provider<AppAudioHandler>((ref) {
   throw UnimplementedError('audioHandlerProvider must be overridden in main');
 });
 
@@ -321,5 +321,3 @@ final playerStateStreamProvider = StreamProvider<PlayerState>((ref) {
 final playbackPositionStreamProvider = StreamProvider<PlaybackPosition>((ref) {
   return ref.watch(audioHandlerProvider).playbackPositionStream;
 });
-
-//TODO: Maybe add a dialog recommending a new book to listen & dont forget abotu notification

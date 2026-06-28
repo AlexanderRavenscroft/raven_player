@@ -22,7 +22,8 @@ abstract final class AppIcons {
   static const IconData systemBackBehavior = Symbols.chevron_left_rounded;
   static const IconData enableNotificationSlider = Symbols.sliders_rounded;
   static const IconData language = Symbols.language_rounded;
-  static const IconData creator = Symbols.person_rounded;
+  static const IconData about = Symbols.chat_info_rounded;
+  static const IconData aboutDocument = Symbols.description_rounded;
   static const IconData legal = Symbols.gavel_rounded;
   static const IconData legalDocument = Symbols.description_rounded;
   static const IconData appVersion = Symbols.mobile_friendly_rounded;

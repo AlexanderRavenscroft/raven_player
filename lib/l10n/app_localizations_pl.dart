@@ -178,13 +178,11 @@ class AppLocalizationsPl extends AppLocalizations {
       'Pozwalaj przewijać z powiadomienia odtwarzania.';
 
   @override
-  String get settingsCreatorTitle => 'Twórca';
+  String get settingsAboutTitle => 'O Raven Player';
 
   @override
-  String get settingsCreatorDescription => 'O twórcy aplikacji.';
-
-  @override
-  String get settingsCreatorDialogTitle => 'O twórcy';
+  String get settingsAboutDescription =>
+      'Informacje o aplikacji, wsparciu i twórcy';
 
   @override
   String get settingsLegalTitle => 'Informacje prawne';
@@ -207,7 +205,14 @@ class AppLocalizationsPl extends AppLocalizations {
   String get settingsOpenLinkTitle => 'Otworzyć link?';
 
   @override
+  String get settingsOpenEmailTitle => 'Otworzyć aplikację e-mail?';
+
+  @override
   String get settingsCouldNotOpenLink => 'Nie udało się otworzyć linku';
+
+  @override
+  String get settingsCouldNotOpenEmail =>
+      'Nie udało się otworzyć aplikacji e-mail';
 
   @override
   String get tooltipRefreshLibrary => 'Odśwież bibliotekę';

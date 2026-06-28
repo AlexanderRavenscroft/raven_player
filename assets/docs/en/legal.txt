@@ -1,47 +1,35 @@
-Raven Player Terms and Privacy Notice
-Effective Date: 29 May 2026
+Raven Player Privacy Policy and Terms of Use
+Effective Date: 28 June 2026
 
-These Terms and Privacy Notice ("Terms") govern your use of the Raven Player mobile application ("App"). Raven Player is developed and published by the independent developer or publisher identified in the app store listing ("we", "us", or "our"). By using the App, you agree to these Terms. If you do not agree, do not use the App.
+This Privacy Policy and Terms of Use explains how Raven Player ("App") handles information and sets basic rules for using the App.
 
-1. Purpose of the App
-Raven Player is an offline audiobook player. It lets you select folders on your device, scan supported audio files, organize them as audiobooks, and play them locally with playback progress and related settings saved on the device.
+1. Introduction
+Raven Player is an offline audiobook player for local audio files. The App does not require an account and does not provide, sell, download, stream, or recommend audiobooks.
 
-2. Lawful Use and Your Content
-You are responsible for the audio files, metadata, folder locations, and other content you use with the App. You must only use audiobooks and other files that you own, are licensed to use, or are otherwise legally allowed to access. You may not use the App to infringe copyright, bypass rights management, distribute unauthorized copies, or violate applicable laws.
+2. Information We Access
+Raven Player accesses only the files and folders you choose or allow through your device or operating system. To display and play your library, the App may read file names, folder references, audio metadata, playback duration, embedded cover images, and file locations.
 
-3. Local File Access
-The App accesses only files and folders that you select or permit through your device or operating system. On Android, this may use the Storage Access Framework or similar system file picker permissions. The App may read file names, folder identifiers, audio metadata, playback duration, embedded cover images, and file locations needed to display and play your library.
+3. Information We Store
+Raven Player stores app data locally on your device. This may include selected folder references, library information, audiobook metadata, extracted cover images, app settings, reading status, and playback progress.
 
-4. Privacy and Local Storage
-Raven Player does not require an account. Based on its intended design, the App stores library information, selected folder references, audiobook metadata, cover images extracted from your files, app settings, reading status, and playback progress locally on your device.
+4. How We Use Information
+Raven Player uses this information only to provide offline audiobook playback, library organization, settings, and saved progress. The App does not intentionally upload, sell, or share your audiobook files, library contents, playback history, or personal data with us or third parties.
 
-The App does not intentionally collect, upload, sell, or share your audiobook files, library contents, playback history, or personal data with us or third parties. The App does not include analytics, advertising, telemetry, cloud sync, or remote account features unless a future version clearly says otherwise.
+5. Third-Party Services
+Raven Player does not use third-party analytics, advertising, telemetry, cloud sync, remote accounts, or external databases. The App may use third-party software libraries and operating system services for local storage, audio playback, background media controls, file access, and app functionality.
 
-Your operating system, app store, backup service, device manufacturer, or platform provider may process information independently under their own terms and privacy policies. If your device backs up app data, local Raven Player data may be included according to your device settings.
+6. Data Security, Retention, and Deletion
+Raven Player data is stored locally on your device. You can remove local App data using your operating system's app data controls or by uninstalling the App. Removing App data may delete saved settings, library records, extracted cover images, and playback progress. It should not delete your original audiobook files unless your operating system or file manager does so separately.
 
-5. User Control
-You can stop using the App at any time. You can remove local App data by using your operating system's app data controls or uninstalling the App. Removing the App may delete local settings, library records, extracted cover images, and saved playback progress, but it should not delete your original audiobook files unless your operating system or file manager does so separately.
-
-6. No Content Provided
-Raven Player does not provide, sell, stream, download, host, or recommend audiobooks. The App is only a player and library tool for files you already have access to.
-
-7. Third-Party Software and Platform Terms
-The App may use third-party software libraries and platform services, such as audio playback, background media controls, local storage, and operating system file access. Your use of the App is also subject to the terms, conditions, and policies of the platform from which you downloaded it, including Google Play, the Apple App Store, or other distribution channels.
+7. Lawful Use
+You are responsible for the audio files you use with Raven Player. You should only use files that you own, are licensed to use, or are otherwise legally allowed to access. You may not use the App to infringe copyright or violate applicable laws.
 
 8. No Warranty
-The App is provided "as is" and "as available". To the maximum extent permitted by law, we make no warranties that the App will be uninterrupted, error-free, compatible with every device, preserve all data, support every audio file, or meet your specific needs.
+Raven Player is provided "as is". We do not guarantee that the App will be uninterrupted, error-free, compatible with every device, preserve all data, support every audio file, or meet every user need.
 
-9. Limitation of Liability
-To the maximum extent permitted by law, we are not liable for indirect, incidental, special, consequential, exemplary, or punitive damages, or for loss of data, files, profits, goodwill, or device functionality arising from your use of or inability to use the App. This does not limit liability that cannot legally be limited, including mandatory consumer rights.
+9. Changes to This Policy
+We may update this Privacy Policy and Terms of Use when the App changes or when legal, platform, or operational requirements change. Updates will be reflected by changing the effective date.
 
-10. Changes to the App or These Terms
-We may update, change, suspend, or discontinue parts of the App or these Terms. If changes are material, we may provide notice through the App, the app store listing, release notes, or another reasonable method. Continued use of the App after changes become effective means you accept the updated Terms.
-
-11. Termination
-You may stop using the App at any time. We may restrict or discontinue access to the App where reasonably necessary, including for legal, security, platform, or technical reasons. Sections intended to survive termination, including lawful use, privacy, warranty, liability, and platform terms, continue to apply.
-
-12. Governing Law
-These Terms are governed by the laws of Poland, except where mandatory local consumer protection laws give you additional rights. Nothing in these Terms is intended to reduce rights that cannot be waived under applicable law.
-
-13. Contact and Support
-Support may be limited because Raven Player is maintained by an independent developer. For app-related contact, use the contact method provided in the app store listing, project page, or other official distribution page if available. For platform billing, download, review, or account issues, contact the relevant app store or platform provider.
+10. Contact Us
+Developer: AlexanderRavenscroft
+Privacy contact: TODO: EMAIL OR LINK

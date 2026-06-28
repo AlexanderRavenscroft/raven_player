@@ -6,9 +6,9 @@ abstract final class AppDocs {
 
   static final Map<String, String> _textFileContents = {
     'en/legal.txt': '',
-    'en/creator.txt': '',
+    'en/about.txt': '',
     'pl/legal.txt': '',
-    'pl/creator.txt': '',
+    'pl/about.txt': '',
   };
 
   static Future<void> loadTextFiles() async {
@@ -33,11 +33,11 @@ abstract final class AppDocs {
   }
 }
 
-enum TextFiles { legal, creator }
+enum TextFiles { legal, about }
 
 extension TextFilesExtension on TextFiles {
   String get fileName => switch (this) {
-    TextFiles.creator => 'creator.txt',
+    TextFiles.about => 'about.txt',
     TextFiles.legal => 'legal.txt',
   };
 }

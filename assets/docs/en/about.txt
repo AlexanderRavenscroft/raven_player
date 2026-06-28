@@ -1,0 +1,9 @@
+Raven Player
+
+An offline audiobook player for local audio files.
+
+Raven Player does not provide, sell, download, stream, or recommend audiobooks.
+You are responsible for using audio files that you own or are allowed to use.
+
+Developer: AlexanderRavenscroft
+Support: TODO: LINK

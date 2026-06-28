@@ -398,23 +398,17 @@ abstract class AppLocalizations {
   /// **'Allow seeking from the media notification.'**
   String get settingsNotificationSeekDescription;
 
-  /// Settings row title for creator information.
+  /// Settings row title for about app information.
   ///
   /// In en, this message translates to:
-  /// **'Developer'**
-  String get settingsCreatorTitle;
+  /// **'About Raven Player'**
+  String get settingsAboutTitle;
 
-  /// Settings row description for creator information.
+  /// Settings row description for about app information.
   ///
   /// In en, this message translates to:
-  /// **'About the app creator.'**
-  String get settingsCreatorDescription;
-
-  /// Dialog title for creator information.
-  ///
-  /// In en, this message translates to:
-  /// **'About the developer'**
-  String get settingsCreatorDialogTitle;
+  /// **'App information, support, and developer details.'**
+  String get settingsAboutDescription;
 
   /// Settings row and dialog title for legal information.
   ///
@@ -452,11 +446,23 @@ abstract class AppLocalizations {
   /// **'Open link?'**
   String get settingsOpenLinkTitle;
 
+  /// Confirmation dialog title before opening an email app from settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open email app?'**
+  String get settingsOpenEmailTitle;
+
   /// Snackbar shown when an external link cannot be opened.
   ///
   /// In en, this message translates to:
   /// **'Could not open link'**
   String get settingsCouldNotOpenLink;
+
+  /// Snackbar shown when the email app cannot be opened.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open email app'**
+  String get settingsCouldNotOpenEmail;
 
   /// Tooltip for the app bar button that rescans the audiobook library.
   ///

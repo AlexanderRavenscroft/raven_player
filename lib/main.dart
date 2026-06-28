@@ -26,7 +26,7 @@ Future<void> main() async {
   ]);
 
   final audioHandler = await AudioService.init(
-    builder: () => RavenAudioHandler(),
+    builder: () => AppAudioHandler(),
     config: const AudioServiceConfig(
       androidNotificationChannelId:
           'com.alexanderavenscroft.raven_player.channel.audio',

@@ -178,13 +178,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Allow seeking from the media notification.';
 
   @override
-  String get settingsCreatorTitle => 'Developer';
+  String get settingsAboutTitle => 'About Raven Player';
 
   @override
-  String get settingsCreatorDescription => 'About the app creator.';
-
-  @override
-  String get settingsCreatorDialogTitle => 'About the developer';
+  String get settingsAboutDescription =>
+      'App information, support, and developer details.';
 
   @override
   String get settingsLegalTitle => 'Legal';
@@ -207,7 +205,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsOpenLinkTitle => 'Open link?';
 
   @override
+  String get settingsOpenEmailTitle => 'Open email app?';
+
+  @override
   String get settingsCouldNotOpenLink => 'Could not open link';
+
+  @override
+  String get settingsCouldNotOpenEmail => 'Could not open email app';
 
   @override
   String get tooltipRefreshLibrary => 'Refresh library';

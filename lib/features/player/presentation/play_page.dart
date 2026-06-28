@@ -175,7 +175,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                       onPressed: () async {
                         await ref
                             .read(audioHandlerProvider)
-                            .rewind(RavenAudioHandler.longSeekOffset);
+                            .rewind(AppAudioHandler.longSeekOffset);
                         ref
                             .read(sleepTimerProvider.notifier)
                             .resetFromListeningActivity();
@@ -205,7 +205,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                       onPressed: () async {
                         await ref
                             .read(audioHandlerProvider)
-                            .fastForward(RavenAudioHandler.longSeekOffset);
+                            .fastForward(AppAudioHandler.longSeekOffset);
                         ref
                             .read(sleepTimerProvider.notifier)
                             .resetFromListeningActivity();

@@ -127,7 +127,7 @@ class SleepTimerNotifier extends Notifier<SleepTimerState> {
     unawaited(_pauseExpiredPlayer(handler));
   }
 
-  Future<void> _pauseExpiredPlayer(RavenAudioHandler handler) async {
+  Future<void> _pauseExpiredPlayer(AppAudioHandler handler) async {
     await handler.setVolume(_mutedVolume);
     await handler.pause();
     await handler.restoreVolume();

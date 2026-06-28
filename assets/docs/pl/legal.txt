@@ -1,47 +1,35 @@
-Warunki korzystania i informacja o prywatności Raven Player
-Data wejścia w życie: 29 maja 2026 r.
+Polityka prywatności i warunki korzystania z Raven Player
+Data wejścia w życie: 28 czerwca 2026 r.
 
-Niniejsze Warunki korzystania i informacja o prywatności ("Warunki") określają zasady korzystania z aplikacji mobilnej Raven Player ("Aplikacja"). Raven Player jest tworzony i publikowany przez niezależnego dewelopera lub wydawcę wskazanego w opisie aplikacji w sklepie ("my", "nas" lub "nasz"). Korzystając z Aplikacji, akceptujesz te Warunki. Jeśli się z nimi nie zgadzasz, nie korzystaj z Aplikacji.
+Niniejsza Polityka prywatności i warunki korzystania wyjaśniają, jak Raven Player ("Aplikacja") obsługuje informacje oraz określają podstawowe zasady korzystania z Aplikacji.
 
-1. Cel Aplikacji
-Raven Player jest odtwarzaczem audiobooków offline. Pozwala wybrać foldery na urządzeniu, skanować obsługiwane pliki audio, organizować je jako audiobooki i odtwarzać lokalnie, zapisując na urządzeniu postęp odtwarzania oraz powiązane ustawienia.
+1. Wprowadzenie
+Raven Player jest odtwarzaczem audiobooków offline dla lokalnych plików audio. Aplikacja nie wymaga konta i nie dostarcza, nie sprzedaje, nie pobiera, nie streamuje ani nie rekomenduje audiobooków.
 
-2. Legalne korzystanie i Twoje treści
-Odpowiadasz za pliki audio, metadane, lokalizacje folderów i inne treści używane w Aplikacji. Możesz używać tylko audiobooków i innych plików, które posiadasz, na które masz licencję albo do których masz inną legalną podstawę dostępu. Nie wolno używać Aplikacji do naruszania praw autorskich, obchodzenia zabezpieczeń praw, rozpowszechniania nieautoryzowanych kopii ani naruszania obowiązującego prawa.
+2. Informacje, do których Aplikacja uzyskuje dostęp
+Raven Player uzyskuje dostęp tylko do plików i folderów, które wybierzesz lub na które zezwolisz przez urządzenie albo system operacyjny. Aby wyświetlać i odtwarzać bibliotekę, Aplikacja może odczytywać nazwy plików, odniesienia do folderów, metadane audio, czas trwania odtwarzania, osadzone okładki oraz lokalizacje plików.
 
-3. Lokalny dostęp do plików
-Aplikacja uzyskuje dostęp tylko do plików i folderów, które wybierzesz lub na które zezwolisz przez urządzenie albo system operacyjny. Na Androidzie może to obejmować Storage Access Framework lub podobne systemowe uprawnienia wyboru plików. Aplikacja może odczytywać nazwy plików, identyfikatory folderów, metadane audio, czas trwania odtwarzania, osadzone okładki oraz lokalizacje plików potrzebne do wyświetlania i odtwarzania biblioteki.
+3. Informacje przechowywane przez Aplikację
+Raven Player przechowuje dane aplikacji lokalnie na Twoim urządzeniu. Może to obejmować odniesienia do wybranych folderów, informacje o bibliotece, metadane audiobooków, wyodrębnione okładki, ustawienia aplikacji, status przeczytania oraz postęp odtwarzania.
 
-4. Prywatność i przechowywanie lokalne
-Raven Player nie wymaga konta. Zgodnie z założonym działaniem Aplikacja przechowuje informacje o bibliotece, odniesienia do wybranych folderów, metadane audiobooków, okładki wyodrębnione z plików, ustawienia aplikacji, status przeczytania i postęp odtwarzania lokalnie na Twoim urządzeniu.
+4. Jak używamy informacji
+Raven Player używa tych informacji wyłącznie do zapewnienia odtwarzania audiobooków offline, organizacji biblioteki, ustawień i zapisywania postępu. Aplikacja nie przesyła celowo, nie sprzedaje ani nie udostępnia nam ani osobom trzecim Twoich plików audiobooków, zawartości biblioteki, historii odtwarzania ani danych osobowych.
 
-Aplikacja nie zbiera celowo, nie przesyła, nie sprzedaje ani nie udostępnia nam ani osobom trzecim Twoich plików audiobooków, zawartości biblioteki, historii odtwarzania ani danych osobowych. Aplikacja nie zawiera analityki, reklam, telemetrii, synchronizacji w chmurze ani zdalnych kont, chyba że przyszła wersja wyraźnie poinformuje inaczej.
+5. Usługi zewnętrzne
+Raven Player nie używa zewnętrznej analityki, reklam, telemetrii, synchronizacji w chmurze, zdalnych kont ani zewnętrznych baz danych. Aplikacja może używać bibliotek zewnętrznych i usług systemu operacyjnego do lokalnego przechowywania danych, odtwarzania audio, sterowania multimediami w tle, dostępu do plików i działania aplikacji.
 
-Twój system operacyjny, sklep z aplikacjami, usługa kopii zapasowej, producent urządzenia albo dostawca platformy mogą przetwarzać informacje niezależnie, zgodnie z własnymi warunkami i politykami prywatności. Jeśli urządzenie wykonuje kopie zapasowe danych aplikacji, lokalne dane Raven Player mogą zostać nimi objęte zgodnie z ustawieniami urządzenia.
+6. Bezpieczeństwo danych, przechowywanie i usuwanie
+Dane Raven Player są przechowywane lokalnie na Twoim urządzeniu. Możesz usunąć lokalne dane Aplikacji przy użyciu ustawień danych aplikacji w systemie operacyjnym albo przez odinstalowanie Aplikacji. Usunięcie danych Aplikacji może usunąć zapisane ustawienia, rekordy biblioteki, wyodrębnione okładki i postęp odtwarzania. Nie powinno to usuwać oryginalnych plików audiobooków, chyba że system operacyjny albo menedżer plików zrobi to osobno.
 
-5. Kontrola użytkownika
-Możesz przestać korzystać z Aplikacji w dowolnym momencie. Możesz usunąć lokalne dane Aplikacji przy użyciu ustawień danych aplikacji w systemie operacyjnym albo przez odinstalowanie Aplikacji. Usunięcie Aplikacji może usunąć lokalne ustawienia, rekordy biblioteki, wyodrębnione okładki i zapisany postęp odtwarzania, ale nie powinno usuwać oryginalnych plików audiobooków, chyba że system operacyjny albo menedżer plików zrobi to osobno.
-
-6. Brak dostarczanych treści
-Raven Player nie dostarcza, nie sprzedaje, nie streamuje, nie pobiera, nie hostuje ani nie rekomenduje audiobooków. Aplikacja jest wyłącznie odtwarzaczem i narzędziem biblioteki dla plików, do których masz już dostęp.
-
-7. Oprogramowanie zewnętrzne i warunki platform
-Aplikacja może używać bibliotek zewnętrznych i usług platform, takich jak odtwarzanie audio, sterowanie mediami w tle, lokalne przechowywanie danych i systemowy dostęp do plików. Korzystanie z Aplikacji podlega również warunkom, zasadom i politykom platformy, z której została pobrana, w tym Google Play, Apple App Store albo innym kanałom dystrybucji.
+7. Legalne korzystanie
+Odpowiadasz za pliki audio używane z Raven Player. Powinieneś używać tylko plików, które posiadasz, na które masz licencję albo do których masz inną legalną podstawę dostępu. Nie wolno używać Aplikacji do naruszania praw autorskich ani obowiązującego prawa.
 
 8. Brak gwarancji
-Aplikacja jest dostarczana "tak jak jest" i "w miarę dostępności". W maksymalnym zakresie dozwolonym przez prawo nie udzielamy gwarancji, że Aplikacja będzie działać bez przerw, bez błędów, na każdym urządzeniu, zachowa wszystkie dane, obsłuży każdy plik audio albo spełni Twoje konkretne potrzeby.
+Raven Player jest dostarczany "tak jak jest". Nie gwarantujemy, że Aplikacja będzie działać bez przerw, bez błędów, na każdym urządzeniu, zachowa wszystkie dane, obsłuży każdy plik audio albo spełni każdą potrzebę użytkownika.
 
-9. Ograniczenie odpowiedzialności
-W maksymalnym zakresie dozwolonym przez prawo nie ponosimy odpowiedzialności za szkody pośrednie, przypadkowe, szczególne, wynikowe, przykładowe lub karne, ani za utratę danych, plików, zysków, renomy lub funkcjonalności urządzenia wynikające z korzystania z Aplikacji albo braku możliwości korzystania z niej. Nie ogranicza to odpowiedzialności, której nie można prawnie ograniczyć, w tym obowiązkowych praw konsumenta.
+9. Zmiany tej polityki
+Możemy aktualizować niniejszą Politykę prywatności i warunki korzystania, gdy zmieni się Aplikacja albo gdy zmienią się wymagania prawne, platformowe lub operacyjne. Aktualizacje będą widoczne przez zmianę daty wejścia w życie.
 
-10. Zmiany Aplikacji lub Warunków
-Możemy aktualizować, zmieniać, zawieszać lub wycofywać części Aplikacji albo niniejsze Warunki. Jeśli zmiany będą istotne, możemy poinformować o nich w Aplikacji, opisie w sklepie, informacjach o wersji albo w inny rozsądny sposób. Dalsze korzystanie z Aplikacji po wejściu zmian w życie oznacza akceptację zaktualizowanych Warunków.
-
-11. Zakończenie korzystania
-Możesz przestać korzystać z Aplikacji w dowolnym momencie. Możemy ograniczyć lub zakończyć dostęp do Aplikacji, gdy jest to racjonalnie konieczne, w tym z powodów prawnych, bezpieczeństwa, platformowych lub technicznych. Postanowienia, które ze swojej natury powinny obowiązywać po zakończeniu korzystania, w tym legalne korzystanie, prywatność, gwarancje, odpowiedzialność i warunki platform, nadal mają zastosowanie.
-
-12. Prawo właściwe
-Niniejsze Warunki podlegają prawu polskiemu, z wyjątkiem sytuacji, w których obowiązkowe lokalne przepisy ochrony konsumentów przyznają Ci dodatkowe prawa. Nic w niniejszych Warunkach nie ma na celu ograniczenia praw, których nie można zrzec się na podstawie obowiązującego prawa.
-
-13. Kontakt i wsparcie
-Wsparcie może być ograniczone, ponieważ Raven Player jest utrzymywany przez niezależnego dewelopera. W sprawach związanych z Aplikacją skorzystaj z metody kontaktu podanej w opisie aplikacji w sklepie, na stronie projektu albo na innej oficjalnej stronie dystrybucji, jeśli jest dostępna. W sprawach rozliczeń platformy, pobierania, opinii albo konta skontaktuj się z odpowiednim sklepem z aplikacjami lub dostawcą platformy.
+10. Kontakt
+Twórca: AlexanderRavenscroft
+Kontakt w sprawie prywatności: TODO: EMAIL OR LINK

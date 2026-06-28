@@ -13,7 +13,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:synchronized/synchronized.dart';
 
 class PlayerNotifier extends Notifier<Audiobook?> {
-  RavenAudioHandler get _handler => ref.read(audioHandlerProvider);
+  AppAudioHandler get _handler => ref.read(audioHandlerProvider);
   final Lock _lock = Lock();
 
   StreamSubscription<Duration>? _progressSub;

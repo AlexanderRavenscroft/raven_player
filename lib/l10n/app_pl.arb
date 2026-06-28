@@ -218,17 +218,13 @@
   "@settingsNotificationSeekDescription": {
     "description": "Settings row description for allowing seeking from the media notification."
   },
-  "settingsCreatorTitle": "Twórca",
-  "@settingsCreatorTitle": {
-    "description": "Settings row title for creator information."
+  "settingsAboutTitle": "O Raven Player",
+  "@settingsAboutTitle": {
+    "description": "Settings row title for about app information."
   },
-  "settingsCreatorDescription": "O twórcy aplikacji.",
-  "@settingsCreatorDescription": {
-    "description": "Settings row description for creator information."
-  },
-  "settingsCreatorDialogTitle": "O twórcy",
-  "@settingsCreatorDialogTitle": {
-    "description": "Dialog title for creator information."
+  "settingsAboutDescription": "Informacje o aplikacji, wsparciu i twórcy",
+  "@settingsAboutDescription": {
+    "description": "Settings row description for about app information."
   },
   "settingsLegalTitle": "Informacje prawne",
   "@settingsLegalTitle": {
@@ -264,9 +260,17 @@
   "@settingsOpenLinkTitle": {
     "description": "Confirmation dialog title before opening an external link."
   },
+  "settingsOpenEmailTitle": "Otworzyć aplikację e-mail?",
+  "@settingsOpenEmailTitle": {
+    "description": "Confirmation dialog title before opening an email app from settings."
+  },
   "settingsCouldNotOpenLink": "Nie udało się otworzyć linku",
   "@settingsCouldNotOpenLink": {
     "description": "Snackbar shown when an external link cannot be opened."
+  },
+  "settingsCouldNotOpenEmail": "Nie udało się otworzyć aplikacji e-mail",
+  "@settingsCouldNotOpenEmail": {
+    "description": "Snackbar shown when the email app cannot be opened."
   },
   "tooltipRefreshLibrary": "Odśwież bibliotekę",
   "@tooltipRefreshLibrary": {

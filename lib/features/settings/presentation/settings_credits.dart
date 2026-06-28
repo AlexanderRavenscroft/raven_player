@@ -80,20 +80,24 @@ class SettingsCredits extends StatelessWidget {
     final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
 
     if (!opened && context.mounted) {
-      AppSnackBar.showSnackBar(
-        context,
-        context.l10n.settingsCouldNotOpenLink,
-        type: SnackBarType.error,
-      );
+      final message = uri.scheme == 'mailto'
+          ? context.l10n.settingsCouldNotOpenEmail
+          : context.l10n.settingsCouldNotOpenLink;
+
+      AppSnackBar.showSnackBar(context, message, type: SnackBarType.error);
     }
   }
 
   Future<void> _confirmAndOpen(BuildContext context, Uri uri) async {
+    final isEmail = uri.scheme == 'mailto';
+
     await showDialog<void>(
       context: context,
       builder: (dialogContext) => AppConfirmDialog(
-        title: dialogContext.l10n.settingsOpenLinkTitle,
-        content: uri.host,
+        title: isEmail
+            ? dialogContext.l10n.settingsOpenEmailTitle
+            : dialogContext.l10n.settingsOpenLinkTitle,
+        content: isEmail ? uri.path : uri.host,
         onAccept: () => _openExternalLink(context, uri),
         acceptText: dialogContext.l10n.dialogOpen,
       ),
