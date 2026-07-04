@@ -107,8 +107,23 @@ class ActionToolbar extends StatelessWidget {
               return ToolbarButton(
                 icon: AppIcons.skipSilence,
                 isToggled: isSkipSilenceEnabled,
-                onPressed: () =>
-                    ref.read(settingsProvider.notifier).toggleSkipSilence(),
+                onPressed: () async {
+                  await ref.read(settingsProvider.notifier).toggleSkipSilence();
+
+                  if (!context.mounted) return;
+
+                  final isEnabled = ref
+                      .read(settingsProvider)
+                      .isSkipSilenceEnabled;
+
+                  AppSnackBar.showSnackBar(
+                    context,
+                    isEnabled
+                        ? context.l10n.playerSkipSilenceOnMessage
+                        : context.l10n.playerSkipSilenceOffMessage,
+                    replacePrevious: true,
+                  );
+                },
               );
             },
           ),

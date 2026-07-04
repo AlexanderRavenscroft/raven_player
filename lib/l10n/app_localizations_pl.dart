@@ -248,6 +248,14 @@ class AppLocalizationsPl extends AppLocalizations {
       'Sterowanie jest zablokowane.\nPrzytrzymaj przycisk blokady.';
 
   @override
+  String get playerSkipSilenceOnMessage =>
+      'Pomijanie ciszy: włączone.\nCiche przerwy będą skracane.';
+
+  @override
+  String get playerSkipSilenceOffMessage =>
+      'Pomijanie ciszy: wyłączone.\nCiche przerwy nie będą skracane.';
+
+  @override
   String chapterProgress(int current, int total) {
     return 'Rozdział $current z $total';
   }

@@ -524,6 +524,18 @@ abstract class AppLocalizations {
   /// **'Controls are locked.\nHold lock button to unlock.'**
   String get playerLockedMessage;
 
+  /// Snackbar shown when skip silence is enabled from the player toolbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip silence: enabled.\nQuiet gaps will be shortened.'**
+  String get playerSkipSilenceOnMessage;
+
+  /// Snackbar shown when skip silence is disabled from the player toolbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip silence: disabled.\nQuiet gaps play normally.'**
+  String get playerSkipSilenceOffMessage;
+
   /// Text showing the current chapter number and total chapter count.
   ///
   /// In en, this message translates to:

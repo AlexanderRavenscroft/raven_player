@@ -318,6 +318,14 @@
   "@playerLockedMessage": {
     "description": "Snackbar shown when the user taps a locked player control."
   },
+  "playerSkipSilenceOnMessage": "Skip silence: enabled.\nQuiet gaps will be shortened.",
+  "@playerSkipSilenceOnMessage": {
+    "description": "Snackbar shown when skip silence is enabled from the player toolbar."
+  },
+  "playerSkipSilenceOffMessage": "Skip silence: disabled.\nQuiet gaps play normally.",
+  "@playerSkipSilenceOffMessage": {
+    "description": "Snackbar shown when skip silence is disabled from the player toolbar."
+  },
   "chapterProgress": "Chapter {current} of {total}",
   "@chapterProgress": {
     "description": "Text showing the current chapter number and total chapter count.",

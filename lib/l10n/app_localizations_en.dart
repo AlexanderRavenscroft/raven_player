@@ -247,6 +247,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'Controls are locked.\nHold lock button to unlock.';
 
   @override
+  String get playerSkipSilenceOnMessage =>
+      'Skip silence: enabled.\nQuiet gaps will be shortened.';
+
+  @override
+  String get playerSkipSilenceOffMessage =>
+      'Skip silence: disabled.\nQuiet gaps play normally.';
+
+  @override
   String chapterProgress(int current, int total) {
     return 'Chapter $current of $total';
   }

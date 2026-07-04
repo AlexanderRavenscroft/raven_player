@@ -318,6 +318,14 @@
   "@playerLockedMessage": {
     "description": "Snackbar shown when the user taps a locked player control."
   },
+  "playerSkipSilenceOnMessage": "Pomijanie ciszy: włączone.\nCiche przerwy będą skracane.",
+  "@playerSkipSilenceOnMessage": {
+    "description": "Snackbar shown when skip silence is enabled from the player toolbar."
+  },
+  "playerSkipSilenceOffMessage": "Pomijanie ciszy: wyłączone.\nCiche przerwy nie będą skracane.",
+  "@playerSkipSilenceOffMessage": {
+    "description": "Snackbar shown when skip silence is disabled from the player toolbar."
+  },
   "chapterProgress": "Rozdział {current} z {total}",
   "@chapterProgress": {
     "description": "Text showing the current chapter number and total chapter count.",
