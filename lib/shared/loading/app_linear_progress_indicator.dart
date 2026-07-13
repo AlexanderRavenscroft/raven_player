@@ -22,8 +22,8 @@ class AppLinearProgressIndicator extends StatelessWidget {
         child: LinearProgressIndicator(
           value: value,
           minHeight: height,
-          color: Theme.of(context).colorScheme.primary,
-          backgroundColor: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         ),
       ),
     );

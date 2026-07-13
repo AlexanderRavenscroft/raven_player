@@ -31,7 +31,7 @@ class DialogActionButton extends StatelessWidget {
       child: Text(
         text,
         style: Theme.of(context).textTheme.labelLarge!.copyWith(
-          color: foregroundColor,
+          color: foregroundColor ?? Theme.of(context).colorScheme.onSurface,
           fontWeight: fontWeight,
         ),
         textAlign: TextAlign.center,

@@ -27,14 +27,15 @@ abstract final class AppTheme {
 
     colorScheme: const ColorScheme.light(
       primary: AppColors.primary,
-      secondary: AppColors.secondary,
-      error: AppColors.error,
+      secondary: AppColors.lightSecondary,
       onPrimary: AppColors.onPrimary,
-      onSecondary: AppColors.onSecondary,
+      onSecondary: AppColors.lightOnSecondary,
       onSurface: AppColors.lightOnSurface,
       onSurfaceVariant: AppColors.lightOnSurfaceVariant,
       surface: AppColors.lightSurface,
       surfaceContainer: AppColors.lightSurfaceContainer,
+      error: AppColors.lightError,
+      onError: AppColors.lightOnError,
     ),
   );
 
@@ -61,14 +62,15 @@ abstract final class AppTheme {
 
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primary,
-      secondary: AppColors.secondary,
-      error: AppColors.error,
+      secondary: AppColors.darkSecondary,
       onPrimary: AppColors.onPrimary,
-      onSecondary: AppColors.onSecondary,
+      onSecondary: AppColors.darkOnSecondary,
       onSurface: AppColors.darkOnSurface,
       onSurfaceVariant: AppColors.darkOnSurfaceVariant,
       surface: AppColors.darkSurface,
       surfaceContainer: AppColors.darkSurfaceContainer,
+      error: AppColors.darkError,
+      onError: AppColors.darkOnError,
     ),
   );
 }

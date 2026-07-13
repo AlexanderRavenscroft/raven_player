@@ -18,7 +18,7 @@ class AppCircularProgressIndicator extends StatelessWidget {
       height: size,
       width: size,
       child: CircularProgressIndicator(
-        color: color ?? Theme.of(context).colorScheme.primary,
+        color: color ?? Theme.of(context).colorScheme.onSurfaceVariant,
         strokeWidth: strokeWidth,
       ),
     );

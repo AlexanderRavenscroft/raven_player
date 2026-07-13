@@ -31,22 +31,31 @@ class OnboardingLottieAnimation extends StatelessWidget {
       repeat: repeat,
       reverse: reverse,
       fit: BoxFit.contain,
-      errorBuilder: (context, error, stackTrace) => Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-          child: Text(
-            context.l10n.lottieError(error.toString()),
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              color: Theme.of(context).colorScheme.error,
+      errorBuilder: (context, error, stackTrace) => SizedBox(
+        height: height,
+        width: double.infinity,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            child: Text(
+              context.l10n.lottieError(error.toString()),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
           ),
         ),
       ),
       frameBuilder: (context, child, composition) {
         if (composition == null) {
-          return const Center(child: AppCircularProgressIndicator());
+          return SizedBox(
+            height: height,
+            width: double.infinity,
+            child: const Center(
+              child: AppCircularProgressIndicator(size: 75, strokeWidth: 5),
+            ),
+          );
         }
-
         return child;
       },
     );

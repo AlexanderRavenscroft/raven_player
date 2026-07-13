@@ -83,7 +83,7 @@ class AudiobookCover extends StatelessWidget {
           child: Icon(
             AppIcons.fallbackBook,
             size: iconSize,
-            color: colors.surface.withAlpha(255),
+            color: colors.onSurfaceVariant,
           ),
         ),
       ],

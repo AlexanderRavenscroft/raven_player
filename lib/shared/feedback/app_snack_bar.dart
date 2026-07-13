@@ -55,7 +55,7 @@ class AppSnackBar {
           if (showIcon) ...[
             Icon(
               style.icon,
-              color: Theme.of(context).colorScheme.onPrimary,
+              color: style.foregroundColor,
               size: AppIconSizes.medium,
             ),
             const SizedBox(width: AppSpacing.lg),
@@ -63,9 +63,9 @@ class AppSnackBar {
           Expanded(
             child: Text(
               message,
-              style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimary,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.labelLarge!.copyWith(color: style.foregroundColor),
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
             ),
@@ -78,18 +78,28 @@ class AppSnackBar {
     );
   }
 
-  static ({IconData icon, Color backgroundColor}) _getStyle(
-    BuildContext context,
-    SnackBarType type,
-  ) {
+  static ({IconData icon, Color backgroundColor, Color foregroundColor})
+  _getStyle(BuildContext context, SnackBarType type) {
     final scheme = Theme.of(context).colorScheme;
     switch (type) {
       case SnackBarType.info:
-        return (icon: AppIcons.info, backgroundColor: scheme.primary);
+        return (
+          icon: AppIcons.info,
+          backgroundColor: scheme.primary,
+          foregroundColor: scheme.onPrimary,
+        );
       case SnackBarType.error:
-        return (icon: AppIcons.error, backgroundColor: scheme.error);
+        return (
+          icon: AppIcons.error,
+          backgroundColor: scheme.error,
+          foregroundColor: scheme.onError,
+        );
       case SnackBarType.success:
-        return (icon: AppIcons.success, backgroundColor: AppColors.success);
+        return (
+          icon: AppIcons.success,
+          backgroundColor: AppColors.success,
+          foregroundColor: AppColors.onSuccess,
+        );
     }
   }
 }
