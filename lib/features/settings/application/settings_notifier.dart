@@ -21,7 +21,10 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     final uri = await Saf.pickTree();
     if (uri == null || uri == state.homeFolderUri) return false;
 
-    state = state.copyWith(homeFolderUri: uri);
+    state = state.copyWith(
+      homeFolderUri: uri,
+      lastOpenedAudiobookId: null,
+    );
     await _repo.save(state);
     return true;
   }
@@ -52,6 +55,24 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
   Future<void> toggleArrowBacksToLibrary() async {
     final newValue = !state.backArrowBacksToLibrary;
     state = state.copyWith(backArrowBacksToLibrary: newValue);
+    await _repo.save(state);
+  }
+
+  Future<void> toggleRestoreLastAudiobookOnLaunch() async {
+    final newValue = !state.restoreLastAudiobookOnLaunch;
+    state = state.copyWith(restoreLastAudiobookOnLaunch: newValue);
+    await _repo.save(state);
+  }
+
+  Future<void> setLastOpenedAudiobookId(String audiobookId) async {
+    state = state.copyWith(lastOpenedAudiobookId: audiobookId);
+    await _repo.save(state);
+  }
+
+  Future<void> clearLastOpenedAudiobookId() async {
+    if (state.lastOpenedAudiobookId == null) return;
+
+    state = state.copyWith(lastOpenedAudiobookId: null);
     await _repo.save(state);
   }
 

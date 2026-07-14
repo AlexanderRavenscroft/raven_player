@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:raven_player/core/feedback/app_issue_provider.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
-import 'package:raven_player/features/player/application/playback_issue_provider.dart';
 import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
@@ -151,7 +151,7 @@ class PlayerNotifier extends Notifier<Audiobook?> {
       log.e('Error code: ${error.code.toString()}');
 
       await _handler.forceDismissNotificationAfterError();
-      ref.read(playbackIssueProvider.notifier).reportPlayerException(error);
+      ref.read(appIssueProvider.notifier).reportPlayerException(error);
     });
   }
 

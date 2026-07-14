@@ -171,6 +171,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Return to Library instead of minimizing.';
 
   @override
+  String get settingsRestoreLastAudiobookTitle => 'Restore audiobook on launch';
+
+  @override
+  String get settingsRestoreLastAudiobookDescription =>
+      'Open the last listened audiobook when the app starts.';
+
+  @override
   String get settingsNotificationSeekTitle => 'Notification seek bar';
 
   @override
@@ -194,8 +201,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsAppVersionTitle => 'App version';
 
   @override
-  String settingsAppVersionDescription(String version, String build) {
-    return 'v$version (build $build)';
+  String settingsAppVersionDescription(String version) {
+    return 'Version $version';
   }
 
   @override

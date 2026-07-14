@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/feedback/app_issue_provider.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/core/theme/app_theme.dart';
 import 'package:raven_player/features/onboarding/presentation/onboarding_gate.dart';
-import 'package:raven_player/features/player/presentation/playback_issue_feedback_listener.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
+import 'package:raven_player/features/player/presentation/play_page.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations.dart';
+import 'package:raven_player/models/audiobook.dart';
+import 'package:raven_player/shared/feedback/app_issue_feedback_listener.dart';
 
 class RavenPlayerApp extends ConsumerStatefulWidget {
-  const RavenPlayerApp({super.key});
+  static const _restoredPlayerRoute = '/player';
+
+  final Audiobook? initialAudiobook;
+  final AppIssue? initialIssue;
+
+  const RavenPlayerApp({super.key, this.initialAudiobook, this.initialIssue});
+
+  @visibleForTesting
+  static String initialRouteName(Audiobook? initialAudiobook) =>
+      initialAudiobook == null
+      ? Navigator.defaultRouteName
+      : _restoredPlayerRoute;
 
   @override
   ConsumerState<RavenPlayerApp> createState() => _RavenPlayerAppState();
@@ -52,9 +66,16 @@ class _RavenPlayerAppState extends ConsumerState<RavenPlayerApp> {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       builder: (context, child) {
-        return PlaybackIssueFeedbackListener(
+        return AppIssueFeedbackListener(
+          initialIssue: widget.initialIssue,
           child: child ?? const SizedBox.shrink(),
         );
+      },
+      initialRoute: RavenPlayerApp.initialRouteName(widget.initialAudiobook),
+      routes: {
+        if (widget.initialAudiobook != null)
+          RavenPlayerApp._restoredPlayerRoute: (context) =>
+              PlayPage(book: widget.initialAudiobook!),
       },
       home: const OnboardingGate(),
     );

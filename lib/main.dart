@@ -7,6 +7,9 @@ import 'package:raven_player/core/hive/hive_helper.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/core/theme/app_colors.dart';
 import 'package:raven_player/features/player/application/raven_audio_handler.dart';
+import 'package:raven_player/features/library/application/audiobook_availability_checker.dart';
+import 'package:raven_player/features/library/application/audiobook_repository.dart';
+import 'package:raven_player/features/onboarding/application/startup_audiobook_resolver.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_repository.dart';
 import 'package:raven_player/models/user_settings.dart';
@@ -49,6 +52,13 @@ Future<void> main() async {
     await repo.save(settings);
   }
 
+  final startupResolution = await StartupAudiobookResolver(
+    settingsRepository: repo,
+    audiobookRepository: AudiobookRepository(),
+    availabilityChecker: AudiobookAvailabilityChecker(),
+  ).resolve(settings);
+  settings = startupResolution.settings;
+
   await AppVersion.setAppVersion();
   await AppDocs.loadTextFiles();
 
@@ -58,7 +68,10 @@ Future<void> main() async {
         initialSettingsProvider.overrideWithValue(settings),
         audioHandlerProvider.overrideWithValue(audioHandler),
       ],
-      child: const RavenPlayerApp(),
+      child: RavenPlayerApp(
+        initialAudiobook: startupResolution.audiobook,
+        initialIssue: startupResolution.issue,
+      ),
     ),
   );
 

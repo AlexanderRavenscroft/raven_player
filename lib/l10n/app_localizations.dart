@@ -386,6 +386,18 @@ abstract class AppLocalizations {
   /// **'Return to Library instead of minimizing.'**
   String get settingsBackArrowDescription;
 
+  /// Settings row title for restoring the last opened audiobook on cold launch.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore audiobook on launch'**
+  String get settingsRestoreLastAudiobookTitle;
+
+  /// Settings row description for restoring the last opened audiobook on cold launch.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the last listened audiobook when the app starts.'**
+  String get settingsRestoreLastAudiobookDescription;
+
   /// Settings row title for allowing seeking from the media notification.
   ///
   /// In en, this message translates to:
@@ -428,11 +440,11 @@ abstract class AppLocalizations {
   /// **'App version'**
   String get settingsAppVersionTitle;
 
-  /// Settings row description showing app version and build number.
+  /// Settings row description showing app version.
   ///
   /// In en, this message translates to:
-  /// **'v{version} (build {build})'**
-  String settingsAppVersionDescription(String version, String build);
+  /// **'Version {version}'**
+  String settingsAppVersionDescription(String version);
 
   /// Credits prompt shown above external project links.
   ///

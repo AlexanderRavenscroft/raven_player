@@ -6,6 +6,8 @@ part 'user_settings.g.dart';
 
 @HiveType(typeId: 0)
 class UserSettings {
+  static const Object _unset = Object();
+
   //* App settings
   @HiveField(0)
   final String? homeFolderUri;
@@ -39,14 +41,21 @@ class UserSettings {
   @HiveField(9)
   final bool isSkipSilenceEnabled;
 
-  @HiveField(11)
+  @HiveField(10)
   final bool isPlayerLockEnabled;
 
-  @HiveField(12)
+  @HiveField(11)
   final bool isSleepTimerEnabled;
 
-  @HiveField(13)
+  @HiveField(12)
   final int sleepTimerDurationMinutes;
+
+  //* App launch
+  @HiveField(13)
+  final bool restoreLastAudiobookOnLaunch;
+
+  @HiveField(14)
+  final String? lastOpenedAudiobookId;
 
   const UserSettings({
     //* App settings
@@ -67,6 +76,10 @@ class UserSettings {
     this.playbackSpeed = 1.0,
     this.isSleepTimerEnabled = false,
     this.sleepTimerDurationMinutes = 10,
+
+    //* App launch
+    this.restoreLastAudiobookOnLaunch = true,
+    this.lastOpenedAudiobookId,
   });
 
   UserSettings copyWith({
@@ -83,6 +96,8 @@ class UserSettings {
     double? playbackSpeed,
     bool? isSleepTimerEnabled,
     int? sleepTimerDurationMinutes,
+    bool? restoreLastAudiobookOnLaunch,
+    Object? lastOpenedAudiobookId = _unset,
   }) {
     return UserSettings(
       homeFolderUri: homeFolderUri ?? this.homeFolderUri,
@@ -102,6 +117,11 @@ class UserSettings {
       isSleepTimerEnabled: isSleepTimerEnabled ?? this.isSleepTimerEnabled,
       sleepTimerDurationMinutes:
           sleepTimerDurationMinutes ?? this.sleepTimerDurationMinutes,
+      restoreLastAudiobookOnLaunch:
+          restoreLastAudiobookOnLaunch ?? this.restoreLastAudiobookOnLaunch,
+      lastOpenedAudiobookId: identical(lastOpenedAudiobookId, _unset)
+          ? this.lastOpenedAudiobookId
+          : lastOpenedAudiobookId as String?,
     );
   }
 }

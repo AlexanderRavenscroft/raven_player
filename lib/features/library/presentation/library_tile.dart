@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:raven_player/core/feedback/app_issue_provider.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/library/application/audiobook_availability_checker.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/presentation/play_page.dart';
+import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
-import 'package:raven_player/shared/others/audiobook_cover.dart';
 import 'package:raven_player/shared/dialogs/app_input_dialog.dart';
-import 'package:raven_player/shared/feedback/app_snack_bar.dart';
+import 'package:raven_player/shared/others/audiobook_cover.dart';
+import 'package:raven_player/utils/app_logger.dart';
 
 class LibraryTile extends ConsumerWidget {
   static const double _actionPaneExtentRatio = 0.2;
@@ -185,15 +187,19 @@ class LibraryTile extends ConsumerWidget {
     } on AudiobookUnavailableException {
       if (!context.mounted) return;
 
-      AppSnackBar.showSnackBar(
-        context,
-        context.l10n.libraryAudiobookUnavailable,
-        type: SnackBarType.error,
-        replacePrevious: true,
-      );
+      ref.read(appIssueProvider.notifier).reportAudiobookUnavailable();
       await ref.read(libraryProvider.notifier).rescan();
       await ref.read(playerProvider.notifier).clear();
       return;
+    }
+
+    if (!context.mounted) return;
+    try {
+      await ref
+          .read(settingsProvider.notifier)
+          .setLastOpenedAudiobookId(book.id);
+    } catch (_) {
+      log.e('Failed to remember the last opened audiobook.');
     }
 
     if (!context.mounted) return;

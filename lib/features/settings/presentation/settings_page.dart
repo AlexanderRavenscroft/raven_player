@@ -156,6 +156,27 @@ class SettingsPage extends ConsumerWidget {
             ),
             Consumer(
               builder: (_, ref, _) {
+                final restoreLastAudiobookOnLaunch = ref.watch(
+                  settingsProvider.select(
+                    (s) => s.restoreLastAudiobookOnLaunch,
+                  ),
+                );
+
+                return SettingsTile(
+                  title: l10n.settingsRestoreLastAudiobookTitle,
+                  description: l10n.settingsRestoreLastAudiobookDescription,
+                  icon: AppIcons.restoreLastAudiobook,
+                  trailing: SettingsToggleSwitch(
+                    value: restoreLastAudiobookOnLaunch,
+                    onChanged: (_) async => await ref
+                        .read(settingsProvider.notifier)
+                        .toggleRestoreLastAudiobookOnLaunch(),
+                  ),
+                );
+              },
+            ),
+            Consumer(
+              builder: (_, ref, _) {
                 final enableNotificationSlider = ref.watch(
                   settingsProvider.select((s) => s.enableNotificationSlider),
                 );
@@ -240,7 +261,6 @@ class SettingsPage extends ConsumerWidget {
               title: l10n.settingsAppVersionTitle,
               description: l10n.settingsAppVersionDescription(
                 AppVersion.version,
-                AppVersion.buildNumber,
               ),
               icon: AppIcons.appVersion,
             ),

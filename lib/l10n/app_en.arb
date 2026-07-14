@@ -210,6 +210,14 @@
   "@settingsBackArrowDescription": {
     "description": "Settings row description for back arrow behavior on the player screen."
   },
+  "settingsRestoreLastAudiobookTitle": "Restore audiobook on launch",
+  "@settingsRestoreLastAudiobookTitle": {
+    "description": "Settings row title for restoring the last opened audiobook on cold launch."
+  },
+  "settingsRestoreLastAudiobookDescription": "Open the last listened audiobook when the app starts.",
+  "@settingsRestoreLastAudiobookDescription": {
+    "description": "Settings row description for restoring the last opened audiobook on cold launch."
+  },
   "settingsNotificationSeekTitle": "Notification seek bar",
   "@settingsNotificationSeekTitle": {
     "description": "Settings row title for allowing seeking from the media notification."
@@ -238,17 +246,13 @@
   "@settingsAppVersionTitle": {
     "description": "Settings row title for app version information."
   },
-  "settingsAppVersionDescription": "v{version} (build {build})",
+  "settingsAppVersionDescription": "Version {version}",
   "@settingsAppVersionDescription": {
-    "description": "Settings row description showing app version and build number.",
+    "description": "Settings row description showing app version.",
     "placeholders": {
       "version": {
         "type": "String",
         "example": "1.0.0"
-      },
-      "build": {
-        "type": "String",
-        "example": "1"
       }
     }
   },

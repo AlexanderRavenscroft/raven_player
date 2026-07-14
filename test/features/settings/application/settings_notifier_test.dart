@@ -37,7 +37,12 @@ void main() {
   group('UserSettingsNotifier', () {
     test('updateHomeFolderUri persists newly selected folder uri', () async {
       final repo = FakeUserSettingsRepository();
-      final container = _container(repo);
+      final container = _container(
+        repo,
+        initialSettings: const UserSettings(
+          lastOpenedAudiobookId: 'book-1',
+        ),
+      );
       addTearDown(container.dispose);
       pickedTreeUri = 'content://new-folder';
 
@@ -52,6 +57,7 @@ void main() {
       );
       expect(repo.saved, isNotNull);
       expect(repo.saved!.homeFolderUri, 'content://new-folder');
+      expect(repo.saved!.lastOpenedAudiobookId, isNull);
     });
 
     test(
@@ -143,6 +149,62 @@ void main() {
         expect(repo.saved!.sleepTimerDurationMinutes, 45);
       },
     );
+
+    test('toggles launch restoration and persists the change', () async {
+      final repo = FakeUserSettingsRepository();
+      final container = _container(repo);
+      addTearDown(container.dispose);
+
+      await container
+          .read(settingsProvider.notifier)
+          .toggleRestoreLastAudiobookOnLaunch();
+
+      expect(
+        container.read(settingsProvider).restoreLastAudiobookOnLaunch,
+        isFalse,
+      );
+      expect(repo.saved!.restoreLastAudiobookOnLaunch, isFalse);
+    });
+
+    test('remembers the latest audiobook while restoration is disabled', () async {
+      final repo = FakeUserSettingsRepository();
+      final container = _container(
+        repo,
+        initialSettings: const UserSettings(
+          restoreLastAudiobookOnLaunch: false,
+        ),
+      );
+      addTearDown(container.dispose);
+
+      await container
+          .read(settingsProvider.notifier)
+          .setLastOpenedAudiobookId('book-1');
+
+      expect(
+        container.read(settingsProvider).lastOpenedAudiobookId,
+        'book-1',
+      );
+      expect(repo.saved!.lastOpenedAudiobookId, 'book-1');
+      expect(repo.saved!.restoreLastAudiobookOnLaunch, isFalse);
+    });
+
+    test('clears the last opened audiobook id and persists it', () async {
+      final repo = FakeUserSettingsRepository();
+      final container = _container(
+        repo,
+        initialSettings: const UserSettings(
+          lastOpenedAudiobookId: 'book-1',
+        ),
+      );
+      addTearDown(container.dispose);
+
+      await container
+          .read(settingsProvider.notifier)
+          .clearLastOpenedAudiobookId();
+
+      expect(container.read(settingsProvider).lastOpenedAudiobookId, isNull);
+      expect(repo.saved!.lastOpenedAudiobookId, isNull);
+    });
   });
 }
 

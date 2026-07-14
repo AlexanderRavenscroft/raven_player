@@ -4,6 +4,7 @@ import 'package:raven_player/features/library/application/audiobook_repository.d
 import 'package:raven_player/features/library/application/library_scanner.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/models/audiobook.dart';
+import 'package:raven_player/utils/app_logger.dart';
 
 class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
   AudiobookRepository get _repo => ref.read(audiobookRepositoryProvider);
@@ -50,7 +51,9 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
       await _enricher.enrichAll(needsEnrich);
     }
 
-    return _repo.getAll();
+    final library = await _repo.getAll();
+    await _clearLastOpenedAudiobookIfMissing(library);
+    return library;
   }
 
   Future<void> renameAudiobook(Audiobook book, String newTitle) async {
@@ -77,6 +80,21 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
     state = AsyncData([
       for (final b in current) b.id == updated.id ? updated : b,
     ]);
+  }
+
+  Future<void> _clearLastOpenedAudiobookIfMissing(
+    List<Audiobook> library,
+  ) async {
+    final audiobookId = ref.read(settingsProvider).lastOpenedAudiobookId;
+    if (audiobookId == null || library.any((book) => book.id == audiobookId)) {
+      return;
+    }
+
+    try {
+      await ref.read(settingsProvider.notifier).clearLastOpenedAudiobookId();
+    } catch (_) {
+      log.e('Failed to clear the removed last opened audiobook.');
+    }
   }
 }
 

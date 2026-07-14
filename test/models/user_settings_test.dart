@@ -21,6 +21,8 @@ void main() {
       expect(settings.isPlayerLockEnabled, isFalse);
       expect(settings.isSleepTimerEnabled, isFalse);
       expect(settings.sleepTimerDurationMinutes, 10);
+      expect(settings.restoreLastAudiobookOnLaunch, isTrue);
+      expect(settings.lastOpenedAudiobookId, isNull);
     });
   });
 
@@ -32,6 +34,7 @@ void main() {
         languageCode: AppLanguages.polish,
         showRemainingTime: false,
         playbackSpeed: 1.5,
+        lastOpenedAudiobookId: 'book-1',
       );
 
       final updated = settings.copyWith(
@@ -46,6 +49,19 @@ void main() {
       expect(updated.showRemainingTime, isTrue);
       expect(updated.playbackSpeed, 1.5);
       expect(updated.sleepTimerDurationMinutes, 30);
+      expect(updated.lastOpenedAudiobookId, 'book-1');
+    });
+
+    test('sets and explicitly clears the last opened audiobook id', () {
+      const settings = UserSettings();
+
+      final withAudiobook = settings.copyWith(
+        lastOpenedAudiobookId: 'book-1',
+      );
+      final cleared = withAudiobook.copyWith(lastOpenedAudiobookId: null);
+
+      expect(withAudiobook.lastOpenedAudiobookId, 'book-1');
+      expect(cleared.lastOpenedAudiobookId, isNull);
     });
   });
 }
