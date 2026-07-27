@@ -41,20 +41,20 @@ class UserSettings {
   @HiveField(9)
   final bool isSkipSilenceEnabled;
 
-  @HiveField(10)
+  @HiveField(11)
   final bool isPlayerLockEnabled;
 
-  @HiveField(11)
+  @HiveField(12)
   final bool isSleepTimerEnabled;
 
-  @HiveField(12)
+  @HiveField(13)
   final int sleepTimerDurationMinutes;
 
   //* App launch
-  @HiveField(13)
+  @HiveField(14)
   final bool restoreLastAudiobookOnLaunch;
 
-  @HiveField(14)
+  @HiveField(15)
   final String? lastOpenedAudiobookId;
 
   const UserSettings({

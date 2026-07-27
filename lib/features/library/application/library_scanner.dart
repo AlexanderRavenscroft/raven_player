@@ -16,13 +16,6 @@ class LibraryScanner {
   };
   static const _audioExts = ['.mp3', '.m4a', '.m4b', '.flac', '.ogg'];
 
-  bool _isAudio(SafEntry entry) {
-    if (entry.isDir) return false;
-    if (entry.mime != null && _audioMimes.contains(entry.mime)) return true;
-    final name = entry.name?.toLowerCase() ?? '';
-    return _audioExts.any(name.endsWith);
-  }
-
   /// Scans the home folder. Each subfolder = one audiobook.
   /// Returns books that contain at least one audio file.
   Future<List<Audiobook>> scan(String homeUri) async {
@@ -40,11 +33,7 @@ class LibraryScanner {
       }
 
       final audioFiles = inner.where(_isAudio).toList()
-        ..sort(
-          (a, b) => (a.name ?? '').toLowerCase().compareTo(
-            (b.name ?? '').toLowerCase(),
-          ),
-        );
+        ..sort((a, b) => _naturalCompare(a.name ?? '', b.name ?? ''));
 
       if (audioFiles.isEmpty) continue;
 
@@ -68,5 +57,71 @@ class LibraryScanner {
       );
     }
     return books;
+  }
+
+  bool _isAudio(SafEntry entry) {
+    if (entry.isDir) return false;
+    if (entry.mime != null && _audioMimes.contains(entry.mime)) return true;
+    final name = entry.name?.toLowerCase() ?? '';
+    return _audioExts.any(name.endsWith);
+  }
+
+  final RegExp _naturalPartPattern = RegExp(r'\d+|\D+');
+
+  int _naturalCompare(String left, String right) {
+    final leftParts = _naturalPartPattern
+        .allMatches(left.toLowerCase())
+        .map((match) => match.group(0)!)
+        .toList();
+
+    final rightParts = _naturalPartPattern
+        .allMatches(right.toLowerCase())
+        .map((match) => match.group(0)!)
+        .toList();
+
+    final partCount = leftParts.length < rightParts.length
+        ? leftParts.length
+        : rightParts.length;
+
+    for (var index = 0; index < partCount; index++) {
+      final leftPart = leftParts[index];
+      final rightPart = rightParts[index];
+
+      final leftNumber = BigInt.tryParse(leftPart);
+      final rightNumber = BigInt.tryParse(rightPart);
+
+      if (leftNumber != null && rightNumber != null) {
+        final numberResult = leftNumber.compareTo(rightNumber);
+
+        if (numberResult != 0) {
+          return numberResult;
+        }
+
+        // Numeric values are equal, for example "2" and "002".
+        // Prefer the shorter representation.
+        final lengthResult = leftPart.length.compareTo(rightPart.length);
+
+        if (lengthResult != 0) {
+          return lengthResult;
+        }
+
+        continue;
+      }
+
+      final textResult = leftPart.compareTo(rightPart);
+
+      if (textResult != 0) {
+        return textResult;
+      }
+    }
+
+    final partCountResult = leftParts.length.compareTo(rightParts.length);
+
+    if (partCountResult != 0) {
+      return partCountResult;
+    }
+
+    // Provides deterministic ordering when names differ only by case.
+    return left.compareTo(right);
   }
 }
