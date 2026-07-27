@@ -20,18 +20,27 @@ class DialogActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final effectiveForegroundColor = foregroundColor ?? colorScheme.onSurface;
+
     return TextButton(
-      style: TextButton.styleFrom(
-        backgroundColor:
-            backgroundColor ?? Theme.of(context).colorScheme.surfaceContainer,
-        fixedSize: fixedSize,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-      ),
+      style:
+          TextButton.styleFrom(
+            backgroundColor: backgroundColor ?? colorScheme.surfaceContainer,
+            fixedSize: fixedSize,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
+          ).copyWith(
+            overlayColor: WidgetStateProperty.all(
+              effectiveForegroundColor.withValues(alpha: 0.10),
+            ),
+          ),
       onPressed: onPressed,
       child: Text(
         text,
         style: Theme.of(context).textTheme.labelLarge!.copyWith(
-          color: foregroundColor ?? Theme.of(context).colorScheme.onSurface,
+          color: effectiveForegroundColor,
           fontWeight: fontWeight,
         ),
         textAlign: TextAlign.center,
