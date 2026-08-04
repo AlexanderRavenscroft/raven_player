@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_app_minimizer_plus/flutter_app_minimizer_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -121,7 +122,10 @@ class _PlayPageState extends ConsumerState<PlayPage> {
               ),
 
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.06,
+                height: math.max(
+                  MediaQuery.of(context).size.height * 0.06,
+                  kMinInteractiveDimension,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

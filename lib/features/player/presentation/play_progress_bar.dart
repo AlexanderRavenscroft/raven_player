@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,7 +50,10 @@ class PlayProgressBar extends ConsumerWidget {
             AbsorbPointer(
               absorbing: isPlayerLockEnabled,
               child: SizedBox(
-                height: screenSize.height * _progressBarHeightRatio,
+                height: math.max(
+                  screenSize.height * _progressBarHeightRatio,
+                  kMinInteractiveDimension,
+                ),
                 width: screenSize.width * _progressBarWidthRatio,
                 child: ProgressBar(
                   thumbCanPaintOutsideBar: false,
@@ -111,7 +115,10 @@ class _LoadingProgressBar extends StatelessWidget {
     final screenSize = MediaQuery.sizeOf(context);
 
     return SizedBox(
-      height: screenSize.height * PlayProgressBar._progressBarHeightRatio,
+      height: math.max(
+        screenSize.height * PlayProgressBar._progressBarHeightRatio,
+        kMinInteractiveDimension,
+      ),
       width: screenSize.width * PlayProgressBar._progressBarWidthRatio,
       child: Align(
         alignment: Alignment.center,

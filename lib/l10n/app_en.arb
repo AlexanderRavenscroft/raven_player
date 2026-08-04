@@ -390,6 +390,26 @@
   "@playerPlaybackSpeedHint": {
     "description": "Accessibility hint describing the playback speed toolbar interactions."
   },
+  "playerPlaybackSpeedSliderValue": "{speed} times",
+  "@playerPlaybackSpeedSliderValue": {
+    "description": "Accessibility value announced for the playback speed slider.",
+    "placeholders": {
+      "speed": {
+        "type": "String",
+        "example": "1.5"
+      }
+    }
+  },
+  "playerSleepTimerSliderValue": "{minutes} minutes",
+  "@playerSleepTimerSliderValue": {
+    "description": "Accessibility value announced for the sleep timer slider.",
+    "placeholders": {
+      "minutes": {
+        "type": "int",
+        "example": "30"
+      }
+    }
+  },
   "playerSkipSilenceControl": "Skip silence",
   "@playerSkipSilenceControl": {
     "description": "Accessibility label for the skip silence toolbar control."
@@ -413,6 +433,10 @@
   "playerAdjustSleepTimer": "Adjust Sleep Timer",
   "@playerAdjustSleepTimer": {
     "description": "Title of the dialog used to change the sleep timer duration."
+  },
+  "playerChooseChapterAction": "Choose chapter",
+  "@playerChooseChapterAction": {
+    "description": "Accessibility label for the chapter picker button."
   },
   "playerLockedMessage": "Controls are locked.\nHold lock button to unlock.",
   "@playerLockedMessage": {

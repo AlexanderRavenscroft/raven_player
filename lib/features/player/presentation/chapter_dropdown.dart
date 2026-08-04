@@ -33,40 +33,49 @@ class ChapterDropdown extends ConsumerWidget {
       settingsProvider.select((s) => s.isPlayerLockEnabled),
     );
 
+    Future<void> handleTap() async {
+      if (isPlayerLockEnabled) {
+        AppSnackBar.showSnackBar(context, context.l10n.playerLockedMessage);
+        return;
+      }
+
+      await _showChapterDialog(context, ref, currentBook);
+    }
+
     return SizedBox(
       width: MediaQuery.of(context).size.width * _dropdownWidthRatio,
-      child: InkWell(
-        enableFeedback: !isPlayerLockEnabled,
-        overlayColor: isPlayerLockEnabled
-            ? const WidgetStatePropertyAll(Colors.transparent)
-            : null,
-        borderRadius: const BorderRadius.all(Radius.circular(8)),
-        onTap: () async {
-          if (isPlayerLockEnabled) {
-            AppSnackBar.showSnackBar(context, context.l10n.playerLockedMessage);
-            return;
-          }
-
-          await _showChapterDialog(context, ref, currentBook);
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                child: Text(
-                  currentChapterName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.labelLarge!.copyWith(fontWeight: FontWeight.w600),
+      child: Semantics(
+        button: true,
+        label: context.l10n.playerChooseChapterAction,
+        value: currentChapterName,
+        excludeSemantics: true,
+        onTap: handleTap,
+        child: InkWell(
+          enableFeedback: !isPlayerLockEnabled,
+          overlayColor: isPlayerLockEnabled
+              ? const WidgetStatePropertyAll(Colors.transparent)
+              : null,
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          onTap: handleTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Text(
+                    currentChapterName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
-              ),
-              if (!isPlayerLockEnabled)
-                const Icon(AppIcons.dropdown, size: AppIconSizes.large),
-            ],
+                if (!isPlayerLockEnabled)
+                  const Icon(AppIcons.dropdown, size: AppIconSizes.large),
+              ],
+            ),
           ),
         ),
       ),

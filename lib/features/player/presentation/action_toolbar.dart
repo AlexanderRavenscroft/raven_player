@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
@@ -21,7 +22,10 @@ class ActionToolbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.06,
+      height: math.max(
+        MediaQuery.of(context).size.height * 0.06,
+        kMinInteractiveDimension,
+      ),
       color: Theme.of(context).colorScheme.surface,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -208,6 +212,9 @@ class ActionToolbar extends StatelessWidget {
         maxValue: _maxPlaybackSpeed,
         initialValue: currentSpeed,
         divisions: _playbackSpeedDivisions,
+        semanticLabel: context.l10n.playerPlaybackSpeedControl,
+        semanticFormatterCallback: (value) => context.l10n
+            .playerPlaybackSpeedSliderValue(value.toStringAsFixed(1)),
       ),
     );
 
@@ -236,6 +243,9 @@ class ActionToolbar extends StatelessWidget {
         maxValue: _maxSleepTimerMinutes,
         initialValue: currentMinutes.toDouble(),
         divisions: _sleepTimerDivisions,
+        semanticLabel: context.l10n.playerSleepTimerControl,
+        semanticFormatterCallback: (value) =>
+            context.l10n.playerSleepTimerSliderValue(value.round()),
       ),
     );
 

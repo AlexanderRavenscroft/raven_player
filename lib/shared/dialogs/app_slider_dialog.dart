@@ -9,6 +9,8 @@ class AppSliderDialog extends StatefulWidget {
   final double initialValue;
   final int? divisions;
   final String? confirmLabel;
+  final String semanticLabel;
+  final String Function(double value) semanticFormatterCallback;
 
   const AppSliderDialog({
     super.key,
@@ -18,6 +20,8 @@ class AppSliderDialog extends StatefulWidget {
     required this.initialValue,
     this.divisions,
     this.confirmLabel,
+    required this.semanticLabel,
+    required this.semanticFormatterCallback,
   });
 
   @override
@@ -54,14 +58,18 @@ class _AppSliderDialogState extends State<AppSliderDialog> {
               trackHeight: _trackHeight,
               tickMarkShape: SliderTickMarkShape.noTickMark,
             ),
-            child: Slider(
-              value: _currentValue,
-              min: widget.minValue,
-              max: widget.maxValue,
-              divisions: widget.divisions,
-              activeColor: Theme.of(context).colorScheme.primary,
-              inactiveColor: Theme.of(context).colorScheme.surfaceContainer,
-              onChanged: (value) => setState(() => _currentValue = value),
+            child: Semantics(
+              label: widget.semanticLabel,
+              child: Slider(
+                value: _currentValue,
+                min: widget.minValue,
+                max: widget.maxValue,
+                divisions: widget.divisions,
+                activeColor: Theme.of(context).colorScheme.primary,
+                inactiveColor: Theme.of(context).colorScheme.surfaceContainer,
+                semanticFormatterCallback: widget.semanticFormatterCallback,
+                onChanged: (value) => setState(() => _currentValue = value),
+              ),
             ),
           ),
           Text(

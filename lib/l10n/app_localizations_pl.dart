@@ -306,6 +306,16 @@ class AppLocalizationsPl extends AppLocalizations {
       'Zmienia wybraną prędkość. Przytrzymaj, aby ją dostosować.';
 
   @override
+  String playerPlaybackSpeedSliderValue(String speed) {
+    return '$speed razy';
+  }
+
+  @override
+  String playerSleepTimerSliderValue(int minutes) {
+    return '$minutes minut';
+  }
+
+  @override
   String get playerSkipSilenceControl => 'Pomijanie ciszy';
 
   @override
@@ -323,6 +333,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get playerAdjustSleepTimer => 'Dostosuj timer snu';
+
+  @override
+  String get playerChooseChapterAction => 'Wybierz rozdział';
 
   @override
   String get playerLockedMessage =>

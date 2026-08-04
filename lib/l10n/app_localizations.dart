@@ -620,6 +620,18 @@ abstract class AppLocalizations {
   /// **'Changes the selected speed. Long press to adjust it.'**
   String get playerPlaybackSpeedHint;
 
+  /// Accessibility value announced for the playback speed slider.
+  ///
+  /// In en, this message translates to:
+  /// **'{speed} times'**
+  String playerPlaybackSpeedSliderValue(String speed);
+
+  /// Accessibility value announced for the sleep timer slider.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} minutes'**
+  String playerSleepTimerSliderValue(int minutes);
+
   /// Accessibility label for the skip silence toolbar control.
   ///
   /// In en, this message translates to:
@@ -655,6 +667,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Adjust Sleep Timer'**
   String get playerAdjustSleepTimer;
+
+  /// Accessibility label for the chapter picker button.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose chapter'**
+  String get playerChooseChapterAction;
 
   /// Snackbar shown when the user taps a locked player control.
   ///

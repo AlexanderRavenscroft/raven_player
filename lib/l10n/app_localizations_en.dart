@@ -304,6 +304,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Changes the selected speed. Long press to adjust it.';
 
   @override
+  String playerPlaybackSpeedSliderValue(String speed) {
+    return '$speed times';
+  }
+
+  @override
+  String playerSleepTimerSliderValue(int minutes) {
+    return '$minutes minutes';
+  }
+
+  @override
   String get playerSkipSilenceControl => 'Skip silence';
 
   @override
@@ -320,6 +330,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get playerAdjustSleepTimer => 'Adjust Sleep Timer';
+
+  @override
+  String get playerChooseChapterAction => 'Choose chapter';
 
   @override
   String get playerLockedMessage =>
