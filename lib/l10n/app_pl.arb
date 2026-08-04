@@ -378,17 +378,33 @@
   "@playerSleepTimerControl": {
     "description": "Accessibility label for the sleep timer toolbar control."
   },
-  "playerSleepTimerHint": "Włącza lub wyłącza timer. Przytrzymaj, aby ustawić czas.",
+  "playerSleepTimerHint": "ustawić czas timera snu",
   "@playerSleepTimerHint": {
-    "description": "Accessibility hint describing the sleep timer toolbar interactions."
+    "description": "Android accessibility action hint for adjusting the sleep timer with a long press."
+  },
+  "playerEnableSleepTimerActionHint": "włączyć timer snu",
+  "@playerEnableSleepTimerActionHint": {
+    "description": "Android accessibility action hint for enabling the sleep timer."
+  },
+  "playerDisableSleepTimerActionHint": "wyłączyć timer snu",
+  "@playerDisableSleepTimerActionHint": {
+    "description": "Android accessibility action hint for disabling the sleep timer."
   },
   "playerPlaybackSpeedControl": "Prędkość odtwarzania",
   "@playerPlaybackSpeedControl": {
     "description": "Accessibility label for the playback speed toolbar control."
   },
-  "playerPlaybackSpeedHint": "Zmienia wybraną prędkość. Przytrzymaj, aby ją dostosować.",
+  "playerPlaybackSpeedHint": "dostosować prędkość odtwarzania",
   "@playerPlaybackSpeedHint": {
-    "description": "Accessibility hint describing the playback speed toolbar interactions."
+    "description": "Android accessibility action hint for adjusting playback speed."
+  },
+  "playerEnablePlaybackSpeedActionHint": "włączyć wybraną prędkość odtwarzania",
+  "@playerEnablePlaybackSpeedActionHint": {
+    "description": "Android accessibility action hint for enabling the selected playback speed."
+  },
+  "playerDisablePlaybackSpeedActionHint": "wrócić do normalnej prędkości odtwarzania",
+  "@playerDisablePlaybackSpeedActionHint": {
+    "description": "Android accessibility action hint for disabling the selected playback speed."
   },
   "playerPlaybackSpeedSliderValue": "{speed} razy",
   "@playerPlaybackSpeedSliderValue": {
@@ -400,7 +416,7 @@
       }
     }
   },
-  "playerSleepTimerSliderValue": "{minutes} minut",
+  "playerSleepTimerSliderValue": "{minutes, plural, one{{minutes} minuta} few{{minutes} minuty} many{{minutes} minut} other{{minutes} minuty}}",
   "@playerSleepTimerSliderValue": {
     "description": "Accessibility value announced for the sleep timer slider.",
     "placeholders": {
@@ -414,17 +430,59 @@
   "@playerSkipSilenceControl": {
     "description": "Accessibility label for the skip silence toolbar control."
   },
+  "playerEnableSkipSilenceActionHint": "włączyć pomijanie ciszy",
+  "@playerEnableSkipSilenceActionHint": {
+    "description": "Android accessibility action hint for enabling skip silence."
+  },
+  "playerDisableSkipSilenceActionHint": "wyłączyć pomijanie ciszy",
+  "@playerDisableSkipSilenceActionHint": {
+    "description": "Android accessibility action hint for disabling skip silence."
+  },
   "playerLockControl": "Blokada sterowania odtwarzaczem",
   "@playerLockControl": {
     "description": "Accessibility label for the player lock toolbar control."
   },
-  "playerLockHint": "Blokuje elementy sterujące odtwarzacza.",
+  "playerLockHint": "zablokować sterowanie odtwarzaczem",
   "@playerLockHint": {
     "description": "Accessibility hint for the player lock control while unlocked."
   },
-  "playerUnlockHint": "Przytrzymaj, aby odblokować elementy sterujące odtwarzacza.",
+  "playerUnlockHint": "odblokować sterowanie odtwarzaczem",
   "@playerUnlockHint": {
     "description": "Accessibility hint for the player lock control while locked."
+  },
+  "playerShowUnlockInstructionsActionHint": "wyświetlić instrukcję odblokowania",
+  "@playerShowUnlockInstructionsActionHint": {
+    "description": "Android accessibility tap action hint for the player lock while locked."
+  },
+  "playerDurationHours": "{hours, plural, one{{hours} godzina} few{{hours} godziny} many{{hours} godzin} other{{hours} godziny}}",
+  "@playerDurationHours": {
+    "description": "Localized hours component of an accessibility duration.",
+    "placeholders": {
+      "hours": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "playerDurationMinutes": "{minutes, plural, one{{minutes} minuta} few{{minutes} minuty} many{{minutes} minut} other{{minutes} minuty}}",
+  "@playerDurationMinutes": {
+    "description": "Localized minutes component of an accessibility duration.",
+    "placeholders": {
+      "minutes": {
+        "type": "int",
+        "example": "30"
+      }
+    }
+  },
+  "playerDurationSeconds": "{seconds, plural, one{{seconds} sekunda} few{{seconds} sekundy} many{{seconds} sekund} other{{seconds} sekundy}}",
+  "@playerDurationSeconds": {
+    "description": "Localized seconds component of an accessibility duration.",
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "example": "15"
+      }
+    }
   },
   "playerAdjustPlaybackSpeed": "Dostosuj prędkość odtwarzania",
   "@playerAdjustPlaybackSpeed": {

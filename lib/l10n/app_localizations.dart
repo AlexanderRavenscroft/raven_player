@@ -602,11 +602,23 @@ abstract class AppLocalizations {
   /// **'Sleep timer'**
   String get playerSleepTimerControl;
 
-  /// Accessibility hint describing the sleep timer toolbar interactions.
+  /// Android accessibility action hint for adjusting the sleep timer with a long press.
   ///
   /// In en, this message translates to:
-  /// **'Toggles the timer. Long press to adjust its duration.'**
+  /// **'adjust the timer duration'**
   String get playerSleepTimerHint;
+
+  /// Android accessibility action hint for enabling the sleep timer.
+  ///
+  /// In en, this message translates to:
+  /// **'turn on the sleep timer'**
+  String get playerEnableSleepTimerActionHint;
+
+  /// Android accessibility action hint for disabling the sleep timer.
+  ///
+  /// In en, this message translates to:
+  /// **'turn off the sleep timer'**
+  String get playerDisableSleepTimerActionHint;
 
   /// Accessibility label for the playback speed toolbar control.
   ///
@@ -614,11 +626,23 @@ abstract class AppLocalizations {
   /// **'Playback speed'**
   String get playerPlaybackSpeedControl;
 
-  /// Accessibility hint describing the playback speed toolbar interactions.
+  /// Android accessibility action hint for adjusting playback speed.
   ///
   /// In en, this message translates to:
-  /// **'Changes the selected speed. Long press to adjust it.'**
+  /// **'adjust the playback speed'**
   String get playerPlaybackSpeedHint;
+
+  /// Android accessibility action hint for enabling the selected playback speed.
+  ///
+  /// In en, this message translates to:
+  /// **'use the selected playback speed'**
+  String get playerEnablePlaybackSpeedActionHint;
+
+  /// Android accessibility action hint for disabling the selected playback speed.
+  ///
+  /// In en, this message translates to:
+  /// **'return to normal playback speed'**
+  String get playerDisablePlaybackSpeedActionHint;
 
   /// Accessibility value announced for the playback speed slider.
   ///
@@ -629,7 +653,7 @@ abstract class AppLocalizations {
   /// Accessibility value announced for the sleep timer slider.
   ///
   /// In en, this message translates to:
-  /// **'{minutes} minutes'**
+  /// **'{minutes, plural, =1{1 minute} other{{minutes} minutes}}'**
   String playerSleepTimerSliderValue(int minutes);
 
   /// Accessibility label for the skip silence toolbar control.
@@ -637,6 +661,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Skip silence'**
   String get playerSkipSilenceControl;
+
+  /// Android accessibility action hint for enabling skip silence.
+  ///
+  /// In en, this message translates to:
+  /// **'turn on skip silence'**
+  String get playerEnableSkipSilenceActionHint;
+
+  /// Android accessibility action hint for disabling skip silence.
+  ///
+  /// In en, this message translates to:
+  /// **'turn off skip silence'**
+  String get playerDisableSkipSilenceActionHint;
 
   /// Accessibility label for the player lock toolbar control.
   ///
@@ -647,14 +683,38 @@ abstract class AppLocalizations {
   /// Accessibility hint for the player lock control while unlocked.
   ///
   /// In en, this message translates to:
-  /// **'Locks the player controls.'**
+  /// **'lock the player controls'**
   String get playerLockHint;
 
   /// Accessibility hint for the player lock control while locked.
   ///
   /// In en, this message translates to:
-  /// **'Long press to unlock the player controls.'**
+  /// **'unlock the player controls'**
   String get playerUnlockHint;
+
+  /// Android accessibility tap action hint for the player lock while locked.
+  ///
+  /// In en, this message translates to:
+  /// **'show the unlock instructions'**
+  String get playerShowUnlockInstructionsActionHint;
+
+  /// Localized hours component of an accessibility duration.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours, plural, =1{1 hour} other{{hours} hours}}'**
+  String playerDurationHours(int hours);
+
+  /// Localized minutes component of an accessibility duration.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, =1{1 minute} other{{minutes} minutes}}'**
+  String playerDurationMinutes(int minutes);
+
+  /// Localized seconds component of an accessibility duration.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds, plural, =1{1 second} other{{seconds} seconds}}'**
+  String playerDurationSeconds(int seconds);
 
   /// Title of the dialog used to change playback speed.
   ///

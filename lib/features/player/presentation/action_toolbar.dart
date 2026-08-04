@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
 import 'package:raven_player/features/player/presentation/toolbar_button.dart';
@@ -42,13 +43,21 @@ class ActionToolbar extends StatelessWidget {
               final timerText = sleepTimer.isRunning
                   ? _formatDuration(sleepTimer.remaining)
                   : '${sleepTimerDuration}m';
+              final timerSemanticValue = sleepTimer.isRunning
+                  ? _formatSemanticDuration(context, sleepTimer.remaining)
+                  : context.l10n.playerSleepTimerSliderValue(
+                      sleepTimerDuration,
+                    );
 
               return ToolbarButton(
                 icon: AppIcons.sleepTimer,
                 isToggled: isSleepTimerEnabled,
                 semanticLabel: context.l10n.playerSleepTimerControl,
-                semanticHint: context.l10n.playerSleepTimerHint,
-                semanticValue: timerText,
+                semanticTapHint: isSleepTimerEnabled
+                    ? context.l10n.playerDisableSleepTimerActionHint
+                    : context.l10n.playerEnableSleepTimerActionHint,
+                semanticLongPressHint: context.l10n.playerSleepTimerHint,
+                semanticValue: timerSemanticValue,
                 onPressed: () =>
                     ref.read(settingsProvider.notifier).toggleSleepTimer(),
                 onLongPress: () => _showSleepTimerDialog(
@@ -73,12 +82,25 @@ class ActionToolbar extends StatelessWidget {
               final speed = ref.watch(
                 settingsProvider.select((s) => s.playbackSpeed),
               );
+              final semanticSpeed = NumberFormat(
+                '0.0',
+                Localizations.localeOf(context).toLanguageTag(),
+              ).format(speed);
               return ToolbarButton(
                 icon: AppIcons.playbackSpeed,
                 isToggled: isPlaybackSpeedEnabled,
+                hasToggleState: speed != 1,
+                includeLongPressSemantics: speed != 1,
                 semanticLabel: context.l10n.playerPlaybackSpeedControl,
-                semanticHint: context.l10n.playerPlaybackSpeedHint,
-                semanticValue: '${speed.toStringAsFixed(1)}x',
+                semanticTapHint: speed == 1
+                    ? context.l10n.playerPlaybackSpeedHint
+                    : isPlaybackSpeedEnabled
+                    ? context.l10n.playerDisablePlaybackSpeedActionHint
+                    : context.l10n.playerEnablePlaybackSpeedActionHint,
+                semanticLongPressHint: context.l10n.playerPlaybackSpeedHint,
+                semanticValue: context.l10n.playerPlaybackSpeedSliderValue(
+                  semanticSpeed,
+                ),
                 onPressed: () async {
                   if (speed == 1.00) {
                     await _showSpeedDialog(
@@ -117,6 +139,9 @@ class ActionToolbar extends StatelessWidget {
                 icon: AppIcons.skipSilence,
                 isToggled: isSkipSilenceEnabled,
                 semanticLabel: context.l10n.playerSkipSilenceControl,
+                semanticTapHint: isSkipSilenceEnabled
+                    ? context.l10n.playerDisableSkipSilenceActionHint
+                    : context.l10n.playerEnableSkipSilenceActionHint,
                 onPressed: () async {
                   await ref.read(settingsProvider.notifier).toggleSkipSilence();
 
@@ -145,8 +170,12 @@ class ActionToolbar extends StatelessWidget {
               return ToolbarButton(
                 icon: AppIcons.playerLock,
                 isToggled: isPlayerLockEnabled,
+                includeLongPressSemantics: isPlayerLockEnabled,
                 semanticLabel: context.l10n.playerLockControl,
-                semanticHint: isPlayerLockEnabled
+                semanticTapHint: isPlayerLockEnabled
+                    ? context.l10n.playerShowUnlockInstructionsActionHint
+                    : context.l10n.playerLockHint,
+                semanticLongPressHint: isPlayerLockEnabled
                     ? context.l10n.playerUnlockHint
                     : context.l10n.playerLockHint,
                 onPressed: () async {
@@ -273,4 +302,26 @@ class ActionToolbar extends StatelessWidget {
 
     return '${totalSeconds ~/ 60}:$secondsText';
   }
+
+  String _formatSemanticDuration(BuildContext context, Duration duration) {
+    final totalSeconds = duration.inSeconds < 0 ? 0 : duration.inSeconds;
+    final hours = totalSeconds ~/ 3600;
+    final minutes = (totalSeconds ~/ 60) % 60;
+    final seconds = totalSeconds % 60;
+    final parts = <String>[];
+
+    if (hours > 0) {
+      parts.add(context.l10n.playerDurationHours(hours));
+    }
+    if (minutes > 0) {
+      parts.add(context.l10n.playerDurationMinutes(minutes));
+    }
+    if (seconds > 0 || parts.isEmpty) {
+      parts.add(context.l10n.playerDurationSeconds(seconds));
+    }
+
+    return parts.join(', ');
+  }
 }
+
+//TODO: change sleep timer sensivity

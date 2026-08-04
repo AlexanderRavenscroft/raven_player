@@ -295,15 +295,27 @@ class AppLocalizationsPl extends AppLocalizations {
   String get playerSleepTimerControl => 'Timer snu';
 
   @override
-  String get playerSleepTimerHint =>
-      'Włącza lub wyłącza timer. Przytrzymaj, aby ustawić czas.';
+  String get playerSleepTimerHint => 'ustawić czas timera snu';
+
+  @override
+  String get playerEnableSleepTimerActionHint => 'włączyć timer snu';
+
+  @override
+  String get playerDisableSleepTimerActionHint => 'wyłączyć timer snu';
 
   @override
   String get playerPlaybackSpeedControl => 'Prędkość odtwarzania';
 
   @override
-  String get playerPlaybackSpeedHint =>
-      'Zmienia wybraną prędkość. Przytrzymaj, aby ją dostosować.';
+  String get playerPlaybackSpeedHint => 'dostosować prędkość odtwarzania';
+
+  @override
+  String get playerEnablePlaybackSpeedActionHint =>
+      'włączyć wybraną prędkość odtwarzania';
+
+  @override
+  String get playerDisablePlaybackSpeedActionHint =>
+      'wrócić do normalnej prędkości odtwarzania';
 
   @override
   String playerPlaybackSpeedSliderValue(String speed) {
@@ -312,21 +324,77 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String playerSleepTimerSliderValue(int minutes) {
-    return '$minutes minut';
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minuty',
+      many: '$minutes minut',
+      few: '$minutes minuty',
+      one: '$minutes minuta',
+    );
+    return '$_temp0';
   }
 
   @override
   String get playerSkipSilenceControl => 'Pomijanie ciszy';
 
   @override
+  String get playerEnableSkipSilenceActionHint => 'włączyć pomijanie ciszy';
+
+  @override
+  String get playerDisableSkipSilenceActionHint => 'wyłączyć pomijanie ciszy';
+
+  @override
   String get playerLockControl => 'Blokada sterowania odtwarzaczem';
 
   @override
-  String get playerLockHint => 'Blokuje elementy sterujące odtwarzacza.';
+  String get playerLockHint => 'zablokować sterowanie odtwarzaczem';
 
   @override
-  String get playerUnlockHint =>
-      'Przytrzymaj, aby odblokować elementy sterujące odtwarzacza.';
+  String get playerUnlockHint => 'odblokować sterowanie odtwarzaczem';
+
+  @override
+  String get playerShowUnlockInstructionsActionHint =>
+      'wyświetlić instrukcję odblokowania';
+
+  @override
+  String playerDurationHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours godziny',
+      many: '$hours godzin',
+      few: '$hours godziny',
+      one: '$hours godzina',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String playerDurationMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minuty',
+      many: '$minutes minut',
+      few: '$minutes minuty',
+      one: '$minutes minuta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String playerDurationSeconds(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: '$seconds sekundy',
+      many: '$seconds sekund',
+      few: '$seconds sekundy',
+      one: '$seconds sekunda',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get playerAdjustPlaybackSpeed => 'Dostosuj prędkość odtwarzania';

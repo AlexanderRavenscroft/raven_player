@@ -293,15 +293,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get playerSleepTimerControl => 'Sleep timer';
 
   @override
-  String get playerSleepTimerHint =>
-      'Toggles the timer. Long press to adjust its duration.';
+  String get playerSleepTimerHint => 'adjust the timer duration';
+
+  @override
+  String get playerEnableSleepTimerActionHint => 'turn on the sleep timer';
+
+  @override
+  String get playerDisableSleepTimerActionHint => 'turn off the sleep timer';
 
   @override
   String get playerPlaybackSpeedControl => 'Playback speed';
 
   @override
-  String get playerPlaybackSpeedHint =>
-      'Changes the selected speed. Long press to adjust it.';
+  String get playerPlaybackSpeedHint => 'adjust the playback speed';
+
+  @override
+  String get playerEnablePlaybackSpeedActionHint =>
+      'use the selected playback speed';
+
+  @override
+  String get playerDisablePlaybackSpeedActionHint =>
+      'return to normal playback speed';
 
   @override
   String playerPlaybackSpeedSliderValue(String speed) {
@@ -310,20 +322,69 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String playerSleepTimerSliderValue(int minutes) {
-    return '$minutes minutes';
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutes',
+      one: '1 minute',
+    );
+    return '$_temp0';
   }
 
   @override
   String get playerSkipSilenceControl => 'Skip silence';
 
   @override
+  String get playerEnableSkipSilenceActionHint => 'turn on skip silence';
+
+  @override
+  String get playerDisableSkipSilenceActionHint => 'turn off skip silence';
+
+  @override
   String get playerLockControl => 'Player controls lock';
 
   @override
-  String get playerLockHint => 'Locks the player controls.';
+  String get playerLockHint => 'lock the player controls';
 
   @override
-  String get playerUnlockHint => 'Long press to unlock the player controls.';
+  String get playerUnlockHint => 'unlock the player controls';
+
+  @override
+  String get playerShowUnlockInstructionsActionHint =>
+      'show the unlock instructions';
+
+  @override
+  String playerDurationHours(int hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours hours',
+      one: '1 hour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String playerDurationMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: '$minutes minutes',
+      one: '1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String playerDurationSeconds(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: '$seconds seconds',
+      one: '1 second',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get playerAdjustPlaybackSpeed => 'Adjust Playback Speed';
