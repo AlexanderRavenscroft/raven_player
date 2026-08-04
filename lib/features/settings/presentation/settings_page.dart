@@ -50,6 +50,7 @@ class SettingsPage extends ConsumerWidget {
                   icon: AppIcons.folder,
                   trailing: SettingsButton(
                     icon: AppIcons.add,
+                    tooltip: l10n.settingsChangeFolderConfirm,
                     onPressed: () async =>
                         await _changeHomeFolderUri(context, ref, homeFolderUri),
                   ),
@@ -75,18 +76,27 @@ class SettingsPage extends ConsumerWidget {
                     ThemeMode.system => AppIcons.themeSystem,
                   },
                   trailing: SettingsToggleButton<ThemeMode>(
-                    segments: const [
+                    segments: [
                       ButtonSegment(
                         value: ThemeMode.system,
-                        icon: Icon(AppIcons.themeSystem),
+                        icon: Icon(
+                          AppIcons.themeSystem,
+                          semanticLabel: l10n.settingsThemeSystem,
+                        ),
                       ),
                       ButtonSegment(
                         value: ThemeMode.light,
-                        icon: Icon(AppIcons.themeLight),
+                        icon: Icon(
+                          AppIcons.themeLight,
+                          semanticLabel: l10n.settingsThemeLight,
+                        ),
                       ),
                       ButtonSegment(
                         value: ThemeMode.dark,
-                        icon: Icon(AppIcons.themeDark),
+                        icon: Icon(
+                          AppIcons.themeDark,
+                          semanticLabel: l10n.settingsThemeDark,
+                        ),
                       ),
                     ],
                     selected: themeMode,
@@ -108,6 +118,7 @@ class SettingsPage extends ConsumerWidget {
                   description: l10n.settingsShowRemainingTimeDescription,
                   icon: AppIcons.showRemainingTime,
                   trailing: SettingsToggleSwitch(
+                    semanticLabel: l10n.settingsShowRemainingTimeTitle,
                     value: showRemainingTime,
                     onChanged: (_) async => await ref
                         .read(settingsProvider.notifier)
@@ -127,6 +138,7 @@ class SettingsPage extends ConsumerWidget {
                   description: l10n.settingsShowBufferedProgressDescription,
                   icon: AppIcons.showBufferedProgress,
                   trailing: SettingsToggleSwitch(
+                    semanticLabel: l10n.settingsShowBufferedProgressTitle,
                     value: showBufferedProgress,
                     onChanged: (_) async => await ref
                         .read(settingsProvider.notifier)
@@ -146,6 +158,7 @@ class SettingsPage extends ConsumerWidget {
                   description: l10n.settingsBackArrowDescription,
                   icon: AppIcons.systemBackBehavior,
                   trailing: SettingsToggleSwitch(
+                    semanticLabel: l10n.settingsBackArrowTitle,
                     value: backArrowBacksToLibrary,
                     onChanged: (_) async => await ref
                         .read(settingsProvider.notifier)
@@ -167,6 +180,7 @@ class SettingsPage extends ConsumerWidget {
                   description: l10n.settingsRestoreLastAudiobookDescription,
                   icon: AppIcons.restoreLastAudiobook,
                   trailing: SettingsToggleSwitch(
+                    semanticLabel: l10n.settingsRestoreLastAudiobookTitle,
                     value: restoreLastAudiobookOnLaunch,
                     onChanged: (_) async => await ref
                         .read(settingsProvider.notifier)
@@ -186,6 +200,7 @@ class SettingsPage extends ConsumerWidget {
                   description: l10n.settingsNotificationSeekDescription,
                   icon: AppIcons.enableNotificationSlider,
                   trailing: SettingsToggleSwitch(
+                    semanticLabel: l10n.settingsNotificationSeekTitle,
                     value: enableNotificationSlider,
                     onChanged: (_) async => await ref
                         .read(settingsProvider.notifier)
@@ -209,14 +224,22 @@ class SettingsPage extends ConsumerWidget {
                   },
                   icon: AppIcons.language,
                   trailing: SettingsToggleButton<String>(
-                    segments: const [
+                    segments: [
                       ButtonSegment(
                         value: AppLanguages.english,
-                        label: Text('EN'),
+                        label: Semantics(
+                          label: l10n.languageEnglish,
+                          excludeSemantics: true,
+                          child: const Text('EN'),
+                        ),
                       ),
                       ButtonSegment(
                         value: AppLanguages.polish,
-                        label: Text('PL'),
+                        label: Semantics(
+                          label: l10n.languagePolish,
+                          excludeSemantics: true,
+                          child: const Text('PL'),
+                        ),
                       ),
                     ],
                     selected: languageCode,
@@ -233,6 +256,7 @@ class SettingsPage extends ConsumerWidget {
               icon: AppIcons.about,
               trailing: SettingsButton(
                 icon: AppIcons.aboutDocument,
+                tooltip: l10n.settingsAboutTitle,
                 onPressed: () => _showDocsDialog(
                   context,
                   ref,
@@ -248,6 +272,7 @@ class SettingsPage extends ConsumerWidget {
               icon: AppIcons.legal,
               trailing: SettingsButton(
                 icon: AppIcons.legalDocument,
+                tooltip: l10n.settingsLegalTitle,
                 onPressed: () => _showDocsDialog(
                   context,
                   ref,

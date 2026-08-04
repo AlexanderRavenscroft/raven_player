@@ -119,6 +119,9 @@ class LibraryTile extends ConsumerWidget {
           backgroundColor: Theme.of(context).colorScheme.secondary,
           child: Icon(
             icon,
+            semanticLabel: book.isRead
+                ? context.l10n.libraryMarkAsReadingAction
+                : context.l10n.libraryMarkAsReadAction,
             size: AppIconSizes.xLarge,
             color: Theme.of(context).colorScheme.onSecondary,
           ),
@@ -145,6 +148,7 @@ class LibraryTile extends ConsumerWidget {
           backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
           child: Icon(
             AppIcons.rename,
+            semanticLabel: context.l10n.libraryRenameTitle,
             size: AppIconSizes.xLarge,
             color: Theme.of(context).colorScheme.onSurface,
           ),

@@ -79,6 +79,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get libraryRead => 'PRZECZYTANE';
 
   @override
+  String get libraryMarkAsReadAction => 'Oznacz jako przeczytane';
+
+  @override
+  String get libraryMarkAsReadingAction => 'Oznacz jako w trakcie czytania';
+
+  @override
   String get libraryUnknownAuthor => 'Nieznany autor';
 
   @override
@@ -256,6 +262,61 @@ class AppLocalizationsPl extends AppLocalizations {
   String playerLoadingError(String error) {
     return 'Błąd wczytywania audiobooka: $error';
   }
+
+  @override
+  String get playerPlayAction => 'Odtwórz';
+
+  @override
+  String get playerPauseAction => 'Wstrzymaj';
+
+  @override
+  String get playerReplayAction => 'Odtwórz ponownie';
+
+  @override
+  String get playerPlaybackLoadingLabel => 'Wczytywanie odtwarzania';
+
+  @override
+  String get playerPreviousChapterAction => 'Poprzedni rozdział';
+
+  @override
+  String get playerNextChapterAction => 'Następny rozdział';
+
+  @override
+  String playerRewindSecondsAction(int seconds) {
+    return 'Cofnij o $seconds sekund';
+  }
+
+  @override
+  String playerForwardSecondsAction(int seconds) {
+    return 'Przewiń do przodu o $seconds sekund';
+  }
+
+  @override
+  String get playerSleepTimerControl => 'Timer snu';
+
+  @override
+  String get playerSleepTimerHint =>
+      'Włącza lub wyłącza timer. Przytrzymaj, aby ustawić czas.';
+
+  @override
+  String get playerPlaybackSpeedControl => 'Prędkość odtwarzania';
+
+  @override
+  String get playerPlaybackSpeedHint =>
+      'Zmienia wybraną prędkość. Przytrzymaj, aby ją dostosować.';
+
+  @override
+  String get playerSkipSilenceControl => 'Pomijanie ciszy';
+
+  @override
+  String get playerLockControl => 'Blokada sterowania odtwarzaczem';
+
+  @override
+  String get playerLockHint => 'Blokuje elementy sterujące odtwarzacza.';
+
+  @override
+  String get playerUnlockHint =>
+      'Przytrzymaj, aby odblokować elementy sterujące odtwarzacza.';
 
   @override
   String get playerAdjustPlaybackSpeed => 'Dostosuj prędkość odtwarzania';

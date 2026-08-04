@@ -96,6 +96,14 @@
   "@libraryRead": {
     "description": "Library filter tab for audiobooks marked as read."
   },
+  "libraryMarkAsReadAction": "Oznacz jako przeczytane",
+  "@libraryMarkAsReadAction": {
+    "description": "Accessibility label for the library action that marks an audiobook as read."
+  },
+  "libraryMarkAsReadingAction": "Oznacz jako w trakcie czytania",
+  "@libraryMarkAsReadingAction": {
+    "description": "Accessibility label for the library action that returns an audiobook to the reading list."
+  },
   "libraryUnknownAuthor": "Nieznany autor",
   "@libraryUnknownAuthor": {
     "description": "Fallback author text when audiobook metadata has no author."
@@ -321,6 +329,82 @@
         "example": "File not found"
       }
     }
+  },
+  "playerPlayAction": "Odtwórz",
+  "@playerPlayAction": {
+    "description": "Accessibility label for the play button."
+  },
+  "playerPauseAction": "Wstrzymaj",
+  "@playerPauseAction": {
+    "description": "Accessibility label for the pause button."
+  },
+  "playerReplayAction": "Odtwórz ponownie",
+  "@playerReplayAction": {
+    "description": "Accessibility label for the replay button."
+  },
+  "playerPlaybackLoadingLabel": "Wczytywanie odtwarzania",
+  "@playerPlaybackLoadingLabel": {
+    "description": "Accessibility label for the disabled play button while audio is loading."
+  },
+  "playerPreviousChapterAction": "Poprzedni rozdział",
+  "@playerPreviousChapterAction": {
+    "description": "Accessibility label for the previous chapter button."
+  },
+  "playerNextChapterAction": "Następny rozdział",
+  "@playerNextChapterAction": {
+    "description": "Accessibility label for the next chapter button."
+  },
+  "playerRewindSecondsAction": "Cofnij o {seconds} sekund",
+  "@playerRewindSecondsAction": {
+    "description": "Accessibility label for a button that rewinds playback by a number of seconds.",
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+  "playerForwardSecondsAction": "Przewiń do przodu o {seconds} sekund",
+  "@playerForwardSecondsAction": {
+    "description": "Accessibility label for a button that advances playback by a number of seconds.",
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+  "playerSleepTimerControl": "Timer snu",
+  "@playerSleepTimerControl": {
+    "description": "Accessibility label for the sleep timer toolbar control."
+  },
+  "playerSleepTimerHint": "Włącza lub wyłącza timer. Przytrzymaj, aby ustawić czas.",
+  "@playerSleepTimerHint": {
+    "description": "Accessibility hint describing the sleep timer toolbar interactions."
+  },
+  "playerPlaybackSpeedControl": "Prędkość odtwarzania",
+  "@playerPlaybackSpeedControl": {
+    "description": "Accessibility label for the playback speed toolbar control."
+  },
+  "playerPlaybackSpeedHint": "Zmienia wybraną prędkość. Przytrzymaj, aby ją dostosować.",
+  "@playerPlaybackSpeedHint": {
+    "description": "Accessibility hint describing the playback speed toolbar interactions."
+  },
+  "playerSkipSilenceControl": "Pomijanie ciszy",
+  "@playerSkipSilenceControl": {
+    "description": "Accessibility label for the skip silence toolbar control."
+  },
+  "playerLockControl": "Blokada sterowania odtwarzaczem",
+  "@playerLockControl": {
+    "description": "Accessibility label for the player lock toolbar control."
+  },
+  "playerLockHint": "Blokuje elementy sterujące odtwarzacza.",
+  "@playerLockHint": {
+    "description": "Accessibility hint for the player lock control while unlocked."
+  },
+  "playerUnlockHint": "Przytrzymaj, aby odblokować elementy sterujące odtwarzacza.",
+  "@playerUnlockHint": {
+    "description": "Accessibility hint for the player lock control while locked."
   },
   "playerAdjustPlaybackSpeed": "Dostosuj prędkość odtwarzania",
   "@playerAdjustPlaybackSpeed": {

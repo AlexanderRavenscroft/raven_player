@@ -6,6 +6,9 @@ class ToolbarButton extends StatelessWidget {
 
   final IconData icon;
   final bool isToggled;
+  final String semanticLabel;
+  final String? semanticHint;
+  final String? semanticValue;
   final VoidCallback onPressed;
   final VoidCallback? onLongPress;
   final WidgetBuilder? bottomContentBuilder;
@@ -14,6 +17,9 @@ class ToolbarButton extends StatelessWidget {
     super.key,
     required this.icon,
     this.isToggled = false,
+    required this.semanticLabel,
+    this.semanticHint,
+    this.semanticValue,
     required this.onPressed,
     this.onLongPress,
     this.bottomContentBuilder,
@@ -26,22 +32,28 @@ class ToolbarButton extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         Positioned(
-          child: IconButton(
-            icon: Icon(
-              icon,
-              color: isToggled
-                  ? Theme.of(context).colorScheme.secondary
-                  : Theme.of(context).colorScheme.onSurface,
-              size: AppIconSizes.medium,
+          child: Semantics(
+            label: semanticLabel,
+            hint: semanticHint,
+            value: semanticValue,
+            toggled: isToggled,
+            child: IconButton(
+              icon: Icon(
+                icon,
+                color: isToggled
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).colorScheme.onSurface,
+                size: AppIconSizes.medium,
+              ),
+              onPressed: onPressed,
+              onLongPress: onLongPress,
             ),
-            onPressed: onPressed,
-            onLongPress: onLongPress,
           ),
         ),
         if (bottomContentBuilder != null && isToggled)
           Positioned(
             top: _labelTopOffset,
-            child: bottomContentBuilder!(context),
+            child: ExcludeSemantics(child: bottomContentBuilder!(context)),
           ),
       ],
     );

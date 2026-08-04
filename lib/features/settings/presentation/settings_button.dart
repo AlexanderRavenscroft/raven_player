@@ -6,17 +6,20 @@ class SettingsButton extends StatelessWidget {
   static const _height = 48.0;
 
   final IconData icon;
+  final String tooltip;
   final VoidCallback onPressed;
 
   const SettingsButton({
     super.key,
     required this.onPressed,
     required this.icon,
+    required this.tooltip,
   });
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      tooltip: tooltip,
       style: IconButton.styleFrom(
         fixedSize: const Size(_width, _height),
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,

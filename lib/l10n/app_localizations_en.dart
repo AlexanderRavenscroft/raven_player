@@ -79,6 +79,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get libraryRead => 'READ';
 
   @override
+  String get libraryMarkAsReadAction => 'Mark as read';
+
+  @override
+  String get libraryMarkAsReadingAction => 'Mark as currently reading';
+
+  @override
   String get libraryUnknownAuthor => 'Unknown author';
 
   @override
@@ -254,6 +260,60 @@ class AppLocalizationsEn extends AppLocalizations {
   String playerLoadingError(String error) {
     return 'Error loading audiobook: $error';
   }
+
+  @override
+  String get playerPlayAction => 'Play';
+
+  @override
+  String get playerPauseAction => 'Pause';
+
+  @override
+  String get playerReplayAction => 'Replay';
+
+  @override
+  String get playerPlaybackLoadingLabel => 'Loading playback';
+
+  @override
+  String get playerPreviousChapterAction => 'Previous chapter';
+
+  @override
+  String get playerNextChapterAction => 'Next chapter';
+
+  @override
+  String playerRewindSecondsAction(int seconds) {
+    return 'Rewind $seconds seconds';
+  }
+
+  @override
+  String playerForwardSecondsAction(int seconds) {
+    return 'Fast-forward $seconds seconds';
+  }
+
+  @override
+  String get playerSleepTimerControl => 'Sleep timer';
+
+  @override
+  String get playerSleepTimerHint =>
+      'Toggles the timer. Long press to adjust its duration.';
+
+  @override
+  String get playerPlaybackSpeedControl => 'Playback speed';
+
+  @override
+  String get playerPlaybackSpeedHint =>
+      'Changes the selected speed. Long press to adjust it.';
+
+  @override
+  String get playerSkipSilenceControl => 'Skip silence';
+
+  @override
+  String get playerLockControl => 'Player controls lock';
+
+  @override
+  String get playerLockHint => 'Locks the player controls.';
+
+  @override
+  String get playerUnlockHint => 'Long press to unlock the player controls.';
 
   @override
   String get playerAdjustPlaybackSpeed => 'Adjust Playback Speed';

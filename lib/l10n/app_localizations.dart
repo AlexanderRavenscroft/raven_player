@@ -224,6 +224,18 @@ abstract class AppLocalizations {
   /// **'READ'**
   String get libraryRead;
 
+  /// Accessibility label for the library action that marks an audiobook as read.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as read'**
+  String get libraryMarkAsReadAction;
+
+  /// Accessibility label for the library action that returns an audiobook to the reading list.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as currently reading'**
+  String get libraryMarkAsReadingAction;
+
   /// Fallback author text when audiobook metadata has no author.
   ///
   /// In en, this message translates to:
@@ -535,6 +547,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error loading audiobook: {error}'**
   String playerLoadingError(String error);
+
+  /// Accessibility label for the play button.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get playerPlayAction;
+
+  /// Accessibility label for the pause button.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get playerPauseAction;
+
+  /// Accessibility label for the replay button.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay'**
+  String get playerReplayAction;
+
+  /// Accessibility label for the disabled play button while audio is loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading playback'**
+  String get playerPlaybackLoadingLabel;
+
+  /// Accessibility label for the previous chapter button.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous chapter'**
+  String get playerPreviousChapterAction;
+
+  /// Accessibility label for the next chapter button.
+  ///
+  /// In en, this message translates to:
+  /// **'Next chapter'**
+  String get playerNextChapterAction;
+
+  /// Accessibility label for a button that rewinds playback by a number of seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'Rewind {seconds} seconds'**
+  String playerRewindSecondsAction(int seconds);
+
+  /// Accessibility label for a button that advances playback by a number of seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast-forward {seconds} seconds'**
+  String playerForwardSecondsAction(int seconds);
+
+  /// Accessibility label for the sleep timer toolbar control.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep timer'**
+  String get playerSleepTimerControl;
+
+  /// Accessibility hint describing the sleep timer toolbar interactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggles the timer. Long press to adjust its duration.'**
+  String get playerSleepTimerHint;
+
+  /// Accessibility label for the playback speed toolbar control.
+  ///
+  /// In en, this message translates to:
+  /// **'Playback speed'**
+  String get playerPlaybackSpeedControl;
+
+  /// Accessibility hint describing the playback speed toolbar interactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes the selected speed. Long press to adjust it.'**
+  String get playerPlaybackSpeedHint;
+
+  /// Accessibility label for the skip silence toolbar control.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip silence'**
+  String get playerSkipSilenceControl;
+
+  /// Accessibility label for the player lock toolbar control.
+  ///
+  /// In en, this message translates to:
+  /// **'Player controls lock'**
+  String get playerLockControl;
+
+  /// Accessibility hint for the player lock control while unlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Locks the player controls.'**
+  String get playerLockHint;
+
+  /// Accessibility hint for the player lock control while locked.
+  ///
+  /// In en, this message translates to:
+  /// **'Long press to unlock the player controls.'**
+  String get playerUnlockHint;
 
   /// Title of the dialog used to change playback speed.
   ///

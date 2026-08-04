@@ -132,6 +132,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                       maintainState: true,
                       child: PlayerIconButton.chapter(
                         icon: AppIcons.skipPrevious,
+                        tooltip: context.l10n.playerPreviousChapterAction,
                         onPressed: () async {
                           await ref.read(audioHandlerProvider).skipToPrevious();
                           ref
@@ -148,6 +149,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                       maintainState: true,
                       child: PlayerIconButton.chapter(
                         icon: AppIcons.skipNext,
+                        tooltip: context.l10n.playerNextChapterAction,
                         onPressed: () async {
                           await ref.read(audioHandlerProvider).skipToNext();
                           ref
@@ -172,6 +174,9 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                   children: [
                     PlayerIconButton.seek(
                       icon: AppIcons.fastRewind,
+                      tooltip: context.l10n.playerRewindSecondsAction(
+                        AppAudioHandler.longSeekOffset.inSeconds,
+                      ),
                       onPressed: () async {
                         await ref
                             .read(audioHandlerProvider)
@@ -183,6 +188,9 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                     ),
                     PlayerIconButton.seek(
                       icon: AppIcons.replay10,
+                      tooltip: context.l10n.playerRewindSecondsAction(
+                        AppAudioHandler.defaultSeekOffset.inSeconds,
+                      ),
                       onPressed: () async {
                         await ref.read(audioHandlerProvider).rewind();
                         ref
@@ -193,6 +201,9 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                     const PlayButton(),
                     PlayerIconButton.seek(
                       icon: AppIcons.forward10,
+                      tooltip: context.l10n.playerForwardSecondsAction(
+                        AppAudioHandler.defaultSeekOffset.inSeconds,
+                      ),
                       onPressed: () async {
                         await ref.read(audioHandlerProvider).fastForward();
                         ref
@@ -202,6 +213,9 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                     ),
                     PlayerIconButton.seek(
                       icon: AppIcons.fastForward,
+                      tooltip: context.l10n.playerForwardSecondsAction(
+                        AppAudioHandler.longSeekOffset.inSeconds,
+                      ),
                       onPressed: () async {
                         await ref
                             .read(audioHandlerProvider)

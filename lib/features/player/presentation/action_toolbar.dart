@@ -35,10 +35,16 @@ class ActionToolbar extends StatelessWidget {
                 settingsProvider.select((s) => s.sleepTimerDurationMinutes),
               );
               final sleepTimer = ref.watch(sleepTimerProvider);
+              final timerText = sleepTimer.isRunning
+                  ? _formatDuration(sleepTimer.remaining)
+                  : '${sleepTimerDuration}m';
 
               return ToolbarButton(
                 icon: AppIcons.sleepTimer,
                 isToggled: isSleepTimerEnabled,
+                semanticLabel: context.l10n.playerSleepTimerControl,
+                semanticHint: context.l10n.playerSleepTimerHint,
+                semanticValue: timerText,
                 onPressed: () =>
                     ref.read(settingsProvider.notifier).toggleSleepTimer(),
                 onLongPress: () => _showSleepTimerDialog(
@@ -47,12 +53,8 @@ class ActionToolbar extends StatelessWidget {
                   currentMinutes: sleepTimerDuration,
                 ),
                 bottomContentBuilder: (context) {
-                  final text = sleepTimer.isRunning
-                      ? _formatDuration(sleepTimer.remaining)
-                      : '${sleepTimerDuration}m';
-
                   return Text(
-                    text,
+                    timerText,
                     style: Theme.of(context).textTheme.labelMedium,
                   );
                 },
@@ -70,6 +72,9 @@ class ActionToolbar extends StatelessWidget {
               return ToolbarButton(
                 icon: AppIcons.playbackSpeed,
                 isToggled: isPlaybackSpeedEnabled,
+                semanticLabel: context.l10n.playerPlaybackSpeedControl,
+                semanticHint: context.l10n.playerPlaybackSpeedHint,
+                semanticValue: '${speed.toStringAsFixed(1)}x',
                 onPressed: () async {
                   if (speed == 1.00) {
                     await _showSpeedDialog(
@@ -107,6 +112,7 @@ class ActionToolbar extends StatelessWidget {
               return ToolbarButton(
                 icon: AppIcons.skipSilence,
                 isToggled: isSkipSilenceEnabled,
+                semanticLabel: context.l10n.playerSkipSilenceControl,
                 onPressed: () async {
                   await ref.read(settingsProvider.notifier).toggleSkipSilence();
 
@@ -135,6 +141,10 @@ class ActionToolbar extends StatelessWidget {
               return ToolbarButton(
                 icon: AppIcons.playerLock,
                 isToggled: isPlayerLockEnabled,
+                semanticLabel: context.l10n.playerLockControl,
+                semanticHint: isPlayerLockEnabled
+                    ? context.l10n.playerUnlockHint
+                    : context.l10n.playerLockHint,
                 onPressed: () async {
                   if (isPlayerLockEnabled) {
                     AppSnackBar.showSnackBar(

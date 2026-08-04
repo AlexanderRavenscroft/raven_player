@@ -4,24 +4,28 @@ import 'package:raven_player/core/theme/app_icons.dart';
 class PlayerIconButton extends StatelessWidget {
   final IconData icon;
   final double size;
+  final String tooltip;
   final VoidCallback onPressed;
 
   const PlayerIconButton({
     super.key,
     required this.icon,
     required this.size,
+    required this.tooltip,
     required this.onPressed,
   });
 
   const PlayerIconButton.chapter({
     super.key,
     required this.icon,
+    required this.tooltip,
     required this.onPressed,
   }) : size = AppIconSizes.large;
 
   const PlayerIconButton.seek({
     super.key,
     required this.icon,
+    required this.tooltip,
     required this.onPressed,
   }) : size = AppIconSizes.xLarge;
 
@@ -33,6 +37,7 @@ class PlayerIconButton extends StatelessWidget {
         size: size,
         color: Theme.of(context).colorScheme.onSurface,
       ),
+      tooltip: tooltip,
       onPressed: onPressed,
     );
   }
