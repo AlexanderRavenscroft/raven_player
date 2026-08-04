@@ -40,17 +40,17 @@
   "@onboardingTitle": {
     "description": "Main title shown on the first-run onboarding screen."
   },
-  "onboardingDescription": "Pick a folder with subfolders, each containing audio files for one audiobook.",
+  "onboardingDescription": "The default folder is the main folder where you keep all your audiobooks.",
   "@onboardingDescription": {
-    "description": "Onboarding text explaining the expected audiobook folder structure."
+    "description": "Onboarding text defining the default folder as the main folder containing all audiobooks."
   },
   "onboardingChooseFolder": "Choose default folder",
   "@onboardingChooseFolder": {
     "description": "Button label for selecting the initial audiobook folder."
   },
-  "onboardingFooter": "Supported audio formats: MP3, M4A, M4B, FLAC, and OGG. You can change the folder later in settings.",
+  "onboardingFooter": "Each audiobook must be stored in a separate subfolder, even if it consists of only one file.",
   "@onboardingFooter": {
-    "description": "Onboarding note about changing the folder later and future file support."
+    "description": "Onboarding note explaining that each audiobook must be stored in its own subfolder."
   },
   "lottieError": "Lottie error: {error}",
   "@lottieError": {
