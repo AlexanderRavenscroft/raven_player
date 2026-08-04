@@ -11,6 +11,7 @@
 .DS_Store
 .atom/
 .build/
+/android/build/
 .buildlog/
 .history
 .svn/
