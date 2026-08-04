@@ -6,7 +6,7 @@ class SleepTimerShakeNotifier extends Notifier<void> {
   static const int _shakeSlopTimeMs = 2000;
   static const int _shakeCountResetTimeMs = 3000;
   static const int _minimumShakeCount = 1;
-  static const double _shakeThresholdGravity = 1.4;
+  static const double _shakeThresholdGravity = 1.3;
 
   ShakeDetector? _detector;
 

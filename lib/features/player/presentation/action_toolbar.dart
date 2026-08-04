@@ -323,5 +323,3 @@ class ActionToolbar extends StatelessWidget {
     return parts.join(', ');
   }
 }
-
-//TODO: change sleep timer sensivity
