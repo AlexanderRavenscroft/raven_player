@@ -61,24 +61,23 @@ class AudiobookCover extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                colors.surfaceContainer,
-                colors.surfaceContainer.withAlpha((0.85 * 255).toInt()),
-              ],
-              stops: const [0.3, 0.9],
+        ImageFiltered(
+          enabled: blur > 0,
+          imageFilter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  colors.surfaceContainer,
+                  colors.surfaceContainer.withAlpha((0.85 * 255).toInt()),
+                ],
+                stops: const [0.3, 0.9],
+              ),
             ),
           ),
         ),
-        if (blur > 0)
-          BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-            child: Container(color: Colors.transparent),
-          ),
         Center(
           child: Icon(
             AppIcons.fallbackBook,
