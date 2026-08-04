@@ -30,5 +30,6 @@ Raven Player is provided "as is". We do not guarantee that the App will be unint
 9. Changes to This Policy
 We may update this Privacy Policy and Terms of Use when the App changes or when legal, platform, or operational requirements change. Updates will be reflected by changing the effective date.
 
-10. Contact Us
-Developer: AlexanderRavenscroft
+10. Contact
+For questions about this Privacy Policy or Raven Player, contact:
+Email: alex.ravenscroft.dev+ravenplayer@gmail.com

@@ -31,4 +31,5 @@ Raven Player jest dostarczany "tak jak jest". Nie gwarantujemy, że Aplikacja b�
 Możemy aktualizować niniejszą Politykę prywatności i warunki korzystania, gdy zmieni się Aplikacja albo gdy zmienią się wymagania prawne, platformowe lub operacyjne. Aktualizacje będą widoczne przez zmianę daty wejścia w życie.
 
 10. Kontakt
-Twórca: AlexanderRavenscroft
+W sprawach dotyczących niniejszej Polityki prywatności lub Raven Player skontaktuj się:
+E-mail: alex.ravenscroft.dev+ravenplayer@gmail.com
