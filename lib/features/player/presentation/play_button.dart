@@ -21,6 +21,8 @@ class PlayButton extends ConsumerStatefulWidget {
 
 class _PlayButtonState extends ConsumerState<PlayButton> {
   static const _bufferingGrace = Duration(milliseconds: 250);
+  static const _coverControlBackground = Color(0xb3000000);
+  static const _coverControlBorder = Color(0x66ffffff);
 
   Timer? _bufferingTimer;
   bool _showBuffering = false;
@@ -103,10 +105,18 @@ class _PlayButtonState extends ConsumerState<PlayButton> {
           children: [
             coverWidget,
             if (isPlayerLockEnabled)
-              Icon(
-                iconData,
-                color: Theme.of(context).colorScheme.onPrimary,
-                size: AppIconSizes.hero,
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.sm),
+                decoration: BoxDecoration(
+                  color: _coverControlBackground,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: _coverControlBorder),
+                ),
+                child: Icon(
+                  iconData,
+                  color: Colors.white,
+                  size: AppIconSizes.hero,
+                ),
               ),
           ],
         ),
