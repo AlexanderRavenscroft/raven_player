@@ -268,6 +268,18 @@
   "@settingsOpenEmailTitle": {
     "description": "Confirmation dialog title before opening an email app from settings."
   },
+  "settingsOpenGitHubDescription": "Open the Raven Player repository on GitHub?",
+  "@settingsOpenGitHubDescription": {
+    "description": "Confirmation dialog text before opening the Raven Player GitHub repository."
+  },
+  "settingsOpenEmailDescription": "Open your email app to contact the Raven Player developer?",
+  "@settingsOpenEmailDescription": {
+    "description": "Confirmation dialog text before opening an email app to contact the developer."
+  },
+  "settingsOpenKoFiDescription": "Open Ko-fi to leave an optional tip? Tipping does not unlock features or content.",
+  "@settingsOpenKoFiDescription": {
+    "description": "Confirmation dialog text before opening the optional Ko-fi support page."
+  },
   "settingsCouldNotOpenLink": "Could not open link",
   "@settingsCouldNotOpenLink": {
     "description": "Snackbar shown when an external link cannot be opened."

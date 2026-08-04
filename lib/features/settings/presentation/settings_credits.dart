@@ -8,17 +8,25 @@ import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsCredits extends StatelessWidget {
-  //TODO: ADD ACUTAL LINKS & DATA
   static final Uri _githubUrl = Uri.https(
     'github.com',
-    '/your-profile-or-repo',
+    '/AlexanderRavenscroft/raven_player',
   );
   static final Uri _emailUrl = Uri(
     scheme: 'mailto',
-    path: 'ravenplayer.dev@gmail.com',
-    queryParameters: {'subject': 'Raven Player'},
+    path: 'alex.ravenscroft.dev+ravenplayer@gmail.com',
+    query: _encodeQueryParameters({'subject': 'Raven Player Feedback'}),
   );
-  static final Uri _koFiUrl = Uri.https('ko-fi.com', '/your-profile');
+  static final Uri _koFiUrl = Uri.https('ko-fi.com', '/alexander_ravenscroft');
+
+  static String _encodeQueryParameters(Map<String, String> parameters) {
+    return parameters.entries
+        .map(
+          (entry) =>
+              '${Uri.encodeComponent(entry.key)}=${Uri.encodeComponent(entry.value)}',
+        )
+        .join('&');
+  }
 
   const SettingsCredits({super.key});
 
@@ -46,7 +54,11 @@ class SettingsCredits extends StatelessWidget {
                     FontAwesomeIcons.github,
                     size: AppIconSizes.large,
                   ),
-                  onPressed: () => _confirmAndOpen(context, _githubUrl),
+                  onPressed: () => _confirmAndOpen(
+                    context,
+                    _githubUrl,
+                    content: context.l10n.settingsOpenGitHubDescription,
+                  ),
                 ),
                 IconButton(
                   tooltip: context.l10n.tooltipSendEmail,
@@ -54,7 +66,11 @@ class SettingsCredits extends StatelessWidget {
                     FontAwesomeIcons.envelope,
                     size: AppIconSizes.large,
                   ),
-                  onPressed: () => _confirmAndOpen(context, _emailUrl),
+                  onPressed: () => _confirmAndOpen(
+                    context,
+                    _emailUrl,
+                    content: context.l10n.settingsOpenEmailDescription,
+                  ),
                 ),
                 IconButton(
                   tooltip: context.l10n.tooltipOpenKoFi,
@@ -62,7 +78,11 @@ class SettingsCredits extends StatelessWidget {
                     FontAwesomeIcons.koFi,
                     size: AppIconSizes.large,
                   ),
-                  onPressed: () => _confirmAndOpen(context, _koFiUrl),
+                  onPressed: () => _confirmAndOpen(
+                    context,
+                    _koFiUrl,
+                    content: context.l10n.settingsOpenKoFiDescription,
+                  ),
                 ),
               ],
             ),
@@ -88,7 +108,11 @@ class SettingsCredits extends StatelessWidget {
     }
   }
 
-  Future<void> _confirmAndOpen(BuildContext context, Uri uri) async {
+  Future<void> _confirmAndOpen(
+    BuildContext context,
+    Uri uri, {
+    required String content,
+  }) async {
     final isEmail = uri.scheme == 'mailto';
 
     await showDialog<void>(
@@ -97,7 +121,7 @@ class SettingsCredits extends StatelessWidget {
         title: isEmail
             ? dialogContext.l10n.settingsOpenEmailTitle
             : dialogContext.l10n.settingsOpenLinkTitle,
-        content: isEmail ? uri.path : uri.host,
+        content: content,
         onAccept: () => _openExternalLink(context, uri),
         acceptText: dialogContext.l10n.dialogOpen,
       ),

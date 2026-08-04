@@ -464,6 +464,24 @@ abstract class AppLocalizations {
   /// **'Open email app?'**
   String get settingsOpenEmailTitle;
 
+  /// Confirmation dialog text before opening the Raven Player GitHub repository.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the Raven Player repository on GitHub?'**
+  String get settingsOpenGitHubDescription;
+
+  /// Confirmation dialog text before opening an email app to contact the developer.
+  ///
+  /// In en, this message translates to:
+  /// **'Open your email app to contact the Raven Player developer?'**
+  String get settingsOpenEmailDescription;
+
+  /// Confirmation dialog text before opening the optional Ko-fi support page.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Ko-fi to leave an optional tip? Tipping does not unlock features or content.'**
+  String get settingsOpenKoFiDescription;
+
   /// Snackbar shown when an external link cannot be opened.
   ///
   /// In en, this message translates to:

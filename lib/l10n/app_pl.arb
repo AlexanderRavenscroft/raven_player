@@ -268,6 +268,18 @@
   "@settingsOpenEmailTitle": {
     "description": "Confirmation dialog title before opening an email app from settings."
   },
+  "settingsOpenGitHubDescription": "Otworzyć repozytorium Raven Player w serwisie GitHub?",
+  "@settingsOpenGitHubDescription": {
+    "description": "Confirmation dialog text before opening the Raven Player GitHub repository."
+  },
+  "settingsOpenEmailDescription": "Otworzyć aplikację pocztową, aby skontaktować się z twórcą Raven Player?",
+  "@settingsOpenEmailDescription": {
+    "description": "Confirmation dialog text before opening an email app to contact the developer."
+  },
+  "settingsOpenKoFiDescription": "Otworzyć Ko-fi, aby zostawić opcjonalny napiwek? Napiwek nie odblokowuje żadnych funkcji ani treści.",
+  "@settingsOpenKoFiDescription": {
+    "description": "Confirmation dialog text before opening the optional Ko-fi support page."
+  },
   "settingsCouldNotOpenLink": "Nie udało się otworzyć linku",
   "@settingsCouldNotOpenLink": {
     "description": "Snackbar shown when an external link cannot be opened."

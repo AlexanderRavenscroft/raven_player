@@ -215,6 +215,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsOpenEmailTitle => 'Open email app?';
 
   @override
+  String get settingsOpenGitHubDescription =>
+      'Open the Raven Player repository on GitHub?';
+
+  @override
+  String get settingsOpenEmailDescription =>
+      'Open your email app to contact the Raven Player developer?';
+
+  @override
+  String get settingsOpenKoFiDescription =>
+      'Open Ko-fi to leave an optional tip? Tipping does not unlock features or content.';
+
+  @override
   String get settingsCouldNotOpenLink => 'Could not open link';
 
   @override

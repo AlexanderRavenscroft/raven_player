@@ -216,6 +216,18 @@ class AppLocalizationsPl extends AppLocalizations {
   String get settingsOpenEmailTitle => 'Otworzyć aplikację e-mail?';
 
   @override
+  String get settingsOpenGitHubDescription =>
+      'Otworzyć repozytorium Raven Player w serwisie GitHub?';
+
+  @override
+  String get settingsOpenEmailDescription =>
+      'Otworzyć aplikację pocztową, aby skontaktować się z twórcą Raven Player?';
+
+  @override
+  String get settingsOpenKoFiDescription =>
+      'Otworzyć Ko-fi, aby zostawić opcjonalny napiwek? Napiwek nie odblokowuje żadnych funkcji ani treści.';
+
+  @override
   String get settingsCouldNotOpenLink => 'Nie udało się otworzyć linku';
 
   @override
