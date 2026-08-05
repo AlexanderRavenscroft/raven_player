@@ -115,16 +115,19 @@ class SettingsCredits extends StatelessWidget {
   }) async {
     final isEmail = uri.scheme == 'mailto';
 
-    await showDialog<void>(
+    final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AppConfirmDialog(
         title: isEmail
             ? dialogContext.l10n.settingsOpenEmailTitle
             : dialogContext.l10n.settingsOpenLinkTitle,
         content: content,
-        onAccept: () => _openExternalLink(context, uri),
         acceptText: dialogContext.l10n.dialogOpen,
       ),
     );
+
+    if (confirmed == true && context.mounted) {
+      await _openExternalLink(context, uri);
+    }
   }
 }

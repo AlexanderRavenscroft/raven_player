@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
-import 'package:raven_player/shared/others/base_app_bar.dart';
-import 'package:raven_player/shared/buttons/app_bar_button.dart';
+import 'package:raven_player/shared/app_bar/base_app_bar.dart';
+import 'package:raven_player/shared/app_bar/app_bar_button.dart';
 
 class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SettingsAppBar({super.key});

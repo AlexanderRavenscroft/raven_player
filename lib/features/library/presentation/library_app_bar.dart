@@ -5,8 +5,8 @@ import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/library/application/library_notifier.dart';
 import 'package:raven_player/features/settings/presentation/settings_page.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
-import 'package:raven_player/shared/buttons/app_bar_button.dart';
-import 'package:raven_player/shared/others/base_app_bar.dart';
+import 'package:raven_player/shared/app_bar/app_bar_button.dart';
+import 'package:raven_player/shared/app_bar/base_app_bar.dart';
 import 'package:raven_player/shared/feedback/app_snack_bar.dart';
 
 class LibraryAppBar extends ConsumerWidget implements PreferredSizeWidget {

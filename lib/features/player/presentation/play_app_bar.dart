@@ -4,7 +4,8 @@ import 'package:raven_player/features/player/presentation/audiobook_title_displa
 import 'package:raven_player/features/settings/presentation/settings_page.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
-import 'package:raven_player/shared/buttons/app_bar_button.dart';
+import 'package:raven_player/shared/app_bar/app_bar_button.dart';
+import 'package:raven_player/shared/app_bar/base_app_bar.dart';
 
 class PlayAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Audiobook book;
@@ -13,9 +14,7 @@ class PlayAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      scrolledUnderElevation: 0,
-      backgroundColor: Theme.of(context).colorScheme.surface,
+    return BaseAppBar(
       centerTitle: true,
       title: AudiobookTitleDisplay(text: book.title),
       leading: AppBarButton(

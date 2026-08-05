@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
@@ -11,13 +10,10 @@ class AppConfirmDialog extends StatelessWidget {
   final String title;
   final String content;
   final AppConfirmDialogLevel level;
-
   final String? denialText;
   final String? acceptText;
-  final FutureOr<void> Function()? onAccept;
-  final FutureOr<void> Function()? onDenial;
-
   final bool showOnlyAccept;
+
   const AppConfirmDialog({
     super.key,
     required this.title,
@@ -25,8 +21,6 @@ class AppConfirmDialog extends StatelessWidget {
     this.level = AppConfirmDialogLevel.info,
     this.denialText,
     this.acceptText,
-    this.onAccept,
-    this.onDenial,
     this.showOnlyAccept = false,
   });
 
@@ -44,16 +38,6 @@ class AppConfirmDialog extends StatelessWidget {
       AppConfirmDialogLevel.warning => Theme.of(context).colorScheme.secondary,
       AppConfirmDialogLevel.danger => Theme.of(context).colorScheme.error,
     };
-  }
-
-  Future<void> _handleDenial(BuildContext context) async {
-    Navigator.pop(context, false);
-    await onDenial?.call();
-  }
-
-  Future<void> _handleAccept(BuildContext context) async {
-    Navigator.pop(context, true);
-    await onAccept?.call();
   }
 
   @override
@@ -88,14 +72,11 @@ class AppConfirmDialog extends StatelessWidget {
         if (!showOnlyAccept)
           DialogActionButton(
             text: denialText ?? context.l10n.dialogCancel,
-            onPressed: () => _handleDenial(context),
+            onPressed: () => Navigator.of(context).pop(false),
           ),
         DialogActionButton(
           text: acceptText ?? context.l10n.dialogOk,
-          fixedSize: showOnlyAccept
-              ? const Size.fromWidth(double.maxFinite)
-              : null,
-          onPressed: () => _handleAccept(context),
+          onPressed: () => Navigator.of(context).pop(true),
         ),
       ],
     );

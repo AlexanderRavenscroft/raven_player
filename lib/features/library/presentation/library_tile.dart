@@ -162,15 +162,13 @@ class LibraryTile extends ConsumerWidget {
   }
 
   Future<bool> _renameAudiobook(BuildContext context, WidgetRef ref) async {
-    final renameController = TextEditingController(text: book.title);
-
     final newTitle = await showDialog<String>(
       context: context,
       builder: (context) => AppInputDialog(
         title: context.l10n.libraryRenameTitle,
         hintText: context.l10n.libraryRenameHint,
         confirmText: context.l10n.dialogRename,
-        textEditingController: renameController,
+        initialValue: book.title,
       ),
     );
     final trimmedTitle = newTitle?.trim();

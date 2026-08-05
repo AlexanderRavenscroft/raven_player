@@ -2,19 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/shared/dialogs/dialog_action_button.dart';
 
-class AppInputDialog extends StatelessWidget {
+class AppInputDialog extends StatefulWidget {
   final String title;
   final String hintText;
   final String confirmText;
-  final TextEditingController textEditingController;
+  final String initialValue;
 
   const AppInputDialog({
     super.key,
     required this.title,
     required this.hintText,
     required this.confirmText,
-    required this.textEditingController,
+    this.initialValue = '',
   });
+
+  @override
+  State<AppInputDialog> createState() => _AppInputDialogState();
+}
+
+class _AppInputDialogState extends State<AppInputDialog> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialValue);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +41,7 @@ class AppInputDialog extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       scrollable: false,
       title: Text(
-        title,
+        widget.title,
         style: Theme.of(context).textTheme.titleMedium,
         textAlign: TextAlign.center,
       ),
@@ -37,12 +56,12 @@ class AppInputDialog extends StatelessWidget {
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.6,
           child: TextField(
-            controller: textEditingController,
+            controller: _controller,
             autofocus: true,
             maxLines: 1,
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
-              hintText: hintText,
+              hintText: widget.hintText,
               hintStyle: Theme.of(context).textTheme.bodyMedium,
               hintMaxLines: 1,
             ),
@@ -56,8 +75,8 @@ class AppInputDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         DialogActionButton(
-          text: confirmText,
-          onPressed: () => Navigator.pop(context, textEditingController.text),
+          text: widget.confirmText,
+          onPressed: () => Navigator.pop(context, _controller.text),
         ),
       ],
     );
