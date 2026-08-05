@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:raven_player/core/hive/hive_boxes.dart';
+import 'package:raven_player/core/hive/hive_storage.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -8,28 +8,28 @@ class AudiobookRepository {
 
   Future<List<Audiobook>> getAll() async {
     return _lock.synchronized(() async {
-      final box = await HiveBoxes.audiobooks();
+      final box = await HiveStorage.audiobooks();
       return box.values.toList();
     });
   }
 
   Future<Audiobook?> getById(String id) async {
     return _lock.synchronized(() async {
-      final box = await HiveBoxes.audiobooks();
+      final box = await HiveStorage.audiobooks();
       return box.get(id);
     });
   }
 
   Future<void> clearAll() async {
     await _lock.synchronized(() async {
-      final box = await HiveBoxes.audiobooks();
+      final box = await HiveStorage.audiobooks();
       await box.clear();
     });
   }
 
   Future<void> save(Audiobook book) async {
     await _lock.synchronized(() async {
-      final box = await HiveBoxes.audiobooks();
+      final box = await HiveStorage.audiobooks();
       await box.put(book.id, book);
     });
   }
@@ -38,7 +38,7 @@ class AudiobookRepository {
   /// Preserves user-owned state on existing books and refreshes chapter data.
   Future<void> mergeScanResults(List<Audiobook> scanned) async {
     await _lock.synchronized(() async {
-      final box = await HiveBoxes.audiobooks();
+      final box = await HiveStorage.audiobooks();
       final scannedIds = scanned.map((b) => b.id).toSet();
       final existingIds = box.keys.cast<String>().toSet();
 

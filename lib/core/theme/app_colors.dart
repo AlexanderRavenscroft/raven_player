@@ -21,7 +21,4 @@ abstract final class AppColors {
   static const Color darkSurfaceContainer = Color(0xff35383f);
   static const Color darkError = Color(0xffF14141);
   static const Color darkOnError = Color(0xff1A1400);
-
-  static const Color success = Color(0xff34C759);
-  static const Color onSuccess = Color(0xff071C0D);
 }

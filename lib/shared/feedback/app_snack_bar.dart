@@ -4,7 +4,7 @@ import 'package:raven_player/core/theme/app_spacing.dart';
 
 enum SnackBarType { error, info }
 
-class AppSnackBar {
+abstract final class AppSnackBar {
   static bool _isSnackBarShowing = false;
 
   static void showSnackBar(

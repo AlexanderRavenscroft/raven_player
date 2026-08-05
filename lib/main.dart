@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/core/docs/app_docs.dart';
-import 'package:raven_player/core/hive/hive_helper.dart';
+import 'package:raven_player/core/hive/hive_storage.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/core/theme/app_colors.dart';
 import 'package:raven_player/features/library/application/audiobook_availability_checker.dart';
@@ -21,7 +21,7 @@ Future<void> main() async {
   final binding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: binding);
 
-  await HiveHelper.initHive();
+  await HiveStorage.initialize();
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
