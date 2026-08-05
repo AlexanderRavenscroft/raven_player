@@ -53,13 +53,13 @@ class MainActivity : AudioServiceActivity() {
 						runMetadataTask(result) { getDuration(uri, result) }
 					}
 					"checkAvailability" -> {
-						val uris = call.argument<List<String>>("uris")
-						if (uris == null) {
-							result.error("ARG", "uris required", null)
+						val uri = call.argument<String>("uri")
+						if (uri == null) {
+							result.error("ARG", "uri required", null)
 							return@setMethodCallHandler
 						}
 
-						result.success(checkAvailability(uris))
+						result.success(checkAvailability(uri))
 					}
 					else -> result.notImplemented()
 				}
@@ -135,29 +135,20 @@ class MainActivity : AudioServiceActivity() {
 		}
 	}
 
-	private fun checkAvailability(uris: List<String>): Map<String, Any?> {
-		for (uriString in uris) {
-			val uri = try {
-				Uri.parse(uriString)
-			} catch (_: Exception) {
-				return mapOf(
-					"status" to STATUS_INACCESSIBLE,
-					"uri" to uriString,
-				)
-			}
-
-			val status = availabilityStatus(uri)
-			if (status != STATUS_AVAILABLE) {
-				return mapOf(
-					"status" to status,
-					"uri" to uriString,
-				)
-			}
+	private fun checkAvailability(uriString: String): Map<String, Any?> {
+		val uri = try {
+			Uri.parse(uriString)
+		} catch (_: Exception) {
+			return mapOf(
+				"status" to STATUS_INACCESSIBLE,
+				"uri" to uriString,
+			)
 		}
 
+		val status = availabilityStatus(uri)
 		return mapOf(
-			"status" to STATUS_AVAILABLE,
-			"uri" to null,
+			"status" to status,
+			"uri" to if (status == STATUS_AVAILABLE) null else uriString,
 		)
 	}
 

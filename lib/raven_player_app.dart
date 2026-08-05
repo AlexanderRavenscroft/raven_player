@@ -19,7 +19,6 @@ class RavenPlayerApp extends ConsumerStatefulWidget {
 
   const RavenPlayerApp({super.key, this.initialAudiobook, this.initialIssue});
 
-  @visibleForTesting
   static String initialRouteName(Audiobook? initialAudiobook) =>
       initialAudiobook == null
       ? Navigator.defaultRouteName

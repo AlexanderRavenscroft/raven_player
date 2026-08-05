@@ -61,12 +61,10 @@ abstract final class Saf {
         .toList();
   }
 
-  static Future<SafAvailabilityResult> checkAvailability(
-    List<String> uris,
-  ) async {
+  static Future<SafAvailabilityResult> checkAvailability(String uri) async {
     final result = await _channel.invokeMapMethod<Object?, Object?>(
       'checkAvailability',
-      {'uris': uris},
+      {'uri': uri},
     );
 
     if (result == null) {

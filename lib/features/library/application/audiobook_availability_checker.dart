@@ -23,7 +23,7 @@ class AudiobookAvailabilityChecker {
 
     try {
       // Keep tap-to-open cheap: folder existence catches deleted/renamed books.
-      final result = await Saf.checkAvailability([book.folderUri]);
+      final result = await Saf.checkAvailability(book.folderUri);
 
       if (!result.isAvailable) {
         throw AudiobookUnavailableException(

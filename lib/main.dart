@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/docs/app_docs.dart';
 import 'package:raven_player/core/hive/hive_helper.dart';
 import 'package:raven_player/core/localization/app_languages.dart';
 import 'package:raven_player/core/theme/app_colors.dart';
-import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/library/application/audiobook_availability_checker.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/features/onboarding/application/startup_audiobook_resolver.dart';
+import 'package:raven_player/features/player/application/raven_audio_handler.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/features/settings/application/settings_repository.dart';
 import 'package:raven_player/models/user_settings.dart';
 import 'package:raven_player/raven_player_app.dart';
-import 'package:raven_player/core/docs/app_docs.dart';
 import 'package:raven_player/utils/app_version.dart';
 
 Future<void> main() async {
@@ -36,24 +36,25 @@ Future<void> main() async {
       androidNotificationChannelName: 'Audiobook playback',
       androidNotificationChannelDescription:
           'Shows playback controls and track info while audio is playing',
-      androidNotificationIcon: "drawable/ic_notification",
+      androidNotificationIcon: 'drawable/ic_notification',
       notificationColor: AppColors.primary,
     ),
   );
 
-  final repo = UserSettingsRepository();
-  var settings = await repo.load();
+  final settingsRepository = UserSettingsRepository();
+  var settings = await settingsRepository.load();
+
   if (settings == null) {
     final systemLanguage =
         WidgetsBinding.instance.platformDispatcher.locale.languageCode;
     settings = UserSettings(
       languageCode: AppLanguages.sanitize(systemLanguage),
     );
-    await repo.save(settings);
+    await settingsRepository.save(settings);
   }
 
   final startupResolution = await StartupAudiobookResolver(
-    settingsRepository: repo,
+    settingsRepository: settingsRepository,
     audiobookRepository: AudiobookRepository(),
     availabilityChecker: AudiobookAvailabilityChecker(),
   ).resolve(settings);

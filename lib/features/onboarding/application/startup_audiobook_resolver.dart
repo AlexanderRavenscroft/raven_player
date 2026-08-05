@@ -48,9 +48,8 @@ class StartupAudiobookResolver {
 
     try {
       final audiobook = await _audiobookRepository.getById(audiobookId);
-      if (audiobook == null ||
-          audiobook.chapters.isEmpty ||
-          !audiobook.folderUri.startsWith(homeFolderUri)) {
+
+      if (audiobook == null || !audiobook.folderUri.startsWith(homeFolderUri)) {
         return _clearStaleAudiobook(
           settings,
           issue: const AppIssue(type: AppIssueType.audiobookUnavailable),

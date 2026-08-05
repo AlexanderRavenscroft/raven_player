@@ -39,26 +39,29 @@ void main() {
       expect(settingsRepository.saved, isNull);
     });
 
-    test('returns an available audiobook from the current home folder', () async {
-      final book = _book();
-      final settingsRepository = FakeUserSettingsRepository();
-      final audiobookRepository = FakeAudiobookRepository(book);
-      final availabilityChecker = FakeAudiobookAvailabilityChecker();
-      final resolver = _resolver(
-        settingsRepository,
-        audiobookRepository,
-        availabilityChecker,
-      );
+    test(
+      'returns an available audiobook from the current home folder',
+      () async {
+        final book = _book();
+        final settingsRepository = FakeUserSettingsRepository();
+        final audiobookRepository = FakeAudiobookRepository(book);
+        final availabilityChecker = FakeAudiobookAvailabilityChecker();
+        final resolver = _resolver(
+          settingsRepository,
+          audiobookRepository,
+          availabilityChecker,
+        );
 
-      final result = await resolver.resolve(_settings());
+        final result = await resolver.resolve(_settings());
 
-      expect(result.audiobook, same(book));
-      expect(result.issue, isNull);
-      expect(result.settings.lastOpenedAudiobookId, book.id);
-      expect(audiobookRepository.loadedId, book.id);
-      expect(availabilityChecker.checkCount, 1);
-      expect(settingsRepository.saved, isNull);
-    });
+        expect(result.audiobook, same(book));
+        expect(result.issue, isNull);
+        expect(result.settings.lastOpenedAudiobookId, book.id);
+        expect(audiobookRepository.loadedId, book.id);
+        expect(availabilityChecker.checkCount, 1);
+        expect(settingsRepository.saved, isNull);
+      },
+    );
 
     test('clears an id that is missing from the cached library', () async {
       final settingsRepository = FakeUserSettingsRepository();
@@ -78,7 +81,7 @@ void main() {
       final resolver = _resolver(
         settingsRepository,
         FakeAudiobookRepository(_book(chapters: const [])),
-        FakeAudiobookAvailabilityChecker(),
+        AudiobookAvailabilityChecker(),
       );
 
       final result = await resolver.resolve(_settings());
