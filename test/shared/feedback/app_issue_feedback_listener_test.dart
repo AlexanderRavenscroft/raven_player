@@ -46,7 +46,7 @@ void main() {
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           home: AppIssueFeedbackListener(
-            initialIssue: AppIssue(type: AppIssueType.audiobookUnavailable),
+            initialIssue: AppIssue.audiobookUnavailable,
             child: Scaffold(body: SizedBox.expand()),
           ),
         ),

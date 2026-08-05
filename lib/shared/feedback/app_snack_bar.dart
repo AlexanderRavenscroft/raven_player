@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:raven_player/core/theme/app_colors.dart';
 import 'package:raven_player/core/theme/app_icons.dart';
 import 'package:raven_player/core/theme/app_spacing.dart';
 
-enum SnackBarType { error, info, success }
+enum SnackBarType { error, info }
 
 class AppSnackBar {
   static bool _isSnackBarShowing = false;
@@ -93,12 +92,6 @@ class AppSnackBar {
           icon: AppIcons.error,
           backgroundColor: scheme.error,
           foregroundColor: scheme.onError,
-        );
-      case SnackBarType.success:
-        return (
-          icon: AppIcons.success,
-          backgroundColor: AppColors.success,
-          foregroundColor: AppColors.onSuccess,
         );
     }
   }

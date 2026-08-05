@@ -52,7 +52,7 @@ class StartupAudiobookResolver {
       if (audiobook == null || !audiobook.folderUri.startsWith(homeFolderUri)) {
         return _clearStaleAudiobook(
           settings,
-          issue: const AppIssue(type: AppIssueType.audiobookUnavailable),
+          issue: AppIssue.audiobookUnavailable,
         );
       }
 
@@ -61,7 +61,7 @@ class StartupAudiobookResolver {
       } on AudiobookUnavailableException {
         return _clearStaleAudiobook(
           settings,
-          issue: const AppIssue(type: AppIssueType.audiobookUnavailable),
+          issue: AppIssue.audiobookUnavailable,
         );
       }
 

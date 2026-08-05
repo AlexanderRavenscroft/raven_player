@@ -47,7 +47,7 @@ void main() {
           initialSettingsProvider.overrideWithValue(const UserSettings()),
         ],
         child: const RavenPlayerApp(
-          initialIssue: AppIssue(type: AppIssueType.audiobookUnavailable),
+          initialIssue: AppIssue.audiobookUnavailable,
         ),
       ),
     );

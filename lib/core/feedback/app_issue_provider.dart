@@ -1,26 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 
-enum AppIssueType {
-  playbackSource,
-  playbackUnknown,
-  audiobookUnavailable,
-}
-
-class AppIssue {
-  final AppIssueType type;
-  final int? code;
-  final String? technicalMessage;
-
-  const AppIssue({
-    required this.type,
-    this.code,
-    this.technicalMessage,
-  });
-}
+enum AppIssue { playbackSource, playbackUnknown, audiobookUnavailable }
 
 class AppIssueNotifier extends Notifier<AppIssue?> {
-  static const int _sourceErrorCode = 0;
+  static const int _androidSourceErrorCode = 0;
 
   @override
   AppIssue? build() => null;
@@ -30,17 +15,17 @@ class AppIssueNotifier extends Notifier<AppIssue?> {
   }
 
   void reportPlayerException(PlayerException error) {
-    state = AppIssue(
-      type: error.code == _sourceErrorCode
-          ? AppIssueType.playbackSource
-          : AppIssueType.playbackUnknown,
-      code: error.code,
-      technicalMessage: error.message,
-    );
+    final isAndroidSourceError =
+        defaultTargetPlatform == TargetPlatform.android &&
+        error.code == _androidSourceErrorCode;
+
+    state = isAndroidSourceError
+        ? AppIssue.playbackSource
+        : AppIssue.playbackUnknown;
   }
 
   void reportAudiobookUnavailable() {
-    state = const AppIssue(type: AppIssueType.audiobookUnavailable);
+    state = AppIssue.audiobookUnavailable;
   }
 
   void clear() {

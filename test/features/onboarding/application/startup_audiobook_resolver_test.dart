@@ -171,7 +171,7 @@ void _expectCleared(
   FakeUserSettingsRepository settingsRepository,
 ) {
   expect(result.audiobook, isNull);
-  expect(result.issue?.type, AppIssueType.audiobookUnavailable);
+  expect(result.issue, AppIssue.audiobookUnavailable);
   expect(result.settings.lastOpenedAudiobookId, isNull);
   expect(settingsRepository.saved, isNotNull);
   expect(settingsRepository.saved!.lastOpenedAudiobookId, isNull);

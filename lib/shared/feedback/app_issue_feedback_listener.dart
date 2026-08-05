@@ -39,12 +39,10 @@ class _AppIssueFeedbackListenerState
     ref.listen<AppIssue?>(appIssueProvider, (previous, next) {
       if (next == null) return;
 
-      final message = switch (next.type) {
-        AppIssueType.playbackSource =>
-          context.l10n.playbackSourceErrorMessage,
-        AppIssueType.playbackUnknown =>
-          context.l10n.playbackUnknownErrorMessage,
-        AppIssueType.audiobookUnavailable =>
+      final message = switch (next) {
+        AppIssue.playbackSource => context.l10n.playbackSourceErrorMessage,
+        AppIssue.playbackUnknown => context.l10n.playbackUnknownErrorMessage,
+        AppIssue.audiobookUnavailable =>
           context.l10n.libraryAudiobookUnavailable,
       };
 
