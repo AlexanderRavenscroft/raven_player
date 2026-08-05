@@ -6,6 +6,7 @@ part 'user_settings.g.dart';
 
 @HiveType(typeId: 0)
 class UserSettings {
+  // Sentinel value to differentiate between a null value and an unset value in the copyWith method.
   static const Object _unset = Object();
 
   //* App settings
@@ -41,20 +42,20 @@ class UserSettings {
   @HiveField(9)
   final bool isSkipSilenceEnabled;
 
-  @HiveField(11)
+  @HiveField(10)
   final bool isPlayerLockEnabled;
 
-  @HiveField(12)
+  @HiveField(11)
   final bool isSleepTimerEnabled;
 
-  @HiveField(13)
+  @HiveField(12)
   final int sleepTimerDurationMinutes;
 
   //* App launch
-  @HiveField(14)
+  @HiveField(13)
   final bool restoreLastAudiobookOnLaunch;
 
-  @HiveField(15)
+  @HiveField(14)
   final String? lastOpenedAudiobookId;
 
   const UserSettings({
