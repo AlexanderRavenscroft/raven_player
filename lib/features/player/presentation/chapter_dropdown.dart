@@ -72,8 +72,10 @@ class ChapterDropdown extends ConsumerWidget {
                     ),
                   ),
                 ),
-                if (!isPlayerLockEnabled)
+                if (!isPlayerLockEnabled) ...[
+                  const SizedBox(width: AppSpacing.xs),
                   const Icon(AppIcons.dropdown, size: AppIconSizes.large),
+                ],
               ],
             ),
           ),

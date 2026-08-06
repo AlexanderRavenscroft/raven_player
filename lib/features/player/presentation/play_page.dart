@@ -118,6 +118,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
                 coverWidget: AudiobookCover(
                   book: initializedBook,
                   isOnTile: false,
+                  showLoadingSkeleton: isLoading,
                 ),
               ),
 

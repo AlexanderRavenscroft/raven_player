@@ -26,8 +26,8 @@ class LibraryFilterToggle extends ConsumerWidget {
           labelStyle: Theme.of(context).textTheme.labelLarge,
           unselectedLabelColor: Theme.of(context).colorScheme.onSurfaceVariant,
           unselectedLabelStyle: Theme.of(context).textTheme.labelLarge,
-          dividerHeight: 0,
           indicatorColor: Theme.of(context).colorScheme.primary,
+          dividerHeight: 0,
           indicatorWeight: _indicatorWeight,
           indicatorSize: TabBarIndicatorSize.label,
           indicatorPadding: const EdgeInsets.symmetric(
