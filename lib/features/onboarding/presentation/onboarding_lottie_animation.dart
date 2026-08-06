@@ -51,9 +51,7 @@ class OnboardingLottieAnimation extends StatelessWidget {
           return SizedBox(
             height: height,
             width: double.infinity,
-            child: const Center(
-              child: AppCircularProgressIndicator(size: 75, strokeWidth: 5),
-            ),
+            child: const Center(child: AppCircularProgressIndicator(size: 64)),
           );
         }
         return child;
