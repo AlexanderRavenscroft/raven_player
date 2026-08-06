@@ -52,6 +52,7 @@ void main() {
         folderUri: 'folder-uri',
         chapters: [],
       );
+      repo.seed(book);
 
       await enricher.enrichAll([book]);
 
@@ -82,6 +83,8 @@ void main() {
         folderUri: 'good-folder',
         chapters: [Chapter(name: 'Chapter 1', uri: 'good-chapter')],
       );
+      repo.seed(failedBook);
+      repo.seed(goodBook);
 
       await enricher.enrichAll([failedBook, goodBook]);
 
@@ -116,6 +119,7 @@ void main() {
           folderUri: sensitiveBookId,
           chapters: [Chapter(name: 'Chapter 1', uri: 'chapter-uri')],
         );
+        repo.seed(book);
 
         await enricher.enrichAll([book]);
 
@@ -131,6 +135,28 @@ void main() {
         expect(await File(coverPath).readAsBytes(), equals(coverBytes));
       },
     );
+
+    test('preserves a title changed after enrichment was scheduled', () async {
+      final repo = FakeAudiobookRepository();
+      final metadata = FakeSafMetadataService(
+        responses: {
+          'chapter-uri': const SafAudioMetadata(artist: 'Author Name'),
+        },
+      );
+      final enricher = AudiobookEnricher(repo, metadata);
+      const staleBook = Audiobook(
+        id: 'book-1',
+        title: 'Folder Title',
+        folderUri: 'folder-uri',
+        chapters: [Chapter(name: 'Chapter 1', uri: 'chapter-uri')],
+      );
+      repo.seed(staleBook.copyWith(title: 'User Title'));
+
+      await enricher.enrichAll([staleBook]);
+
+      expect(repo.saved.single.title, 'User Title');
+      expect(repo.saved.single.author, 'Author Name');
+    });
 
     test(
       'does not request metadata or save books that do not need scanning',
@@ -157,11 +183,25 @@ void main() {
 }
 
 class FakeAudiobookRepository extends AudiobookRepository {
+  final Map<String, Audiobook> _books = {};
   final List<Audiobook> saved = [];
 
+  void seed(Audiobook book) {
+    _books[book.id] = book;
+  }
+
   @override
-  Future<void> save(Audiobook book) async {
-    saved.add(book);
+  Future<Audiobook?> updateById(
+    String id,
+    Audiobook Function(Audiobook current) update,
+  ) async {
+    final current = _books[id];
+    if (current == null) return null;
+
+    final updated = update(current);
+    _books[id] = updated;
+    saved.add(updated);
+    return updated;
   }
 }
 

@@ -34,6 +34,23 @@ class AudiobookRepository {
     });
   }
 
+  /// Atomically updates the latest persisted version of an audiobook.
+  /// Returns null when the audiobook no longer exists.
+  Future<Audiobook?> updateById(
+    String id,
+    Audiobook Function(Audiobook current) update,
+  ) async {
+    return _lock.synchronized(() async {
+      final box = await HiveStorage.audiobooks();
+      final currentAudiobook = box.get(id);
+      if (currentAudiobook == null) return null;
+
+      final updated = update(currentAudiobook);
+      await box.put(id, updated);
+      return updated;
+    });
+  }
+
   /// Merges scan results into the persisted library.
   /// Preserves user-owned state on existing books and refreshes chapter data.
   Future<void> mergeScanResults(List<Audiobook> scanned) async {

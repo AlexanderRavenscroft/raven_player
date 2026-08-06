@@ -9,6 +9,18 @@ import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/models/chapter.dart';
 import 'package:raven_player/models/user_settings.dart';
 
+const _authority = 'com.android.externalstorage.documents';
+const _homeUri = 'content://$_authority/tree/primary%3AAudiobooks';
+const _bookUri =
+    'content://$_authority/tree/primary%3AAudiobooks/'
+    'document/primary%3AAudiobooks%2FBook%201';
+const _chapterUri =
+    'content://$_authority/tree/primary%3AAudiobooks/'
+    'document/primary%3AAudiobooks%2FBook%201%2FChapter%201.mp3';
+const _otherBookUri =
+    'content://$_authority/tree/primary%3AOther/'
+    'document/primary%3AOther%2FBook%201';
+
 void main() {
   group('StartupAudiobookResolver', () {
     test('disabled restoration retains id and skips resolution', () async {
@@ -95,15 +107,40 @@ void main() {
         settingsRepository,
         FakeAudiobookRepository(
           _book(
-            id: 'content://other/book-1',
-            folderUri: 'content://other/book-1',
+            id: _otherBookUri,
+            folderUri: _otherBookUri,
           ),
         ),
         FakeAudiobookAvailabilityChecker(),
       );
 
       final result = await resolver.resolve(
-        _settings(lastOpenedAudiobookId: 'content://other/book-1'),
+        _settings(lastOpenedAudiobookId: _otherBookUri),
+      );
+
+      _expectCleared(result, settingsRepository);
+    });
+
+    test('rejects an audiobook from a tree with a matching text prefix', () async {
+      const selectedHome =
+          'content://$_authority/tree/primary%3AAudio';
+      const similarBookUri =
+          'content://$_authority/tree/primary%3AAudiobooks/'
+          'document/primary%3AAudiobooks%2FBook';
+      final settingsRepository = FakeUserSettingsRepository();
+      final resolver = _resolver(
+        settingsRepository,
+        FakeAudiobookRepository(
+          _book(id: similarBookUri, folderUri: similarBookUri),
+        ),
+        FakeAudiobookAvailabilityChecker(),
+      );
+
+      final result = await resolver.resolve(
+        const UserSettings(
+          homeFolderUri: selectedHome,
+          lastOpenedAudiobookId: similarBookUri,
+        ),
       );
 
       _expectCleared(result, settingsRepository);
@@ -143,19 +180,19 @@ StartupAudiobookResolver _resolver(
 }
 
 UserSettings _settings({
-  String lastOpenedAudiobookId = 'content://library/book-1',
+  String lastOpenedAudiobookId = _bookUri,
 }) {
   return UserSettings(
-    homeFolderUri: 'content://library',
+    homeFolderUri: _homeUri,
     lastOpenedAudiobookId: lastOpenedAudiobookId,
   );
 }
 
 Audiobook _book({
-  String id = 'content://library/book-1',
-  String folderUri = 'content://library/book-1',
+  String id = _bookUri,
+  String folderUri = _bookUri,
   List<Chapter> chapters = const [
-    Chapter(name: 'Chapter 1', uri: 'content://library/book-1/chapter-1'),
+    Chapter(name: 'Chapter 1', uri: _chapterUri),
   ],
 }) {
   return Audiobook(

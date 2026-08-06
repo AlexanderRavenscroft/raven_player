@@ -95,9 +95,15 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     } catch (e) {
       log.e('Failed to load from saved position, resetting: $e');
 
-      final reset = book.copyWith(currentChapterIndex: 0, currentPositionMs: 0);
+      final repo = ref.read(audiobookRepositoryProvider);
+      final reset =
+          await repo.updateById(
+            book.id,
+            (current) =>
+                current.copyWith(currentChapterIndex: 0, currentPositionMs: 0),
+          ) ??
+          book.copyWith(currentChapterIndex: 0, currentPositionMs: 0);
 
-      await ref.read(audiobookRepositoryProvider).save(reset);
       state = reset;
       await _handler.setAudioSources(
         sources,
@@ -205,18 +211,24 @@ class PlayerNotifier extends Notifier<Audiobook?> {
     if (book == null) return;
 
     final repo = ref.read(audiobookRepositoryProvider);
-    final latest = await repo.getById(book.id) ?? book;
 
     final positionMs = _handler.position.inMilliseconds;
     final chapterIndex = _handler.currentIndex ?? 0;
 
-    final updated = latest.copyWith(
-      currentPositionMs: positionMs,
-      currentChapterIndex: chapterIndex,
-    );
+    final updated =
+        await repo.updateById(
+          book.id,
+          (current) => current.copyWith(
+            currentPositionMs: positionMs,
+            currentChapterIndex: chapterIndex,
+          ),
+        ) ??
+        book.copyWith(
+          currentPositionMs: positionMs,
+          currentChapterIndex: chapterIndex,
+        );
 
     state = updated;
-    await repo.save(updated);
   }
 }
 

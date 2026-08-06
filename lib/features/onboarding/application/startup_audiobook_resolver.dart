@@ -1,4 +1,5 @@
 import 'package:raven_player/core/feedback/app_issue_provider.dart';
+import 'package:raven_player/core/saf/saf_uri_utils.dart';
 import 'package:raven_player/features/library/application/audiobook_availability_checker.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/features/settings/application/settings_repository.dart';
@@ -49,7 +50,11 @@ class StartupAudiobookResolver {
     try {
       final audiobook = await _audiobookRepository.getById(audiobookId);
 
-      if (audiobook == null || !audiobook.folderUri.startsWith(homeFolderUri)) {
+      if (audiobook == null ||
+          !isSafDocumentInTree(
+            documentUri: audiobook.folderUri,
+            treeUri: homeFolderUri,
+          )) {
         return _clearStaleAudiobook(
           settings,
           issue: AppIssue.audiobookUnavailable,

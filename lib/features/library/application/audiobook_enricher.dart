@@ -25,7 +25,10 @@ class AudiobookEnricher {
       }
 
       if (book.chapters.isEmpty) {
-        await _repo.save(book.copyWith(isMetadataScanned: true));
+        await _repo.updateById(
+          book.id,
+          (current) => current.copyWith(isMetadataScanned: true),
+        );
         continue;
       }
 
@@ -49,13 +52,14 @@ class AudiobookEnricher {
         existing: book.coverPath,
       );
 
-      final enriched = book.copyWith(
-        author: meta.artist,
-        coverPath: coverPath,
-        isMetadataScanned: true,
+      await _repo.updateById(
+        book.id,
+        (current) => current.copyWith(
+          author: current.author ?? meta.artist,
+          coverPath: current.coverPath ?? coverPath,
+          isMetadataScanned: true,
+        ),
       );
-
-      await _repo.save(enriched);
     }
   }
 

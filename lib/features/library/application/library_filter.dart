@@ -11,16 +11,18 @@ class LibraryFilterNotifier extends Notifier<LibraryFilter> {
   void setFilter(LibraryFilter filter) => state = filter;
 }
 
+final libraryFilterProvider =
+    NotifierProvider<LibraryFilterNotifier, LibraryFilter>(
+      LibraryFilterNotifier.new,
+    );
+
 final filteredLibraryProvider = Provider<List<Audiobook>>((ref) {
   final books = ref.watch(libraryProvider).requireValue;
   final filter = ref.watch(libraryFilterProvider);
 
   return books
-      .where((b) => filter == LibraryFilter.read ? b.isRead : !b.isRead)
+      .where(
+        (book) => filter == LibraryFilter.read ? book.isRead : !book.isRead,
+      )
       .toList();
 });
-
-final libraryFilterProvider =
-    NotifierProvider<LibraryFilterNotifier, LibraryFilter>(
-      LibraryFilterNotifier.new,
-    );

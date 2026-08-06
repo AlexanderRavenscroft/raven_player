@@ -93,17 +93,29 @@ ProviderContainer _container(
 }
 
 class FakeAudiobookRepository extends AudiobookRepository {
-  final Audiobook book;
+  Audiobook? current;
   final List<Audiobook> saved = [];
 
-  FakeAudiobookRepository(this.book);
+  FakeAudiobookRepository(this.current);
 
   @override
-  Future<Audiobook?> getById(String id) async => id == book.id ? book : null;
+  Future<Audiobook?> getById(String id) async {
+    final book = current;
+    return book != null && id == book.id ? book : null;
+  }
 
   @override
-  Future<void> save(Audiobook book) async {
-    saved.add(book);
+  Future<Audiobook?> updateById(
+    String id,
+    Audiobook Function(Audiobook current) update,
+  ) async {
+    final book = current;
+    if (book == null || book.id != id) return null;
+
+    final updated = update(book);
+    current = updated;
+    saved.add(updated);
+    return updated;
   }
 }
 

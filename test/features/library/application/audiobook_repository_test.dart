@@ -55,6 +55,36 @@ void main() {
       expect(await repo.getAll(), hasLength(1));
     });
 
+    test('updateById preserves fields changed by earlier updates', () async {
+      await repo.save(
+        _book(id: 'book-1', title: 'Original', currentPositionMs: 1000),
+      );
+      await repo.updateById(
+        'book-1',
+        (current) => current.copyWith(currentPositionMs: 2000),
+      );
+
+      final renamed = await repo.updateById(
+        'book-1',
+        (current) => current.copyWith(title: 'Renamed'),
+      );
+
+      expect(renamed, isNotNull);
+      expect(renamed!.title, 'Renamed');
+      expect(renamed.currentPositionMs, 2000);
+      expect((await repo.getById('book-1'))!.currentPositionMs, 2000);
+    });
+
+    test('updateById does not recreate a missing audiobook', () async {
+      final updated = await repo.updateById(
+        'missing-book',
+        (current) => current.copyWith(title: 'Renamed'),
+      );
+
+      expect(updated, isNull);
+      expect(await repo.getAll(), isEmpty);
+    });
+
     test('mergeScanResults inserts new scanned books', () async {
       final scanned = _book(
         id: 'book-1',
@@ -180,15 +210,6 @@ void main() {
         expect(await repo.getAll(), hasLength(1));
       },
     );
-
-    test('clearAll removes persisted library', () async {
-      await repo.save(_book(id: 'book-1'));
-      await repo.save(_book(id: 'book-2'));
-
-      await repo.clearAll();
-
-      expect(await repo.getAll(), isEmpty);
-    });
   });
 }
 

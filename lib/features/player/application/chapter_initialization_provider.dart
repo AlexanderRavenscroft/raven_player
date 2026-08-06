@@ -45,20 +45,37 @@ final chapterInitializationProvider = FutureProvider.family<Audiobook, String>((
     }),
   );
 
-  final allDurationsResolved = updatedChapters.every(
-    (chapter) => chapter.durationMs != null,
-  );
-  final totalMs = allDurationsResolved
-      ? updatedChapters.fold<int>(
-          0,
-          (sum, chapter) => sum + chapter.durationMs!,
-        )
-      : null;
-  final enriched = current.copyWith(
-    chapters: updatedChapters,
-    totalDurationMs: totalMs ?? current.totalDurationMs,
-  );
+  final durationsByUri = {
+    for (final chapter in updatedChapters)
+      if (chapter.durationMs != null) chapter.uri: chapter.durationMs!,
+  };
+  final enriched = await repo.updateById(bookId, (latest) {
+    final latestChapters = latest.chapters.map((chapter) {
+      if (chapter.durationMs != null) return chapter;
 
-  await repo.save(enriched);
+      final durationMs = durationsByUri[chapter.uri];
+      return durationMs == null
+          ? chapter
+          : chapter.copyWith(durationMs: durationMs);
+    }).toList();
+    final hasAllLatestDurations = latestChapters.every(
+      (chapter) => chapter.durationMs != null,
+    );
+    final latestTotalMs = hasAllLatestDurations
+        ? latestChapters.fold<int>(
+            0,
+            (sum, chapter) => sum + chapter.durationMs!,
+          )
+        : latest.totalDurationMs;
+
+    return latest.copyWith(
+      chapters: latestChapters,
+      totalDurationMs: latestTotalMs,
+    );
+  });
+  if (enriched == null) {
+    throw StateError('Book $bookId not found');
+  }
+
   return enriched;
 });

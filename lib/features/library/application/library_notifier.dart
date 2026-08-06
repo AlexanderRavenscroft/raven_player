@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raven_player/core/saf/saf_uri_utils.dart';
 import 'package:raven_player/features/library/application/audiobook_enricher.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/features/library/application/library_scanner.dart';
@@ -32,12 +33,12 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
 
     final folderChanged =
         existing.isNotEmpty &&
-        !existing.any((b) => b.folderUri.startsWith(home));
+        !existing.any(
+          (book) =>
+              isSafDocumentInTree(documentUri: book.folderUri, treeUri: home),
+        );
 
-    if (folderChanged) {
-      await _repo.clearAll();
-      state = const AsyncData([]);
-    } else if (existing.isNotEmpty) {
+    if (!folderChanged && existing.isNotEmpty) {
       state = AsyncData(existing);
     }
 
@@ -46,7 +47,7 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
     await _repo.mergeScanResults(scanned);
 
     final merged = await _repo.getAll();
-    final needsEnrich = merged.where((b) => b.needsMetadataScan).toList();
+    final needsEnrich = merged.where((book) => book.needsMetadataScan).toList();
     if (needsEnrich.isNotEmpty) {
       await _enricher.enrichAll(needsEnrich);
     }
@@ -57,20 +58,32 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
   }
 
   Future<void> renameAudiobook(Audiobook book, String newTitle) async {
-    final renamed = book.copyWith(title: newTitle);
-    await _repo.save(renamed);
+    final renamed = await _repo.updateById(
+      book.id,
+      (current) => current.copyWith(title: newTitle),
+    );
+    if (renamed == null) return;
+
     _patchBookInState(renamed);
   }
 
   Future<void> toggleReadStatus(Audiobook book) async {
-    final toggled = book.copyWith(isRead: !book.isRead);
-    await _repo.save(toggled);
+    final toggled = await _repo.updateById(
+      book.id,
+      (current) => current.copyWith(isRead: !current.isRead),
+    );
+    if (toggled == null) return;
+
     _patchBookInState(toggled);
   }
 
   Future<void> markAsRead(Audiobook book) async {
-    final read = book.copyWith(isRead: true);
-    await _repo.save(read);
+    final read = await _repo.updateById(
+      book.id,
+      (current) => current.copyWith(isRead: true),
+    );
+    if (read == null) return;
+
     _patchBookInState(read);
   }
 
