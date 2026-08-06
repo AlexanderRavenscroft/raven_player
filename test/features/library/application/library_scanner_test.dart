@@ -97,7 +97,7 @@ void main() {
       expect(books.single.chapters.single.name, '(unnamed)');
     });
 
-    test('skips subfolders that cannot be listed', () async {
+    test('fails the whole scan when a subfolder cannot be listed', () async {
       dirs = {
         'home': [
           _entry(uri: 'book-1', name: 'Book One', isDir: true),
@@ -109,10 +109,16 @@ void main() {
       };
       failingUris = {'broken-book'};
 
-      final books = await LibraryScanner().scan('home');
-
-      expect(books, hasLength(1));
-      expect(books.single.id, 'book-1');
+      await expectLater(
+        LibraryScanner().scan('home'),
+        throwsA(
+          isA<PlatformException>().having(
+            (error) => error.code,
+            'code',
+            'LIST_DIR_ERROR',
+          ),
+        ),
+      );
     });
 
     test(

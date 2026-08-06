@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/core/saf/saf_metadata_service.dart';
 import 'package:raven_player/models/audiobook.dart';
+import 'package:raven_player/utils/app_logger.dart';
 
 class AudiobookEnricher {
   final AudiobookRepository _repo;
@@ -29,10 +30,15 @@ class AudiobookEnricher {
       }
 
       final firstUri = book.chapters.first.uri;
-      final meta = await _metadata.getMetadata(firstUri);
+      final SafAudioMetadata meta;
 
-      if (meta == null) {
-        await _repo.save(book.copyWith(isMetadataScanned: true));
+      try {
+        meta = await _metadata.getMetadata(firstUri);
+      } on PlatformException catch (error) {
+        log.e('Metadata scan failed: ${error.code}.');
+        continue;
+      } on MissingPluginException {
+        log.e('Metadata scan failed: native SAF plugin is unavailable.');
         continue;
       }
 

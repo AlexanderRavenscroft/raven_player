@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:raven_player/core/saf/saf.dart';
 import 'package:raven_player/models/audiobook.dart';
 import 'package:raven_player/models/chapter.dart';
@@ -24,13 +23,7 @@ class LibraryScanner {
     final folders = top.where((e) => e.isDir).toList();
 
     for (final folder in folders) {
-      final List<SafEntry> inner;
-
-      try {
-        inner = await Saf.listDir(folder.uri);
-      } on PlatformException {
-        continue;
-      }
+      final inner = await Saf.listDir(folder.uri);
 
       final audioFiles = inner.where(_isAudio).toList()
         ..sort((a, b) => _naturalCompare(a.name ?? '', b.name ?? ''));

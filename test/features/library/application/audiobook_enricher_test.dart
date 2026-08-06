@@ -60,25 +60,37 @@ void main() {
       expect(repo.saved.single.isMetadataScanned, isTrue);
     });
 
-    test('marks book as scanned when metadata cannot be read', () async {
+    test('leaves failed metadata retryable and continues with later books', () async {
       final repo = FakeAudiobookRepository();
-      final metadata = FakeSafMetadataService(responses: {'chapter-uri': null});
+      final metadata = FakeSafMetadataService(
+        failingUris: {'failed-chapter'},
+        responses: {
+          'good-chapter': const SafAudioMetadata(artist: 'Author Name'),
+        },
+      );
       final enricher = AudiobookEnricher(repo, metadata);
 
-      const book = Audiobook(
-        id: 'book-1',
-        title: 'Book',
-        folderUri: 'folder-uri',
-        chapters: [Chapter(name: 'Chapter 1', uri: 'chapter-uri')],
+      const failedBook = Audiobook(
+        id: 'failed-book',
+        title: 'Failed Book',
+        folderUri: 'failed-folder',
+        chapters: [Chapter(name: 'Chapter 1', uri: 'failed-chapter')],
+      );
+      const goodBook = Audiobook(
+        id: 'good-book',
+        title: 'Good Book',
+        folderUri: 'good-folder',
+        chapters: [Chapter(name: 'Chapter 1', uri: 'good-chapter')],
       );
 
-      await enricher.enrichAll([book]);
+      await enricher.enrichAll([failedBook, goodBook]);
 
-      expect(metadata.requestedUris, ['chapter-uri']);
+      expect(metadata.requestedUris, ['failed-chapter', 'good-chapter']);
       expect(repo.saved, hasLength(1));
-      expect(repo.saved.single.author, isNull);
-      expect(repo.saved.single.coverPath, isNull);
+      expect(repo.saved.single.id, 'good-book');
+      expect(repo.saved.single.author, 'Author Name');
       expect(repo.saved.single.isMetadataScanned, isTrue);
+      expect(failedBook.needsMetadataScan, isTrue);
     });
 
     test(
@@ -154,14 +166,24 @@ class FakeAudiobookRepository extends AudiobookRepository {
 }
 
 class FakeSafMetadataService extends SafMetadataService {
-  final Map<String, SafAudioMetadata?> responses;
+  final Map<String, SafAudioMetadata> responses;
+  final Set<String> failingUris;
   final List<String> requestedUris = [];
 
-  FakeSafMetadataService({this.responses = const {}});
+  FakeSafMetadataService({
+    this.responses = const {},
+    this.failingUris = const {},
+  });
 
   @override
-  Future<SafAudioMetadata?> getMetadata(String uri) async {
+  Future<SafAudioMetadata> getMetadata(String uri) async {
     requestedUris.add(uri);
-    return responses[uri];
+    if (failingUris.contains(uri)) {
+      throw PlatformException(
+        code: 'METADATA_ERROR',
+        message: 'Cannot read $uri',
+      );
+    }
+    return responses[uri] ?? const SafAudioMetadata();
   }
 }

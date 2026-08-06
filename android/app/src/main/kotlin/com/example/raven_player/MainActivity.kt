@@ -13,254 +13,261 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class MainActivity : AudioServiceActivity() {
-	companion object {
-		private const val CHANNEL = "raven/saf"
-		private const val REQUEST_PICK_TREE = 4242
-		private const val STATUS_AVAILABLE = "available"
-		private const val STATUS_MISSING = "missing"
-		private const val STATUS_INACCESSIBLE = "inaccessible"
-		private const val METADATA_WORKER_COUNT = 2
-	}
+    companion object {
+        private const val CHANNEL = "raven/saf"
+        private const val REQUEST_PICK_TREE = 4242
+        private const val STATUS_AVAILABLE = "available"
+        private const val STATUS_MISSING = "missing"
+        private const val STATUS_INACCESSIBLE = "inaccessible"
+        private const val IO_WORKER_COUNT = 2
+    }
 
-	private var pendingResult: Result? = null
-	private val metadataExecutor: ExecutorService = Executors.newFixedThreadPool(
-		METADATA_WORKER_COUNT
-	)
+    private var pendingResult: Result? = null
+    private val ioExecutor: ExecutorService = Executors.newFixedThreadPool(
+        IO_WORKER_COUNT
+    )
 
-	override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
-		super.configureFlutterEngine(flutterEngine)
-		MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
-			.setMethodCallHandler { call, result ->
-				when (call.method) {
-					"pickTree" -> pickTree(result)
-					"listDir" -> {
-						val uri = uriArgument(call.argument<String>("uri"), result)
-							?: return@setMethodCallHandler
-						try {
-							result.success(listDir(uri))
-						} catch (e: Exception) {
-							result.error("LIST_DIR_ERROR", e.message, null)
-						}
-					}
-					"getMetadata" -> {
-						val uri = uriArgument(call.argument<String>("uri"), result)
-							?: return@setMethodCallHandler
-						runMetadataTask(result) { getMetadata(uri, result) }
-					}
-					"getDuration" -> {
-						val uri = uriArgument(call.argument<String>("uri"), result)
-							?: return@setMethodCallHandler
-						runMetadataTask(result) { getDuration(uri, result) }
-					}
-					"checkAvailability" -> {
-						val uri = call.argument<String>("uri")
-						if (uri == null) {
-							result.error("ARG", "uri required", null)
-							return@setMethodCallHandler
-						}
+    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+        super.configureFlutterEngine(flutterEngine)
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
+            .setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "pickTree" -> pickTree(result)
+                    "listDir" -> {
+                        val uri = uriArgument(call.argument<String>("uri"), result)
+                            ?: return@setMethodCallHandler
+                        runIoTask(result, "LIST_DIR_ERROR") { listDir(uri) }
+                    }
 
-						result.success(checkAvailability(uri))
-					}
-					else -> result.notImplemented()
-				}
-			}
-	}
+                    "getMetadata" -> {
+                        val uri = uriArgument(call.argument<String>("uri"), result)
+                            ?: return@setMethodCallHandler
+                        runIoTask(result, "METADATA_ERROR") { getMetadata(uri) }
+                    }
 
-	override fun onDestroy() {
-		metadataExecutor.shutdown()
-		super.onDestroy()
-	}
+                    "getDuration" -> {
+                        val uri = uriArgument(call.argument<String>("uri"), result)
+                            ?: return@setMethodCallHandler
+                        runIoTask(result, "DURATION_ERROR") { getDuration(uri) }
+                    }
 
-	private fun runMetadataTask(result: Result, block: () -> Unit) {
-		try {
-			metadataExecutor.execute { block() }
-		} catch (e: Exception) {
-			result.error("METADATA_EXECUTOR_ERROR", e.message, null)
-		}
-	}
+                    "checkAvailability" -> {
+                        val uri = call.argument<String>("uri")
+                        if (uri == null) {
+                            result.error("ARG", "uri required", null)
+                            return@setMethodCallHandler
+                        }
 
-	private fun uriArgument(uri: String?, result: Result): Uri? {
-		if (uri == null) {
-			result.error("ARG", "uri required", null)
-			return null
-		}
+                        runIoTask(result, "AVAILABILITY_ERROR") {
+                            checkAvailability(uri)
+                        }
+                    }
 
-		return try {
-			Uri.parse(uri)
-		} catch (e: Exception) {
-			result.error("ARG", "invalid uri", e.message)
-			null
-		}
-	}
+                    else -> result.notImplemented()
+                }
+            }
+    }
 
-	private fun getMetadata(uri: Uri, result: Result) {
-		val retriever = MediaMetadataRetriever()
-		try {
-			retriever.setDataSource(applicationContext, uri)
-			val title = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
-			val artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
-			val duration = retriever
-				.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-				?.toLongOrNull()
-			val picture = retriever.embeddedPicture
+    override fun onDestroy() {
+        ioExecutor.shutdown()
+        super.onDestroy()
+    }
 
-			result.success(
-				mapOf(
-					"title" to title,
-					"artist" to artist,
-					"duration" to duration,
-					"cover" to picture,
-				)
-			)
-		} catch (e: Exception) {
-			result.error("METADATA_ERROR", e.message, null)
-		} finally {
-			retriever.release()
-		}
-	}
+    private fun runIoTask(
+        result: Result,
+        errorCode: String,
+        block: () -> Any?,
+    ) {
+        try {
+            ioExecutor.execute {
+                try {
+                    result.success(block())
+                } catch (e: Exception) {
+                    result.error(errorCode, e.message, null)
+                }
+            }
+        } catch (e: Exception) {
+            result.error("IO_EXECUTOR_ERROR", e.message, null)
+        }
+    }
 
-	private fun getDuration(uri: Uri, result: Result) {
-		val retriever = MediaMetadataRetriever()
-		try {
-			retriever.setDataSource(applicationContext, uri)
-			val duration = retriever
-				.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-				?.toLongOrNull()
+    private fun uriArgument(uri: String?, result: Result): Uri? {
+        if (uri == null) {
+            result.error("ARG", "uri required", null)
+            return null
+        }
 
-			result.success(duration)
-		} catch (e: Exception) {
-			result.error("DURATION_ERROR", e.message, null)
-		} finally {
-			retriever.release()
-		}
-	}
+        return try {
+            Uri.parse(uri)
+        } catch (e: Exception) {
+            result.error("ARG", "invalid uri", e.message)
+            null
+        }
+    }
 
-	private fun checkAvailability(uriString: String): Map<String, Any?> {
-		val uri = try {
-			Uri.parse(uriString)
-		} catch (_: Exception) {
-			return mapOf(
-				"status" to STATUS_INACCESSIBLE,
-				"uri" to uriString,
-			)
-		}
+    private fun getMetadata(uri: Uri): Map<String, Any?> {
+        val retriever = MediaMetadataRetriever()
+        try {
+            retriever.setDataSource(applicationContext, uri)
+            val title = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
+            val artist = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
+            val duration = retriever
+                .extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+                ?.toLongOrNull()
+            val picture = retriever.embeddedPicture
 
-		val status = availabilityStatus(uri)
-		return mapOf(
-			"status" to status,
-			"uri" to if (status == STATUS_AVAILABLE) null else uriString,
-		)
-	}
+            return mapOf(
+                "title" to title,
+                "artist" to artist,
+                "duration" to duration,
+                "cover" to picture,
+            )
+        } finally {
+            retriever.release()
+        }
+    }
 
-	private fun availabilityStatus(uri: Uri): String {
-		val documentUri = try {
-			val docId = try {
-				DocumentsContract.getDocumentId(uri)
-			} catch (_: Exception) {
-				DocumentsContract.getTreeDocumentId(uri)
-			}
-			DocumentsContract.buildDocumentUriUsingTree(uri, docId)
-		} catch (_: Exception) {
-			return STATUS_INACCESSIBLE
-		}
+    private fun getDuration(uri: Uri): Long? {
+        val retriever = MediaMetadataRetriever()
+        try {
+            retriever.setDataSource(applicationContext, uri)
+            return retriever
+                .extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+                ?.toLongOrNull()
+        } finally {
+            retriever.release()
+        }
+    }
 
-		val projection = arrayOf(DocumentsContract.Document.COLUMN_DOCUMENT_ID)
-		return try {
-			contentResolver.query(documentUri, projection, null, null, null)
-				?.use { cursor ->
-					if (cursor.moveToFirst()) STATUS_AVAILABLE else STATUS_MISSING
-				}
-				?: STATUS_MISSING
-		} catch (_: SecurityException) {
-			STATUS_INACCESSIBLE
-		} catch (_: Exception) {
-			STATUS_MISSING
-		}
-	}
+    private fun checkAvailability(uriString: String): Map<String, Any?> {
+        val uri = try {
+            Uri.parse(uriString)
+        } catch (_: Exception) {
+            return mapOf(
+                "status" to STATUS_INACCESSIBLE,
+                "uri" to uriString,
+            )
+        }
 
-	private fun pickTree(result: Result) {
-		if (pendingResult != null) {
-			result.error("PICKER_ACTIVE", "folder picker already active", null)
-			return
-		}
+        val status = availabilityStatus(uri)
+        return mapOf(
+            "status" to status,
+            "uri" to if (status == STATUS_AVAILABLE) null else uriString,
+        )
+    }
 
-		pendingResult = result
-		val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
-			addFlags(
-				Intent.FLAG_GRANT_READ_URI_PERMISSION or
-					Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-			)
-		}
+    private fun availabilityStatus(uri: Uri): String {
+        val documentUri = try {
+            val docId = try {
+                DocumentsContract.getDocumentId(uri)
+            } catch (_: Exception) {
+                DocumentsContract.getTreeDocumentId(uri)
+            }
+            DocumentsContract.buildDocumentUriUsingTree(uri, docId)
+        } catch (_: Exception) {
+            return STATUS_INACCESSIBLE
+        }
 
-		try {
-			startActivityForResult(intent, REQUEST_PICK_TREE)
-		} catch (e: Exception) {
-			pendingResult = null
-			result.error("PICK_TREE_ERROR", e.message, null)
-		}
-	}
+        val projection = arrayOf(DocumentsContract.Document.COLUMN_DOCUMENT_ID)
+        return try {
+            contentResolver.query(documentUri, projection, null, null, null)
+                ?.use { cursor ->
+                    if (cursor.moveToFirst()) STATUS_AVAILABLE else STATUS_MISSING
+                }
+                ?: STATUS_MISSING
+        } catch (_: SecurityException) {
+            STATUS_INACCESSIBLE
+        } catch (_: Exception) {
+            STATUS_MISSING
+        }
+    }
 
-	override fun onActivityResult(req: Int, res: Int, data: Intent?) {
-		super.onActivityResult(req, res, data)
-		if (req != REQUEST_PICK_TREE) return
-		val result = pendingResult ?: return
-		pendingResult = null
+    private fun pickTree(result: Result) {
+        if (pendingResult != null) {
+            result.error("PICKER_ACTIVE", "folder picker already active", null)
+            return
+        }
 
-		val treeUri = data?.data
-		if (res != Activity.RESULT_OK || treeUri == null) {
-			result.success(null)
-			return
-		}
+        pendingResult = result
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+            addFlags(
+                Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                        Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+            )
+        }
 
-		try {
-			contentResolver.takePersistableUriPermission(
-				treeUri,
-				Intent.FLAG_GRANT_READ_URI_PERMISSION
-			)
-			result.success(treeUri.toString())
-		} catch (e: SecurityException) {
-			result.error("PERMISSION_ERROR", e.message, null)
-		}
-	}
+        try {
+            startActivityForResult(intent, REQUEST_PICK_TREE)
+        } catch (e: Exception) {
+            pendingResult = null
+            result.error("PICK_TREE_ERROR", e.message, null)
+        }
+    }
 
-	private fun listDir(uri: Uri): List<Map<String, Any?>> {
-		val treeId = DocumentsContract.getTreeDocumentId(uri)
-		val docId = try {
-			DocumentsContract.getDocumentId(uri)
-		} catch (_: Exception) {
-			treeId
-		}
-		val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(uri, docId)
+    override fun onActivityResult(req: Int, res: Int, data: Intent?) {
+        super.onActivityResult(req, res, data)
+        if (req != REQUEST_PICK_TREE) return
+        val result = pendingResult ?: return
+        pendingResult = null
 
-		val projection = arrayOf(
-			DocumentsContract.Document.COLUMN_DOCUMENT_ID,
-			DocumentsContract.Document.COLUMN_DISPLAY_NAME,
-			DocumentsContract.Document.COLUMN_MIME_TYPE,
-		)
+        val treeUri = data?.data
+        if (res != Activity.RESULT_OK || treeUri == null) {
+            result.success(null)
+            return
+        }
 
-		val out = mutableListOf<Map<String, Any?>>()
-		contentResolver.query(childrenUri, projection, null, null, null)?.use { cursor ->
-			val idIndex = cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DOCUMENT_ID)
-			val nameIndex = cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DISPLAY_NAME)
-			val mimeIndex = cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_MIME_TYPE)
+        try {
+            contentResolver.takePersistableUriPermission(
+                treeUri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+            result.success(treeUri.toString())
+        } catch (e: SecurityException) {
+            result.error("PERMISSION_ERROR", e.message, null)
+        }
+    }
 
-			while (cursor.moveToNext()) {
-				val childId = cursor.getString(idIndex)
-				val name = cursor.getString(nameIndex)
-				val mime = cursor.getString(mimeIndex)
-				val childUri = DocumentsContract.buildDocumentUriUsingTree(uri, childId)
-				val isDir = mime == DocumentsContract.Document.MIME_TYPE_DIR
+    private fun listDir(uri: Uri): List<Map<String, Any?>> {
+        val treeId = DocumentsContract.getTreeDocumentId(uri)
+        val docId = try {
+            DocumentsContract.getDocumentId(uri)
+        } catch (_: Exception) {
+            treeId
+        }
+        val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(uri, docId)
 
-				out.add(
-					mapOf(
-						"uri" to childUri.toString(),
-						"name" to name,
-						"isDir" to isDir,
-						"mime" to if (isDir) null else mime,
-					)
-				)
-			}
-		}
-		return out
-	}
+        val projection = arrayOf(
+            DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+            DocumentsContract.Document.COLUMN_DISPLAY_NAME,
+            DocumentsContract.Document.COLUMN_MIME_TYPE,
+        )
+
+        val cursor = contentResolver.query(childrenUri, projection, null, null, null)
+            ?: throw IllegalStateException("Document provider returned no cursor")
+
+        val out = mutableListOf<Map<String, Any?>>()
+        cursor.use {
+            val idIndex = cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DOCUMENT_ID)
+            val nameIndex = cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_DISPLAY_NAME)
+            val mimeIndex = cursor.getColumnIndexOrThrow(DocumentsContract.Document.COLUMN_MIME_TYPE)
+
+            while (cursor.moveToNext()) {
+                val childId = cursor.getString(idIndex)
+                val name = cursor.getString(nameIndex)
+                val mime = cursor.getString(mimeIndex)
+                val childUri = DocumentsContract.buildDocumentUriUsingTree(uri, childId)
+                val isDir = mime == DocumentsContract.Document.MIME_TYPE_DIR
+
+                out.add(
+                    mapOf(
+                        "uri" to childUri.toString(),
+                        "name" to name,
+                        "isDir" to isDir,
+                        "mime" to if (isDir) null else mime,
+                    )
+                )
+            }
+        }
+        return out
+    }
 }

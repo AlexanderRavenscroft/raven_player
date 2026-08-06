@@ -1,7 +1,9 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:raven_player/features/library/application/audiobook_enricher.dart';
 import 'package:raven_player/features/library/application/audiobook_repository.dart';
 import 'package:raven_player/models/audiobook.dart';
+import 'package:raven_player/utils/app_logger.dart';
 
 final chapterInitializationProvider = FutureProvider.family<Audiobook, String>((
   ref,
@@ -25,18 +27,36 @@ final chapterInitializationProvider = FutureProvider.family<Audiobook, String>((
   final updatedChapters = await Future.wait(
     current.chapters.map((chapter) async {
       if (chapter.durationMs != null) return chapter;
-      final durationMs = await metadataService.getDurationMs(chapter.uri);
-      return chapter.copyWith(durationMs: durationMs ?? 0);
+      final int? durationMs;
+
+      try {
+        durationMs = await metadataService.getDurationMs(chapter.uri);
+      } on PlatformException catch (error) {
+        log.e('Duration scan failed: ${error.code}.');
+        return chapter;
+      } on MissingPluginException {
+        log.e('Duration scan failed: native SAF plugin is unavailable.');
+        return chapter;
+      }
+
+      return durationMs == null
+          ? chapter
+          : chapter.copyWith(durationMs: durationMs);
     }),
   );
 
-  final totalMs = updatedChapters.fold<int>(
-    0,
-    (sum, c) => sum + (c.durationMs ?? 0),
+  final allDurationsResolved = updatedChapters.every(
+    (chapter) => chapter.durationMs != null,
   );
+  final totalMs = allDurationsResolved
+      ? updatedChapters.fold<int>(
+          0,
+          (sum, chapter) => sum + chapter.durationMs!,
+        )
+      : null;
   final enriched = current.copyWith(
     chapters: updatedChapters,
-    totalDurationMs: totalMs,
+    totalDurationMs: totalMs ?? current.totalDurationMs,
   );
 
   await repo.save(enriched);
