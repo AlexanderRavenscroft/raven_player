@@ -85,6 +85,9 @@ class LibraryNotifier extends AsyncNotifier<List<Audiobook>> {
     if (read == null) return;
 
     _patchBookInState(read);
+    if (ref.read(settingsProvider).lastOpenedAudiobookId == read.id) {
+      await ref.read(settingsProvider.notifier).clearLastOpenedAudiobookId();
+    }
   }
 
   void _patchBookInState(Audiobook updated) {
