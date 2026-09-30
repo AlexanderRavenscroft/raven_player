@@ -55,7 +55,7 @@ class StartupAudiobookResolver {
             documentUri: audiobook.folderUri,
             treeUri: homeFolderUri,
           )) {
-        return _clearStaleAudiobook(
+        return await _clearStaleAudiobook(
           settings,
           issue: AppIssue.audiobookUnavailable,
         );
@@ -64,7 +64,7 @@ class StartupAudiobookResolver {
       try {
         await _availabilityChecker.ensureAvailable(audiobook);
       } on AudiobookUnavailableException {
-        return _clearStaleAudiobook(
+        return await _clearStaleAudiobook(
           settings,
           issue: AppIssue.audiobookUnavailable,
         );
