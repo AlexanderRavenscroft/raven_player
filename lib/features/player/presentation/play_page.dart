@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app_minimizer_plus/flutter_app_minimizer_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,15 +9,15 @@ import 'package:raven_player/core/theme/app_spacing.dart';
 import 'package:raven_player/features/player/application/chapter_initialization_provider.dart';
 import 'package:raven_player/features/player/application/player_notifier.dart';
 import 'package:raven_player/features/player/application/raven_audio_handler.dart';
-import 'package:raven_player/features/player/application/sleep_timer_shake_notifier.dart';
 import 'package:raven_player/features/player/application/sleep_timer_notifier.dart';
+import 'package:raven_player/features/player/application/sleep_timer_shake_notifier.dart';
+import 'package:raven_player/features/player/presentation/action_toolbar.dart';
 import 'package:raven_player/features/player/presentation/audiobook_length_display.dart';
 import 'package:raven_player/features/player/presentation/chapter_dropdown.dart';
 import 'package:raven_player/features/player/presentation/play_app_bar.dart';
 import 'package:raven_player/features/player/presentation/play_button.dart';
 import 'package:raven_player/features/player/presentation/play_progress_bar.dart';
 import 'package:raven_player/features/player/presentation/player_icon_button.dart';
-import 'package:raven_player/features/player/presentation/action_toolbar.dart';
 import 'package:raven_player/features/settings/application/settings_notifier.dart';
 import 'package:raven_player/l10n/app_localizations_x.dart';
 import 'package:raven_player/models/audiobook.dart';
@@ -77,7 +78,7 @@ class _PlayPageState extends ConsumerState<PlayPage> {
       canPop: backArrowBacksToLibrary,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
-        FlutterAppMinimizerPlus.minimizeApp();
+        unawaited(FlutterAppMinimizerPlus.minimizeApp());
       },
       child: Scaffold(
         appBar: PlayAppBar(book: widget.book),
