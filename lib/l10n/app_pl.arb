@@ -1,60 +1,20 @@
 {
   "@@locale": "pl",
   "appTitle": "Raven Player",
-  "@appTitle": {
-    "description": "Application title used by MaterialApp."
-  },
   "dialogCancel": "Anuluj",
-  "@dialogCancel": {
-    "description": "Generic dialog button that closes without applying changes."
-  },
   "dialogConfirm": "Potwierdź",
-  "@dialogConfirm": {
-    "description": "Generic dialog button that confirms the current action."
-  },
   "dialogOk": "Ok",
-  "@dialogOk": {
-    "description": "Generic dialog acknowledgement button."
-  },
   "dialogRename": "Zmień nazwę",
-  "@dialogRename": {
-    "description": "Dialog button that applies an audiobook rename."
-  },
   "dialogOpen": "Otwórz",
-  "@dialogOpen": {
-    "description": "Dialog button that opens an external link."
-  },
   "dialogClose": "Zamknij",
-  "@dialogClose": {
-    "description": "Generic dialog button that closes the dialog."
-  },
   "languageEnglish": "English",
-  "@languageEnglish": {
-    "description": "Display name for the English app language."
-  },
   "languagePolish": "Polski",
-  "@languagePolish": {
-    "description": "Display name for the Polish app language."
-  },
   "onboardingTitle": "Zacznijmy",
-  "@onboardingTitle": {
-    "description": "Main title shown on the first-run onboarding screen."
-  },
   "onboardingDescription": "Folder domyślny to główny folder, w którym przechowujesz wszystkie swoje audiobooki.",
-  "@onboardingDescription": {
-    "description": "Onboarding text defining the default folder as the main folder containing all audiobooks."
-  },
   "onboardingChooseFolder": "Wybierz folder domyślny",
-  "@onboardingChooseFolder": {
-    "description": "Button label for selecting the initial audiobook folder."
-  },
   "onboardingFooter": "Każdy audiobook musi znajdować się w osobnym podfolderze, nawet jeśli składa się tylko z jednego pliku.",
-  "@onboardingFooter": {
-    "description": "Onboarding note explaining that each audiobook must be stored in its own subfolder."
-  },
   "lottieError": "Błąd Lottie: {error}",
   "@lottieError": {
-    "description": "Fallback text shown when a Lottie animation fails to load.",
     "placeholders": {
       "error": {
         "type": "String",
@@ -63,16 +23,9 @@
     }
   },
   "libraryTitle": "Biblioteka",
-  "@libraryTitle": {
-    "description": "Title shown in the library app bar."
-  },
   "libraryCheckingForNew": "Aktualizowanie biblioteki...",
-  "@libraryCheckingForNew": {
-    "description": "Snackbar shown when the user starts a library rescan."
-  },
   "libraryLoadingError": "Błąd wczytywania biblioteki:\n{error}",
   "@libraryLoadingError": {
-    "description": "Message shown when the audiobook library fails to load.",
     "placeholders": {
       "error": {
         "type": "String",
@@ -81,60 +34,20 @@
     }
   },
   "libraryAudiobookUnavailable": "Pliki audiobooka nie są już dostępne. Aktualizowanie biblioteki...",
-  "@libraryAudiobookUnavailable": {
-    "description": "Snackbar shown when a stale audiobook can no longer be opened from the library."
-  },
   "libraryEmpty": "Nie znaleziono audiobooków",
-  "@libraryEmpty": {
-    "description": "Message shown when the current library filter has no audiobooks."
-  },
   "libraryReading": "CZYTANE",
-  "@libraryReading": {
-    "description": "Library filter tab for audiobooks currently being read."
-  },
   "libraryRead": "PRZECZYTANE",
-  "@libraryRead": {
-    "description": "Library filter tab for audiobooks marked as read."
-  },
   "libraryMarkAsReadAction": "Oznacz jako przeczytane",
-  "@libraryMarkAsReadAction": {
-    "description": "Accessibility label for the library action that marks an audiobook as read."
-  },
   "libraryMarkAsReadingAction": "Oznacz jako w trakcie czytania",
-  "@libraryMarkAsReadingAction": {
-    "description": "Accessibility label for the library action that returns an audiobook to the reading list."
-  },
   "libraryUnknownAuthor": "Nieznany autor",
-  "@libraryUnknownAuthor": {
-    "description": "Fallback author text when audiobook metadata has no author."
-  },
   "libraryRenameTitle": "Zmień nazwę audiobooka",
-  "@libraryRenameTitle": {
-    "description": "Title of the dialog used to rename an audiobook."
-  },
   "libraryRenameHint": "Wpisz nowy tytuł audiobooka",
-  "@libraryRenameHint": {
-    "description": "Text field hint in the audiobook rename dialog."
-  },
   "settingsTitle": "Ustawienia",
-  "@settingsTitle": {
-    "description": "Title shown in the settings app bar."
-  },
   "settingsHomeFolderTitle": "Folder z audiobookami",
-  "@settingsHomeFolderTitle": {
-    "description": "Settings row title for changing the audiobook home folder."
-  },
   "settingsNoFolderSelected": "Nie wybrano folderu",
-  "@settingsNoFolderSelected": {
-    "description": "Shown when no audiobook home folder has been selected."
-  },
   "settingsInternalStorage": "Pamięć wewnętrzna",
-  "@settingsInternalStorage": {
-    "description": "Readable label for the device internal storage root."
-  },
   "settingsCurrentFolder": "Obecnie:\n{folder}",
   "@settingsCurrentFolder": {
-    "description": "Settings row description showing the current audiobook folder.",
     "placeholders": {
       "folder": {
         "type": "String",
@@ -143,120 +56,35 @@
     }
   },
   "settingsChangeFolderTitle": "Zmienić folder z audiobookami?",
-  "@settingsChangeFolderTitle": {
-    "description": "Confirmation dialog title shown before changing the audiobook folder from settings."
-  },
   "settingsChangeFolderWarning": "Wybranie innego folderu przebuduje bibliotekę i zresetuje postęp wszystkich audiobooków.",
-  "@settingsChangeFolderWarning": {
-    "description": "Danger confirmation message shown before changing the audiobook folder from settings."
-  },
   "settingsChangeFolderConfirm": "Wybierz folder",
-  "@settingsChangeFolderConfirm": {
-    "description": "Confirmation dialog button that proceeds to the system folder picker."
-  },
   "settingsStopPlaybackAndChangeFolderTitle": "Zatrzymać odtwarzanie i zmienić folder?",
-  "@settingsStopPlaybackAndChangeFolderTitle": {
-    "description": "Confirmation dialog title shown before stopping the current audiobook and changing an existing audiobook folder."
-  },
   "settingsStopPlaybackAndChangeFolderWarning": "Bieżący audiobook zostanie zatrzymany, a jego pozycja zapisana. Wybranie innego folderu przebuduje bibliotekę i zresetuje postęp każdego audiobooka.",
-  "@settingsStopPlaybackAndChangeFolderWarning": {
-    "description": "Confirmation dialog message shown before stopping the current audiobook and changing an existing audiobook folder."
-  },
   "settingsStopPlaybackToChooseFolderTitle": "Zatrzymać odtwarzanie przed wyborem folderu?",
-  "@settingsStopPlaybackToChooseFolderTitle": {
-    "description": "Confirmation dialog title shown before stopping the current audiobook and choosing the first audiobook folder."
-  },
   "settingsStopPlaybackToChooseFolderWarning": "Bieżący audiobook zostanie zatrzymany, a jego pozycja zapisana przed otwarciem wyboru folderu.",
-  "@settingsStopPlaybackToChooseFolderWarning": {
-    "description": "Confirmation dialog message shown before stopping the current audiobook and choosing the first audiobook folder."
-  },
   "settingsStopPlaybackAndChooseFolderConfirm": "Zatrzymaj i wybierz folder",
-  "@settingsStopPlaybackAndChooseFolderConfirm": {
-    "description": "Confirmation dialog button that stops playback and proceeds to the system folder picker."
-  },
   "settingsThemeTitle": "Motyw",
-  "@settingsThemeTitle": {
-    "description": "Settings row title for app theme selection."
-  },
   "settingsThemeLight": "Jasny",
-  "@settingsThemeLight": {
-    "description": "Description shown when the light theme is selected."
-  },
   "settingsThemeDark": "Ciemny",
-  "@settingsThemeDark": {
-    "description": "Description shown when the dark theme is selected."
-  },
   "settingsThemeSystem": "Systemowy",
-  "@settingsThemeSystem": {
-    "description": "Description shown when the app follows the system theme."
-  },
   "settingsLanguageTitle": "Język",
-  "@settingsLanguageTitle": {
-    "description": "Settings row title for app language selection."
-  },
   "settingsShowRemainingTimeTitle": "Pozostały czas",
-  "@settingsShowRemainingTimeTitle": {
-    "description": "Settings row title for showing remaining playback time."
-  },
   "settingsShowRemainingTimeDescription": "Pokazuj czas do końca rozdziału.",
-  "@settingsShowRemainingTimeDescription": {
-    "description": "Settings row description for the remaining time option."
-  },
   "settingsShowBufferedProgressTitle": "Buforowanie",
-  "@settingsShowBufferedProgressTitle": {
-    "description": "Settings row title for showing buffered audio progress."
-  },
   "settingsShowBufferedProgressDescription": "Pokaż wczytaną część na pasku postępu.",
-  "@settingsShowBufferedProgressDescription": {
-    "description": "Settings row description for the buffered progress option."
-  },
   "settingsBackArrowTitle": "Przycisk wstecz",
-  "@settingsBackArrowTitle": {
-    "description": "Settings row title for back arrow behavior on the player screen."
-  },
   "settingsBackArrowDescription": "Wracaj do biblioteki zamiast minimalizować.",
-  "@settingsBackArrowDescription": {
-    "description": "Settings row description for back arrow behavior on the player screen."
-  },
   "settingsRestoreLastAudiobookTitle": "Przywracaj audiobook po uruchomieniu",
-  "@settingsRestoreLastAudiobookTitle": {
-    "description": "Settings row title for restoring the last opened audiobook on cold launch."
-  },
   "settingsRestoreLastAudiobookDescription": "Otwieraj ostatnio słuchany audiobook po uruchomieniu aplikacji.",
-  "@settingsRestoreLastAudiobookDescription": {
-    "description": "Settings row description for restoring the last opened audiobook on cold launch."
-  },
   "settingsNotificationSeekTitle": "Przewijanie w powiadomieniu",
-  "@settingsNotificationSeekTitle": {
-    "description": "Settings row title for allowing seeking from the media notification."
-  },
   "settingsNotificationSeekDescription": "Pozwalaj przewijać z powiadomienia odtwarzania.",
-  "@settingsNotificationSeekDescription": {
-    "description": "Settings row description for allowing seeking from the media notification."
-  },
   "settingsAboutTitle": "O Raven Player",
-  "@settingsAboutTitle": {
-    "description": "Settings row title for about app information."
-  },
   "settingsAboutDescription": "Informacje o aplikacji, wsparciu i twórcy",
-  "@settingsAboutDescription": {
-    "description": "Settings row description for about app information."
-  },
   "settingsLegalTitle": "Informacje prawne",
-  "@settingsLegalTitle": {
-    "description": "Settings row and dialog title for legal information."
-  },
   "settingsLegalDescription": "Licencje i noty prawne.",
-  "@settingsLegalDescription": {
-    "description": "Settings row description for legal information."
-  },
   "settingsAppVersionTitle": "Wersja aplikacji",
-  "@settingsAppVersionTitle": {
-    "description": "Settings row title for app version information."
-  },
   "settingsAppVersionDescription": "Wersja {version}",
   "@settingsAppVersionDescription": {
-    "description": "Settings row description showing app version.",
     "placeholders": {
       "version": {
         "type": "String",
@@ -265,64 +93,21 @@
     }
   },
   "settingsFollowRavenPlayer": "Projekt i wsparcie",
-  "@settingsFollowRavenPlayer": {
-    "description": "Credits prompt shown above external project links."
-  },
   "settingsOpenLinkTitle": "Otworzyć link?",
-  "@settingsOpenLinkTitle": {
-    "description": "Confirmation dialog title before opening an external link."
-  },
   "settingsOpenEmailTitle": "Otworzyć aplikację e-mail?",
-  "@settingsOpenEmailTitle": {
-    "description": "Confirmation dialog title before opening an email app from settings."
-  },
   "settingsOpenGitHubDescription": "Otworzyć repozytorium Raven Player w serwisie GitHub?",
-  "@settingsOpenGitHubDescription": {
-    "description": "Confirmation dialog text before opening the Raven Player GitHub repository."
-  },
   "settingsOpenEmailDescription": "Otworzyć aplikację pocztową, aby skontaktować się z twórcą Raven Player?",
-  "@settingsOpenEmailDescription": {
-    "description": "Confirmation dialog text before opening an email app to contact the developer."
-  },
   "settingsOpenKoFiDescription": "Otworzyć Ko-fi, aby zostawić opcjonalny napiwek? Napiwek nie odblokowuje żadnych funkcji ani treści.",
-  "@settingsOpenKoFiDescription": {
-    "description": "Confirmation dialog text before opening the optional Ko-fi support page."
-  },
   "settingsCouldNotOpenLink": "Nie udało się otworzyć linku",
-  "@settingsCouldNotOpenLink": {
-    "description": "Snackbar shown when an external link cannot be opened."
-  },
   "settingsCouldNotOpenEmail": "Nie udało się otworzyć aplikacji e-mail",
-  "@settingsCouldNotOpenEmail": {
-    "description": "Snackbar shown when the email app cannot be opened."
-  },
   "tooltipRefreshLibrary": "Odśwież bibliotekę",
-  "@tooltipRefreshLibrary": {
-    "description": "Tooltip for the app bar button that rescans the audiobook library."
-  },
   "tooltipOpenSettings": "Otwórz ustawienia",
-  "@tooltipOpenSettings": {
-    "description": "Tooltip for the app bar button that opens settings."
-  },
   "tooltipBack": "Wstecz",
-  "@tooltipBack": {
-    "description": "Tooltip for the app bar button that returns to the previous screen."
-  },
   "tooltipOpenGitHub": "Otwórz GitHub",
-  "@tooltipOpenGitHub": {
-    "description": "Tooltip for the credits button that opens GitHub."
-  },
   "tooltipSendEmail": "Wyślij e-mail",
-  "@tooltipSendEmail": {
-    "description": "Tooltip for the credits button that opens an email app."
-  },
   "tooltipOpenKoFi": "Otwórz Ko-fi",
-  "@tooltipOpenKoFi": {
-    "description": "Tooltip for the credits button that opens Ko-fi."
-  },
   "playerLoadingError": "Błąd wczytywania audiobooka: {error}",
   "@playerLoadingError": {
-    "description": "Message shown when the player fails to load an audiobook.",
     "placeholders": {
       "error": {
         "type": "String",
@@ -331,32 +116,13 @@
     }
   },
   "playerPlayAction": "Odtwórz",
-  "@playerPlayAction": {
-    "description": "Accessibility label for the play button."
-  },
   "playerPauseAction": "Wstrzymaj",
-  "@playerPauseAction": {
-    "description": "Accessibility label for the pause button."
-  },
   "playerReplayAction": "Odtwórz ponownie",
-  "@playerReplayAction": {
-    "description": "Accessibility label for the replay button."
-  },
   "playerPlaybackLoadingLabel": "Wczytywanie odtwarzania",
-  "@playerPlaybackLoadingLabel": {
-    "description": "Accessibility label for the disabled play button while audio is loading."
-  },
   "playerPreviousChapterAction": "Poprzedni rozdział",
-  "@playerPreviousChapterAction": {
-    "description": "Accessibility label for the previous chapter button."
-  },
   "playerNextChapterAction": "Następny rozdział",
-  "@playerNextChapterAction": {
-    "description": "Accessibility label for the next chapter button."
-  },
   "playerRewindSecondsAction": "Cofnij o {seconds} sekund",
   "@playerRewindSecondsAction": {
-    "description": "Accessibility label for a button that rewinds playback by a number of seconds.",
     "placeholders": {
       "seconds": {
         "type": "int",
@@ -366,7 +132,6 @@
   },
   "playerForwardSecondsAction": "Przewiń do przodu o {seconds} sekund",
   "@playerForwardSecondsAction": {
-    "description": "Accessibility label for a button that advances playback by a number of seconds.",
     "placeholders": {
       "seconds": {
         "type": "int",
@@ -375,40 +140,15 @@
     }
   },
   "playerSleepTimerControl": "Timer snu",
-  "@playerSleepTimerControl": {
-    "description": "Accessibility label for the sleep timer toolbar control."
-  },
   "playerSleepTimerHint": "ustawić czas timera snu",
-  "@playerSleepTimerHint": {
-    "description": "Android accessibility action hint for adjusting the sleep timer with a long press."
-  },
   "playerEnableSleepTimerActionHint": "włączyć timer snu",
-  "@playerEnableSleepTimerActionHint": {
-    "description": "Android accessibility action hint for enabling the sleep timer."
-  },
   "playerDisableSleepTimerActionHint": "wyłączyć timer snu",
-  "@playerDisableSleepTimerActionHint": {
-    "description": "Android accessibility action hint for disabling the sleep timer."
-  },
   "playerPlaybackSpeedControl": "Prędkość odtwarzania",
-  "@playerPlaybackSpeedControl": {
-    "description": "Accessibility label for the playback speed toolbar control."
-  },
   "playerPlaybackSpeedHint": "dostosować prędkość odtwarzania",
-  "@playerPlaybackSpeedHint": {
-    "description": "Android accessibility action hint for adjusting playback speed."
-  },
   "playerEnablePlaybackSpeedActionHint": "włączyć wybraną prędkość odtwarzania",
-  "@playerEnablePlaybackSpeedActionHint": {
-    "description": "Android accessibility action hint for enabling the selected playback speed."
-  },
   "playerDisablePlaybackSpeedActionHint": "wrócić do normalnej prędkości odtwarzania",
-  "@playerDisablePlaybackSpeedActionHint": {
-    "description": "Android accessibility action hint for disabling the selected playback speed."
-  },
   "playerPlaybackSpeedSliderValue": "{speed} razy",
   "@playerPlaybackSpeedSliderValue": {
-    "description": "Accessibility value announced for the playback speed slider.",
     "placeholders": {
       "speed": {
         "type": "String",
@@ -418,7 +158,6 @@
   },
   "playerSleepTimerSliderValue": "{minutes, plural, one{{minutes} minuta} few{{minutes} minuty} many{{minutes} minut} other{{minutes} minuty}}",
   "@playerSleepTimerSliderValue": {
-    "description": "Accessibility value announced for the sleep timer slider.",
     "placeholders": {
       "minutes": {
         "type": "int",
@@ -427,36 +166,14 @@
     }
   },
   "playerSkipSilenceControl": "Pomijanie ciszy",
-  "@playerSkipSilenceControl": {
-    "description": "Accessibility label for the skip silence toolbar control."
-  },
   "playerEnableSkipSilenceActionHint": "włączyć pomijanie ciszy",
-  "@playerEnableSkipSilenceActionHint": {
-    "description": "Android accessibility action hint for enabling skip silence."
-  },
   "playerDisableSkipSilenceActionHint": "wyłączyć pomijanie ciszy",
-  "@playerDisableSkipSilenceActionHint": {
-    "description": "Android accessibility action hint for disabling skip silence."
-  },
   "playerLockControl": "Blokada sterowania odtwarzaczem",
-  "@playerLockControl": {
-    "description": "Accessibility label for the player lock toolbar control."
-  },
   "playerLockHint": "zablokować sterowanie odtwarzaczem",
-  "@playerLockHint": {
-    "description": "Accessibility hint for the player lock control while unlocked."
-  },
   "playerUnlockHint": "odblokować sterowanie odtwarzaczem",
-  "@playerUnlockHint": {
-    "description": "Accessibility hint for the player lock control while locked."
-  },
   "playerShowUnlockInstructionsActionHint": "wyświetlić instrukcję odblokowania",
-  "@playerShowUnlockInstructionsActionHint": {
-    "description": "Android accessibility tap action hint for the player lock while locked."
-  },
   "playerDurationHours": "{hours, plural, one{{hours} godzina} few{{hours} godziny} many{{hours} godzin} other{{hours} godziny}}",
   "@playerDurationHours": {
-    "description": "Localized hours component of an accessibility duration.",
     "placeholders": {
       "hours": {
         "type": "int",
@@ -466,7 +183,6 @@
   },
   "playerDurationMinutes": "{minutes, plural, one{{minutes} minuta} few{{minutes} minuty} many{{minutes} minut} other{{minutes} minuty}}",
   "@playerDurationMinutes": {
-    "description": "Localized minutes component of an accessibility duration.",
     "placeholders": {
       "minutes": {
         "type": "int",
@@ -476,7 +192,6 @@
   },
   "playerDurationSeconds": "{seconds, plural, one{{seconds} sekunda} few{{seconds} sekundy} many{{seconds} sekund} other{{seconds} sekundy}}",
   "@playerDurationSeconds": {
-    "description": "Localized seconds component of an accessibility duration.",
     "placeholders": {
       "seconds": {
         "type": "int",
@@ -485,32 +200,13 @@
     }
   },
   "playerAdjustPlaybackSpeed": "Dostosuj prędkość odtwarzania",
-  "@playerAdjustPlaybackSpeed": {
-    "description": "Title of the dialog used to change playback speed."
-  },
   "playerAdjustSleepTimer": "Dostosuj timer snu",
-  "@playerAdjustSleepTimer": {
-    "description": "Title of the dialog used to change the sleep timer duration."
-  },
   "playerChooseChapterAction": "Wybierz rozdział",
-  "@playerChooseChapterAction": {
-    "description": "Accessibility label for the chapter picker button."
-  },
   "playerLockedMessage": "Sterowanie jest zablokowane.\nPrzytrzymaj przycisk blokady.",
-  "@playerLockedMessage": {
-    "description": "Snackbar shown when the user taps a locked player control."
-  },
   "playerSkipSilenceOnMessage": "Pomijanie ciszy: włączone.\nCiche przerwy będą skracane.",
-  "@playerSkipSilenceOnMessage": {
-    "description": "Snackbar shown when skip silence is enabled from the player toolbar."
-  },
   "playerSkipSilenceOffMessage": "Pomijanie ciszy: wyłączone.\nCiche przerwy nie będą skracane.",
-  "@playerSkipSilenceOffMessage": {
-    "description": "Snackbar shown when skip silence is disabled from the player toolbar."
-  },
   "chapterProgress": "Rozdział {current} z {total}",
   "@chapterProgress": {
-    "description": "Text showing the current chapter number and total chapter count.",
     "placeholders": {
       "current": {
         "type": "int",
@@ -523,12 +219,8 @@
     }
   },
   "noChaptersFound": "Nie znaleziono rozdziałów",
-  "@noChaptersFound": {
-    "description": "Text shown when an audiobook has no chapters."
-  },
   "readingProgress": "Przeczytano {read} z {total} ({percent}%)",
   "@readingProgress": {
-    "description": "Text showing completed audiobook time, total time, and percent progress.",
     "placeholders": {
       "read": {
         "type": "String",
@@ -546,7 +238,6 @@
   },
   "leftTime": "Pozostało: {duration}",
   "@leftTime": {
-    "description": "Text showing remaining audiobook time.",
     "placeholders": {
       "duration": {
         "type": "String",
@@ -555,11 +246,5 @@
     }
   },
   "playbackSourceErrorMessage": "Odtwarzanie przerwane w tym miejscu. Plik może być uszkodzony. Spróbuj przewinąć dalej.",
-  "@playbackSourceErrorMessage": {
-    "description": "Snackbar message shown when audio playback fails because the audio source cannot be read or parsed."
-  },
-  "playbackUnknownErrorMessage": "Błąd odtwarzania. Spróbuj ponownie.",
-  "@playbackUnknownErrorMessage": {
-    "description": "Snackbar message shown when audio playback fails for an unknown reason."
-  }
+  "playbackUnknownErrorMessage": "Błąd odtwarzania. Spróbuj ponownie."
 }

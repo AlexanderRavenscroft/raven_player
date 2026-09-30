@@ -21,10 +21,7 @@ class UserSettingsNotifier extends Notifier<UserSettings> {
     final uri = await Saf.pickTree();
     if (uri == null || uri == state.homeFolderUri) return false;
 
-    state = state.copyWith(
-      homeFolderUri: uri,
-      lastOpenedAudiobookId: null,
-    );
+    state = state.copyWith(homeFolderUri: uri, lastOpenedAudiobookId: null);
     await _repo.save(state);
     return true;
   }
